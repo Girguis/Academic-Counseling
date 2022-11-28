@@ -79,15 +79,6 @@ C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.dll
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\appsettings.Development.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\appsettings.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.deps.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.runtimeconfig.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Core.deps.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Core.runtimeconfig.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.DB.deps.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.DB.runtimeconfig.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.DB.exe
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Core.exe
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.exe
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.exe
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.deps.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.runtimeconfig.json

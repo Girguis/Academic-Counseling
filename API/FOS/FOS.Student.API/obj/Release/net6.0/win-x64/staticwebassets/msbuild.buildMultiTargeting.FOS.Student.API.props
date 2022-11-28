@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\FOS.Student.API.props" />
+</Project>

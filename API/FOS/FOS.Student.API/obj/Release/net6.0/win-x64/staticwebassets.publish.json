@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "LvT2OTtPoWoNZBhVlbueLHQDmN9GOCFiYnTqMHj1fE0=",
+  "Source": "FOS.Student.API",
+  "BasePath": "_content/FOS.Student.API",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
