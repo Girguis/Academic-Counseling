@@ -1,5 +1,6 @@
 ﻿using FOS.Core.IRepositories;
 using FOS.DB.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FOS.App.Repositories
 {
@@ -43,8 +44,13 @@ namespace FOS.App.Repositories
 
         public bool Update(Student student)
         {
-            _Entities.Students.Update(student);
+            _Entities.Entry(student).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return Save();
+        }
+
+        public Student Login(string email, string hashedPassword)
+        {
+            return _Entities.Students.FirstOrDefault(x=>x.Email == email & x.Password ==hashedPassword);
         }
     }
 }

@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
+        private readonly IConfiguration configuration;
+
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options)
+        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
             : base(options)
         {
+            this.configuration = configuration;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -37,7 +41,7 @@ namespace FOS.DB.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-U2JEEI8;Database=FOS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(configuration["DbConfig:FosDB"]);
             }
         }
 
@@ -151,7 +155,10 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
-                entity.Property(e => e.Cgpa).HasColumnName("CGPA");
+                entity.Property(e => e.Cgpa)
+                    .HasColumnType("decimal(4, 3)")
+                    .HasColumnName("CGPA")
+                    .HasComputedColumnSql("([dbo].[CalculateCGPA]([ID]))", false);
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
@@ -168,11 +175,13 @@ namespace FOS.DB.Models
                     .IsUnicode(false)
                     .HasColumnName("GUID");
 
-                entity.Property(e => e.Level).HasDefaultValueSql("((1))");
+                entity.Property(e => e.Level).HasComputedColumnSql("([dbo].[CalculateStudentLevel]([ID]))", false);
 
                 entity.Property(e => e.Lname).HasColumnName("LName");
 
                 entity.Property(e => e.Mname).HasColumnName("MName");
+
+                entity.Property(e => e.PassedHours).HasComputedColumnSql("([dbo].[CalculatePassedHours]([ID]))", false);
 
                 entity.Property(e => e.Password).IsUnicode(false);
 
@@ -192,6 +201,14 @@ namespace FOS.DB.Models
                     .HasColumnName("SSN");
 
                 entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
+
+                entity.Property(e => e.WarningsNumber).HasComputedColumnSql("([dbo].[CalculateNumberOfWarnings]([ID]))", false);
+
+                entity.HasOne(d => d.Supervisor)
+                    .WithMany(p => p.Students)
+                    .HasForeignKey(d => d.SupervisorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Student_Supervisor");
             });
 
             modelBuilder.Entity<StudentCourse>(entity =>

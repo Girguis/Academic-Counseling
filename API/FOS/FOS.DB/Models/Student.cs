@@ -18,18 +18,20 @@ namespace FOS.DB.Models
         public string Nationality { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public byte Level { get; set; }
-        public double? Cgpa { get; set; }
         public string? AcademicCode { get; set; }
-        public byte PassedHours { get; set; }
         public string? SeatNumber { get; set; }
         public byte AvailableCredits { get; set; }
-        public byte WarningsNumber { get; set; }
+        public byte? WarningsNumber { get; set; }
         public short? Rank { get; set; }
         public bool IsInSpecialProgram { get; set; }
         public int SupervisorId { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsCrossStudent { get; set; }
         public byte SemestersNumberInProgram { get; set; }
+        public decimal? Cgpa { get; set; }
+        public byte? PassedHours { get; set; }
+        public byte? Level { get; set; }
+
+        public virtual Supervisor Supervisor { get; set; } = null!;
     }
 }

@@ -5,6 +5,11 @@ namespace FOS.DB.Models
 {
     public partial class Supervisor
     {
+        public Supervisor()
+        {
+            Students = new HashSet<Student>();
+        }
+
         public int Id { get; set; }
         public string Guid { get; set; } = null!;
         public string Fname { get; set; } = null!;
@@ -17,5 +22,6 @@ namespace FOS.DB.Models
         public int ProgramId { get; set; }
 
         public virtual Program Program { get; set; } = null!;
+        public virtual ICollection<Student> Students { get; set; }
     }
 }
