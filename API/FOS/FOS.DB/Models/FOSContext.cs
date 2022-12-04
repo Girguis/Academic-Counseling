@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
-        private readonly IConfiguration configuration;
-
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
+        public FOSContext(DbContextOptions<FOSContext> options)
             : base(options)
         {
-            this.configuration = configuration;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -28,6 +24,7 @@ namespace FOS.DB.Models
         public virtual DbSet<Program> Programs { get; set; } = null!;
         public virtual DbSet<ProgramCourse> ProgramCourses { get; set; } = null!;
         public virtual DbSet<ProgramDistribution> ProgramDistributions { get; set; } = null!;
+        public virtual DbSet<ProgramRelation> ProgramRelations { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<StudentCourse> StudentCourses { get; set; } = null!;
         public virtual DbSet<StudentDesire> StudentDesires { get; set; } = null!;
@@ -41,7 +38,7 @@ namespace FOS.DB.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(configuration["DbConfig:FosDB"]);
+                optionsBuilder.UseSqlServer("Server=DESKTOP-U2JEEI8;Database=FOS;Trusted_Connection=True;");
             }
         }
 
@@ -107,6 +104,8 @@ namespace FOS.DB.Models
                 entity.ToTable("Program");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.TotalHours).HasDefaultValueSql("((140))");
             });
 
             modelBuilder.Entity<ProgramCourse>(entity =>
@@ -143,6 +142,21 @@ namespace FOS.DB.Models
                     .HasConstraintName("FK_ProgramDistribution_Program");
             });
 
+            modelBuilder.Entity<ProgramRelation>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.HasOne(d => d.ProgramNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Program)
+                    .HasConstraintName("FK_ProgramRelations_Program");
+
+                entity.HasOne(d => d.SubProgramNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.SubProgram)
+                    .HasConstraintName("FK_ProgramRelations_Program1");
+            });
+
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.ToTable("Student");
@@ -156,7 +170,7 @@ namespace FOS.DB.Models
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
                 entity.Property(e => e.Cgpa)
-                    .HasColumnType("decimal(4, 3)")
+                    .HasColumnType("decimal(5, 4)")
                     .HasColumnName("CGPA")
                     .HasComputedColumnSql("([dbo].[CalculateCGPA]([ID]))", false);
 
@@ -175,6 +189,8 @@ namespace FOS.DB.Models
                     .IsUnicode(false)
                     .HasColumnName("GUID");
 
+                entity.Property(e => e.IsGraduated).HasComputedColumnSql("([dbo].[IsGraduatedStudent]([ID]))", false);
+
                 entity.Property(e => e.Level).HasComputedColumnSql("([dbo].[CalculateStudentLevel]([ID]))", false);
 
                 entity.Property(e => e.Lname).HasColumnName("LName");
@@ -192,8 +208,6 @@ namespace FOS.DB.Models
                 entity.Property(e => e.SeatNumber)
                     .HasMaxLength(10)
                     .IsUnicode(false);
-
-                entity.Property(e => e.SemestersNumberInProgram).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Ssn)
                     .HasMaxLength(15)
@@ -221,11 +235,15 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.Grade).HasMaxLength(2);
 
+                entity.Property(e => e.HasExecuse).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.IsGpaincluded).HasColumnName("IsGPAIncluded");
 
                 entity.Property(e => e.Points).HasColumnName("points");
 
                 entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+                entity.Property(e => e.TookFromCredits).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.AcademicYear)
                     .WithMany()

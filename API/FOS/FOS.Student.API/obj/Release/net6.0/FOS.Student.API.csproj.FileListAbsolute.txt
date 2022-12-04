@@ -69,3 +69,4 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\FOS.Student.API.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\FOS.Student.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\ref\FOS.Student.API.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

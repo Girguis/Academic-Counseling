@@ -31,6 +31,7 @@ namespace FOS.DB.Models
         public decimal? Cgpa { get; set; }
         public byte? PassedHours { get; set; }
         public byte? Level { get; set; }
+        public bool? IsGraduated { get; set; }
 
         public virtual Supervisor Supervisor { get; set; } = null!;
     }

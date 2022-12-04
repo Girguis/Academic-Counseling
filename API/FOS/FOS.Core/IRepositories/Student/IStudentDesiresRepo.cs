@@ -1,8 +1,8 @@
 ﻿using FOS.DB.Models;
 
-namespace FOS.Core.IRepositories
+namespace FOS.Core.IRepositories.Student
 {
-    public interface IStudentDesires
+    public interface IStudentDesiresRepo
     {
         bool Add(StudentDesire studentDesires);
         bool Update(StudentDesire studentDesires);

@@ -1,14 +1,14 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
 
-namespace FOS.App.Repositories
+namespace FOS.App.Student.Repositories
 {
-    public class StudentDesires : IStudentDesires
+    public class StudentDesiresRepo : IStudentDesiresRepo
     {
         private readonly FOSContext _Entites;
 
-        public StudentDesires() { }
-        public StudentDesires(FOSContext entites)
+        public StudentDesiresRepo() { }
+        public StudentDesiresRepo(FOSContext entites)
         {
             _Entites = entites;
         }

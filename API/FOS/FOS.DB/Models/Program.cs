@@ -17,6 +17,9 @@ namespace FOS.DB.Models
         public double Percentage { get; set; }
         public bool IsRegular { get; set; }
         public bool IsGeneral { get; set; }
+        public byte? TotalHours { get; set; }
+        public string? EnglishName { get; set; }
+        public string? ArabicName { get; set; }
 
         public virtual ICollection<SuperAdmin> SuperAdmins { get; set; }
         public virtual ICollection<Supervisor> Supervisors { get; set; }
