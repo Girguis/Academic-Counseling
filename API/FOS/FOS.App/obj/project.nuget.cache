@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wZT1BBV9NmVAtbCjut7dtIqtzdwA04ez9DXz47bbvFuiPOyoQip2hNSwyrrErl/udw2ll0KKeoWf+C+/uMx2kg==",
+  "dgSpecHash": "+fPnjlcG7y1/VujptnXIAUqyZ3uuldupE6oLlJ8JlcN/BFoBcHIUKcuen8x4n+Ne9zTKwvRUhngoZ4Zvb9FqCw==",
   "success": true,
   "projectFilePath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.App\\FOS.App.csproj",
   "expectedPackageFiles": [
@@ -31,6 +31,7 @@
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

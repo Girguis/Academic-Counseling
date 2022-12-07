@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
+        private readonly IConfiguration configuration;
+
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options)
+        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
             : base(options)
         {
+            this.configuration = configuration;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -37,8 +41,8 @@ namespace FOS.DB.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-U2JEEI8;Database=FOS;Trusted_Connection=True;");
+                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer(configuration["DbConfig:FosDB"]);
             }
         }
 
@@ -216,7 +220,7 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
 
-                entity.Property(e => e.WarningsNumber).HasComputedColumnSql("([dbo].[CalculateNumberOfWarnings]([ID]))", false);
+                entity.Property(e => e.WarningsNumber).HasComputedColumnSql("([dbo].[GetNumberOfWarnings]([ID]))", false);
 
                 entity.HasOne(d => d.Supervisor)
                     .WithMany(p => p.Students)

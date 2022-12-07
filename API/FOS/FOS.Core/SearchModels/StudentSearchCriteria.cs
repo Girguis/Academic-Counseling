@@ -1,6 +1,6 @@
 ﻿namespace FOS.Core.SearchModels
 {
-    public sealed class StudentSearchCriteria : Pageable
+    public sealed class SearchCriteria : Pageable
     {
         public List<SearchBaseModel> Filters { get; set; } = null;
         public string OrderByColumn { get; set; } = null;

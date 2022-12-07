@@ -6,6 +6,6 @@ namespace FOS.Core.IRepositories.Student
     {
         List<AcademicYear> GetAll(int studentID);
         AcademicYear GetCurrentYear();
-        double? GetAcademicYearGPA(int studentID,short academicYear);
+        double? GetAcademicYearGPA(int studentID, short academicYear);
     }
 }

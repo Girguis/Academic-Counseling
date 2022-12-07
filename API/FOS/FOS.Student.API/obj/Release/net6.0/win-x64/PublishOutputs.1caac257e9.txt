@@ -359,6 +359,8 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\msquic.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\ucrtbase.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\aspnetcorev2_inprocess.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\AutoMapper.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.Data.SqlClient.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.EntityFrameworkCore.dll

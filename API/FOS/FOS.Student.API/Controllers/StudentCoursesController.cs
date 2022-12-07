@@ -2,8 +2,8 @@
 using FOS.App.Student.Mappers;
 using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Specialized;
 
 namespace FOS.Student.API.Controllers
 {
@@ -21,27 +21,31 @@ namespace FOS.Student.API.Controllers
             this.studentCoursesRepo = studentCoursesRepo;
             this.studentRepo = studentRepo;
         }
+        [Authorize]
         [HttpGet("GetAcademicYearsSummary")]
-        public IActionResult GetAcademicYearsSummary() 
+        [ProducesResponseType(200,Type=typeof(List<AcademicYearsDTO>))]
+        public IActionResult GetAcademicYearsSummary()
         {
             string? guid = GetGuid();
-            if(string.IsNullOrEmpty(guid))
+            if (string.IsNullOrEmpty(guid))
                 return BadRequest("Invalid Student ID");
             DB.Models.Student student = studentRepo.Get(guid);
             if (student == null)
                 return BadRequest("Student Not Found");
             List<AcademicYear> academicYears = academicYearRepo.GetAll(student.Id);
-            List<AcademicYearsDTO> academicYearsDTO=new List<AcademicYearsDTO>();
-            for(int i =0;i<academicYears.Count;i++)
+            List<AcademicYearsDTO> academicYearsDTO = new List<AcademicYearsDTO>();
+            for (int i = 0; i < academicYears.Count; i++)
             {
                 double? sgpa = academicYearRepo.GetAcademicYearGPA(student.Id, academicYears.ElementAt(i).Id);
-                sgpa = sgpa!=null?Math.Round(sgpa.Value, 4):sgpa;
+                sgpa = sgpa != null ? Math.Round(sgpa.Value, 4) : sgpa;
                 academicYearsDTO.Add(academicYears.ElementAt(i).ToDTO(sgpa));
             }
             return Ok(academicYearsDTO);
         }
 
+        [Authorize]
         [HttpGet("GetAcademicYearDetails")]
+        [ProducesResponseType(200,Type =typeof(List<StudentCoursesDTO>))]
         public IActionResult GetAcademicYearDetails(short academicYearID)
         {
             string? guid = GetGuid();

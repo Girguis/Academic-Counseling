@@ -22,7 +22,8 @@ namespace FOS.App.Student.DTOs
         public decimal? Cgpa { get; set; }
         public byte? PassedHours { get; set; }
         public byte? Level { get; set; }
-        public AcademicYear academicYear { get; set; }
+        public string academicYear { get; set; }
+        public byte semester { get; set; }
         public List<StudentCoursesDTO> Courses { get; set; }
     }
 }

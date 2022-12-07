@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using FOS.App.Student.DTOs;
 using FOS.DB.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FOS.App.Student.Mappers
 {

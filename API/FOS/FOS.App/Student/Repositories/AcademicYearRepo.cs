@@ -1,13 +1,6 @@
 ﻿using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FOS.App.Student.Repositories
 {
@@ -51,8 +44,8 @@ namespace FOS.App.Student.Repositories
         public List<AcademicYear> GetAll(int studentID)
         {
             return context.StudentCourses
-                .Where(x=>x.StudentId == studentID)
-                .Select(x=>x.AcademicYear)
+                .Where(x => x.StudentId == studentID)
+                .Select(x => x.AcademicYear)
                 .Distinct()
                 .ToList();
         }

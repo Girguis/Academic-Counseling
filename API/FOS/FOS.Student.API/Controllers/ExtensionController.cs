@@ -6,8 +6,7 @@ namespace FOS.Student.API.Controllers
     [ApiController]
     public class ExtensionController : ControllerBase
     {
-
-       internal string GetGuid()
+        internal string? GetGuid()
         {
             return HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
         }

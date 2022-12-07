@@ -5,7 +5,6 @@ using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
 using FOS.Student.API.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,29 +21,33 @@ namespace FOS.Student.API.Controllers
         private readonly IStudentRepo studentRepo;
         private readonly IStudentCoursesRepo studentCourses;
         private readonly IMapper mapper;
+        private readonly IAcademicYearRepo academicYearRepo;
         private readonly IConfiguration _configuration;
         public StudentController(IStudentRepo studentRepo
-            ,IConfiguration configuration
-            ,IStudentCoursesRepo studentCoursesRepo
-            ,IMapper mapper)
+            , IConfiguration configuration
+            , IStudentCoursesRepo studentCoursesRepo
+            , IMapper mapper
+            ,IAcademicYearRepo academicYearRepo)
         {
             this.studentRepo = studentRepo;
             _configuration = configuration;
             this.studentCourses = studentCoursesRepo;
             this.mapper = mapper;
+            this.academicYearRepo = academicYearRepo;
         }
 
         [AllowAnonymous]
         [HttpPost("Login")]
-        public IActionResult Login([FromBody]LoginModel loginModel)
+        public IActionResult Login([FromBody] LoginModel loginModel)
         {
             string hashedPassword;
             var sha512 = SHA512.Create();
-            var bytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(loginModel.Password));
+            var passWithKey = "MSKISH" + loginModel.Password + "20MSKISH22";
+            var bytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(passWithKey));
             hashedPassword = BitConverter.ToString(bytes).Replace("-", "");
 
             var student = studentRepo.Login(loginModel.Email, hashedPassword);
-            if(student!=null)
+            if (student != null)
             {
                 var issuer = _configuration["Jwt:Issuer"];
                 var audience = _configuration["Jwt:Audience"];
@@ -57,7 +60,7 @@ namespace FOS.Student.API.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, loginModel.Email),
                         new Claim(JwtRegisteredClaimNames.Jti,student.Guid),
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(10),
+                    Expires = DateTime.UtcNow.AddHours(6),
                     Issuer = issuer,
                     Audience = audience,
                     SigningCredentials = new SigningCredentials
@@ -83,57 +86,18 @@ namespace FOS.Student.API.Controllers
         {
             string? guid = GetGuid();
             if (string.IsNullOrWhiteSpace(guid))
-                return BadRequest(new { msg = "Id not found"});
+                return BadRequest(new { msg = "Id not found" });
             DB.Models.Student student = studentRepo.Get(guid);
             if (student == null)
-                return NotFound(new { msg ="Student not found" });
+                return NotFound(new { msg = "Student not found" });
 
             List<StudentCourse> courses = studentCourses.GetCurrentAcademicYearCourses(student.Id);
-            var mapedStudent = student.ToDTO(courses);
-            var result4 = studentRepo.GetAll(new Core.SearchModels.StudentSearchCriteria()
-            {
-                Filters = new List<Core.SearchModels.SearchBaseModel>()
-                {
-                    new Core.SearchModels.SearchBaseModel()
-                    {
-                        Key = "Fname",
-                        Operator = "contains",
-                        Value = "Girg"
-                    },
-                                        new Core.SearchModels.SearchBaseModel()
-                    {
-                        Key = "Lname",
-                        Operator = "=",
-                        Value = "Fekry"
-                    }
-                }
-            });
-
+            academicYearRepo.GetCurrentYear();
+            var mapedStudent = student.ToDTO(courses,academicYearRepo.GetCurrentYear());
             return Ok(new
             {
                 Data = mapedStudent
             });
-            // var resul1 = studentRepo.GetAll();
-
-            //var result2 = studentRepo.GetAll(new Core.SearchModels.StudentSearchCriteria()
-            // {
-            //     OrderByColumn = "FName",
-            //     Ascending = false
-            // });
-            // var result3 = studentRepo.GetAll(new Core.SearchModels.StudentSearchCriteria()
-            // {
-            //     OrderByColumn = "FName",
-            //     Ascending = true
-            // });
-            // return Ok(new { O1 = resul1, O2 = result2, O3 = result3 });
-
-            
-
-
-            //StudentViewModel s = GetStudent();
-            //if (result4 == null)
-            //    return BadRequest();
-            //return Ok(result4);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FOS.Core.SearchModels;
+﻿using FOS.App.Configs;
+using FOS.Core.SearchModels;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -6,14 +7,13 @@ namespace FOS.App.ExtensionMethods
 {
     internal static class FilterExtension
     {
-        public static IEnumerable<T> Search<T>(this IQueryable<T> source,
-            List<SearchBaseModel> filters)
+        public static IQueryable<T> Search<T>(this IQueryable<T> source, IList<SearchBaseModel> filters)
         {
             filters = filters?.Where(f => f != null &&
-            !string.IsNullOrWhiteSpace(f.Key) &&
-            !string.IsNullOrWhiteSpace(f.Operator) &&
-            !string.IsNullOrWhiteSpace(f.Value?.ToString())
-            )?.ToList();
+           !string.IsNullOrWhiteSpace(f.Key) &&
+           !string.IsNullOrWhiteSpace(f.Operator) &&
+           !string.IsNullOrWhiteSpace(f.Value?.ToString())
+           )?.ToList();
 
             if (filters == null || filters.Count < 1)
                 return source;
@@ -28,7 +28,8 @@ namespace FOS.App.ExtensionMethods
             if (intersectedProps == null || intersectedProps.Count() < 1)
                 return source;
 
-            var argumentExpression = Expression.Parameter(typeof(T), "x");
+            ParameterExpression param = Expression.Parameter(typeof(T), "t");
+
             // build the expression
             var expression = (Expression)null;
             foreach (var propertyName in intersectedProps)
@@ -37,7 +38,7 @@ namespace FOS.App.ExtensionMethods
                 if (selectedFilter == null)
                     continue;
 
-                var currentExpression = GetExpression(argumentExpression, selectedFilter);
+                var currentExpression = GetExpression<T>(param, selectedFilter);
 
                 if (expression == null)
                     expression = currentExpression;
@@ -45,52 +46,38 @@ namespace FOS.App.ExtensionMethods
                     expression = Expression.AndAlso(expression, currentExpression);
             }
 
-            var lambda = Expression.Lambda<Func<T, bool>>(expression, argumentExpression);
-
-            return source.Where(lambda).ToList();
+            var lambda = Expression.Lambda<Func<T, bool>>(expression, param);
+            return source.Where(lambda);
         }
 
-        private static readonly Dictionary<string, string> dict = new Dictionary<string, string>()
+        private static Expression GetExpression<T>(ParameterExpression param, SearchBaseModel filter)
         {
-            { ">", "GreaterThan" },
-            { "<", "LessThan" },
-            { "contains", "Contains" },
-            { "=", "Equals" }
-        };
+            var type = typeof(T);
+            var prop = type.GetProperty(filter.Key);
+            Type propType = prop.PropertyType;
+            if (propType.IsGenericType && propType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                propType = propType.GetGenericArguments()[0];
 
-        private static Expression GetExpression(ParameterExpression parameterExp, SearchBaseModel model)
-        {
-            var propType = model.Value.GetType();
-            Expression propertyExp = Expression.Property(parameterExp, model.Key);
-            Expression someValue = Expression.Constant(model.Value, propType);
+            var changedValue = Convert.ChangeType(filter.Value?.ToString(), propType);
+            MemberExpression member = Expression.Property(param, filter.Key);
+            ConstantExpression constant = Expression.Constant(changedValue);
+            var convertedExpression = Expression.Convert(constant, prop.PropertyType);
 
-            dict.TryGetValue(model.Operator, out string methodName);
-
+            var methodName = FilterConfiguratioReader.Get(filter.Operator)?.Method;
+          
             if (propType == typeof(string) || propType == typeof(object))
             {
                 MethodInfo method = propType.GetMethod(methodName, new[] { propType });
-                var containsMethodExp = Expression.Call(propertyExp, method, someValue);
+                var containsMethodExp = Expression.Call(member, method, convertedExpression);            
                 return containsMethodExp;
             }
-
-            if (model.Operator == ">")
+            else
             {
-                return Expression.GreaterThan(
-                Expression.Property(parameterExp, model.Key),
-                Expression.Constant(model.Value)
-                );
+                var expType = typeof(Expression);
+                MethodInfo method = expType.GetMethods().Where(m => m.Name == methodName).First(mi => mi.GetParameters().Count() == 2);
+                var expResult = method.Invoke(null, new Expression[] { member, convertedExpression });
+                return expResult == null ? null : (Expression)expResult;
             }
-           
-            return Expression.NotEqual(propertyExp, someValue);
-            //else
-            //{
-            //    var expType = typeof(Expression);
-            //    var method = expType.GetMethods().Single(method =>
-            //method.Name == methodName && method.GetParameters().Length == 2);
-
-            //    object magicClassObject = method.Invoke(null, new object[] { propertyExp.ReduceExtensions(), someValue.ReduceExtensions()});
-            //    return (MethodCallExpression)magicClassObject;
-            //}
         }
     }
 }

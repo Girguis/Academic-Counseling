@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2022-12-04 7:12:16 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2022-12-07 11:40:34 AM ******/
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'FOS')
 BEGIN
 CREATE DATABASE [FOS]
@@ -77,7 +77,14 @@ ALTER DATABASE [FOS] SET QUERY_STORE = OFF
 GO
 USE [FOS]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2022-12-07 11:40:35 AM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'StudentDesiresType' AND ss.name = N'dbo')
+CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
+	[ProgramID] [int] NULL,
+	[DesireNumber] [tinyint] NULL
+)
+GO
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -101,28 +108,7 @@ AS
      END;' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateGPA]    Script Date: 2022-12-04 7:12:17 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CalculateGPA]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
-BEGIN
-execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CalculateGPA](@StudentID INT,@AcademicYearID TINYINT)
-RETURNS DECIMAL(4,3)
-AS
-     BEGIN
-         DECLARE @GPA DECIMAL(4,3);
-         SELECT @GPA = SUM(sc.points * c.CreditHours)/SUM(c.credithours)
-			FROM StudentCourses sc join Course c ON c.ID = sc.CourseID 
-			WHERE StudentID =@StudentID AND AcademicYearID =@AcademicYearID AND sc.IsIncluded =1 AND sc.IsGPAIncluded = 1
-			group by AcademicYearid
-			Order by AcademicYearID
-		 RETURN @GPA;
-     END;' 
-END
-GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateNumberOfWarnings]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateNumberOfWarnings]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -167,7 +153,7 @@ END
 ' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -186,7 +172,28 @@ BEGIN
 END;' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2022-12-07 11:40:35 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CalculateSGPA]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CalculateSGPA](@StudentID INT,@AcademicYearID TINYINT)
+RETURNS DECIMAL(5,4)
+AS
+     BEGIN
+         DECLARE @GPA DECIMAL(5,4);
+         SELECT @GPA = SUM(sc.points * c.CreditHours)/SUM(c.credithours)
+			FROM StudentCourses sc join Course c ON c.ID = sc.CourseID 
+			WHERE StudentID =@StudentID AND AcademicYearID =@AcademicYearID AND sc.IsIncluded =1 AND sc.IsGPAIncluded = 1
+			group by AcademicYearid
+			Order by AcademicYearID
+		 RETURN @GPA;
+     END;' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -220,7 +227,7 @@ BEGIN
 END;' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -252,7 +259,66 @@ RETURN @IsPassed;
 END' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2022-12-07 11:40:35 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetNumberOfWarnings]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetNumberOfWarnings](@StudentID int)
+RETURNS TINYINT
+AS
+BEGIN
+/*
+	This function calculates Regular semesters CGPA and checks if it''s <2 or not to calaulate number of warnings
+*/
+	DECLARE @SGPA as decimal(5,4),
+			@CGPA as decimal(5,4),
+			@SHours tinyint,
+			@CHours tinyint,
+			@Semester tinyint,
+			@NumberOfWarnings as tinyint =0;
+
+	SELECT @CGPA = cast(SUM(sc.points * c.CreditHours)/SUM(c.credithours) as decimal(5,4)),@CHours = SUM(c.CreditHours)
+	FROM StudentCourses sc left join Course c ON c.ID = sc.CourseID 
+	left join AcademicYear ay ON ay.ID = sc.AcademicYearID
+	WHERE StudentID =@StudentID AND sc.IsIncluded =1 AND sc.IsGPAIncluded = 1
+		AND sc.AcademicYearID = (SELECT Min(AcademicYearID) From StudentCourses WHERE StudentID = @StudentID)
+	group by AcademicYearid,ay.Semester
+	Order by AcademicYearID;
+
+	DECLARE Student_Waring_Counter_Cursor CURSOR FOR  
+		SELECT cast(SUM(sc.points * c.CreditHours)/SUM(c.credithours) as decimal(5,4)),SUM(CreditHours),ay.Semester
+		FROM StudentCourses sc left join Course c ON c.ID = sc.CourseID 
+		left join AcademicYear ay ON ay.ID = sc.AcademicYearID
+		WHERE StudentID = @StudentID AND sc.IsIncluded =1 AND sc.IsGPAIncluded = 1
+			AND sc.AcademicYearID <>(SELECT Min(AcademicYearID) From StudentCourses WHERE StudentID = @StudentID)
+		group by AcademicYearid,ay.Semester
+		Order by AcademicYearID;
+
+	OPEN Student_Waring_Counter_Cursor;  
+	FETCH NEXT FROM Student_Waring_Counter_Cursor INTO @SGPA,@SHours,@Semester;
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		IF (@SGPA IS NOT NULL)
+			BEGIN
+				SET @CGPA = (@CGPA * @CHours + @SGPA * @SHours)/(@SHours + @CHours);
+				SET @CHours = @CHours + @SHours;
+					IF(@CGPA <2.00 AND @Semester <> 3)
+						SET	@NumberOfWarnings = @NumberOfWarnings + 1;
+					ELSE IF (@CGPA >=2.00 AND @Semester <> 3)
+						SET	@NumberOfWarnings = 0;
+			END
+		FETCH NEXT FROM Student_Waring_Counter_Cursor INTO @SGPA,@SHours,@Semester;
+	END;  
+	CLOSE Student_Waring_Counter_Cursor;  
+	DEALLOCATE Student_Waring_Counter_Cursor;
+	RETURN @NumberOfWarnings;
+END' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -285,7 +351,7 @@ RETURN @PassedCoursesNumber;
 END' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -326,7 +392,7 @@ BEGIN
 END' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -348,7 +414,7 @@ AS
      END;' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -380,7 +446,68 @@ AS
      END;' 
 END
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[TESTWithoutSummerCalculateNumberOfWarnings]    Script Date: 2022-12-07 11:40:35 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TESTWithoutSummerCalculateNumberOfWarnings]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[TESTWithoutSummerCalculateNumberOfWarnings](@StudentID int)
+RETURNS TINYINT
+AS
+BEGIN
+/*
+	This function calculates Regular semesters GPA
+	then loop through Result to calaulate number of warnings
+*/
+	DECLARE @SGPA as decimal(5,4),
+			@CGPA as decimal(5,4),
+			@SHours tinyint,
+			@CHours tinyint,
+			@Semester tinyint,
+			@NumberOfWarnings as tinyint =0;
+
+	SELECT @CGPA = cast(SUM(sc.points * c.CreditHours)/SUM(c.credithours) as decimal(5,4)),@CHours = SUM(c.CreditHours)
+	FROM StudentCourses sc left join Course c ON c.ID = sc.CourseID 
+	left join AcademicYear ay ON ay.ID = sc.AcademicYearID
+	WHERE StudentID =@StudentID AND sc.IsIncluded =1 AND sc.IsGPAIncluded = 1
+		AND sc.AcademicYearID = (SELECT Min(AcademicYearID) From StudentCourses WHERE StudentID = @StudentID)
+	group by AcademicYearid,ay.Semester
+	Order by AcademicYearID;
+
+	DECLARE Student_Waring_Counter_Cursor CURSOR FOR  
+		SELECT cast(SUM(sc.points * c.CreditHours)/SUM(c.credithours) as decimal(5,4)),SUM(CreditHours),ay.Semester
+		FROM StudentCourses sc left join Course c ON c.ID = sc.CourseID 
+		left join AcademicYear ay ON ay.ID = sc.AcademicYearID
+		WHERE StudentID = @StudentID AND sc.IsIncluded =1 AND sc.IsGPAIncluded = 1
+			AND sc.AcademicYearID <>(SELECT Min(AcademicYearID) From StudentCourses WHERE StudentID = @StudentID)
+			AND sc.AcademicYearID NOT IN (SELECT ID FROM AcademicYear WHERE Semester =3)
+		group by AcademicYearid,ay.Semester
+		Order by AcademicYearID;
+
+	OPEN Student_Waring_Counter_Cursor;  
+	FETCH NEXT FROM Student_Waring_Counter_Cursor INTO @SGPA,@SHours,@Semester;
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		IF (@SGPA IS NOT NULL)
+			BEGIN
+				SET @CGPA = (@CGPA * @CHours + @SGPA * @SHours)/(@SHours + @CHours);
+				SET @CHours = @CHours + @SHours;
+					IF(@CGPA <2.00)
+						SET	@NumberOfWarnings = @NumberOfWarnings + 1;
+					ELSE IF (@CGPA >=2.00)
+						SET	@NumberOfWarnings = 0;
+			END
+		FETCH NEXT FROM Student_Waring_Counter_Cursor INTO @SGPA,@SHours,@Semester;
+	END;  
+	CLOSE Student_Waring_Counter_Cursor;  
+	DEALLOCATE Student_Waring_Counter_Cursor;
+	RETURN @NumberOfWarnings;
+END' 
+END
+GO
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -398,7 +525,7 @@ CREATE TABLE [dbo].[AcademicYear](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -416,7 +543,7 @@ CREATE TABLE [dbo].[CommonQuestion](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -442,7 +569,7 @@ CREATE TABLE [dbo].[Course](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -455,7 +582,7 @@ CREATE TABLE [dbo].[CoursePrerequisites](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -469,7 +596,7 @@ CREATE TABLE [dbo].[Date](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -493,7 +620,7 @@ CREATE TABLE [dbo].[Program](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -507,7 +634,7 @@ CREATE TABLE [dbo].[ProgramCourses](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -521,7 +648,7 @@ CREATE TABLE [dbo].[ProgramDistribution](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProgramRelations]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[ProgramRelations]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -530,11 +657,11 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Pr
 BEGIN
 CREATE TABLE [dbo].[ProgramRelations](
 	[Program] [int] NULL,
-	[SubProgran] [int] NULL
+	[SubProgram] [int] NULL
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -558,7 +685,7 @@ CREATE TABLE [dbo].[Student](
 	[AcademicCode] [varchar](10) NULL,
 	[SeatNumber] [varchar](10) NULL,
 	[AvailableCredits] [tinyint] NOT NULL,
-	[WarningsNumber]  AS ([dbo].[CalculateNumberOfWarnings]([ID])),
+	[WarningsNumber]  AS ([dbo].[GetNumberOfWarnings]([ID])),
 	[Rank] [smallint] NULL,
 	[IsInSpecialProgram] [bit] NOT NULL,
 	[SupervisorID] [int] NOT NULL,
@@ -576,7 +703,7 @@ CREATE TABLE [dbo].[Student](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -602,7 +729,7 @@ CREATE TABLE [dbo].[StudentCourses](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -616,7 +743,7 @@ CREATE TABLE [dbo].[StudentDesires](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -630,7 +757,7 @@ CREATE TABLE [dbo].[StudentPrograms](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -653,7 +780,7 @@ CREATE TABLE [dbo].[SuperAdmin](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Supervisor]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[Supervisor]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -678,7 +805,7 @@ CREATE TABLE [dbo].[Supervisor](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1100,23 +1227,25 @@ INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (1, CAST(N'2022-1
 GO
 SET IDENTITY_INSERT [dbo].[Program] ON 
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (1, N'Math', 1, 1, 1, 1, 16, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (1, N'Math', 1, 1, 1, 1, 16, N'Mathmatics Department', N'قسم الرياضيات')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (2, N'Cs', 2, 0.35, 1, 1, 17, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (2, N'Cs', 2, 0.35, 1, 1, 17, NULL, N'برنامج علوم الحاسب')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (3, N'Stat', 2, 0.35, 1, 1, 17, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (3, N'Stat', 2, 0.35, 1, 1, 17, NULL, N'برنامج الإحصاء الرياضى')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (4, N'Pure Math', 2, 0.3, 1, 0, 134, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (4, N'Pure Math', 2, 0.3, 1, 0, 134, NULL, N'برنامج الرياضات البحته منفرد')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (5, N'Pure Cs', 3, 0.6, 1, 0, 134, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (5, N'Pure Cs', 3, 0.6, 1, 0, 134, NULL, N'برنامح علوم الحاسب منفرد')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (6, N'Math Cs', 3, 0.4, 1, 0, 140, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (6, N'Math Cs', 3, 0.4, 1, 0, 140, NULL, N'برنامج الرياضيات البحتة وعلو الحاسب')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (7, N'Stat Cs', 3, 1, 1, 0, 140, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (7, N'Stat Cs', 3, 1, 1, 0, 140, NULL, N'برنامج الإحصاء الرياضى وعلوم الحاسب')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (8, N'Pure Stat', 3, 1, 1, 0, 134, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (8, N'Pure Stat', 3, 1, 1, 0, 134, NULL, N'برنامج الإحصاء الرياضى منفرد')
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (9, N'Stat Math', 3, 1, 1, 0, 140, NULL, NULL)
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (9, N'Stat Math', 3, 1, 1, 0, 140, NULL, N'برنامج الإحصاء الرياضى والرياضات البحته')
+GO
+INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName]) VALUES (10, N'Chemistry', 1, 0.2, 1, 1, 140, NULL, N'قسم الكيمياء')
 GO
 SET IDENTITY_INSERT [dbo].[Program] OFF
 GO
@@ -1678,41 +1807,47 @@ INSERT [dbo].[ProgramDistribution] ([ProgramID], [Semester], [NumberOfHours]) VA
 GO
 INSERT [dbo].[ProgramDistribution] ([ProgramID], [Semester], [NumberOfHours]) VALUES (9, 8, 18)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (1, 2)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (1, 2)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (1, 3)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (1, 3)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (1, 4)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (1, 4)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (2, 5)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (2, 5)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (2, 6)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (2, 6)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (3, 7)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (3, 7)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (3, 8)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (3, 8)
 GO
-INSERT [dbo].[ProgramRelations] ([Program], [SubProgran]) VALUES (3, 9)
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (3, 9)
+GO
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (NULL, 1)
+GO
+INSERT [dbo].[ProgramRelations] ([Program], [SubProgram]) VALUES (NULL, 10)
 GO
 SET IDENTITY_INSERT [dbo].[Student] ON 
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'Momen', N'Essam', N'Arafa', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'190691', NULL, 9, NULL, 1, 2, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 0, 7)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'Momen', N'Essam', N'Arafa', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190691', NULL, 9, NULL, 1, 2, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 0, 7)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'Girguis', N'Ashraf', N'Fekry', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'190114', NULL, 12, NULL, 1, 2, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 0, 7)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'Girguis', N'Ashraf', N'Fekry', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190114', NULL, 12, NULL, 1, 2, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 0, 7)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'Giovany', N'Nady', N'Zekry', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'190552', NULL, 12, NULL, 1, 2, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 0, 7)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'Giovany', N'Nady', N'Zekry', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190552', NULL, 12, NULL, 1, 2, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 0, 7)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'Yossef', N'Tarek', N'Masoud', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'190823', NULL, 9, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 7)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'Yossef', N'Tarek', N'Masoud', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190823', NULL, 9, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 7)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (13, N'FFEDC23A-8946-423D-AAFB-34D19EC18C64', N'Malak', N'Mohamed', N'AbdElhamed', N'30106190104688', N'01023883386', CAST(N'2001-06-19' AS Date), N'الزاوية', N'2', N'مصرى', N'30106190104688@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'190787', NULL, 0, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 7)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (13, N'FFEDC23A-8946-423D-AAFB-34D19EC18C64', N'Malak', N'Mohamed', N'AbdElhamed', N'30106190104688', N'01023883386', CAST(N'2001-06-19' AS Date), N'الزاوية', N'2', N'مصرى', N'30106190104688@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190787', NULL, 0, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 7)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (14, N'D0CCA8BC-0736-4298-98D6-994E01EF3EDE', N'Ganna', N'Mahmoud', N'hemeda', N'30010282102447', N'01141733612', CAST(N'2000-10-28' AS Date), N'الهرم', N'2', N'مصرى', N'30010282102447@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'190111', NULL, 2, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 7)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (14, N'D0CCA8BC-0736-4298-98D6-994E01EF3EDE', N'Ganna', N'Mahmoud', N'hemeda', N'30010282102447', N'01141733612', CAST(N'2000-10-28' AS Date), N'الهرم', N'2', N'مصرى', N'30010282102447@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190111', NULL, 2, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 7)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (15, N'9C93E126-DD0B-4231-B664-43CD9EF58535', N'Ahmed', N'Mohamed', N'Shaker', N'29705222101212', N'01000000011', CAST(N'1997-05-22' AS Date), N'القاهرة', N'1', N'مصرى', N'29705222101212@sci.adu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'150142', NULL, 1, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 12)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (15, N'9C93E126-DD0B-4231-B664-43CD9EF58535', N'Ahmed', N'Mohamed', N'Shaker', N'29705222101212', N'01000000011', CAST(N'1997-05-22' AS Date), N'القاهرة', N'1', N'مصرى', N'29705222101212@sci.adu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'150142', NULL, 1, NULL, 1, 2, CAST(N'2022-11-28T00:00:00.000' AS DateTime), 0, 12)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (17, N'A047BE0D-AD6A-435A-AE4D-65FFF78AFA42', N'Ali', N'Saed', N'Ali', N'29704032114789', N'01000000012', CAST(N'1997-04-03' AS Date), N'القاهرة', N'1', N'مصرى', N'29704032114789@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'150111', NULL, 1, NULL, 1, 2, CAST(N'2022-11-29T00:00:00.000' AS DateTime), 0, 10)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (17, N'A047BE0D-AD6A-435A-AE4D-65FFF78AFA42', N'Ali', N'Saed', N'Ali', N'29704032114789', N'01000000012', CAST(N'1997-04-03' AS Date), N'القاهرة', N'1', N'مصرى', N'29704032114789@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'150111', NULL, 1, NULL, 1, 2, CAST(N'2022-11-29T00:00:00.000' AS DateTime), 0, 10)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'Mahmoud', N'Salem', N'Farouk', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', N'150123', NULL, 0, NULL, 1, 2, CAST(N'2022-11-29T00:00:00.000' AS DateTime), 0, 12)
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'Mahmoud', N'Salem', N'Farouk', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'150123', NULL, 0, NULL, 1, 2, CAST(N'2022-11-29T00:00:00.000' AS DateTime), 0, 12)
+GO
+INSERT [dbo].[Student] ([ID], [GUID], [FName], [MName], [LName], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [Rank], [IsInSpecialProgram], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram]) VALUES (19, N'44B6F0C0-550C-4501-982E-5ABFB287BE3B', N'student', N'level', N'1', N'22222214562145', N'01000000014', CAST(N'2005-05-05' AS Date), N'القاهرة', N'1', N'مصرى', N'22222214562145@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'140140', NULL, 12, NULL, 0, 2, CAST(N'2022-12-06T00:00:00.000' AS DateTime), 0, 1)
 GO
 SET IDENTITY_INSERT [dbo].[Student] OFF
 GO
@@ -2546,6 +2681,10 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (12, 22, 119, N'B', 3, 1, 1, 1, 2, 0, 18, 1, NULL, NULL, NULL)
 GO
+INSERT [dbo].[StudentDesires] ([ProgramID], [StudentID], [DesireNumber]) VALUES (1, 19, 1)
+GO
+INSERT [dbo].[StudentDesires] ([ProgramID], [StudentID], [DesireNumber]) VALUES (10, 19, 2)
+GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 5, 10)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 5, 11)
@@ -2596,7 +2735,7 @@ INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES
 GO
 SET IDENTITY_INSERT [dbo].[Supervisor] ON 
 GO
-INSERT [dbo].[Supervisor] ([ID], [GUID], [FName], [MName], [LName], [Email], [Password], [IsActive], [CreatedOn], [ProgramID]) VALUES (2, N'A95A4304-E215-46A3-A3C9-3D01F90F0868', N'CS', N'Supervisor', N'1', N'cssuper@sci.asu.edu.eg', N'3627909A29C31381A071EC27F7C9CA97726182AED29A7DDD2E54353322CFB30ABB9E3A6DF2AC2C20FE23436311D678564D0C8D305930575F60E2D3D048184D79', 1, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 6)
+INSERT [dbo].[Supervisor] ([ID], [GUID], [FName], [MName], [LName], [Email], [Password], [IsActive], [CreatedOn], [ProgramID]) VALUES (2, N'A95A4304-E215-46A3-A3C9-3D01F90F0868', N'CS', N'Supervisor', N'1', N'cssuper@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-11-27T00:00:00.000' AS DateTime), 6)
 GO
 SET IDENTITY_INSERT [dbo].[Supervisor] OFF
 GO
@@ -2663,7 +2802,7 @@ IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[
 ALTER TABLE [dbo].[ProgramRelations] CHECK CONSTRAINT [FK_ProgramRelations_Program]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramRelations_Program1]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramRelations]'))
-ALTER TABLE [dbo].[ProgramRelations]  WITH CHECK ADD  CONSTRAINT [FK_ProgramRelations_Program1] FOREIGN KEY([SubProgran])
+ALTER TABLE [dbo].[ProgramRelations]  WITH CHECK ADD  CONSTRAINT [FK_ProgramRelations_Program1] FOREIGN KEY([SubProgram])
 REFERENCES [dbo].[Program] ([ID])
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramRelations_Program1]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramRelations]'))
@@ -2767,7 +2906,39 @@ GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_Supervisor]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2022-12-07 11:40:35 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AddStudentDesires]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[AddStudentDesires] AS' 
+END
+GO
+
+ALTER PROCEDURE [dbo].[AddStudentDesires]
+@Desires StudentDesiresType READONLY,
+@StudentID INT
+AS 
+BEGIN
+	BEGIN TRANSACTION
+	BEGIN TRY
+	DELETE FROM [dbo].[StudentDesires]
+	WHERE [StudentID] = @StudentID;
+
+		INSERT INTO [dbo].[StudentDesires]
+			([ProgramID], [StudentID], [DesireNumber])
+		SELECT [ProgramID], @StudentID, [DesireNumber] FROM @Desires;
+	END TRY
+	BEGIN CATCH
+		IF @@ERROR <> 0
+			ROLLBACK;
+	END CATCH
+	COMMIT;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2797,7 +2968,7 @@ DECLARE @StudentLevel int = [dbo].[CalculateStudentLevel](@StudentID);
 		sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2824,7 +2995,7 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2845,7 +3016,7 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2862,7 +3033,7 @@ BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SP_StudentLogin]    Script Date: 2022-12-04 7:12:17 PM ******/
+/****** Object:  StoredProcedure [dbo].[SP_StudentLogin]    Script Date: 2022-12-07 11:40:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
