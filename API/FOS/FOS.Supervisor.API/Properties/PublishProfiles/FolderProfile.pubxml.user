@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\Girguis\Desktop\Supervisor Publish</_PublishTargetUrl>
+    <History>True|2022-12-07T10:31:50.9630867Z;True|2022-12-07T12:22:02.3941343+02:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="FosDB">
+      <Value>Data Source=DESKTOP-U2JEEI8%3bInitial Catalog=FOS%3bIntegrated Security=True%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FOS.Student.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class StudentCoursesController : ExtensionController
     {
         private readonly IAcademicYearRepo academicYearRepo;

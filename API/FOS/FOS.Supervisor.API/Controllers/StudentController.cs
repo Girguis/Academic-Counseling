@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FOS.Supervisor.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class StudentController : ExtensionController
     {
         private readonly IStudentRepo studentRepo;

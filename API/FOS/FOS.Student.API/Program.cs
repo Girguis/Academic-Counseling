@@ -28,6 +28,7 @@ builder.Services.AddSwaggerGen(options => options.AddSecurityDefinition("Bearer"
     BearerFormat = "JWT",
     Scheme = "bearer"
 }));
+
 builder.Services.AddSwaggerGen(s =>
 s.AddSecurityRequirement(
     new OpenApiSecurityRequirement
@@ -45,6 +46,11 @@ s.AddSecurityRequirement(
         }
     })
 );
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(o => o.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -74,7 +80,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
-
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

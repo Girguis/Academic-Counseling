@@ -72,3 +72,5 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\AutoMapper.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Configs\FilterConfiguration.json
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Newtonsoft.Json.dll

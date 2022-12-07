@@ -12,6 +12,8 @@ using System.Security.Cryptography;
 using System.Text;
 namespace FOS.Supervisor.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SupervisorController : ExtensionController
     {
         private readonly ISupervisorRepo supervisorRepo;

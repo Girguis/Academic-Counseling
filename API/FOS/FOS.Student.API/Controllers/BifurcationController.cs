@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FOS.Student.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class BifurcationController : ExtensionController
     {
         private readonly IBifurcationRepo bifurcationRepo;

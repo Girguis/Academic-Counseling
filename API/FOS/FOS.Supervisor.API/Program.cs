@@ -44,6 +44,10 @@ s.AddSecurityRequirement(
         }
     })
 );
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(o => o.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,12 +71,12 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
+//}
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

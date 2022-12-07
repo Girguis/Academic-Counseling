@@ -1,3 +1,4 @@
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Configs\FilterConfiguration.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\FOS.Student.API.exe
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\appsettings.Development.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\appsettings.json
@@ -375,6 +376,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.OpenApi.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Newtonsoft.Json.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Release\net6.0\win-x64\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

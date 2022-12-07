@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ofyxeUBmN8cbdTOPm2ShUCV6ISvnbPzUuud9ndfW0eg=",
+  "Source": "FOS.Supervisor.API",
+  "BasePath": "_content/FOS.Supervisor.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
