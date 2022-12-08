@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "8NpZU565WpZCRyFmz+a2W8+sPnLTCPFUKFuGLb5EghwxThFPgwg1/BEzMaMfawhybuW8OYZnXE375nqHxj7g3A==",
+  "dgSpecHash": "MsurwASwqeHvv9iG6sm4AEfzm9IjDevl1RZ+mcmFs4titi/UZGE9WOWZzKuWy3MpC0BkIRPCHeRV5osCwGOjkg==",
   "success": true,
   "projectFilePath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\FOS.Student.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Girguis\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.11\\microsoft.aspnetcore.authentication.jwtbearer.6.0.11.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning\\5.0.0\\microsoft.aspnetcore.mvc.versioning.5.0.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",

@@ -77,15 +77,10 @@ C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.runtimecon
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.exe
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.dll
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.pdb
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.AssemblyReference.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.GeneratedMSBuildEditorConfig.editorconfig
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfoInputs.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfo.cs
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.CoreCompileInputs.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\appsettings.Development.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\appsettings.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.exe
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Configs\FilterConfiguration.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.deps.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.runtimeconfig.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.dll
@@ -93,6 +88,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\AutoMapper.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Versioning.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -108,6 +104,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Newtonsoft.Json.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -136,6 +133,13 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Core.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.DB.pdb
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.AssemblyReference.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.GeneratedMSBuildEditorConfig.editorconfig
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfoInputs.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfo.cs
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.CoreCompileInputs.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cs
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\staticwebassets\msbuild.FOS.Student.API.Microsoft.AspNetCore.StaticWebAssets.props
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\staticwebassets\msbuild.build.FOS.Student.API.props
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.FOS.Student.API.props
@@ -150,6 +154,3 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\ref\FOS.Student.API.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cs
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Configs\FilterConfiguration.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Newtonsoft.Json.dll
