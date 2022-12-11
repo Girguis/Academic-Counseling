@@ -363,6 +363,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\n
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\AutoMapper.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.AspNetCore.Mvc.Versioning.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.Data.SqlClient.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.EntityFrameworkCore.Abstractions.dll

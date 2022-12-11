@@ -41,7 +41,9 @@ namespace FOS.App.ExtensionMethods
     }
     internal static class OrderExtension
     {
-        public static IQueryable<T> Order<T>(this IQueryable<T> source, string orderBy = null, bool ascending = false)
+        public static IQueryable<T> Order<T>(this IQueryable<T> source,
+                                            string orderBy = null,
+                                            bool ascending = false)
         {
             if (string.IsNullOrEmpty(orderBy) || !source.Exists(orderBy))
                 return source;

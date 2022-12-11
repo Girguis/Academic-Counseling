@@ -20,10 +20,9 @@ namespace FOS.App.Student.Repositories
         public DB.Models.Student Get(string GUID)
         {
             return context.Students.Include("Supervisor").FirstOrDefault(x => x.Guid == GUID);
-            //return _Entities.DB.Models.Students.FirstOrDefault(x => x.Guid == GUID);
         }
 
-        public DB.Models.Program GetCurrentProgram(string GUID)
+        public Program GetCurrentProgram(string GUID)
         {
             return context.StudentPrograms
                 .Where(x => x.Student.Guid == GUID)
@@ -31,7 +30,6 @@ namespace FOS.App.Student.Repositories
                 .Include(x => x.Program)
                 .Select(x => x.Program)
                 .LastOrDefault();
-            //return _Entities.DB.Models.Students.FirstOrDefault(x => x.Guid == GUID);
         }
         public bool Update(DB.Models.Student student)
         {

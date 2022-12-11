@@ -9,6 +9,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\AutoMapper.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Versioning.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll

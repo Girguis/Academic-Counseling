@@ -6,12 +6,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Users\Girguis\Desktop\Supervisor Publish</_PublishTargetUrl>
-    <History>True|2022-12-07T10:31:50.9630867Z;True|2022-12-07T12:22:02.3941343+02:00;</History>
+    <History>True|2022-12-09T20:45:20.0074605Z;True|2022-12-09T22:36:45.5810557+02:00;True|2022-12-09T22:35:40.2296927+02:00;True|2022-12-09T22:09:43.8118650+02:00;True|2022-12-09T21:55:12.4357353+02:00;True|2022-12-07T12:31:50.9630867+02:00;True|2022-12-07T12:22:02.3941343+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <DestinationConnectionStrings Include="FosDB">
-      <Value>Data Source=DESKTOP-U2JEEI8%3bInitial Catalog=FOS%3bIntegrated Security=True%3b</Value>
+      <Value>Data Source=SQL5108.site4now.net%3bInitial Catalog=db_a9127b_fos%3bUser Id=db_a9127b_fos_admin%3bPassword=NtybEuMh%40W6nrzT%3b</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
 </Project>

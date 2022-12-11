@@ -8,49 +8,33 @@ namespace FOS.App.Student.Mappers
     {
         public static List<DesireProgramsDTO> ToDTO(this List<Program> programs)
         {
-            try
+            var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Program, DesireProgramsDTO>()
+            .ForMember(x => x.ProgramID, o => o.MapFrom(y => y.Id))
+            .ForMember(x => x.ProgramName, o => o.MapFrom(y => y.ArabicName))
+            );
+            var mapper = config.CreateMapper();
+            List<DesireProgramsDTO> desireProgramsDTOs = new List<DesireProgramsDTO>();
+            for (int i = 0; i < programs.Count; i++)
             {
-                var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Program, DesireProgramsDTO>()
-                .ForMember(x => x.ProgramID, o => o.MapFrom(y => y.Id))
-                .ForMember(x => x.ProgramName, o => o.MapFrom(y => y.ArabicName))
-                );
-                var mapper = config.CreateMapper();
-                List<DesireProgramsDTO> desireProgramsDTOs = new List<DesireProgramsDTO>();
-                for (int i = 0; i < programs.Count; i++)
-                {
-                    desireProgramsDTOs.Add(mapper.Map<DesireProgramsDTO>(programs.ElementAt(i)));
-                    desireProgramsDTOs.ElementAt(i).DesireNumber = i + 1;
-                }
-                return desireProgramsDTOs;
+                desireProgramsDTOs.Add(mapper.Map<DesireProgramsDTO>(programs.ElementAt(i)));
+                desireProgramsDTOs.ElementAt(i).DesireNumber = i + 1;
             }
-            catch (Exception ex)
-            {
-
-            }
-            return null;
+            return desireProgramsDTOs;
         }
 
         public static List<DesireProgramsDTO> ToDTO(this List<StudentDesire> desires)
         {
-            try
-            {
-                var config = new MapperConfiguration(c => c.CreateMap<DB.Models.StudentDesire, DesireProgramsDTO>()
-                .ForMember(x => x.ProgramID, o => o.MapFrom(y => y.ProgramId))
-                .ForMember(x => x.ProgramName, o => o.MapFrom(y => y.Program.ArabicName))
-                .ForMember(x => x.DesireNumber, o => o.MapFrom(y => y.DesireNumber))
-                );
-                var mapper = config.CreateMapper();
-                List<DesireProgramsDTO> desireProgramsDTOs = new List<DesireProgramsDTO>();
-                for (int i = 0; i < desires.Count; i++)
-                    desireProgramsDTOs.Add(mapper.Map<DesireProgramsDTO>(desires.ElementAt(i)));
+            var config = new MapperConfiguration(c => c.CreateMap<DB.Models.StudentDesire, DesireProgramsDTO>()
+            .ForMember(x => x.ProgramID, o => o.MapFrom(y => y.ProgramId))
+            .ForMember(x => x.ProgramName, o => o.MapFrom(y => y.Program.ArabicName))
+            .ForMember(x => x.DesireNumber, o => o.MapFrom(y => y.DesireNumber))
+            );
+            var mapper = config.CreateMapper();
+            List<DesireProgramsDTO> desireProgramsDTOs = new List<DesireProgramsDTO>();
+            for (int i = 0; i < desires.Count; i++)
+                desireProgramsDTOs.Add(mapper.Map<DesireProgramsDTO>(desires.ElementAt(i)));
 
-                return desireProgramsDTOs;
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return null;
+            return desireProgramsDTOs;
         }
     }
 }

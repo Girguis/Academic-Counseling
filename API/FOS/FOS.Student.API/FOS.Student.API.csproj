@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <DocumentationFile>F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\API Documentaion.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

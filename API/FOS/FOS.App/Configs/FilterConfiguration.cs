@@ -11,7 +11,7 @@ namespace FOS.App.Configs
             if (Filters != null && Filters.Count > 0)
                 return Filters;
 
-            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "Configs", "FilterConfiguration.json");
+            var path =Directory.GetFiles(AppContext.BaseDirectory, "FilterConfiguration.json", SearchOption.AllDirectories).FirstOrDefault();
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
                 return new List<FilterOperator>();
 

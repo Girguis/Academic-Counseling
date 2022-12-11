@@ -37,20 +37,6 @@ namespace FOS.App.Student.Repositories
 
             return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentDesires] @Desires, @StudentID", desiresParam, studentIdParam) > 0;
         }
-        //public bool AddDesires(List<StudentDesire> desires)
-        //{
-        //    int studnetID = (int)desires.Select(x => x.StudentId).FirstOrDefault();
-        //    if (context.StudentDesires.Where(x => x.StudentId == studnetID).Count() < 1)
-        //    {
-        //        //context.StudentDesires.AddRange(desires);
-        //        for (int i = 0; i < desires.Count; i++)
-        //            context.Add(desires.ElementAt(i));
-        //        return context.SaveChanges() > 0;
-        //    }
-        //    else
-        //        return UpdateDesires(desires);
-        //}
-
         public List<Program> GetAvailableProgram(string guid)
         {
             DB.Models.Student student = studentRepo.Get(guid);
@@ -77,7 +63,6 @@ namespace FOS.App.Student.Repositories
                 .ToList();
             return result;
         }
-
         public List<StudentDesire> GetDesires(string guid)
         {
             IQueryable<StudentDesire> desires = context.StudentDesires.Where(x => x.Student.Guid == guid).Include(x => x.Program);
@@ -88,9 +73,6 @@ namespace FOS.App.Student.Repositories
 
         public bool UpdateDesires(List<StudentDesire> desires)
         {
-            //var oldDesires = context.StudentDesires.Where(x => x.StudentId == desires.Select(x => x.StudentId).FirstOrDefault());
-            //context.RemoveRange(oldDesires);
-            //context.AddRange(desires);
             context.Entry(desires).State = EntityState.Modified;
             return context.SaveChanges() > 0;
         }

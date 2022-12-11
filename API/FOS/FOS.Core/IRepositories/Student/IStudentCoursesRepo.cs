@@ -11,6 +11,5 @@ namespace FOS.Core.IRepositories.Student
         List<StudentCourse> GetCoursesByAcademicYear(int studentID, short academicYearID);
         List<StudentCourse> GetCurrentAcademicYearCourses(int studentID);
         IQueryable<StudentCourse> GetAll();
-
     }
 }

@@ -2,6 +2,7 @@
 using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using IStudentRepo = FOS.Core.IRepositories.Student.IStudentRepo;
 using StudentRepo = FOS.App.Student.Repositories.StudentRepo;
 
@@ -18,7 +19,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<IAcademicYearRepo, AcademicYearRepo>();
             services.AddScoped<IBifurcationRepo, BifurcationRepo>();
             services.AddScoped<IProgramRepo, ProgramRepo>();
-            //services.AddSingleton<ILogger>(provider => provider.GetRequiredService<ILogger>());
+            services.AddScoped<ILogger>(provider => provider.GetRequiredService<ILogger>());
             return services;
         }
     }

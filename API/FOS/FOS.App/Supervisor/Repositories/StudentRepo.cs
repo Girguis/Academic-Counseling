@@ -27,7 +27,6 @@ namespace FOS.App.Supervisor.Repositories
                 .Include(x => x.Course)
                 .ToList();
         }
-
         public List<DB.Models.Student> GetAll(out int totalCount,SearchCriteria criteria = null)
         {
             if (criteria == null)
@@ -36,8 +35,6 @@ namespace FOS.App.Supervisor.Repositories
                 totalCount = stds.Count();
                 return stds ;
             }
-                
-
             var students = context.Students.AsQueryable();
             students = students.Search(criteria.Filters);
             students = students.Order(criteria.OrderByColumn, criteria.Ascending);
@@ -53,14 +50,12 @@ namespace FOS.App.Supervisor.Repositories
                 .Include(x => x.Program)
                 .ToList();
         }
-
         public StudentProgram GetCurrentProgram(string GUID)
         {
             return context.StudentPrograms
                 .Include(x => x.Program)
                 .LastOrDefault(x => x.Student.Guid == GUID);
         }
-
         public List<DB.Models.Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null)
         {
             if (criteria == null)
@@ -69,8 +64,6 @@ namespace FOS.App.Supervisor.Repositories
                 totalCount = stds.Count;
                 return stds;
             }
-
-
             var students = context.Students.AsQueryable();
             criteria.Filters ??= new List<SearchBaseModel>();
             criteria.Filters.Add(new SearchBaseModel()

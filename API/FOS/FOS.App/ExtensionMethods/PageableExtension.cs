@@ -10,7 +10,9 @@
                 return source;
 
             int _pageSize = pageSize < 1 ? 20 : pageSize.Value;
-            int _pageNumber = (!pageNumber.HasValue || pageNumber - 1 < 0) ? 0 : (pageNumber.Value - 1);
+            int _pageNumber = (!pageNumber.HasValue || pageNumber - 1 < 0)
+                ? 0
+                : (pageNumber.Value - 1);
 
             return source.Skip(_pageNumber * _pageSize).Take(_pageSize);
         }

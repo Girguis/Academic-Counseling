@@ -7,7 +7,8 @@ namespace FOS.App.ExtensionMethods
 {
     internal static class FilterExtension
     {
-        public static IQueryable<T> Search<T>(this IQueryable<T> source, IList<SearchBaseModel> filters)
+        public static IQueryable<T> Search<T>(this IQueryable<T> source,
+                                            IList<SearchBaseModel> filters)
         {
             filters = filters?.Where(f => f != null &&
            !string.IsNullOrWhiteSpace(f.Key) &&
@@ -64,11 +65,11 @@ namespace FOS.App.ExtensionMethods
             var convertedExpression = Expression.Convert(constant, prop.PropertyType);
 
             var methodName = FilterConfiguratioReader.Get(filter.Operator)?.Method;
-          
+
             if (propType == typeof(string) || propType == typeof(object))
             {
                 MethodInfo method = propType.GetMethod(methodName, new[] { propType });
-                var containsMethodExp = Expression.Call(member, method, convertedExpression);            
+                var containsMethodExp = Expression.Call(member, method, convertedExpression);
                 return containsMethodExp;
             }
             else
