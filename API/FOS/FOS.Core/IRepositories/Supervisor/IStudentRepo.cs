@@ -11,5 +11,6 @@ namespace FOS.Core.IRepositories.Supervisor
         List<DB.Models.StudentCourse> GetAcademicDetails(string GUID);
         List<StudentProgram> GetPrograms(string GUID);
         StudentProgram GetCurrentProgram(string GUID);
+        object GenderStatistics();
     }
 }

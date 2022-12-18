@@ -37,13 +37,13 @@ namespace FOS.App.Supervisor.Repositories
         /// <param name="totalCount"></param>
         /// <param name="criteria"></param>
         /// <returns></returns>
-        public List<DB.Models.Student> GetAll(out int totalCount,SearchCriteria criteria = null)
+        public List<DB.Models.Student> GetAll(out int totalCount, SearchCriteria criteria = null)
         {
             if (criteria == null)
             {
                 List<DB.Models.Student> stds = context.Students?.ToList();
                 totalCount = stds.Count();
-                return stds ;
+                return stds;
             }
             var students = context.Students.AsQueryable();
             students = students.Search(criteria.Filters);
@@ -91,6 +91,18 @@ namespace FOS.App.Supervisor.Repositories
                 Value = 0
             });
             return GetAll(out totalCount, criteria)?.ToList();
+        }
+        /// <summary>
+        /// Get number of males and females
+        /// </summary>
+        /// <returns></returns>
+        public object GenderStatistics()
+        {
+            return context.Students.GroupBy(x => x.Gender).Select(x => new
+            {
+                Key = x.Key,
+                Count = x.Count()
+            })?.ToList();
         }
     }
 }

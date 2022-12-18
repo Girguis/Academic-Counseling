@@ -19,6 +19,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<IStudentRepo, StudentRepo>();
             services.AddScoped<IDatabaseRepo, DatabaseRepo>();
             services.AddScoped<IAcademicYearRepo, AcademicYearRepo>();
+            services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
             return services;
         }
     }

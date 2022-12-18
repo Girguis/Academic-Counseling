@@ -9,7 +9,7 @@ namespace FOS.App.Configs
     /// "operator": ">",
     /// "method": "GreaterThan"
     /// </summary>
-    internal class FilterConfiguratioReader
+    internal class FilterConfigurationReader
     {
         private static List<FilterOperator> Filters { get; set; }
         private static List<FilterOperator> Read()
