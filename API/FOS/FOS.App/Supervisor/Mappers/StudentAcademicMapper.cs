@@ -6,6 +6,10 @@ namespace FOS.App.Supervisor.Mappers
 {
     public static class StudentAcademicMapper
     {
+        /// <summary>
+        /// Extension method used to map from AcademicYear,programName,StudentCoursesDTO,cGpa,cHours
+        /// to AcademicYearsDTO model
+        /// </summary>
         public static AcademicYearDTO ToDTO(this AcademicYear academicYear,
             string programName,
             List<StudentCoursesDTO> courses,

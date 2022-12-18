@@ -14,46 +14,31 @@ namespace FOS.App.Student.Repositories
             this.context = context;
             this.academicYearRepo = academicYearRepo;
         }
-        public bool Add(List<StudentCourse> studentCourses)
-        {
-            context.StudentCourses.AddRange(studentCourses);
-            return context.SaveChanges() > 0;
-        }
-
-        public bool Add(StudentCourse studentCourse)
-        {
-            context.StudentCourses.Add(studentCourse);
-            return context.SaveChanges() > 0;
-        }
-
-        public bool Delete(StudentCourse studentCourse)
-        {
-            context.Remove(studentCourse);
-            return context.SaveChanges() > 0;
-        }
-
+        /// <summary>
+        /// Method to get all courses for a certain student
+        /// </summary>
+        /// <param name="studentID"></param>
+        /// <returns></returns>
         public List<StudentCourse> GetAllCourses(int studentID)
         {
             IQueryable<StudentCourse> coursesList = context.StudentCourses.Where(x => x.StudentId == studentID).Include("Course");
             return coursesList.ToList();
         }
+        /// <summary>
+        /// Method to get all courses for a certain student for the current year
+        /// </summary>
+        /// <param name="studentID"></param>
+        /// <returns></returns>
         public List<StudentCourse> GetCurrentAcademicYearCourses(int studentID)
         {
-            IQueryable<StudentCourse> coursesList = context.StudentCourses
-                .Where(x => x.StudentId == studentID & x.AcademicYearId == academicYearRepo.GetCurrentYear().Id)
-                .Include("Course"); ;
-            return coursesList.ToList();
+             return GetCoursesByAcademicYear(studentID, academicYearRepo.GetCurrentYear().Id).ToList();
         }
-        public IQueryable<StudentCourse> GetAll()
-        {
-            return context.StudentCourses;
-        }
-
-        public bool Update(StudentCourse studentCourse)
-        {
-            context.Entry(studentCourse).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
-        }
+        /// <summary>
+        /// Method to get all courses for a certain student in any academic year
+        /// </summary>
+        /// <param name="studentID"></param>
+        /// <param name="academicYearID"></param>
+        /// <returns></returns>
         public List<StudentCourse> GetCoursesByAcademicYear(int studentID, short academicYearID)
         {
             IQueryable<StudentCourse> courses = context.StudentCourses

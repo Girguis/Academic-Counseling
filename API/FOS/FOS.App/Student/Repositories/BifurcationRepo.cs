@@ -18,7 +18,11 @@ namespace FOS.App.Student.Repositories
             this.studentRepo = studentRepo;
             this.academicYearRepo = academicYearRepo;
         }
-
+        /// <summary>
+        /// Method to execute a stored procedure that removes old StudentDesire and add new desires
+        /// </summary>
+        /// <param name="desires"></param>
+        /// <returns></returns>
         public bool AddDesires(List<StudentDesire> desires)
         {
             var studnetId = desires.Select(x => x.StudentId).FirstOrDefault();
@@ -37,6 +41,13 @@ namespace FOS.App.Student.Repositories
 
             return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentDesires] @Desires, @StudentID", desiresParam, studentIdParam) > 0;
         }
+        /// <summary>
+        /// Method to get programs that student can choose from
+        /// i.e i'm a first year CS student and we are in the second term
+        /// this function will send me 2 programs CS pure and CS/Math
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
         public List<Program> GetAvailableProgram(string guid)
         {
             DB.Models.Student student = studentRepo.Get(guid);
@@ -63,6 +74,11 @@ namespace FOS.App.Student.Repositories
                 .ToList();
             return result;
         }
+        /// <summary>
+        /// Method to get student desires from database
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns></returns>
         public List<StudentDesire> GetDesires(string guid)
         {
             IQueryable<StudentDesire> desires = context.StudentDesires.Where(x => x.Student.Guid == guid).Include(x => x.Program);
@@ -70,12 +86,10 @@ namespace FOS.App.Student.Repositories
                 return null;
             return desires.ToList();
         }
-
-        public bool UpdateDesires(List<StudentDesire> desires)
-        {
-            context.Entry(desires).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
-        }
+        /// <summary>
+        /// Method used to check if current time is in bifurcation interval or not
+        /// </summary>
+        /// <returns></returns>
         public bool IsBifurcationAvailable()
         {
             Date date = context.Dates.Where(x => x.DateFor == 0).FirstOrDefault();

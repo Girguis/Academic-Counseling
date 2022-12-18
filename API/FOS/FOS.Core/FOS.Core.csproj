@@ -11,8 +11,4 @@
     <ProjectReference Include="..\FOS.DB\FOS.DB.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IRepositories\Supervisor\" />
-  </ItemGroup>
-
 </Project>

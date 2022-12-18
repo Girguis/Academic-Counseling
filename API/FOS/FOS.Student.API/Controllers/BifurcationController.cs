@@ -29,9 +29,14 @@ namespace FOS.Student.API.Controllers
             this.studentRepo = studentRepo;
             this.logger = logger;
         }
+
+        /// <summary>
+        /// Get student by GUID and check if he/she's not in a Special program and current datetime is in bifurcation peroid
+        /// if all reqirements are met, then get a list of programs the student can order, or get his/her stored list from the DB if exists
+        /// </summary>
+        /// <returns>list of programs</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<DesireProgramsDTO>))]
-        //Returns a list of programs that student can choose from
         public IActionResult GetDesires()
         {
             try
@@ -39,13 +44,10 @@ namespace FOS.Student.API.Controllers
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new { msg = "Id not found" });
-                //Check if the bifurcation avaiable and that the student is not in final program
                 if (!bifurcationRepo.IsBifurcationAvailable() || studentRepo.Get(guid).IsInSpecialProgram)
                     return BadRequest(new { msg = "Bifuraction is not availble" });
-                //Get the list of student desires from DB
                 var desires = bifurcationRepo.GetDesires(guid);
                 List<DesireProgramsDTO> desiresLst;
-                //if the student doesn't have any records in DB then returns the list of available programs
                 if (desires == null || desires.Count < 1)
                     desiresLst = bifurcationRepo.GetAvailableProgram(guid).ToDTO();
                 else
@@ -58,6 +60,13 @@ namespace FOS.Student.API.Controllers
                 return Problem();
             }
         }
+        /// <summary>
+        /// Get GUID from access token
+        /// do some checks on the received list and that the bifurcation is available
+        /// if everyting is ok then map desiresList with student id to StudentDesire model
+        /// </summary>
+        /// <param name="desiresList"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult AddDesires(List<DesireProgramsDTO> desiresList)
         {

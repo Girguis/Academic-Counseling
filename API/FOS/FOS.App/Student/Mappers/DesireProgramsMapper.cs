@@ -6,6 +6,10 @@ namespace FOS.App.Student.Mappers
 {
     public static class DesireProgramsMapper
     {
+        /// <summary>
+        /// Extension method used to map a list of Program model (model from database)
+        /// to DesireProgramsDTO model
+        /// </summary>
         public static List<DesireProgramsDTO> ToDTO(this List<Program> programs)
         {
             var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Program, DesireProgramsDTO>()
@@ -22,6 +26,10 @@ namespace FOS.App.Student.Mappers
             return desireProgramsDTOs;
         }
 
+        /// <summary>
+        /// Extension method used to map a list of StudentDesire model (model from database)
+        /// to DesireProgramsDTO model
+        /// </summary>
         public static List<DesireProgramsDTO> ToDTO(this List<StudentDesire> desires)
         {
             var config = new MapperConfiguration(c => c.CreateMap<DB.Models.StudentDesire, DesireProgramsDTO>()

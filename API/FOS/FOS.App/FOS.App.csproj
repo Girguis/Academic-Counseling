@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Supervisor\Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Configs\FilterConfiguration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

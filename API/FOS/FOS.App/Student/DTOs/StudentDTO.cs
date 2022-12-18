@@ -2,6 +2,9 @@
 
 namespace FOS.App.Student.DTOs
 {
+    /// <summary>
+    /// Model which will be sent to the client
+    /// </summary>
     public class StudentDTO
     {
         public string Fname { get; set; } = null!;

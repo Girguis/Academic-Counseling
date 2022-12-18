@@ -29,6 +29,11 @@ namespace FOS.Student.API.Controllers
             this.studentRepo = studentRepo;
             this.logger = logger;
         }
+        /// <summary>
+        /// Get a list of academic years which student enrolled 1 course or more in it
+        /// each academic year will have it's details (year,semester) and Semester GPA for the student
+        /// </summary>
+        /// <returns>List of AcademicYearsDTO</returns>
         [HttpGet("GetAcademicYearsSummary")]
         [ProducesResponseType(200, Type = typeof(List<AcademicYearsDTO>))]
         public IActionResult GetAcademicYearsSummary()
@@ -59,7 +64,11 @@ namespace FOS.Student.API.Controllers
                 return Problem();
             }
         }
-
+        /// <summary>
+        /// Get all courses deatils for the academic year using it's academicYearID
+        /// </summary>
+        /// <param name="academicYearID"></param>
+        /// <returns>List of StudentCoursesDTO</returns>
         [HttpGet("GetAcademicYearDetails")]
         [ProducesResponseType(200, Type = typeof(List<StudentCoursesDTO>))]
         public IActionResult GetAcademicYearDetails(short academicYearID)

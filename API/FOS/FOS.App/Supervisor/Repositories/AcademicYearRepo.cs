@@ -11,6 +11,10 @@ namespace FOS.App.Supervisor.Repositories
         {
             this.context = context;
         }
+        /// <summary>
+        /// Method used to add new Academic year to DB
+        /// </summary>
+        /// <returns></returns>
         public bool StartNewYear()
         {
             AcademicYear currentAcademicYear = GetCurrentYear();
@@ -25,6 +29,10 @@ namespace FOS.App.Supervisor.Repositories
             context.AcademicYears.Add(newAcademicYear);
             return context.SaveChanges() > 0;
         }
+        /// <summary>
+        /// Method used to get current academic year details
+        /// </summary>
+        /// <returns></returns>
         public AcademicYear GetCurrentYear()
         {
             return context.AcademicYears

@@ -5,6 +5,10 @@ namespace FOS.App.Supervisor.Mappers
 {
     public static class StudentAcademicReportMapper
     {
+        /// <summary>
+        /// Extension method used to map from Student, AcademicYearDTO and programName
+        /// to StudentAcademicReportDTO model
+        /// </summary>
         public static StudentAcademicReportDTO ToDTO(this DB.Models.Student student, List<AcademicYearDTO> academicYears, string programName)
         {
             var config = new MapperConfiguration(c =>

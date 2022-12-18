@@ -30,6 +30,14 @@ namespace FOS.Supervisor.API.Controllers
             this.configuration = configuration;
             this.logger = logger;
         }
+        /// <summary>
+        /// Take object of LoginModel which have E-mail and password as data memebers
+        /// Hashing password then send it to supervisorRepo.Login and wait for the result
+        /// if supervisor is not null this means E-mail and password are correct and we will generate a new access token and send it the the client
+        /// if it's null this mean either E-mail or password or both are incorrect
+        /// </summary>
+        /// <param name="loginModel"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login([FromBody] LoginModel loginModel)
@@ -77,6 +85,12 @@ namespace FOS.Supervisor.API.Controllers
                 return Problem();
             }
         }
+        /// <summary>
+        /// Get informations of logged in supervisor by GUID
+        /// GUID if retrived from access token, which is sent from the client-side in the header
+        /// Retrives supervisor by GUID and map it to SupervisorDTO model
+        /// </summary>
+        /// <returns>Supervior details</returns>
         [HttpGet("GetSuperviorInfo")]
         [ProducesResponseType(200, Type = typeof(SupervisorDTO))]
         public IActionResult GetSuperviorInfo()

@@ -11,6 +11,11 @@ namespace FOS.App.Student.Repositories
         {
             this.context = context;
         }
+        /// <summary>
+        /// Method to get details of a certain program by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Program GetProgram(int id)
         {
             return context.Programs.Where(x => x.Id == id).FirstOrDefault();

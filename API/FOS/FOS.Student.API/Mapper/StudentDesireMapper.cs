@@ -6,6 +6,13 @@ namespace FOS.Student.API.Mapper
 {
     public static class StudentDesireMapper
     {
+        /// <summary>
+        /// This is an extension method for student which maps from DesireProgramsDTO model
+        /// to StudentDesire (which will be stored in the database)
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="desires"></param>
+        /// <returns></returns>
         public static List<StudentDesire> ToModel(this DB.Models.Student student, List<DesireProgramsDTO> desires)
         {
             var config = new MapperConfiguration(x => x.CreateMap<DesireProgramsDTO, StudentDesire>()

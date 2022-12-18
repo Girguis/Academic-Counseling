@@ -39,6 +39,9 @@ namespace FOS.App.ExtensionMethods
             return (IQueryable<T>)ret;
         }
     }
+    /// <summary>
+    /// Extension method used for ordering a list with any data member in asc or desc direction
+    /// </summary>
     internal static class OrderExtension
     {
         public static IQueryable<T> Order<T>(this IQueryable<T> source,

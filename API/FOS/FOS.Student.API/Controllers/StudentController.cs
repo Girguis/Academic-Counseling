@@ -94,6 +94,12 @@ namespace FOS.Student.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get GUID from access token and retrive student with that GUID
+        /// after getting the student, get all registered courses for the current semester
+        /// then map all these data to StudentDTO
+        /// </summary>
+        /// <returns>StudentDTO object which inculdes basic data and academic details for the current academic year</returns>
         [HttpGet("GetAcademicInfo")]
         [ProducesResponseType(200, Type = typeof(StudentDTO))]
         public IActionResult GetAcademicInfo()
@@ -109,7 +115,6 @@ namespace FOS.Student.API.Controllers
                     return NotFound(new { msg = "Student not found" });
 
                 List<StudentCourse> courses = studentCourses.GetCurrentAcademicYearCourses(student.Id);
-                academicYearRepo.GetCurrentYear();
                 var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear());
                 return Ok(new
                 {

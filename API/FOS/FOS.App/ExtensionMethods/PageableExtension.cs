@@ -1,5 +1,8 @@
 ﻿namespace FOS.App.ExtensionMethods
 {
+    /// <summary>
+    /// Extension method used for getting some records from a list by using page number and size
+    /// </summary>
     internal static class PageableExtension
     {
         public static IQueryable<T> Pageable<T>(this IQueryable<T> source,

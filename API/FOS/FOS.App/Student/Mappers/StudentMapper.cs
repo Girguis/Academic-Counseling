@@ -6,6 +6,10 @@ namespace FOS.App.Student.Mappers
 {
     public static class StudentMapper
     {
+        /// <summary>
+        /// Extension method used to map data from Student, StudentCourse and AcademicYear models (models from database)
+        /// to StudentDTO model
+        /// </summary>
         public static StudentDTO ToDTO(this DB.Models.Student student, List<StudentCourse> courses, AcademicYear academicYear)
         {
 

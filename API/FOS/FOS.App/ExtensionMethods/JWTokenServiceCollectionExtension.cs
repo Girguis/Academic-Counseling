@@ -7,6 +7,9 @@ using System.Text;
 
 namespace FOS.App.ExtensionMethods
 {
+    /// <summary>
+    /// This extension method is used to load JWT services which is used for authentication and authorization 
+    /// </summary>
     public static class JWTokenServiceCollectionExtension
     {
         public static WebApplicationBuilder LoadJwtServices(this WebApplicationBuilder builder)

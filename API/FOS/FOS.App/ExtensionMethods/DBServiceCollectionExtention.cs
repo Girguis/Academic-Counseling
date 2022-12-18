@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FOS.App.ExtensionMethods
 {
+    /// <summary>
+    /// Extension method that loads DB connection string and pass it to UseSqlServer to create DbContext instance
+    /// </summary>
     public static class DBServiceCollectionExtention
     {
         public static WebApplicationBuilder LoadDBServices(this WebApplicationBuilder builder)

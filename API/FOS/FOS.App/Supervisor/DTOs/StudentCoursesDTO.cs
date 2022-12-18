@@ -1,7 +1,11 @@
 ﻿namespace FOS.App.Supervisor.DTOs
 {
+    /// <summary>
+    /// Model which will be sent to the client
+    /// </summary>
     public class StudentCoursesDTO
     {
+        public int? AcademicYearID { get; set; }
         public string CourseCode { get; set; } = null!;
         public string CourseName { get; set; } = null!;
         public byte CreditHours { get; set; }

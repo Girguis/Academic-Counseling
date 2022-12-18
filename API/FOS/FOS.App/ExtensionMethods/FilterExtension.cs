@@ -5,6 +5,10 @@ using System.Reflection;
 
 namespace FOS.App.ExtensionMethods
 {
+    /// <summary>
+    /// This class is used to build lambda expression i.e (x=>x.fname = "some value")
+    /// which will be passed to .Where extension function which will return records that meets search values
+    /// </summary>
     internal static class FilterExtension
     {
         public static IQueryable<T> Search<T>(this IQueryable<T> source,

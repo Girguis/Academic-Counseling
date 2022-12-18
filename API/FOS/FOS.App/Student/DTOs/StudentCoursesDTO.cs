@@ -1,5 +1,8 @@
 ﻿namespace FOS.App.Student.DTOs
 {
+    /// <summary>
+    /// Model which will be sent to the client
+    /// </summary>
     public class StudentCoursesDTO
     {
         public string CourceName { get; set; }

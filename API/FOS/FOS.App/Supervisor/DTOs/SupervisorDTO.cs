@@ -1,5 +1,8 @@
 ﻿namespace FOS.App.Supervisor.DTOs
 {
+    /// <summary>
+    /// Model which will be sent to the client
+    /// </summary>
     public class SupervisorDTO
     {
         public string Guid { get; set; }

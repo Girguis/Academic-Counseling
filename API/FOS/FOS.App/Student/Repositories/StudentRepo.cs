@@ -12,16 +12,20 @@ namespace FOS.App.Student.Repositories
         {
             context = entity;
         }
-        private bool Save()
-        {
-            return context.SaveChanges() > 0;
-        }
-
+        /// <summary>
+        /// Method used to retrive student record from Student table by GUID
+        /// </summary>
+        /// <param name="GUID"></param>
+        /// <returns></returns>
         public DB.Models.Student Get(string GUID)
         {
             return context.Students.Include("Supervisor").FirstOrDefault(x => x.Guid == GUID);
         }
-
+        /// <summary>
+        /// Method used to get student current program
+        /// </summary>
+        /// <param name="GUID"></param>
+        /// <returns></returns>
         public Program GetCurrentProgram(string GUID)
         {
             return context.StudentPrograms
@@ -31,11 +35,13 @@ namespace FOS.App.Student.Repositories
                 .Select(x => x.Program)
                 .LastOrDefault();
         }
-        public bool Update(DB.Models.Student student)
-        {
-            context.Entry(student).State = EntityState.Modified;
-            return Save();
-        }
+        /// <summary>
+        /// Method used to get student with provided E-mail and password
+        /// returns null if E-mail or password are invalid
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="hashedPassword"></param>
+        /// <returns></returns>
         public DB.Models.Student Login(string email, string hashedPassword)
         {
             //var emailParam = new SqlParameter("@Email", email);

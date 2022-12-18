@@ -4,6 +4,10 @@ using FOS.DB.Models;
 
 namespace FOS.App.Student.Mappers
 {
+    /// <summary>
+    /// Extension method used to map from AcademicYear model (which is the table from the db)
+    /// to AcademicYearsDTO model
+    /// </summary>
     public static class AcademicYearsMapper
     {
         public static AcademicYearsDTO ToDTO(this AcademicYear academicYear, double? sGpa)

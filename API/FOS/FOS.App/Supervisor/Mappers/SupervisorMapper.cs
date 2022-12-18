@@ -5,6 +5,10 @@ namespace FOS.App.Supervisor.Mappers
 {
     public static class SupervisorMapper
     {
+        /// <summary>
+        /// Extension method used to map from Supervisor model
+        /// to SupervisorDTO model
+        /// </summary>
         public static SupervisorDTO ToDTO(this DB.Models.Supervisor supervior)
         {
             var config =

@@ -1,8 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System.Reflection;
 
 namespace FOS.App.Configs
 {
+    /// <summary>
+    /// Instead of hard coding filters in source code
+    /// it wil be stored in FilterConfiguration.json 
+    /// which include a list of operators with it's coresponding function in C# i.e
+    /// "operator": ">",
+    /// "method": "GreaterThan"
+    /// </summary>
     internal class FilterConfiguratioReader
     {
         private static List<FilterOperator> Filters { get; set; }
@@ -11,7 +17,7 @@ namespace FOS.App.Configs
             if (Filters != null && Filters.Count > 0)
                 return Filters;
 
-            var path =Directory.GetFiles(AppContext.BaseDirectory, "FilterConfiguration.json", SearchOption.AllDirectories).FirstOrDefault();
+            var path = Directory.GetFiles(AppContext.BaseDirectory, "FilterConfiguration.json", SearchOption.AllDirectories).FirstOrDefault();
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
                 return new List<FilterOperator>();
 

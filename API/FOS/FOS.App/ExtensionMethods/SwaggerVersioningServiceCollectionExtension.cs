@@ -4,6 +4,9 @@ using Microsoft.OpenApi.Models;
 
 namespace FOS.App.ExtensionMethods
 {
+    /// <summary>
+    /// Extension method used for versioning and giving other details to swagger 
+    /// </summary>
     public static class SwaggerVersioningServiceCollectionExtension
     {
         public static IServiceCollection LoadSwaggerVersioningServices(this IServiceCollection services, string version, string title, int majorVersion, int minorVersion)

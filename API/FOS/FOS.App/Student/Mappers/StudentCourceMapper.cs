@@ -6,6 +6,10 @@ namespace FOS.App.Student.Mappers
 {
     public static class StudentCourceMapper
     {
+        /// <summary>
+        /// Extension method used to map course model (model from database)
+        /// to StudentCoursesDTO model
+        /// </summary>
         public static StudentCoursesDTO ToDTO(this StudentCourse course)
         {
             var config = new MapperConfiguration(c =>

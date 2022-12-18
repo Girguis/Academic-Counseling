@@ -8,6 +8,9 @@ using StudentRepo = FOS.App.Student.Repositories.StudentRepo;
 
 namespace FOS.App.ExtensionMethods
 {
+    /// <summary>
+    /// Extension method that includes all dependency injection used in Student project
+    /// </summary>
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection LoadStudentServices(this IServiceCollection services)
