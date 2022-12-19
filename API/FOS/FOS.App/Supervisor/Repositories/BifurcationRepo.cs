@@ -28,8 +28,9 @@ namespace FOS.App.Supervisor.Repositories
             var programs = studentsDesireslst.Select(x => x.Program).Distinct();
             //Create Dictionary to calculate number of student per program
             IDictionary<int, int> studentsCountPerProgram = new Dictionary<int, int>();
-            foreach (var program in programs)
+            for (var i = 0; i < programs.Count(); i++)
             {
+                var program = programs.ElementAt(i);
                 //Get totalcount of student in program i.e.(Math)
                 var stdsCount = studentsDesireslst.Where(x => x.ProgramId == program.Id).Count();
                 int perctange;
@@ -46,13 +47,15 @@ namespace FOS.App.Supervisor.Repositories
             }
             var students = studentsDesireslst.GroupBy(x => x.StudentId);
             var currentAcademicYear = academicYearRepo.GetCurrentYear();
-            List<StudentProgram> studentProgram = new List<StudentProgram>();
+            List<StudentProgram> studentProgram = new();
             //Loop through students
-            foreach (var student in students)
+            for (int i = 0; i < students.Count(); i++)
             {
+                var desires = students.ElementAt(i);
                 //Loop through student desires
-                foreach (var desire in student)
+                for (int j = 0; j < desires.Count(); j++)
                 {
+                    var desire = desires.ElementAt(j);
                     //Check if program has avaiable seats
                     //If yes then add student to the program
                     studentsCountPerProgram.TryGetValue(desire.ProgramId.Value, out int availablePlaces);
