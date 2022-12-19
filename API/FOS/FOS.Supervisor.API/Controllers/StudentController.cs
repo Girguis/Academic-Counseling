@@ -17,7 +17,7 @@ namespace FOS.Supervisor.API.Controllers
         private readonly IStudentRepo studentRepo;
         private readonly ILogger<StudentController> logger;
 
-        public StudentController(IStudentRepo studentRepo,ILogger<StudentController> logger)
+        public StudentController(IStudentRepo studentRepo, ILogger<StudentController> logger)
         {
             this.studentRepo = studentRepo;
             this.logger = logger;

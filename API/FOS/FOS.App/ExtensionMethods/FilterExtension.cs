@@ -72,8 +72,9 @@ namespace FOS.App.ExtensionMethods
                 propType = propType.GetGenericArguments()[0];
             //convert received search value to it's actual type
             var changedValue = Convert.ChangeType(filter.Value?.ToString(), propType);
-            //create expression i.e.(x=>x.Fname)
+            //create expression i.e.(x.Fname)
             MemberExpression member = Expression.Property(param, filter.Key);
+            //Get searched value it's self i.e. ("Test")
             ConstantExpression constant = Expression.Constant(changedValue);
             //create constant expression i.e.(convert( value,datatype) )
             var convertedExpression = Expression.Convert(constant, prop.PropertyType);
