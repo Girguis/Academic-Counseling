@@ -14,7 +14,7 @@ namespace FOS.DB.Models
         public byte SectionHours { get; set; }
         public bool IsActive { get; set; }
         public byte PrerequisiteRelation { get; set; }
-        public byte? Level { get; set; }
-        public byte? Semester { get; set; }
+        public byte Level { get; set; }
+        public byte Semester { get; set; }
     }
 }

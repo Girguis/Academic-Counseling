@@ -17,16 +17,19 @@ namespace FOS.Student.API.Controllers
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IStudentRepo studentRepo;
+        private readonly IOptionalCourseRepo optionalCourseRepo;
         private readonly ILogger logger;
 
         public StudentCoursesController(IAcademicYearRepo academicYearRepo,
                                         IStudentCoursesRepo studentCoursesRepo,
                                         IStudentRepo studentRepo,
+                                        IOptionalCourseRepo optionalCourseRepo,
                                         ILogger<StudentCoursesController> logger)
         {
             this.academicYearRepo = academicYearRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.studentRepo = studentRepo;
+            this.optionalCourseRepo = optionalCourseRepo;
             this.logger = logger;
         }
         /// <summary>

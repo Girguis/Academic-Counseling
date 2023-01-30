@@ -99,11 +99,11 @@ namespace FOS.Supervisor.API.Controllers
             {
                 string? guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { msg = "Id not found" });
+                    return BadRequest(new { Massage = "Id not found" });
 
                 DB.Models.Supervisor supervisor = supervisorRepo.Get(guid);
                 if (supervisor == null)
-                    return NotFound(new { msg = "Supervisor not found" });
+                    return NotFound(new { Massage = "Supervisor not found" });
 
                 SupervisorDTO supervisorDTO = supervisor.ToDTO();
                 return Ok(supervisorDTO);

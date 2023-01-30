@@ -13,7 +13,9 @@ namespace FOS.App.Student.Mappers
         public static StudentDTO ToDTO(this DB.Models.Student student, List<StudentCourse> courses, AcademicYear academicYear)
         {
 
-            var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Student, StudentDTO>());
+            var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Student, StudentDTO>()
+            .ForMember(x => x.SupervisorName, o => o.MapFrom(z =>
+            string.Concat(z.Supervisor.Fname, " ", z.Supervisor.Mname, " ", z.Supervisor.Lname))));
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentDTO>(student);
             studentDto.Courses = courses.Select(c => c.ToDTO()).Where(c => c != null)?.ToList();

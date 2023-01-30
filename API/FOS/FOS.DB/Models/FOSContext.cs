@@ -14,7 +14,7 @@ namespace FOS.DB.Models
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
+        public FOSContext(DbContextOptions<FOSContext> options, IConfiguration configuration)
             : base(options)
         {
             this.configuration = configuration;
@@ -25,6 +25,7 @@ namespace FOS.DB.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CoursePrerequisite> CoursePrerequisites { get; set; } = null!;
         public virtual DbSet<Date> Dates { get; set; } = null!;
+        public virtual DbSet<OptionalCourse> OptionalCourses { get; set; } = null!;
         public virtual DbSet<Program> Programs { get; set; } = null!;
         public virtual DbSet<ProgramCourse> ProgramCourses { get; set; } = null!;
         public virtual DbSet<ProgramDistribution> ProgramDistributions { get; set; } = null!;
@@ -41,8 +42,8 @@ namespace FOS.DB.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(configuration["DbConfig:FosDB"]);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer(configuration["FOS:DB"]);
             }
         }
 
@@ -103,6 +104,21 @@ namespace FOS.DB.Models
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
             });
 
+            modelBuilder.Entity<OptionalCourse>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("OptionalCourse");
+
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.HasOne(d => d.Program)
+                    .WithMany()
+                    .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_OptionalCourse_Program");
+            });
+
             modelBuilder.Entity<Program>(entity =>
             {
                 entity.ToTable("Program");
@@ -123,11 +139,13 @@ namespace FOS.DB.Models
                 entity.HasOne(d => d.Course)
                     .WithMany()
                     .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProgramCourses_Course");
 
                 entity.HasOne(d => d.Program)
                     .WithMany()
                     .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProgramCourses_Program");
             });
 
@@ -158,6 +176,7 @@ namespace FOS.DB.Models
                 entity.HasOne(d => d.SubProgramNavigation)
                     .WithMany()
                     .HasForeignKey(d => d.SubProgram)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProgramRelations_Program1");
             });
 
@@ -279,11 +298,13 @@ namespace FOS.DB.Models
                 entity.HasOne(d => d.Program)
                     .WithMany()
                     .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StudentDesires_Program");
 
                 entity.HasOne(d => d.Student)
                     .WithMany()
                     .HasForeignKey(d => d.StudentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StudentDesires_Student");
             });
 
@@ -385,6 +406,7 @@ namespace FOS.DB.Models
                 entity.HasOne(d => d.Course)
                     .WithMany()
                     .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TeacherCourses_Course");
 
                 entity.HasOne(d => d.Supervisor)

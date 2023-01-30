@@ -58,7 +58,7 @@ namespace FOS.App.Supervisor.Repositories
                     var desire = desires.ElementAt(j);
                     //Check if program has avaiable seats
                     //If yes then add student to the program
-                    studentsCountPerProgram.TryGetValue(desire.ProgramId.Value, out int availablePlaces);
+                    studentsCountPerProgram.TryGetValue(desire.ProgramId, out int availablePlaces);
                     if (availablePlaces > 0)
                     {
                         studentProgram.Add(new StudentProgram
@@ -66,10 +66,10 @@ namespace FOS.App.Supervisor.Repositories
                             Student = desire.Student,
                             Program = desire.Program,
                             AcademicYear = currentAcademicYear.Id,
-                            ProgramId = desire.ProgramId.Value,
-                            StudentId = desire.StudentId.Value,
+                            ProgramId = desire.ProgramId,
+                            StudentId = desire.StudentId,
                         });
-                        studentsCountPerProgram[desire.ProgramId.Value] = availablePlaces - 1;
+                        studentsCountPerProgram[desire.ProgramId] = availablePlaces - 1;
                         break;
                     }
                 }

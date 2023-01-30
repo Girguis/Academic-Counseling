@@ -10,6 +10,7 @@ namespace FOS.App.Student.DTOs
         public string Fname { get; set; } = null!;
         public string Mname { get; set; } = null!;
         public string Lname { get; set; } = null!;
+        public string SupervisorName { get; set; } = null!;
         public string Ssn { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public DateTime BirthDate { get; set; }

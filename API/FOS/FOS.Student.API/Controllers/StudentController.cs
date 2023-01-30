@@ -21,7 +21,7 @@ namespace FOS.Student.API.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepo studentRepo;
-        private readonly IStudentCoursesRepo studentCourses;
+        private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly ILogger logger;
         private readonly IConfiguration _configuration;
@@ -33,7 +33,7 @@ namespace FOS.Student.API.Controllers
         {
             this.studentRepo = studentRepo;
             _configuration = configuration;
-            studentCourses = studentCoursesRepo;
+            this.studentCoursesRepo = studentCoursesRepo;
             this.academicYearRepo = academicYearRepo;
             this.logger = logger;
         }
@@ -108,13 +108,13 @@ namespace FOS.Student.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { msg = "Id not found" });
+                    return BadRequest(new { Massage = "Id not found" });
 
                 DB.Models.Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return NotFound(new { msg = "Student not found" });
+                    return NotFound(new { Massage = "Student not found" });
 
-                List<StudentCourse> courses = studentCourses.GetCurrentAcademicYearCourses(student.Id);
+                List<StudentCourse> courses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id);
                 var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear());
                 return Ok(new
                 {

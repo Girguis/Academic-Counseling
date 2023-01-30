@@ -99,7 +99,7 @@ namespace FOS.Supervisor.API.Controllers
             {
                 DB.Models.Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return NotFound(new { msg = "Student not found" });
+                    return NotFound(new { Massage = "Student not found" });
                 var studentCourses = studentRepo.GetAcademicDetails(guid);
                 var studentPrograms = studentRepo.GetPrograms(guid);
                 var academicYears = studentCourses.Select(x => x.AcademicYear).Distinct().OrderBy(x => x.Id).ToList();

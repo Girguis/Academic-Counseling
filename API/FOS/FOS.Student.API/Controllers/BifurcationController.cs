@@ -1,5 +1,6 @@
 ﻿using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
+using FOS.App.Student.Repositories;
 using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
 using FOS.Student.API.Extensions;
@@ -18,16 +19,19 @@ namespace FOS.Student.API.Controllers
         private readonly IBifurcationRepo bifurcationRepo;
         private readonly IStudentRepo studentRepo;
         private readonly ILogger<BifurcationController> logger;
+        private readonly IDateRepo dateRepo;
 
         public BifurcationController(
             IBifurcationRepo bifurcationRepo,
             IStudentRepo studentRepo,
-            ILogger<BifurcationController> logger
+            ILogger<BifurcationController> logger,
+            IDateRepo dateRepo
             )
         {
             this.bifurcationRepo = bifurcationRepo;
             this.studentRepo = studentRepo;
             this.logger = logger;
+            this.dateRepo = dateRepo;
         }
 
         /// <summary>
@@ -36,23 +40,45 @@ namespace FOS.Student.API.Controllers
         /// </summary>
         /// <returns>list of programs</returns>
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(List<DesireProgramsDTO>))]
+        [ProducesResponseType(200, Type = typeof(Response))]
         public IActionResult GetDesires()
         {
             try
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { msg = "Id not found" });
-                if (!bifurcationRepo.IsBifurcationAvailable() || studentRepo.Get(guid).IsInSpecialProgram)
-                    return BadRequest(new { msg = "Bifuraction is not availble" });
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "ID not found"
+                    });
+                if (!dateRepo.IsInRegisrationInterval(0))
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "Bifuraction is not available"
+                    });
+                if (studentRepo.Get(guid).IsInSpecialProgram)
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "There's no more bifuraction for you"
+                    });
                 var desires = bifurcationRepo.GetDesires(guid);
                 List<DesireProgramsDTO> desiresLst;
                 if (desires == null || desires.Count < 1)
                     desiresLst = bifurcationRepo.GetAvailableProgram(guid).ToDTO();
                 else
                     desiresLst = desires.ToDTO();
-                return Ok(desiresLst);
+                return Ok(new Response
+                {
+                    isBifurcationAvailable = true,
+                    Data = desiresLst,
+                    Massage = ""
+                });
             }
             catch (Exception ex)
             {
@@ -68,27 +94,61 @@ namespace FOS.Student.API.Controllers
         /// <param name="desiresList"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult AddDesires(List<DesireProgramsDTO> desiresList)
+        public IActionResult AddDesires(List<byte> desiresList)
         {
             try
             {
                 string guid = this.Guid();
                 //Some validations when receiving request
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { msg = "Id not found" });
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "ID not found"
+                    });
                 if (desiresList.Count < 1 || desiresList == null)
-                    return BadRequest(new { msg = "List is empty" });
-                if (!bifurcationRepo.IsBifurcationAvailable() || studentRepo.Get(guid).IsInSpecialProgram)
-                    return BadRequest(new { msg = "Bifuraction is not availble now" });
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "Desires list are empty"
+                    });
+                if (!dateRepo.IsInRegisrationInterval(0))
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "Bifuraction is not availble"
+                    });
+                if (studentRepo.Get(guid).IsInSpecialProgram)
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = false,
+                        Data = null,
+                        Massage = "There's no more bifuraction for you"
+                    });
                 //Get student record from DB
                 DB.Models.Student student = studentRepo.Get(guid);
-                if (student == null) return BadRequest(new { msg = "Student not found" });
-                //Mapping student desires so it can be added in the DB
-                List<StudentDesire> mappedDesires = student.ToModel(desiresList);
+                if (student == null) return BadRequest(new Response
+                {
+                    isBifurcationAvailable = true,
+                    Data = null,
+                    Massage = "Student not found"
+                });
                 //checks if error occured while add/updating student desires
-                if (!bifurcationRepo.AddDesires(mappedDesires))
-                    return BadRequest(new { msg = "Error occured while adding desires" });
-                return Ok();
+                if (!bifurcationRepo.AddDesires(student.Id,desiresList))
+                    return BadRequest(new Response
+                    {
+                        isBifurcationAvailable = true,
+                        Data = desiresList,
+                        Massage = "Error occured while adding desires"
+                    });
+                return Ok(new Response
+                {
+                    isBifurcationAvailable = true,
+                    Massage = "Done"
+                });
             }
             catch (Exception ex)
             {
@@ -96,5 +156,11 @@ namespace FOS.Student.API.Controllers
                 return Problem();
             }
         }
+    }
+    class Response
+    {
+        public bool isBifurcationAvailable { get; set; }
+        public string Massage { get; set; }
+        public Object Data { get; set; }
     }
 }

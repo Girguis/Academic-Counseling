@@ -23,17 +23,15 @@ namespace FOS.App.Student.Repositories
         /// </summary>
         /// <param name="desires"></param>
         /// <returns></returns>
-        public bool AddDesires(List<StudentDesire> desires)
+        public bool AddDesires(int studentID,List<byte> desires)
         {
-            var studnetId = desires.Select(x => x.StudentId).FirstOrDefault();
-
-            var studentIdParam = new SqlParameter("@StudentID", studnetId);
+            var studentIdParam = new SqlParameter("@StudentID", studentID);
             var dt = new DataTable();
             dt.Columns.Add("ProgramID");
             dt.Columns.Add("DesireNumber");
             for (var i = 0; i < desires.Count; i++)
             {
-                dt.Rows.Add(desires[i].ProgramId, desires[i].DesireNumber);
+                dt.Rows.Add(desires[i], (i + 1));
             }
             var desiresParam = new SqlParameter("@Desires", dt);
             desiresParam.SqlDbType = SqlDbType.Structured;
@@ -85,16 +83,6 @@ namespace FOS.App.Student.Repositories
             if (desires.Count() < 1)
                 return null;
             return desires.ToList();
-        }
-        /// <summary>
-        /// Method used to check if current time is in bifurcation interval or not
-        /// </summary>
-        /// <returns></returns>
-        public bool IsBifurcationAvailable()
-        {
-            Date date = context.Dates.Where(x => x.DateFor == 0).FirstOrDefault();
-            DateTime currentDate = DateTime.UtcNow.AddHours(2);
-            return currentDate >= date.StartDate && currentDate <= date.EndDate;
         }
     }
 }
