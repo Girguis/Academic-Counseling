@@ -2,7 +2,7 @@
 using FOS.App.Doctor.DTOs;
 using FOS.DB.Models;
 
-namespace FOS.App.Supervisor.Mappers
+namespace FOS.App.Doctor.Mappers
 {
     public static class StudentAcademicMapper
     {

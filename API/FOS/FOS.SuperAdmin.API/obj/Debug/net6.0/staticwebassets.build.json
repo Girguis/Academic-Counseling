@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "WC0bULb6TcweIa/VzRc5X0Lgh1J5K4c+GAcIvCvJE9I=",
+  "Source": "FOS.Doctor.API",
+  "BasePath": "_content/FOS.Doctor.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

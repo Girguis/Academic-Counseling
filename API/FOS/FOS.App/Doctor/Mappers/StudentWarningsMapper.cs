@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FOS.App.Doctor.DTOs;
 
-namespace FOS.App.Supervisor.Mappers
+namespace FOS.App.Doctor.Mappers
 {
     public static class StudentWarningsMapper
     {

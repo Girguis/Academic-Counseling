@@ -1,0 +1,40 @@
+{
+  "filters": [
+    {
+      "operator": ">",
+      "method": "GreaterThan"
+    },
+    {
+      "operator": ">=",
+      "method": "GreaterThanOrEqual"
+    },
+    {
+      "operator": "<",
+      "method": "LessThan"
+    },
+    {
+      "operator": "<=",
+      "method": "LessThanOrEqual"
+    },
+    {
+      "operator": "contains",
+      "method": "Contains"
+    },
+    {
+      "operator": "startsWith",
+      "method": "StartsWith"
+    },
+    {
+      "operator": "endsWith",
+      "method": "EndsWith"
+    },
+    {
+      "operator": "=",
+      "method": "Equal"
+    },
+    {
+      "operator": "equals",
+      "method": "Equals"
+    }
+  ]
+}
