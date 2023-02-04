@@ -18,6 +18,7 @@ namespace FOS.App.Student.Mappers
             string.Concat(z.Supervisor.Fname, " ", z.Supervisor.Mname, " ", z.Supervisor.Lname))));
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentDTO>(student);
+            studentDto.Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank;
             studentDto.Courses = courses.Select(c => c.ToDTO()).Where(c => c != null)?.ToList();
             studentDto.academicYear = academicYear.AcademicYear1;
             studentDto.semester = academicYear.Semester;

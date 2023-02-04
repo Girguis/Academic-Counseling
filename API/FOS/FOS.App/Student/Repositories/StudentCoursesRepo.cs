@@ -2,6 +2,7 @@
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Student.Repositories
@@ -10,11 +11,13 @@ namespace FOS.App.Student.Repositories
     {
         private readonly FOSContext context;
         private readonly IAcademicYearRepo academicYearRepo;
+        private readonly IConfiguration configuration;
 
-        public StudentCoursesRepo(FOSContext context, IAcademicYearRepo academicYearRepo)
+        public StudentCoursesRepo(FOSContext context, IAcademicYearRepo academicYearRepo, IConfiguration configuration)
         {
             this.context = context;
             this.academicYearRepo = academicYearRepo;
+            this.configuration = configuration;
         }
         /// <summary>
         /// Method to get all courses for a certain student
@@ -33,7 +36,7 @@ namespace FOS.App.Student.Repositories
         /// <returns></returns>
         public List<StudentCourse> GetCurrentAcademicYearCourses(int studentID)
         {
-             return GetCoursesByAcademicYear(studentID, academicYearRepo.GetCurrentYear().Id).ToList();
+            return GetCoursesByAcademicYear(studentID, academicYearRepo.GetCurrentYear().Id).ToList();
         }
         /// <summary>
         /// Method to get all courses for a certain student in any academic year
@@ -64,18 +67,41 @@ namespace FOS.App.Student.Repositories
                 res.ElementAt(i).Course = res2.ElementAt(i);
             return res;
         }
-        public bool RegisterCourses(int studentID,short academicYearID ,List<int> courseIDs)
+        public bool RegisterCourses(int studentID, short academicYearID, List<int> courseIDs)
         {
+            var connectionString = configuration["ConnectionStrings:FosDB"];
+            var insertStatement = "INSERT INTO StudentCourses(StudentID, CourseID,AcademicYearID,IsApproved,IsGPAIncluded,IsIncluded) VALUES ({0},{1},{2},{3},{4},{5});";
+            string query = "";
+            for (int i = 0; i < courseIDs.Count; i++)
+            {
+                query += string.Format(insertStatement, studentID, courseIDs.ElementAt(i), academicYearID, 1, 1, 1);
+            }
+            var queryParam = new SqlParameter("@Query", query);
             var studentIdParam = new SqlParameter("@StudentID", studentID);
-            var dt = new DataTable();
-            dt.Columns.Add("CourseID");
-            for (var i = 0; i < courseIDs.Count; i++)
-                dt.Rows.Add(courseIDs[i]);
-            var CourseIDsParam = new SqlParameter("@CourseIDs", dt);
-            CourseIDsParam.SqlDbType = SqlDbType.Structured;
-            CourseIDsParam.TypeName = "[dbo].[StudentRegistrationCoursesType]";
             var academicYearParam = new SqlParameter("@CurrentAcademicYearID", academicYearID);
-            return context.Database.ExecuteSqlRaw("EXEC [dbo].[RegisterCoursesForStudent] @StudentID, @CourseIDs, @CurrentAcademicYearID", studentIdParam, CourseIDsParam, academicYearParam) > 0;
+            int res = 0;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("[dbo].[RegisterCoursesForStudent]", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(queryParam);
+                cmd.Parameters.Add(studentIdParam);
+                cmd.Parameters.Add(academicYearParam);
+                SqlTransaction trans1 = con.BeginTransaction();
+                cmd.Transaction = trans1;
+                try
+                {
+                   res = cmd.ExecuteNonQuery();
+                    trans1.Commit();
+                }
+                catch
+                {
+                    trans1.Rollback();
+                }
+                con.Close();
+            }
+            return res > 0;
         }
     }
 }

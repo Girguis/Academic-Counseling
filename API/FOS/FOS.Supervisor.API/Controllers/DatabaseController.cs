@@ -1,11 +1,11 @@
-﻿using FOS.Core.IRepositories.Supervisor;
+﻿using FOS.Core.IRepositories.Doctor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Net;
 using System.Net.Http.Headers;
 
-namespace FOS.Supervisor.API.Controllers
+namespace FOS.Doctor.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,5 +1,5 @@
 ﻿using FOS.App.Supervisor.Repositories;
-using FOS.Core.IRepositories.Supervisor;
+using FOS.Core.IRepositories.Doctor;
 using FOS.DB.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

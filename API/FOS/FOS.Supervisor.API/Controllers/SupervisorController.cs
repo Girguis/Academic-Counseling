@@ -1,8 +1,8 @@
-﻿using FOS.App.Supervisor.DTOs;
+﻿using FOS.App.Doctor.DTOs;
 using FOS.App.Supervisor.Mappers;
-using FOS.Core.IRepositories.Supervisor;
-using FOS.Supervisor.API.Extenstions;
-using FOS.Supervisor.API.Models;
+using FOS.Core.IRepositories.Doctor;
+using FOS.Doctor.API.Extenstions;
+using FOS.Doctor.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -10,12 +10,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-namespace FOS.Supervisor.API.Controllers
+namespace FOS.Doctor.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class SupervisorController : ControllerBase
     {
         private readonly ISupervisorRepo supervisorRepo;
@@ -60,7 +60,8 @@ namespace FOS.Supervisor.API.Controllers
                     {
                         Subject = new ClaimsIdentity(new[]
                         {
-                        new Claim("Guid", supervisor.Guid),
+                            new Claim("Guid", supervisor.Guid),
+                            new Claim(ClaimTypes.Role,"Admin")
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,

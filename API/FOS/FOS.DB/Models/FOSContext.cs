@@ -14,7 +14,7 @@ namespace FOS.DB.Models
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options, IConfiguration configuration)
+        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
             : base(options)
         {
             this.configuration = configuration;
@@ -25,7 +25,7 @@ namespace FOS.DB.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CoursePrerequisite> CoursePrerequisites { get; set; } = null!;
         public virtual DbSet<Date> Dates { get; set; } = null!;
-        public virtual DbSet<OptionalCourse> OptionalCourses { get; set; } = null!;
+        public virtual DbSet<ElectiveCourseDistribution> ElectiveCourseDistributions { get; set; } = null!;
         public virtual DbSet<Program> Programs { get; set; } = null!;
         public virtual DbSet<ProgramCourse> ProgramCourses { get; set; } = null!;
         public virtual DbSet<ProgramDistribution> ProgramDistributions { get; set; } = null!;
@@ -104,11 +104,11 @@ namespace FOS.DB.Models
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<OptionalCourse>(entity =>
+            modelBuilder.Entity<ElectiveCourseDistribution>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToTable("OptionalCourse");
+                entity.ToTable("ElectiveCourseDistribution");
 
                 entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
 
@@ -192,6 +192,8 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
+                entity.Property(e => e.CalculatedRank).HasComputedColumnSql("([dbo].[RankStudent]([ID]))", false);
+
                 entity.Property(e => e.Cgpa)
                     .HasColumnType("decimal(5, 4)")
                     .HasColumnName("CGPA")
@@ -212,7 +214,9 @@ namespace FOS.DB.Models
                     .IsUnicode(false)
                     .HasColumnName("GUID");
 
-                entity.Property(e => e.IsGraduated).HasComputedColumnSql("([dbo].[IsGraduatedStudent]([ID]))", false);
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Level).HasComputedColumnSql("([dbo].[CalculateStudentLevel]([ID]))", false);
 
@@ -350,14 +354,6 @@ namespace FOS.DB.Models
                 entity.Property(e => e.Lname).HasColumnName("LName");
 
                 entity.Property(e => e.Mname).HasColumnName("MName");
-
-                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
-
-                entity.HasOne(d => d.Program)
-                    .WithMany(p => p.SuperAdmins)
-                    .HasForeignKey(d => d.ProgramId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SuperAdmin_Program");
             });
 
             modelBuilder.Entity<Supervisor>(entity =>

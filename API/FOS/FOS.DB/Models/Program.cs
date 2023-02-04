@@ -7,7 +7,6 @@ namespace FOS.DB.Models
     {
         public Program()
         {
-            SuperAdmins = new HashSet<SuperAdmin>();
             Supervisors = new HashSet<Supervisor>();
         }
 
@@ -21,7 +20,6 @@ namespace FOS.DB.Models
         public string EnglishName { get; set; } = null!;
         public string ArabicName { get; set; } = null!;
 
-        public virtual ICollection<SuperAdmin> SuperAdmins { get; set; }
         public virtual ICollection<Supervisor> Supervisors { get; set; }
     }
 }

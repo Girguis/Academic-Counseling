@@ -1,6 +1,6 @@
 ﻿namespace FOS.App.Student.DTOs
 {
-    public class OptionalCourseDTO
+    public class ElectiveCourseDTO
     {
         public byte Level { get; set; }
         public byte Semester { get; set; }

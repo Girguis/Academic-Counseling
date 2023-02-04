@@ -22,7 +22,6 @@ namespace FOS.DB.Models
         public string? SeatNumber { get; set; }
         public byte AvailableCredits { get; set; }
         public byte? WarningsNumber { get; set; }
-        public short? Rank { get; set; }
         public bool IsInSpecialProgram { get; set; }
         public int SupervisorId { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -32,6 +31,9 @@ namespace FOS.DB.Models
         public byte? PassedHours { get; set; }
         public byte? Level { get; set; }
         public bool? IsGraduated { get; set; }
+        public short? Rank { get; set; }
+        public short? CalculatedRank { get; set; }
+        public bool? IsActive { get; set; }
 
         public virtual Supervisor Supervisor { get; set; } = null!;
     }

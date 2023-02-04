@@ -1,6 +1,5 @@
 ﻿using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
-using FOS.App.Student.Repositories;
 using FOS.Core.IRepositories.Student;
 using FOS.DB.Models;
 using FOS.Student.API.Extensions;
@@ -18,16 +17,18 @@ namespace FOS.Student.API.Controllers
         private readonly ILogger<CourseRegistrationController> logger;
         private readonly IStudentRepo studentRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
-        private readonly IOptionalCourseRepo optionalCourseRepo;
+        private readonly IElectiveCourseDistributionRepo optionalCourseRepo;
         private readonly IDateRepo dateRepo;
         private readonly IAcademicYearRepo academicYearRepo;
+        private readonly IProgramDistributionRepo programDistributionRepo;
 
         public CourseRegistrationController(ILogger<CourseRegistrationController> logger,
             IStudentRepo studentRepo,
             IStudentCoursesRepo studentCoursesRepo,
-            IOptionalCourseRepo optionalCourseRepo,
+            IElectiveCourseDistributionRepo optionalCourseRepo,
             IDateRepo dateRepo,
-            IAcademicYearRepo academicYearRepo)
+            IAcademicYearRepo academicYearRepo,
+            IProgramDistributionRepo programDistributionRepo)
         {
             this.logger = logger;
             this.studentRepo = studentRepo;
@@ -35,6 +36,7 @@ namespace FOS.Student.API.Controllers
             this.optionalCourseRepo = optionalCourseRepo;
             this.dateRepo = dateRepo;
             this.academicYearRepo = academicYearRepo;
+            this.programDistributionRepo = programDistributionRepo;
         }
 
         [HttpGet("GetCoursesForRegistration")]
@@ -79,14 +81,26 @@ namespace FOS.Student.API.Controllers
                 }
                 List<byte> levels = coursesDTOs.Select(x => x.Level).Distinct().ToList();
                 List<byte> semesters = coursesDTOs.Select(x => x.Semester).Distinct().ToList();
-                List<OptionalCourse> optionalCoursesDistribution = optionalCourseRepo
-                                                    .GetOptionalCoursesDistibution
-                                                    (studentRepo.GetCurrentProgram(guid).Id)
+                int studentProgramID = studentRepo.GetCurrentProgram(guid).Id;
+                List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
+                                                    .GetOptionalCoursesDistibution(studentProgramID)
                                                     .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
                                                     .ToList();
-                List<OptionalCourseDTO> optionalCoursesDTO = new();
+                List<ElectiveCourseDTO> optionalCoursesDTO = new();
                 for (int i = 0; i < optionalCoursesDistribution.Count; i++)
                     optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
+
+                var allowedHoursToRegister = 0;
+                int currentSemester = academicYearRepo.GetCurrentYear().Semester;
+                if (currentSemester == 3)
+                    allowedHoursToRegister = 6;
+                else
+                {
+                    if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
+                        allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(studentProgramID, student.Level.Value, student.PassedHours.Value, currentSemester);
+                    else
+                        allowedHoursToRegister = 12;
+                }
 
                 return Ok(new Response
                 {
@@ -96,7 +110,7 @@ namespace FOS.Student.API.Controllers
                     {
                         Courses = coursesDTOs,
                         Distribution = optionalCoursesDTO,
-                        AllowedHours = 19
+                        AllowedHours = allowedHoursToRegister
                     }
                 });
             }
@@ -108,29 +122,36 @@ namespace FOS.Student.API.Controllers
         }
 
         [HttpPost("RegisterCourses")]
-        public IActionResult RegisterCourses(List<int> courseIDs)
+        public IActionResult RegisterCourses(HashSet<int> courseIDs)
         {
             try
             {
                 string guid = this.Guid();
+                var regDate = dateRepo.IsInRegisrationInterval(1);
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new Response
                     {
-                        isRegistrationAvailable = false,
+                        isRegistrationAvailable = regDate,
                         Data = null,
                         Massage = "ID not found"
                     });
-
+                if (courseIDs == null || courseIDs.Count == 0)
+                    return BadRequest(new Response
+                    {
+                        isRegistrationAvailable = regDate,
+                        Data = null,
+                        Massage = "List is empty"
+                    });
                 DB.Models.Student student = studentRepo.Get(guid);
                 if (student == null)
                     return BadRequest(new Response
                     {
-                        isRegistrationAvailable = false,
+                        isRegistrationAvailable = regDate,
                         Data = null,
                         Massage = "Student not found"
                     });
 
-                if (!dateRepo.IsInRegisrationInterval(1))
+                if (!regDate)
                     return BadRequest(new Response
                     {
                         isRegistrationAvailable = false,
@@ -138,7 +159,7 @@ namespace FOS.Student.API.Controllers
                         Massage = "Course registration is not available"
                     });
                 short academicYearID = academicYearRepo.GetCurrentYear().Id;
-                if (!studentCoursesRepo.RegisterCourses(student.Id, academicYearID, courseIDs))
+                if (!studentCoursesRepo.RegisterCourses(student.Id, academicYearID, courseIDs.ToList()))
                     return BadRequest(new Response
                     {
                         isRegistrationAvailable = true,

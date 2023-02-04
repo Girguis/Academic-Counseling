@@ -1,8 +1,8 @@
-﻿using FOS.Core.IRepositories.Supervisor;
+﻿using FOS.Core.IRepositories.Doctor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Supervisor.API.Controllers
+namespace FOS.Doctor.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

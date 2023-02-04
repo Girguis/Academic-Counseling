@@ -12,8 +12,5 @@ namespace FOS.DB.Models
         public string Lname { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public int ProgramId { get; set; }
-
-        public virtual Program Program { get; set; } = null!;
     }
 }

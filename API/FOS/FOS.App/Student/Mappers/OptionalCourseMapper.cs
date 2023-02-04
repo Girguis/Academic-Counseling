@@ -6,11 +6,11 @@ namespace FOS.App.Student.Mappers
 {
     public static class OptionalCourseMapper
     {
-        public static OptionalCourseDTO ToDTO(this OptionalCourse optionalCourse)
+        public static ElectiveCourseDTO ToDTO(this ElectiveCourseDistribution optionalCourse)
         {
-            var config = new MapperConfiguration(c => c.CreateMap<OptionalCourse, OptionalCourseDTO>());
+            var config = new MapperConfiguration(c => c.CreateMap<ElectiveCourseDistribution, ElectiveCourseDTO>());
             var mapper = config.CreateMapper();
-            var optionalCourseDTO = mapper.Map<OptionalCourseDTO>(optionalCourse);
+            var optionalCourseDTO = mapper.Map<ElectiveCourseDTO>(optionalCourse);
             return optionalCourseDTO;
         }
     }
