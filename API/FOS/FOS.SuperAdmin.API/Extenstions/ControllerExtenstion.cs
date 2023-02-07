@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FOS.Doctor.API.Extenstions
 {
@@ -13,6 +15,13 @@ namespace FOS.Doctor.API.Extenstions
         public static string? Guid(this ControllerBase controller)
         {
             return controller.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
+        }
+        public static string HashPassowrd(this ControllerBase controller,string password) 
+        {
+            var sha512 = SHA512.Create();
+            var passWithKey = "MSKISH" + password + "20MSKISH22";
+            var bytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(passWithKey));
+            return BitConverter.ToString(bytes).Replace("-", "");
         }
     }
 

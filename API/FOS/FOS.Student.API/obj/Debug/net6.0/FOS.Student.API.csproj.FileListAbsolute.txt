@@ -77,12 +77,6 @@ C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.runtimecon
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.exe
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.dll
 C:\Users\Girguis\Desktop\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.pdb
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.AssemblyReference.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.GeneratedMSBuildEditorConfig.editorconfig
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfoInputs.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfo.cs
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.CoreCompileInputs.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\appsettings.Development.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\appsettings.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Student.API.exe
@@ -139,7 +133,13 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.App.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.Core.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\FOS.DB.pdb
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.AssemblyReference.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.GeneratedMSBuildEditorConfig.editorconfig
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfoInputs.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.AssemblyInfo.cs
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.csproj.CoreCompileInputs.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cs
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.MvcApplicationPartsAssemblyInfo.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\staticwebassets\msbuild.FOS.Student.API.Microsoft.AspNetCore.StaticWebAssets.props
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\staticwebassets\msbuild.build.FOS.Student.API.props
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.FOS.Student.API.props

@@ -14,8 +14,7 @@ namespace FOS.App.Student.Mappers
         {
 
             var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Student, StudentDTO>()
-            .ForMember(x => x.SupervisorName, o => o.MapFrom(z =>
-            string.Concat(z.Supervisor.Fname, " ", z.Supervisor.Mname, " ", z.Supervisor.Lname))));
+            .ForMember(x => x.SupervisorName, o => o.MapFrom(z =>z.Supervisor.Name)));
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentDTO>(student);
             studentDto.Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank;

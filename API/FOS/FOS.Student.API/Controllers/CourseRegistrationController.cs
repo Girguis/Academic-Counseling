@@ -1,5 +1,6 @@
 ﻿using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using FOS.Student.API.Extensions;
@@ -62,7 +63,7 @@ namespace FOS.Student.API.Controllers
                         Massage = "Student not found"
                     });
 
-                if (!dateRepo.IsInRegisrationInterval(1))
+                if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseRegistration))
                     return BadRequest(new Response
                     {
                         isRegistrationAvailable = false,
@@ -127,7 +128,7 @@ namespace FOS.Student.API.Controllers
             try
             {
                 string guid = this.Guid();
-                var regDate = dateRepo.IsInRegisrationInterval(1);
+                var regDate = dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseRegistration);
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new Response
                     {

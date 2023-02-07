@@ -150,16 +150,16 @@ namespace FOS.App.Repositories
             {
                 subPrograms = context.ProgramRelations
                 .Where(x => x.Program == null)
-                .Include(x => x.SubProgramNavigation)
-                .Select(x => x.SubProgramNavigation)
+                .Include(x => x.SubProgram)
+                .Select(x => x.SubProgram)
                 .ToList();
             }
             else
             {
                 subPrograms = context.ProgramRelations
-                .Where(x => x.Program == studentProgram.Id)
-                .Include(x => x.SubProgramNavigation)
-                .Select(x => x.SubProgramNavigation)
+                .Where(x => x.ProgramId == studentProgram.Id)
+                .Include(x => x.SubProgram)
+                .Select(x => x.SubProgram)
                 .ToList();
             }
             List<Program> result = subPrograms

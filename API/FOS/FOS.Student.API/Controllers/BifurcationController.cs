@@ -1,5 +1,7 @@
-﻿using FOS.App.Student.DTOs;
+﻿using FOS.App.Repositories;
+using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Student.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -50,14 +52,14 @@ namespace FOS.Student.API.Controllers
                         Data = null,
                         Massage = "ID not found"
                     });
-                if (!dateRepo.IsInRegisrationInterval(0))
+                if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.Bifurcation))
                     return BadRequest(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "Bifuraction is not available"
                     });
-                if (studentRepo.Get(guid).IsInSpecialProgram)
+                if (studentRepo.Get(guid).IsInSpecialProgram.Value)
                     return BadRequest(new Response
                     {
                         isBifurcationAvailable = false,
@@ -111,14 +113,14 @@ namespace FOS.Student.API.Controllers
                         Data = null,
                         Massage = "Desires list are empty"
                     });
-                if (!dateRepo.IsInRegisrationInterval(0))
+                if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.Bifurcation))
                     return BadRequest(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "Bifuraction is not availble"
                     });
-                if (studentRepo.Get(guid).IsInSpecialProgram)
+                if (studentRepo.Get(guid).IsInSpecialProgram.Value)
                     return BadRequest(new Response
                     {
                         isBifurcationAvailable = false,

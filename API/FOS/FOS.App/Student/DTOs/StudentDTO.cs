@@ -7,9 +7,7 @@ namespace FOS.App.Student.DTOs
     /// </summary>
     public class StudentDTO
     {
-        public string Fname { get; set; } = null!;
-        public string Mname { get; set; } = null!;
-        public string Lname { get; set; } = null!;
+        public string Name { get; set; } = null!;
         public string SupervisorName { get; set; } = null!;
         public string Ssn { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;

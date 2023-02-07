@@ -5,10 +5,10 @@ namespace FOS.DB.Models
 {
     public partial class ProgramRelation
     {
-        public int? Program { get; set; }
-        public int SubProgram { get; set; }
+        public int? ProgramId { get; set; }
+        public int SubProgramId { get; set; }
 
-        public virtual Program? ProgramNavigation { get; set; }
-        public virtual Program SubProgramNavigation { get; set; } = null!;
+        public virtual Program? Program { get; set; }
+        public virtual Program SubProgram { get; set; } = null!;
     }
 }

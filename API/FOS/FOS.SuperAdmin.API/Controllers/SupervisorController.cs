@@ -1,21 +1,22 @@
 ﻿using FOS.App.Doctor.DTOs;
 using FOS.App.Doctor.Mappers;
 using FOS.Core.IRepositories;
+using FOS.Core.SearchModels;
 using FOS.Doctor.API.Extenstions;
+using FOS.Doctor.API.Mappers;
 using FOS.Doctor.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 namespace FOS.Doctor.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class SupervisorController : ControllerBase
     {
         private readonly ISupervisorRepo supervisorRepo;
@@ -44,12 +45,7 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
-                string hashedPassword;
-                var sha512 = SHA512.Create();
-                var passWithKey = "MSKISH" + loginModel.Password + "20MSKISH22";
-                var bytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(passWithKey));
-                hashedPassword = BitConverter.ToString(bytes).Replace("-", "");
-
+                string hashedPassword = this.HashPassowrd(loginModel.Password);
                 var supervisor = supervisorRepo.Login(loginModel.Email, hashedPassword);
                 if (supervisor != null)
                 {
@@ -61,7 +57,7 @@ namespace FOS.Doctor.API.Controllers
                         Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Guid", supervisor.Guid),
-                            new Claim(ClaimTypes.Role,"Admin")
+              //              new Claim(ClaimTypes.Role,"Admin")
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,
@@ -102,7 +98,7 @@ namespace FOS.Doctor.API.Controllers
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new { Massage = "Id not found" });
 
-                DB.Models.Supervisor supervisor = supervisorRepo.Get(guid);
+                DB.Models.Supervisor supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null)
                     return NotFound(new { Massage = "Supervisor not found" });
 
@@ -115,6 +111,109 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
-
+        [HttpGet("GetByID/{guid}")]
+        public IActionResult GetByID(string guid)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                var supervisor = supervisorRepo.GetById(guid);
+                if (supervisor == null) return NotFound(new { Massage = "Supervisor not found" });
+                SupervisorDTO supervisorDTO = supervisor.ToDTO();
+                return Ok(supervisorDTO);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("GetAll")]
+        public IActionResult GetAll(SearchCriteria criteria)
+        {
+            try
+            {
+                var supervisors = supervisorRepo.GetAll(out int totalCount, criteria);
+                List<SupervisorDTO> supervisorDTOs = new List<SupervisorDTO>();
+                for (int i = 0; i < supervisors.Count; i++)
+                    supervisorDTOs.Add(supervisors.ElementAt(i).ToDTO());
+                return Ok(new
+                {
+                    Data = supervisorDTOs,
+                    TotalCount = totalCount
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("Add")]
+        public IActionResult Add(SupervisorModel supervisor)
+        {
+            try
+            {
+                if (supervisorRepo.IsEmailReserved(supervisor.Email))
+                    return BadRequest(new
+                    {
+                        Massage = "Email Already Used",
+                        Data = supervisor
+                    });
+                supervisor.Password = this.HashPassowrd(supervisor.Password);
+                var mappedSupervisor = supervisor.ToDBSupervisorModel(true);
+                var res = supervisorRepo.Add(mappedSupervisor);
+                if (res == null)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Occured While Adding Supervisor",
+                        Data = supervisor
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpDelete("Delete/{guid}")]
+        public IActionResult Delete(string guid)
+        {
+            if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+            var res = supervisorRepo.Delete(guid);
+            if (!res)
+                return BadRequest(new
+                {
+                    Massage = "Error Occured While Deleting Supervisor",
+                    Data = guid
+                });
+            return Ok();
+        }
+        //eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJHdWlkIjoiQTk1QTQzMDQtRTIxNS00NkEzLUEzQzktM0QwMUY5MEYwODY4IiwibmJmIjoxNjc1ODAyNjA3LCJleHAiOjE2NzU4MjQyMDYsImlhdCI6MTY3NTgwMjYwNywiaXNzIjoiaGZkdWV3aHJwN3luNTQ0M3U5cGlyZnR0NXl1aGdmY3hkZmVyNTY0dzhteW4zOXdvcDkzbXo0dTJuN256MzI0NnRiajZ0ejU2MzJjcjUiLCJhdWQiOiIydnQzN2JubXpodm5mc2pid3RubXl1am1hd2VzcnRmZ3lodWppa21uY3hkZXM0NTZ5N3VpamhidmNkeHNlNDU2NzhpOW9rbG1uYiJ9.Hwc4PAeSQQYKmpsJUvF5sHKTMDqPaOLLgiBzOOwlYRYfbKACSzhHDUsDCOzG-E7m0PC85_QQ01_z9SPbHS6LAg
+        [HttpPut("Update")]
+        public IActionResult Update(SupervisorModel supervisorModel)
+        {
+            try
+            {
+                var supervisor = supervisorRepo.GetById(supervisorModel.Guid);
+                if (supervisor == null) return NotFound(new { Massage = "Supervisor not found" });
+                supervisorModel.Password = this.HashPassowrd(supervisorModel.Password);
+                supervisor = supervisor.SupervisorUpdater(supervisorModel);
+                var res = supervisorRepo.Update(supervisor);
+                if (res == null)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Occured While Updating Supervisor",
+                        Data = supervisorModel
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 }

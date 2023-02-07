@@ -78,9 +78,10 @@ namespace FOS.Doctor.API.Controllers
                 }
                 else
                     courseDTO = course.ToDTO(new List<CoursePrerequisite>());
-
-                var res = Enum.GetName((PrerequisiteCoursesRelationEnum)courseDTO.PrerequisiteRelation);
-                return Ok(new { courseDTO,res });
+                return Ok(new
+                {
+                    Data = courseDTO
+                });
             }
             catch (Exception ex)
             {

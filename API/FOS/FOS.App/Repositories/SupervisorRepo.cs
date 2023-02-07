@@ -1,4 +1,6 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.App.ExtensionMethods;
+using FOS.Core.IRepositories;
+using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,17 +13,57 @@ namespace FOS.App.Repositories
         {
             this.context = context;
         }
+
+        public Supervisor Add(Supervisor supervisor)
+        {
+            var c = context.Supervisors.Add(supervisor);
+            var res = context.SaveChanges();
+            if (res > 0)
+                return c.Entity;
+            return null;
+        }
+
+        public bool Delete(string supervisorGUID)
+        {
+            var supervisor = GetById(supervisorGUID);
+            if (supervisor == null) return false;
+            supervisor.IsActive = false;
+            return Update(supervisor);
+        }
+
+        public List<Supervisor> GetAll(out int totalCount, SearchCriteria criteria = null)
+        {
+            if (criteria == null)
+            {
+                List<Supervisor> supervisorsLst = context.Supervisors?.Include(x=>x.Program)?.ToList();
+                totalCount = supervisorsLst.Count();
+                return supervisorsLst;
+            }
+            var supervisors = context.Supervisors.Include(x => x.Program).AsParallel().AsQueryable();
+            supervisors = supervisors.Search(criteria.Filters);
+            supervisors = supervisors.Order(criteria.OrderByColumn, criteria.Ascending);
+            totalCount = supervisors.Count();
+            supervisors = supervisors.Pageable(criteria.PageNumber, criteria.PageSize);
+            return supervisors?.ToList();
+        }
+
         /// <summary>
         /// Method to get supervisor details
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public Supervisor Get(string GUID)
+        public Supervisor GetById(string GUID)
         {
             return context.Supervisors
-                .Include("Program")
+                .Include(x=>x.Program)
                 .FirstOrDefault(x => x.Guid == GUID & x.IsActive == true);
         }
+
+        public bool IsEmailReserved(string email)
+        {
+            return context.Supervisors.Any(x=>x.Email == email);
+        }
+
         /// <summary>
         /// Method to check the credentials, if it's valid then it will return the supervisor 
         /// else it will return null
@@ -35,6 +77,12 @@ namespace FOS.App.Repositories
                 .FirstOrDefault(x => x.Email == email &
                                 x.Password == hashedPassword &
                                 x.IsActive == true);
+        }
+        public bool Update(Supervisor supervisor)
+        {
+            if(supervisor== null) return false;
+            context.Entry(supervisor).State = EntityState.Modified;
+            return context.SaveChanges() > 0;
         }
     }
 }

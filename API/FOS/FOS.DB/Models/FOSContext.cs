@@ -8,16 +8,16 @@ namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
-        private readonly IConfiguration configuration;
+        private readonly IConfiguration configuraion;
 
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
+        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuraion)
             : base(options)
         {
-            this.configuration = configuration;
+            this.configuraion = configuraion;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -43,7 +43,7 @@ namespace FOS.DB.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(configuration["FOS:DB"]);
+                optionsBuilder.UseSqlServer(configuraion["FosDB"]);
             }
         }
 
@@ -168,14 +168,18 @@ namespace FOS.DB.Models
             {
                 entity.HasNoKey();
 
-                entity.HasOne(d => d.ProgramNavigation)
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.Property(e => e.SubProgramId).HasColumnName("SubProgramID");
+
+                entity.HasOne(d => d.Program)
                     .WithMany()
-                    .HasForeignKey(d => d.Program)
+                    .HasForeignKey(d => d.ProgramId)
                     .HasConstraintName("FK_ProgramRelations_Program");
 
-                entity.HasOne(d => d.SubProgramNavigation)
+                entity.HasOne(d => d.SubProgram)
                     .WithMany()
-                    .HasForeignKey(d => d.SubProgram)
+                    .HasForeignKey(d => d.SubProgramId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProgramRelations_Program1");
             });
@@ -184,11 +188,16 @@ namespace FOS.DB.Models
             {
                 entity.ToTable("Student");
 
+                entity.HasIndex(e => e.Guid, "K_GUID")
+                    .IsUnique();
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AcademicCode)
                     .HasMaxLength(10)
                     .IsUnicode(false);
+
+                entity.Property(e => e.AvailableCredits).HasDefaultValueSql("((12))");
 
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
@@ -199,18 +208,16 @@ namespace FOS.DB.Models
                     .HasColumnName("CGPA")
                     .HasComputedColumnSql("([dbo].[CalculateCGPA]([ID]))", false);
 
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Email).IsUnicode(false);
-
-                entity.Property(e => e.Fname).HasColumnName("FName");
+                entity.Property(e => e.CreatedOn).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.Gender)
                     .HasMaxLength(1)
                     .IsUnicode(false)
+                    .HasDefaultValueSql("((1))")
                     .IsFixedLength();
 
                 entity.Property(e => e.Guid)
+                    .HasMaxLength(60)
                     .IsUnicode(false)
                     .HasColumnName("GUID");
 
@@ -218,15 +225,11 @@ namespace FOS.DB.Models
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.IsInSpecialProgram).HasComputedColumnSql("([dbo].[IsStudentInSpecialProgram]([ID]))", false);
+
                 entity.Property(e => e.Level).HasComputedColumnSql("([dbo].[CalculateStudentLevel]([ID]))", false);
 
-                entity.Property(e => e.Lname).HasColumnName("LName");
-
-                entity.Property(e => e.Mname).HasColumnName("MName");
-
                 entity.Property(e => e.PassedHours).HasComputedColumnSql("([dbo].[CalculatePassedHours]([ID]))", false);
-
-                entity.Property(e => e.Password).IsUnicode(false);
 
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(12)
@@ -237,7 +240,7 @@ namespace FOS.DB.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Ssn)
-                    .HasMaxLength(15)
+                    .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("SSN");
 
@@ -248,7 +251,6 @@ namespace FOS.DB.Models
                 entity.HasOne(d => d.Supervisor)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.SupervisorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Student_Supervisor");
             });
 
@@ -345,15 +347,9 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Fname).HasColumnName("FName");
-
                 entity.Property(e => e.Guid)
                     .IsUnicode(false)
                     .HasColumnName("GUID");
-
-                entity.Property(e => e.Lname).HasColumnName("LName");
-
-                entity.Property(e => e.Mname).HasColumnName("MName");
             });
 
             modelBuilder.Entity<Supervisor>(entity =>
@@ -362,17 +358,11 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Fname).HasColumnName("FName");
+                entity.Property(e => e.CreatedOn).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.Guid)
                     .IsUnicode(false)
                     .HasColumnName("GUID");
-
-                entity.Property(e => e.Lname).HasColumnName("LName");
-
-                entity.Property(e => e.Mname).HasColumnName("MName");
 
                 entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
 
