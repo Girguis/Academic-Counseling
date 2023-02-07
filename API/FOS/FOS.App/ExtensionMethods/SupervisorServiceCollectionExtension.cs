@@ -1,8 +1,8 @@
-﻿using FOS.App.Supervisor.Repositories;
-using FOS.Core.IRepositories.Doctor;
-using FOS.DB.Models;
+﻿using FOS.DB.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using FOS.Core.IRepositories;
+using FOS.App.Repositories;
 
 namespace FOS.App.ExtensionMethods
 {
@@ -21,6 +21,9 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<IAcademicYearRepo, AcademicYearRepo>();
             services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
             services.AddScoped<IBifurcationRepo, BifurcationRepo>();
+            services.AddScoped<ICoursePrerequisiteRepo, CoursePrerequisiteRepo>();
+            services.AddScoped<ICourseRepo, CourseRepo>();
+            services.AddScoped<IDateRepo, DateRepo>();
             return services;
         }
     }

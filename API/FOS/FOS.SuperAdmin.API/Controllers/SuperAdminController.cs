@@ -1,6 +1,6 @@
 ﻿using FOS.App.Doctor.DTOs;
 using FOS.App.Doctor.Mappers;
-using FOS.Core.IRepositories.Doctor;
+using FOS.Core.IRepositories;
 using FOS.Doctor.API.Extenstions;
 using FOS.Doctor.API.Models;
 using Microsoft.AspNetCore.Authorization;

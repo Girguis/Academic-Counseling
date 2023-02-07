@@ -1,10 +1,10 @@
 ﻿using FOS.App.Doctor.DTOs;
 using FOS.App.Student.Mappers;
 using FOS.App.Doctor.Mappers;
-using FOS.Core.IRepositories.Doctor;
 using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FOS.Core.IRepositories;
 
 namespace FOS.Doctor.API.Controllers
 {

@@ -1,9 +1,6 @@
-﻿using FOS.Core.IRepositories.Doctor;
+﻿using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace FOS.Doctor.API.Controllers
 {
@@ -16,7 +13,7 @@ namespace FOS.Doctor.API.Controllers
         private readonly IDatabaseRepo databaseRepo;
         private readonly ILogger<DatabaseController> logger;
 
-        public DatabaseController(IDatabaseRepo databaseRepo,ILogger<DatabaseController> logger)
+        public DatabaseController(IDatabaseRepo databaseRepo, ILogger<DatabaseController> logger)
         {
             this.databaseRepo = databaseRepo;
             this.logger = logger;

@@ -1,4 +1,4 @@
-﻿using FOS.Core.IRepositories.Doctor;
+﻿using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

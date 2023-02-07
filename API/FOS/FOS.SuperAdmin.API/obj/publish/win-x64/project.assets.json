@@ -3434,11 +3434,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Supervisor.API\\FOS.Supervisor.API.csproj",
-      "projectName": "FOS.Supervisor.API",
-      "projectPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Supervisor.API\\FOS.Supervisor.API.csproj",
+      "projectUniqueName": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctor.API.csproj",
+      "projectName": "FOS.Doctor.API",
+      "projectPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctor.API.csproj",
       "packagesPath": "C:\\Users\\Girguis\\.nuget\\packages\\",
-      "outputPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Supervisor.API\\obj\\publish\\win-x64\\",
+      "outputPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\obj\\publish\\win-x64\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

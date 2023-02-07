@@ -1,6 +1,6 @@
 ﻿using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
-using FOS.Core.IRepositories.Student;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using FOS.Student.API.Extensions;
 using FOS.Student.API.Models;

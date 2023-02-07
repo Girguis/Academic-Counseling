@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "aYGiHg32GN9w/krbvCJisqqypeO2NOZRH/brDfAzKVI=",
-  "Source": "FOS.Supervisor.API",
-  "BasePath": "_content/FOS.Supervisor.API",
+  "Hash": "Cr5SfLFI6mYVzAQVaLT82zVUfUKgvYRqImjIc47oodg=",
+  "Source": "FOS.Doctor.API",
+  "BasePath": "_content/FOS.Doctor.API",
   "Mode": "Default",
   "ManifestType": "Publish",
   "ReferencedProjectsConfiguration": [],

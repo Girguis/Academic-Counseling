@@ -1,10 +1,8 @@
-﻿using FOS.App.Student.Repositories;
-using FOS.Core.IRepositories.Student;
+﻿using FOS.App.Repositories;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using IStudentRepo = FOS.Core.IRepositories.Student.IStudentRepo;
-using StudentRepo = FOS.App.Student.Repositories.StudentRepo;
 
 namespace FOS.App.ExtensionMethods
 {

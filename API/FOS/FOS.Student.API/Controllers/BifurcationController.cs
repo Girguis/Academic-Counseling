@@ -1,10 +1,7 @@
 ﻿using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
-using FOS.App.Student.Repositories;
-using FOS.Core.IRepositories.Student;
-using FOS.DB.Models;
+using FOS.Core.IRepositories;
 using FOS.Student.API.Extensions;
-using FOS.Student.API.Mapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -137,7 +134,7 @@ namespace FOS.Student.API.Controllers
                     Massage = "Student not found"
                 });
                 //checks if error occured while add/updating student desires
-                if (!bifurcationRepo.AddDesires(student.Id,desiresList))
+                if (!bifurcationRepo.AddDesires(student.Id, desiresList))
                     return BadRequest(new Response
                     {
                         isBifurcationAvailable = true,

@@ -1,6 +1,6 @@
 ﻿using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
-using FOS.Core.IRepositories.Student;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using FOS.Student.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -81,7 +81,7 @@ namespace FOS.Student.API.Controllers
                 }
                 List<byte> levels = coursesDTOs.Select(x => x.Level).Distinct().ToList();
                 List<byte> semesters = coursesDTOs.Select(x => x.Semester).Distinct().ToList();
-                int studentProgramID = studentRepo.GetCurrentProgram(guid).Id;
+                int studentProgramID = studentRepo.GetCurrentProgram(guid).Program.Id;
                 List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
                                                     .GetOptionalCoursesDistibution(studentProgramID)
                                                     .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
