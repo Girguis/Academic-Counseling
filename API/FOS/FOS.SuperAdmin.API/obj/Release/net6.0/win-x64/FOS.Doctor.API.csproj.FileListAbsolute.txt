@@ -416,3 +416,10 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\n
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\FOS.Doctor.API.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\FOS.Doctor.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\ref\FOS.Doctor.API.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\ClosedXML.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\DocumentFormat.OpenXml.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\ExcelNumberFormat.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\Irony.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\SixLabors.Fonts.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\System.IO.Packaging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\win-x64\XLParser.dll

@@ -53,6 +53,10 @@ namespace FOS.App.Repositories
             courses = courses.Pageable(criteria.PageNumber, criteria.PageSize);
             return courses?.ToList();
         }
+        public List<Course> GetAll()
+        {
+            return context.Courses.AsNoTracking().AsParallel().ToList();
+        }
         public Course GetById(int id)
         {
             return context.Courses.FirstOrDefault(x => x.Id == id);

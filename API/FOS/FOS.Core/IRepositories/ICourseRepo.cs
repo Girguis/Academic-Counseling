@@ -10,5 +10,6 @@ namespace FOS.Core.IRepositories
         bool Update(Course course);
         Course GetById(int id);
         List<Course> GetAll(out int totalCount, SearchCriteria criteria = null);
+        List<Course> GetAll();
     }
 }

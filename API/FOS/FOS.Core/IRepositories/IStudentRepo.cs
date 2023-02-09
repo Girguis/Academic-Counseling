@@ -13,5 +13,7 @@ namespace FOS.Core.IRepositories
         StudentProgram GetCurrentProgram(string GUID);
         object GenderStatistics();
         Student Login(string email, string hashedPassword);
+        Student Add(Student student);
+        Student GetBySSN(string ssn);
     }
 }

@@ -126,5 +126,20 @@ namespace FOS.App.Repositories
             //return context.Students.FromSqlRaw("exec SP_DB.Models.StudentLogin @Email,@Password", emailParam, passwordParam).ToList().FirstOrDefault();
             return context.Students.FirstOrDefault(x => x.Email == email & x.Password == hashedPassword);
         }
+        public DB.Models.Student GetBySSN(string ssn)
+        {
+            return context.Students.FirstOrDefault(x=>x.Ssn == ssn);
+        }
+        public DB.Models.Student Add(DB.Models.Student student)
+        {
+            var std = GetBySSN(student.Ssn);
+            if (std != null)
+                return std;
+
+            var res = context.Students.Add(student);
+            if (context.SaveChanges() > 0)
+                return res.Entity;
+            return null;
+        }
     }
 }

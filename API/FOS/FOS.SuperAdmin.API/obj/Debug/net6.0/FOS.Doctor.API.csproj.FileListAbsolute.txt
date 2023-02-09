@@ -152,3 +152,10 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net6.0\FOS.Doctor.API.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net6.0\FOS.Doctor.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net6.0\ref\FOS.Doctor.API.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\ClosedXML.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\ExcelNumberFormat.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Irony.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\SixLabors.Fonts.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\System.IO.Packaging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\XLParser.dll

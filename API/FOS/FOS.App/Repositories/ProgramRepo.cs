@@ -20,5 +20,9 @@ namespace FOS.App.Repositories
         {
             return context.Programs.Where(x => x.Id == id).FirstOrDefault();
         }
+        public List<Program> GetPrograms()
+        {
+            return context.Programs.ToList();
+        }
     }
 }

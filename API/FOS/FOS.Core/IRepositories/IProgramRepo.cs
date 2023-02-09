@@ -5,5 +5,6 @@ namespace FOS.Core.IRepositories
     public interface IProgramRepo
     {
         Program GetProgram(int id);
+        List<Program> GetPrograms();
     }
 }

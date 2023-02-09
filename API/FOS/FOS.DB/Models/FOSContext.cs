@@ -8,16 +8,16 @@ namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
-        private readonly IConfiguration configuraion;
+        private readonly IConfiguration configuration;
 
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuraion)
+        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
             : base(options)
         {
-            this.configuraion = configuraion;
+            this.configuration = configuration;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -43,7 +43,7 @@ namespace FOS.DB.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(configuraion["FosDB"]);
+                optionsBuilder.UseSqlServer(configuration["FosDB"]);
             }
         }
 
@@ -99,9 +99,9 @@ namespace FOS.DB.Models
 
                 entity.ToTable("Date");
 
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
+                entity.Property(e => e.EndDate).HasColumnType("smalldatetime");
 
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
+                entity.Property(e => e.StartDate).HasColumnType("smalldatetime");
             });
 
             modelBuilder.Entity<ElectiveCourseDistribution>(entity =>
@@ -224,6 +224,8 @@ namespace FOS.DB.Models
                 entity.Property(e => e.IsActive)
                     .IsRequired()
                     .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.IsGraduated).HasComputedColumnSql("([dbo].[IsGraduatedStudent]([ID]))", false);
 
                 entity.Property(e => e.IsInSpecialProgram).HasComputedColumnSql("([dbo].[IsStudentInSpecialProgram]([ID]))", false);
 

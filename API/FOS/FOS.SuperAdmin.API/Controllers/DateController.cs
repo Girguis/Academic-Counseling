@@ -1,4 +1,6 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.App.Doctor.DTOs;
+using FOS.App.Doctor.Mappers;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +28,13 @@ namespace FOS.Doctor.API.Controllers
             try
             {
                 var dates = dateRepo.GetDates();
-                return Ok(dates);
+                var datesDto = new List<DateDTO>();
+                for (int i = 0; i < dates.Count; i++)
+                    datesDto.Add(dates.ElementAt(i).ToDTO());
+                return Ok(new
+                {
+                    Data = datesDto
+                });
             }
             catch (Exception ex)
             {
@@ -44,7 +52,11 @@ namespace FOS.Doctor.API.Controllers
                 var date = dateRepo.GetDate(id);
                 if (date == null)
                     return NotFound();
-                return Ok(date);
+                var dateDto = date.ToDTO();
+                return Ok(new
+                {
+                    Data = dateDto
+                });
             }
             catch (Exception ex)
             {
@@ -57,6 +69,9 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
+                if (date.StartDate > date.EndDate || date.StartDate == date.EndDate)
+                    return BadRequest(new { Massage = "Start date can't be greater or equal to end date" });
+               
                 var res = dateRepo.UpdateDate(date.DateFor, date.StartDate, date.EndDate);
                 if (!res)
                     return BadRequest();
