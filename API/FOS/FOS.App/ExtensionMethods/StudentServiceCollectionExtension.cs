@@ -24,6 +24,8 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<IDateRepo, DateRepo>();
             services.AddScoped<IProgramDistributionRepo, ProgramDistributionRepo>();
             services.AddScoped<ILogger>(provider => provider.GetRequiredService<ILogger>());
+            services.AddScoped<ICommonQuestionsRepo, CommonQuestionsRepo>();
+            services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
             return services;
         }
     }

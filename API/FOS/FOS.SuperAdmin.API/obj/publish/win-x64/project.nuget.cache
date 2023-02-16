@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "jtVJHLK5nsibQArlA8Jp1wsmRwF98ayfhKWONL2EwUkWMZ83IMrjeKrBubMkl1Y8s3gRsY7PDySmTMhCAiGxXw==",
+  "dgSpecHash": "yWE6XMlv/MLJ5f2JCYDhOUKer44Wyk4KsbBbEzjTsOEM5NEMpwO9By7nipc96UujGPHzGMWduZcrNr82eiLR8A==",
   "success": true,
   "projectFilePath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctor.API.csproj",
   "expectedPackageFiles": [
@@ -15,11 +15,11 @@
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.11\\microsoft.entityframeworkcore.6.0.11.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.11\\microsoft.entityframeworkcore.abstractions.6.0.11.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.11\\microsoft.entityframeworkcore.analyzers.6.0.11.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.11\\microsoft.entityframeworkcore.relational.6.0.11.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.11\\microsoft.entityframeworkcore.sqlserver.6.0.11.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.13\\microsoft.entityframeworkcore.6.0.13.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.13\\microsoft.entityframeworkcore.abstractions.6.0.13.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.13\\microsoft.entityframeworkcore.analyzers.6.0.13.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.13\\microsoft.entityframeworkcore.relational.6.0.13.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.13\\microsoft.entityframeworkcore.sqlserver.6.0.13.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\6.0.0\\microsoft.extensions.caching.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.extensions.caching.memory\\6.0.1\\microsoft.extensions.caching.memory.6.0.1.nupkg.sha512",
@@ -159,10 +159,7 @@
     "C:\\Users\\Girguis\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\xlparser\\1.5.2\\xlparser.1.5.2.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.11\\microsoft.netcore.app.runtime.win-x64.6.0.11.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.11\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.11.nupkg.sha512",
-    "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.11\\microsoft.aspnetcore.app.runtime.win-x64.6.0.11.nupkg.sha512"
+    "C:\\Users\\Girguis\\.nuget\\packages\\xlparser\\1.5.2\\xlparser.1.5.2.nupkg.sha512"
   ],
   "logs": []
 }

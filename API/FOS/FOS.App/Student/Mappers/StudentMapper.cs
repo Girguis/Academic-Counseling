@@ -10,7 +10,7 @@ namespace FOS.App.Student.Mappers
         /// Extension method used to map data from Student, StudentCourse and AcademicYear models (models from database)
         /// to StudentDTO model
         /// </summary>
-        public static StudentDTO ToDTO(this DB.Models.Student student, List<StudentCourse> courses, AcademicYear academicYear)
+        public static StudentDTO ToDTO(this DB.Models.Student student, List<StudentCourse> courses, AcademicYear academicYear,string programName)
         {
 
             var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Student, StudentDTO>()
@@ -21,6 +21,7 @@ namespace FOS.App.Student.Mappers
             studentDto.Courses = courses.Select(c => c.ToDTO()).Where(c => c != null)?.ToList();
             studentDto.academicYear = academicYear.AcademicYear1;
             studentDto.semester = academicYear.Semester;
+            studentDto.ProgramName = programName;
             return studentDto;
         }
     }

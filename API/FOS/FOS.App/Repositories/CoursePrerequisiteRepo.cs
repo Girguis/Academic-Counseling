@@ -17,7 +17,7 @@ namespace FOS.App.Repositories
             this.configuration = configuration;
         }
 
-        public bool AddPrerequisites(int courseID, List<int> prerequisiteIDs)
+        public bool AddPrerequisites(int courseID, int programID, List<int> prerequisiteIDs)
         {
             var query = "INSERT INTO CoursePrerequisites(CourseID,PrerequisiteCourseID) VALUES";
             int count = prerequisiteIDs.Count;
@@ -30,9 +30,9 @@ namespace FOS.App.Repositories
             return context.Database.ExecuteSqlRaw(query) > 0;
         }
 
-        public bool DeletePrerequisites(int courseID)
+        public bool DeletePrerequisites(int courseID, int programID)
         {
-            var res = GetPrerequisites(courseID);
+            var res = GetPrerequisites(courseID, programID);
             if (res.Count > 0)
             {
                 string query = String.Format("DELETE FROM CoursePrerequisites WHERE CourseID = {0}", courseID);
@@ -41,28 +41,28 @@ namespace FOS.App.Repositories
             return true;
         }
 
-        public List<CoursePrerequisite> GetPrerequisites(int courseID)
+        public List<CoursePrerequisite> GetPrerequisites(int courseID, int programID)
         {
             return context.CoursePrerequisites
-                .Where(x => x.CourseId == courseID)
+                .Where(x => x.CourseId == courseID && x.ProgramId == programID)
                 .Include(x => x.PrerequisiteCourse)
                 .AsParallel()
                 .ToList();
         }
 
-        public bool UpdatePrerequisites(int courseID, List<int> prerequisiteIDs)
+        public bool UpdatePrerequisites(int courseID, int programID, List<int> prerequisiteIDs)
         {
-            var oldPrerequisites = GetPrerequisites(courseID);
-            DeletePrerequisites(courseID);
+            var oldPrerequisites = GetPrerequisites(courseID, programID);
+            DeletePrerequisites(courseID, programID);
             bool res;
             try
             {
-                res = AddPrerequisites(courseID, prerequisiteIDs);
+                res = AddPrerequisites(courseID, programID, prerequisiteIDs);
             }
             catch
             {
-                DeletePrerequisites(courseID);
-                AddPrerequisites(courseID, oldPrerequisites.Select(x => x.PrerequisiteCourseId).ToList());
+                DeletePrerequisites(courseID, programID);
+                AddPrerequisites(courseID, programID, oldPrerequisites.Select(x => x.PrerequisiteCourseId).ToList());
                 return false;
             }
             return res;

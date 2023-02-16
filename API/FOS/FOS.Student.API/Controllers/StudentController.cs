@@ -1,4 +1,5 @@
-﻿using FOS.App.Student.DTOs;
+﻿using FOS.App.Repositories;
+using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
 using FOS.Core.IRepositories;
 using FOS.DB.Models;
@@ -9,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace FOS.Student.API.Controllers
@@ -24,18 +24,21 @@ namespace FOS.Student.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly ILogger logger;
+        private readonly IStudentProgramRepo studentProgramRepo;
         private readonly IConfiguration _configuration;
         public StudentController(IStudentRepo studentRepo
             , IConfiguration configuration
             , IStudentCoursesRepo studentCoursesRepo
             , IAcademicYearRepo academicYearRepo
-            , ILogger<StudentController> logger)
+            , ILogger<StudentController> logger
+            , IStudentProgramRepo studentProgramRepo)
         {
             this.studentRepo = studentRepo;
             _configuration = configuration;
             this.studentCoursesRepo = studentCoursesRepo;
             this.academicYearRepo = academicYearRepo;
             this.logger = logger;
+            this.studentProgramRepo = studentProgramRepo;
         }
 
         [AllowAnonymous]
@@ -44,14 +47,7 @@ namespace FOS.Student.API.Controllers
         {
             try
             {
-                string hashedPassword;
-                var sha512 = SHA512.Create();
-                //Add secret value to password 
-                var passWithKey = "MSKISH" + loginModel.Password + "20MSKISH22";
-                //Compute hash value
-                var bytes = sha512.ComputeHash(Encoding.UTF8.GetBytes(passWithKey));
-                //Casting it to string
-                hashedPassword = BitConverter.ToString(bytes).Replace("-", "");
+                string hashedPassword = this.HashPassowrd(loginModel.Password);
                 //Get student by email & password
                 var student = studentRepo.Login(loginModel.Email, hashedPassword);
                 //If student object is null this mean either email or password is incorrect
@@ -66,7 +62,7 @@ namespace FOS.Student.API.Controllers
                         Subject = new ClaimsIdentity(new[]
                         {
                         new Claim("Guid", student.Guid),
-                    }),
+                        }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,
                         Audience = audience,
@@ -115,11 +111,36 @@ namespace FOS.Student.API.Controllers
                     return NotFound(new { Massage = "Student not found" });
 
                 List<StudentCourse> courses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id);
-                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear());
+                var program = studentProgramRepo.GetStudentCurrentProgram(student.Id);
+                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear(),program.ArabicName);
                 return Ok(new
                 {
                     Data = mapedStudent
                 });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("UpdatePassword")]
+        public IActionResult UpdatePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return BadRequest(new { Massage = "Id not found" });
+
+                DB.Models.Student student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new { Massage = "Student not found" });
+                student.Password = this.HashPassowrd(model.Password);
+                var updated = studentRepo.Update(student);
+                if (!updated)
+                    return BadRequest(new { Massage = "Error occured while updating password" });
+                return Ok();
             }
             catch (Exception ex)
             {

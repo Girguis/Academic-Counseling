@@ -55,6 +55,17 @@ namespace FOS.App.Repositories
             return context.StudentPrograms.Where(x => x.StudentId == studentID).AsParallel();
         }
 
+        public Program GetStudentCurrentProgram(int studentID)
+        {
+            return context.StudentPrograms
+                .Where(x => x.StudentId == studentID)
+                .Include(x => x.Program)
+                .AsNoTracking()
+                .AsParallel()
+                .MaxBy(x=>x.AcademicYear)
+                .Program;
+        }
+
         public StudentProgram GetStudentProgram(StudentProgram studentProgram)
         {
             return context.StudentPrograms

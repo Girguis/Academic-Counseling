@@ -7,7 +7,7 @@ namespace FOS.Doctor.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    //[Authorize]
     public class DatabaseController : ControllerBase
     {
         private readonly IDatabaseRepo databaseRepo;
@@ -18,7 +18,7 @@ namespace FOS.Doctor.API.Controllers
             this.databaseRepo = databaseRepo;
             this.logger = logger;
         }
-        [HttpGet]
+        [HttpGet("Backup")]
         public IActionResult Backup()
         {
             try
@@ -26,29 +26,21 @@ namespace FOS.Doctor.API.Controllers
                 var filePath = databaseRepo.Backup();
                 if (filePath == null)
                     return BadRequest();
-                return Ok();
+                MemoryStream ms = new MemoryStream();
+                using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    file.CopyTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+
+                return File(ms,
+                    "application/octet-stream",
+                    filePath.Substring(filePath.LastIndexOf('/') + 1)
+                    );
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
             }
-            //MemoryStream ms = new MemoryStream();
-            //using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            //    file.CopyTo(ms);
-            //var result = new HttpResponseMessage(HttpStatusCode.OK)
-            //{
-            //    Content = new ByteArrayContent(ms.ToArray())
-            //};
-            //result.Content.Headers.ContentDisposition =
-            //    new ContentDispositionHeaderValue("attachment")
-            //    {
-            //        FileName = filePath.Substring(filePath.LastIndexOf('/') + 1)
-            //    };
-            //result.Content.Headers.ContentType =
-            //new MediaTypeHeaderValue("application/octet-stream");
-
-            //return result;
         }
     }
 

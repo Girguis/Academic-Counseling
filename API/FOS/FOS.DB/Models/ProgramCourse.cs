@@ -7,6 +7,7 @@ namespace FOS.DB.Models
     {
         public int ProgramId { get; set; }
         public int CourseId { get; set; }
+        public byte PrerequisiteRelationId { get; set; }
         public byte CourseType { get; set; }
         public byte Category { get; set; }
 

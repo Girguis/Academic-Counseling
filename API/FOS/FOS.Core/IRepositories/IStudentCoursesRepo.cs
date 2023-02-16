@@ -1,4 +1,5 @@
-﻿using FOS.DB.Models;
+﻿using FOS.Core.Models;
+using FOS.DB.Models;
 
 namespace FOS.Core.IRepositories
 {
@@ -10,5 +11,7 @@ namespace FOS.Core.IRepositories
         List<ProgramCourse> GetCoursesForRegistration(int studentID);
         bool RegisterCourses(int studentID, short academicYearID, List<int> courseIDs);
         bool AddStudentCourses(List<StudentCourse> studentCourses);
+        List<StudentCourse> GetStudentsList(int courseID, short academicYearID);
+        bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model);
     }
 }

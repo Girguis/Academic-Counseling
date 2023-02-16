@@ -5,7 +5,7 @@ namespace FOS.Core.IRepositories
 {
     public interface ICourseRepo
     {
-        Course Add(Course course);
+        bool Add(List<Course> course);
         bool Delete(Course course);
         bool Update(Course course);
         Course GetById(int id);

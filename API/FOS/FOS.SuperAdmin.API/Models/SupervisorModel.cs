@@ -12,7 +12,5 @@ namespace FOS.Doctor.API.Models
         public string Password { get; set; }
         [Required]
         public int ProgramId { get; set; }
-
-        public string Guid { get; set; }
     }
 }

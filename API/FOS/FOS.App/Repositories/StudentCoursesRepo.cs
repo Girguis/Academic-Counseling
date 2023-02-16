@@ -1,5 +1,7 @@
 ﻿using FOS.App.Comparers;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +15,14 @@ namespace FOS.App.Repositories
         private readonly FOSContext context;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IConfiguration configuration;
+        private readonly string connectionString;
 
         public StudentCoursesRepo(FOSContext context, IAcademicYearRepo academicYearRepo, IConfiguration configuration)
         {
             this.context = context;
             this.academicYearRepo = academicYearRepo;
             this.configuration = configuration;
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
         /// <summary>
         /// Method to get all courses for a certain student
@@ -69,39 +73,19 @@ namespace FOS.App.Repositories
         }
         public bool RegisterCourses(int studentID, short academicYearID, List<int> courses)
         {
-            var connectionString = configuration["ConnectionStrings:FosDB"];
-            var insertStatement = "INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGPAIncluded,IsIncluded) VALUES ({0},{1},{2},{3},{4},{5});";
+            var insertStatement = "INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGPAIncluded) VALUES ({0},{1},{2},{3},{4});";
             string query = "";
             for (int i = 0; i < courses.Count; i++)
             {
-                query += string.Format(insertStatement, studentID, courses.ElementAt(i), academicYearID, 1, 1, 1);
+                query += string.Format(insertStatement, studentID, courses.ElementAt(i), academicYearID, 1, 1);
             }
-            var queryParam = new SqlParameter("@Query", query);
-            var studentIdParam = new SqlParameter("@StudentID", studentID);
-            var academicYearParam = new SqlParameter("@CurrentAcademicYearID", academicYearID);
-            int res = 0;
-            using (SqlConnection con = new SqlConnection(connectionString))
+            List<SqlParameter> parameters = new List<SqlParameter>()
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("[dbo].[RegisterCoursesForStudent]", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(queryParam);
-                cmd.Parameters.Add(studentIdParam);
-                cmd.Parameters.Add(academicYearParam);
-                SqlTransaction trans1 = con.BeginTransaction();
-                cmd.Transaction = trans1;
-                try
-                {
-                    res = cmd.ExecuteNonQuery();
-                    trans1.Commit();
-                }
-                catch
-                {
-                    trans1.Rollback();
-                }
-                con.Close();
-            }
-            return res > 0;
+                new SqlParameter("@Query", query),
+                new SqlParameter("@StudentID", studentID),
+                new SqlParameter("@CurrentAcademicYearID", academicYearID)
+            };
+            return QueryHelper.Execute(connectionString, "StudentCoursesRegistration", parameters);
         }
         public bool AddStudentCourses(List<StudentCourse> studentCourses)
         {
@@ -111,54 +95,61 @@ namespace FOS.App.Repositories
             IEnumerable<StudentCourse> toBeSavedLst = studentCourses.Except(savedCoursesLst, coursesComparer);
             if (!toBeSavedLst.Any())
                 return true;
-
-            var connectionString = configuration["ConnectionStrings:FosDB"];
             string query = "";
             for (int i = 0; i < toBeSavedLst.Count(); i++)
             {
                 var course = toBeSavedLst.ElementAt(i);
                 if (course.HasExecuse == true)
                 {
-                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsIncluded,HasExecuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5},{6});",
-                        course.StudentId, course.CourseId, course.AcademicYearId, 1, 1, 1, 0);
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,HasExecuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5});",
+                        course.StudentId, course.CourseId, course.AcademicYearId, 1, 1, 0);
                 }
                 else if (course.IsGpaincluded == false && course.Mark == null)
                 {
-                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsIncluded,IsGpaIncluded,Grade) VALUES({0},{1},{2},{3},{4},{5},'{6}');",
-                        course.StudentId, course.CourseId, course.AcademicYearId,1,1,0,course.Grade.Trim());
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGpaIncluded,Grade) VALUES({0},{1},{2},{3},{4},'{5}');",
+                        course.StudentId, course.CourseId, course.AcademicYearId, 1, 0, course.Grade.Trim());
                 }
                 else if (course.IsGpaincluded == false && course.Mark != null)
                 {
-                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsIncluded,IsGpaIncluded,Mark) VALUES({0},{1},{2},{3},{4},{5},{6});",course.StudentId,course.CourseId,course.AcademicYearId,1,1,0,course.Mark);
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGpaIncluded,Mark) VALUES({0},{1},{2},{3},{4},{5});",
+                        course.StudentId, course.CourseId, course.AcademicYearId, 1, 0, course.Mark);
                 }
                 else
                 {
-                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsIncluded,IsGpaIncluded,Mark) VALUES({0},{1},{2},{3},{4},{5},{6});",
-                            course.StudentId, course.CourseId, course.AcademicYearId, 1, 1, 1, course.Mark);
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGpaIncluded,Mark) VALUES({0},{1},{2},{3},{4},{5});",
+                            course.StudentId, course.CourseId, course.AcademicYearId, 1, 1, course.Mark);
                 }
             }
-            int res = 0;
-            using (SqlConnection con = new SqlConnection(connectionString))
+            List<SqlParameter> parameters = new List<SqlParameter>()
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("[dbo].[QueryExecuter]", con);
-                var queryParam = new SqlParameter("@Query", query);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(queryParam);
-                SqlTransaction trans1 = con.BeginTransaction();
-                cmd.Transaction = trans1;
-                try
-                {
-                    res = cmd.ExecuteNonQuery();
-                    trans1.Commit();
-                }
-                catch
-                {
-                    trans1.Rollback();
-                }
-                con.Close();
-            }
-            return res > 0;
+                new SqlParameter("@StudentID", studentID),
+                new SqlParameter("@Query", query)
+            };
+            return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
         }
+        public List<StudentCourse> GetStudentsList(int courseID, short academicYearID)
+        {
+            return context.StudentCourses
+             .Where(x => x.CourseId == courseID && x.AcademicYearId == academicYearID)
+             .Include(x => x.Student)
+             .AsParallel()
+             .ToList();
+        }
+
+        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model)
+        {
+            string query = "";
+            for (int i = 0; i < model.Count; i++)
+                query += string.Concat("UPDATE StudentCourses SET Mark = ", model.ElementAt(i).Mark.HasValue? model.ElementAt(i).Mark.Value:"NULL",
+                    " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
+                    " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
+
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Query", query)
+            };
+            return QueryHelper.Execute(connectionString, "QueryExecuter", parameters);
+        }
+
     }
 }

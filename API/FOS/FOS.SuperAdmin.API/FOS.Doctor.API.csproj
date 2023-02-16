@@ -19,5 +19,4 @@
     <ProjectReference Include="..\FOS.App\FOS.App.csproj" />
     <ProjectReference Include="..\FOS.Core\FOS.Core.csproj" />
   </ItemGroup>
-
 </Project>

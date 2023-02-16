@@ -57,7 +57,7 @@ namespace FOS.Doctor.API.Controllers
                         Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Guid", supervisor.Guid),
-              //              new Claim(ClaimTypes.Role,"Admin")
+                            new Claim(ClaimTypes.Role,"Admin")
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,
@@ -190,14 +190,22 @@ namespace FOS.Doctor.API.Controllers
                 });
             return Ok();
         }
-        //eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJHdWlkIjoiQTk1QTQzMDQtRTIxNS00NkEzLUEzQzktM0QwMUY5MEYwODY4IiwibmJmIjoxNjc1ODAyNjA3LCJleHAiOjE2NzU4MjQyMDYsImlhdCI6MTY3NTgwMjYwNywiaXNzIjoiaGZkdWV3aHJwN3luNTQ0M3U5cGlyZnR0NXl1aGdmY3hkZmVyNTY0dzhteW4zOXdvcDkzbXo0dTJuN256MzI0NnRiajZ0ejU2MzJjcjUiLCJhdWQiOiIydnQzN2JubXpodm5mc2pid3RubXl1am1hd2VzcnRmZ3lodWppa21uY3hkZXM0NTZ5N3VpamhidmNkeHNlNDU2NzhpOW9rbG1uYiJ9.Hwc4PAeSQQYKmpsJUvF5sHKTMDqPaOLLgiBzOOwlYRYfbKACSzhHDUsDCOzG-E7m0PC85_QQ01_z9SPbHS6LAg
-        [HttpPut("Update")]
-        public IActionResult Update(SupervisorModel supervisorModel)
+        [HttpPut("Update/{guid}")]
+        public IActionResult Update(string guid,SupervisorModel supervisorModel)
         {
             try
             {
-                var supervisor = supervisorRepo.GetById(supervisorModel.Guid);
+                var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound(new { Massage = "Supervisor not found" });
+                
+                if(supervisor.Email != supervisorModel.Email && supervisorRepo.IsEmailReserved(supervisorModel.Email))
+                {
+                    return BadRequest(new
+                    {
+                        Massage = "Email Already Used",
+                        Data = supervisor
+                    });
+                }
                 supervisorModel.Password = this.HashPassowrd(supervisorModel.Password);
                 supervisor = supervisor.SupervisorUpdater(supervisorModel);
                 var res = supervisorRepo.Update(supervisor);
@@ -206,6 +214,56 @@ namespace FOS.Doctor.API.Controllers
                     {
                         Massage = "Error Occured While Updating Supervisor",
                         Data = supervisorModel
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ChangePassword/{guid}")]
+        public IActionResult ChangePassword(string guid,ChangePasswordModel model)
+        {
+            try
+            {
+                var supervisor = supervisorRepo.GetById(guid);
+                if (supervisor == null) return NotFound();
+                supervisor.Password = this.HashPassowrd(model.Password);
+                var updated = supervisorRepo.Update(supervisor);
+                if (!updated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Happend while updating password",
+                        Data = model
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                string guid = this.Guid();
+                if(string.IsNullOrEmpty(guid))
+                    return BadRequest();
+
+                var supervisor = supervisorRepo.GetById(guid);
+                if (supervisor == null) return NotFound();
+                supervisor.Password = this.HashPassowrd(model.Password);
+                var updated = supervisorRepo.Update(supervisor);
+                if (!updated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Happend while updating password",
+                        Data = model
                     });
                 return Ok();
             }

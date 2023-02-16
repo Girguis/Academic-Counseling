@@ -33,5 +33,13 @@ namespace FOS.App.Repositories
                 .FirstOrDefault(x => x.Email == email &
                                 x.Password == hashedPassword);
         }
+
+        public bool Update(SuperAdmin superAdmin)
+        {
+            if (superAdmin == null)
+                return false;
+            context.Entry(superAdmin).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            return context.SaveChanges() > 0;
+        }
     }
 }

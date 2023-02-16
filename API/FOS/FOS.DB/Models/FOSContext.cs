@@ -80,6 +80,8 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.PrerequisiteCourseId).HasColumnName("PrerequisiteCourseID");
 
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
                 entity.HasOne(d => d.Course)
                     .WithMany()
                     .HasForeignKey(d => d.CourseId)
@@ -91,6 +93,12 @@ namespace FOS.DB.Models
                     .HasForeignKey(d => d.PrerequisiteCourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CoursePrerequisites_Course1");
+
+                entity.HasOne(d => d.Program)
+                    .WithMany()
+                    .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CoursePrerequisites_Program");
             });
 
             modelBuilder.Entity<Date>(entity =>
@@ -133,6 +141,8 @@ namespace FOS.DB.Models
                 entity.HasNoKey();
 
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
+
+                entity.Property(e => e.PrerequisiteRelationId).HasColumnName("PrerequisiteRelationID");
 
                 entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
 
@@ -268,7 +278,17 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.HasExecuse).HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.IsApproved)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.IsEnhancementCourse).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.IsGpaincluded).HasColumnName("IsGPAIncluded");
+
+                entity.Property(e => e.IsIncluded)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Points).HasColumnName("points");
 

@@ -1,8 +1,11 @@
-﻿namespace FOS.Core.IRepositories
+﻿using FOS.DB.Models;
+
+namespace FOS.Core.IRepositories
 {
     public interface ISuperAdminRepo
     {
-        public DB.Models.SuperAdmin Login(string email, string hashedPassword);
-        DB.Models.SuperAdmin Get(string GUID);
+        public SuperAdmin Login(string email, string hashedPassword);
+        SuperAdmin Get(string GUID);
+        bool Update(SuperAdmin superAdmin);
     }
 }

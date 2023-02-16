@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddEndpointsApiExplorer();
 //Services responsible for Versioning swageer
-builder.Services.LoadSwaggerVersioningServices("v1", "Supervisor API", 1, 0);
+builder.Services.LoadSwaggerVersioningServices("v1", "Doctor's API", 1, 0);
 //Services responsible for using db connection
 builder.LoadDBServices();
 //Services responsible for loading dependency injection

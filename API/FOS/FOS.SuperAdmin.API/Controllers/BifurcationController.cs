@@ -19,7 +19,7 @@ namespace FOS.Doctor.API.Controllers
             this.bifurcationRepo = bifurcationRepo;
             this.logger = logger;
         }
-        [HttpGet("BifurcateStudents")]
+        [HttpPost("BifurcateStudents")]
         public IActionResult GetBifurcationResult()
         {
             try
@@ -27,11 +27,11 @@ namespace FOS.Doctor.API.Controllers
                 var res = bifurcationRepo.BifurcateStudents();
                 if (res == null)
                     return BadRequest();
-                return Ok(res);
+                return Ok(new { Data = res });
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                logger.LogError(ex.ToString());
                 return Problem();
             }
         }

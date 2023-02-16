@@ -15,5 +15,6 @@ namespace FOS.Core.IRepositories
         Student Login(string email, string hashedPassword);
         Student Add(Student student);
         Student GetBySSN(string ssn);
+        bool Update(Student student);
     }
 }

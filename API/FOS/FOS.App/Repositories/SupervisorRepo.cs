@@ -1,4 +1,4 @@
-﻿using FOS.App.ExtensionMethods;
+﻿using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
@@ -33,18 +33,8 @@ namespace FOS.App.Repositories
 
         public List<Supervisor> GetAll(out int totalCount, SearchCriteria criteria = null)
         {
-            if (criteria == null)
-            {
-                List<Supervisor> supervisorsLst = context.Supervisors?.Include(x=>x.Program)?.ToList();
-                totalCount = supervisorsLst.Count();
-                return supervisorsLst;
-            }
-            var supervisors = context.Supervisors.Include(x => x.Program).AsParallel().AsQueryable();
-            supervisors = supervisors.Search(criteria.Filters);
-            supervisors = supervisors.Order(criteria.OrderByColumn, criteria.Ascending);
-            totalCount = supervisors.Count();
-            supervisors = supervisors.Pageable(criteria.PageNumber, criteria.PageSize);
-            return supervisors?.ToList();
+            var supervisors = context.Supervisors;
+            return DataFilter<Supervisor>.FilterData((DbSet<Supervisor>)supervisors, criteria, out totalCount, "Program");
         }
 
         /// <summary>
@@ -55,13 +45,13 @@ namespace FOS.App.Repositories
         public Supervisor GetById(string GUID)
         {
             return context.Supervisors
-                .Include(x=>x.Program)
+                .Include(x => x.Program)
                 .FirstOrDefault(x => x.Guid == GUID & x.IsActive == true);
         }
 
         public bool IsEmailReserved(string email)
         {
-            return context.Supervisors.Any(x=>x.Email == email);
+            return context.Supervisors.Any(x => x.Email == email);
         }
 
         /// <summary>
@@ -80,7 +70,7 @@ namespace FOS.App.Repositories
         }
         public bool Update(Supervisor supervisor)
         {
-            if(supervisor== null) return false;
+            if (supervisor == null) return false;
             context.Entry(supervisor).State = EntityState.Modified;
             return context.SaveChanges() > 0;
         }

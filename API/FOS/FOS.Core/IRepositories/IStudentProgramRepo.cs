@@ -8,6 +8,7 @@ namespace FOS.Core.IRepositories
         bool AddStudentProgram(StudentProgram studentProgram);
         bool AddStudentPrograms(List<StudentProgram> studentPrograms);
         StudentProgram GetStudentProgram(StudentProgram studentProgram);
+        Program GetStudentCurrentProgram(int studentID);
         IEnumerable<StudentProgram> GetAllStudentPrograms(int studentID);
     }
 }

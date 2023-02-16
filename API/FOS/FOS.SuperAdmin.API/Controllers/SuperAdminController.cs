@@ -16,7 +16,7 @@ namespace FOS.Doctor.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Admin")]
     public class SuperAdminController : ControllerBase
     {
         private readonly ISuperAdminRepo superAdminRepo;
@@ -62,7 +62,7 @@ namespace FOS.Doctor.API.Controllers
                         Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Guid", superAdmin.Guid),
-                            new Claim(ClaimTypes.Role, "Doctor")
+                            new Claim(ClaimTypes.Role, "Admin")
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,
@@ -109,6 +109,33 @@ namespace FOS.Doctor.API.Controllers
 
                 SuperAdminDTO superAdminDTO = superAdmin.ToDTO();
                 return Ok(superAdminDTO);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrEmpty(guid))
+                    return BadRequest();
+
+                var superAdmin = superAdminRepo.Get(guid);
+                if (superAdmin == null) return NotFound();
+                superAdmin.Password = this.HashPassowrd(model.Password);
+                var updated = superAdminRepo.Update(superAdmin);
+                if (!updated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Happend while updating password",
+                        Data = model
+                    });
+                return Ok();
             }
             catch (Exception ex)
             {

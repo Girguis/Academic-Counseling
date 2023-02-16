@@ -1,7 +1,7 @@
 ﻿using FOS.App.Doctor.DTOs;
 using FOS.App.Doctor.Mappers;
 using FOS.Core.IRepositories;
-using FOS.DB.Models;
+using FOS.Doctor.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +38,7 @@ namespace FOS.Doctor.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                logger.LogError(ex.ToString());
                 return Problem();
             }
         }
@@ -60,26 +60,31 @@ namespace FOS.Doctor.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                logger.LogError(ex.ToString());
                 return Problem();
             }
         }
-        [HttpPatch("UpdateDate")]
-        public IActionResult Update(Date date)
+        [HttpPatch("Update/{id}")]
+        public IActionResult Update(int id, DateModel model)
         {
             try
             {
-                if (date.StartDate > date.EndDate || date.StartDate == date.EndDate)
+                if (id < 0)
+                    return NotFound();
+                var date = dateRepo.GetDate(id);
+                if (date == null) return NotFound();
+
+                if (model.StartDate > model.EndDate || model.StartDate == model.EndDate)
                     return BadRequest(new { Massage = "Start date can't be greater or equal to end date" });
-               
-                var res = dateRepo.UpdateDate(date.DateFor, date.StartDate, date.EndDate);
+
+                var res = dateRepo.UpdateDate(id, model.StartDate.Value, model.EndDate.Value);
                 if (!res)
                     return BadRequest();
                 return Ok();
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
+                logger.LogError(ex.ToString());
                 return Problem();
             }
         }

@@ -1,4 +1,4 @@
-﻿using FOS.App.ExtensionMethods;
+﻿using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
@@ -9,20 +9,14 @@ namespace FOS.App.Repositories
     public class CourseRepo : ICourseRepo
     {
         private readonly FOSContext context;
-        private readonly ICoursePrerequisiteRepo coursePrerequisiteRepo;
-
-        public CourseRepo(FOSContext context,ICoursePrerequisiteRepo coursePrerequisiteRepo)
+        public CourseRepo(FOSContext context)
         {
             this.context = context;
-            this.coursePrerequisiteRepo = coursePrerequisiteRepo;
         }
-        public Course Add(Course course)
+        public bool Add(List<Course> courses)
         {
-            var c = context.Courses.Add(course);
-            var res = context.SaveChanges();
-            if (res > 0)
-                return c.Entity;
-            return null;
+            context.Courses.AddRange(courses);
+            return context.SaveChanges() > 0;
         }
         public bool Delete(Course course)
         {
@@ -31,27 +25,14 @@ namespace FOS.App.Repositories
                 || context.ProgramCourses.Any(x => x.CourseId == course.Id)
                 || context.TeacherCourses.Any(x => x.CourseId == course.Id)
                 ) return false;
-            if(coursePrerequisiteRepo.DeletePrerequisites(course.Id))
-            {
-                context.Remove(course);
-                return context.SaveChanges() > 0;
-            }
-            return false;
+
+            context.Courses.Remove(course);
+            return context.SaveChanges() > 0;
         }
         public List<Course> GetAll(out int totalCount, SearchCriteria criteria = null)
         {
-            if (criteria == null)
-            {
-                var res = context.Courses?.ToList();
-                totalCount = res.Count;
-                return res;
-            }
-            var courses = context.Courses.AsQueryable();
-            courses = courses.Search(criteria.Filters);
-            courses = courses.Order(criteria.OrderByColumn, criteria.Ascending);
-            totalCount = courses.Count();
-            courses = courses.Pageable(criteria.PageNumber, criteria.PageSize);
-            return courses?.ToList();
+            DbSet<Course> courses = context.Courses;
+            return DataFilter<Course>.FilterData(courses, criteria, out totalCount);
         }
         public List<Course> GetAll()
         {

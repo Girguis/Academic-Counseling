@@ -1,4 +1,4 @@
-﻿using FOS.App.ExtensionMethods;
+﻿using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
@@ -35,18 +35,8 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public List<DB.Models.Student> GetAll(out int totalCount, SearchCriteria criteria = null)
         {
-            if (criteria == null)
-            {
-                List<DB.Models.Student> stds = context.Students?.ToList();
-                totalCount = stds.Count();
-                return stds;
-            }
-            var students = context.Students.AsQueryable();
-            students = students.Search(criteria.Filters);
-            students = students.Order(criteria.OrderByColumn, criteria.Ascending);
-            totalCount = students.Count();
-            students = students.Pageable(criteria.PageNumber, criteria.PageSize);
-            return students?.ToList();
+            DbSet<DB.Models.Student> students = context.Students;
+            return DataFilter<DB.Models.Student>.FilterData(students, criteria, out totalCount);
         }
         /// <summary>
         /// Method to get student program history
@@ -128,7 +118,7 @@ namespace FOS.App.Repositories
         }
         public DB.Models.Student GetBySSN(string ssn)
         {
-            return context.Students.FirstOrDefault(x=>x.Ssn == ssn);
+            return context.Students.FirstOrDefault(x => x.Ssn == ssn);
         }
         public DB.Models.Student Add(DB.Models.Student student)
         {
@@ -140,6 +130,13 @@ namespace FOS.App.Repositories
             if (context.SaveChanges() > 0)
                 return res.Entity;
             return null;
+        }
+
+        public bool Update(DB.Models.Student student)
+        {
+            if (student == null) return false;
+            context.Entry(student).State = EntityState.Modified;
+            return context.SaveChanges() > 0;
         }
     }
 }
