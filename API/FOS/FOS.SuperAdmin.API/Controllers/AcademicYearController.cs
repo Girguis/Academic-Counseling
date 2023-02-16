@@ -8,6 +8,8 @@ namespace FOS.Doctor.API.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize]
+
+
     public class AcademicYearController : ControllerBase
     {
         private readonly IAcademicYearRepo academicYearRepo;
