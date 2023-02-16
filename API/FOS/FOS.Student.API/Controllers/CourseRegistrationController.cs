@@ -137,7 +137,7 @@ namespace FOS.Student.API.Controllers
                         Massage = "ID not found"
                     });
                 if (courseIDs == null || courseIDs.Count == 0)
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isRegistrationAvailable = regDate,
                         Data = null,
@@ -161,7 +161,7 @@ namespace FOS.Student.API.Controllers
                     });
                 short academicYearID = academicYearRepo.GetCurrentYear().Id;
                 if (!studentCoursesRepo.RegisterCourses(student.Id, academicYearID, courseIDs.ToList()))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isRegistrationAvailable = true,
                         Massage = "Error Occured While Adding Courses",

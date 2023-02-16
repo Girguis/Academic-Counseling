@@ -1,7 +1,0 @@
-2023-02-16 23:23:13.7565 Info Message Template Auto Format enabled
-2023-02-16 23:23:13.9572 Info Loading assembly: NLog.Web.AspNetCore
-2023-02-16 23:23:14.1318 Info Registered target NLog.Targets.FileTarget(Name=allfile)
-2023-02-16 23:23:14.1318 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
-2023-02-16 23:23:14.1318 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
-2023-02-16 23:23:14.1599 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=56, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\NLog.config
-2023-02-16 23:23:15.7618 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=56, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\NLog.config

@@ -223,16 +223,16 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
-
+        
         [HttpPost]
         [Route("ChangePassword")]
         [Route("ChangePassword/{guid}")]
-        public IActionResult ChangePassword(string guid,ChangePasswordModel model)
+        public IActionResult ChangePassword(string guid, ChangePasswordModel model)
         {
             try
             {
                 if(string.IsNullOrEmpty(guid))
-                     guid = this.Guid();
+                    guid = this.Guid();
                 var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound();
                 supervisor.Password = this.HashPassowrd(model.Password);

@@ -46,7 +46,7 @@ namespace FOS.Student.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return Ok(new Response
+                    return BadRequest(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
@@ -100,7 +100,7 @@ namespace FOS.Student.API.Controllers
                 string guid = this.Guid();
                 //Some validations when receiving request
                 if (string.IsNullOrWhiteSpace(guid))
-                    return Ok(new Response
+                    return BadRequest(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
