@@ -82,3 +82,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\n
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\SixLabors.Fonts.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\System.IO.Packaging.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\XLParser.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\nlog.config
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\NLog.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\NLog.Extensions.Logging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\NLog.Web.AspNetCore.dll

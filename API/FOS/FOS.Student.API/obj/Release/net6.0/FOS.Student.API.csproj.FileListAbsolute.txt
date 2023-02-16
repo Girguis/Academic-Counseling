@@ -75,3 +75,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Configs\FilterConfiguration.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Newtonsoft.Json.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Microsoft.AspNetCore.Mvc.Versioning.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\NLog.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\nlog.config
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\NLog.Extensions.Logging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\NLog.Web.AspNetCore.dll

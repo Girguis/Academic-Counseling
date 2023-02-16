@@ -64,7 +64,7 @@ namespace FOS.Student.API.Controllers
                     });
 
                 if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseRegistration))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isRegistrationAvailable = false,
                         Data = null,
@@ -153,7 +153,7 @@ namespace FOS.Student.API.Controllers
                     });
 
                 if (!regDate)
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isRegistrationAvailable = false,
                         Data = null,

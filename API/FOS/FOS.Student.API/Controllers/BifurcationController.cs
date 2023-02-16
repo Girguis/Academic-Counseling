@@ -46,21 +46,21 @@ namespace FOS.Student.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "ID not found"
                     });
                 if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.Bifurcation))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "Bifuraction is not available"
                     });
                 if (studentRepo.Get(guid).IsInSpecialProgram.Value)
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
@@ -100,28 +100,28 @@ namespace FOS.Student.API.Controllers
                 string guid = this.Guid();
                 //Some validations when receiving request
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "ID not found"
                     });
                 if (desiresList.Count < 1 || desiresList == null)
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "Desires list are empty"
                     });
                 if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.Bifurcation))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "Bifuraction is not availble"
                     });
                 if (studentRepo.Get(guid).IsInSpecialProgram.Value)
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
@@ -137,7 +137,7 @@ namespace FOS.Student.API.Controllers
                 });
                 //checks if error occured while add/updating student desires
                 if (!bifurcationRepo.AddDesires(student.Id, desiresList))
-                    return BadRequest(new Response
+                    return Ok(new Response
                     {
                         isBifurcationAvailable = true,
                         Data = desiresList,

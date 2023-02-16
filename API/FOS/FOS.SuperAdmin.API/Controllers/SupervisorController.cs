@@ -223,38 +223,16 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("ChangePassword/{guid}")]
+
+        [HttpPost]
+        [Route("ChangePassword")]
+        [Route("ChangePassword/{guid}")]
         public IActionResult ChangePassword(string guid,ChangePasswordModel model)
         {
             try
             {
-                var supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null) return NotFound();
-                supervisor.Password = this.HashPassowrd(model.Password);
-                var updated = supervisorRepo.Update(supervisor);
-                if (!updated)
-                    return BadRequest(new
-                    {
-                        Massage = "Error Happend while updating password",
-                        Data = model
-                    });
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
-        [HttpPost("ChangePassword")]
-        public IActionResult ChangePassword(ChangePasswordModel model)
-        {
-            try
-            {
-                string guid = this.Guid();
                 if(string.IsNullOrEmpty(guid))
-                    return BadRequest();
-
+                     guid = this.Guid();
                 var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound();
                 supervisor.Password = this.HashPassowrd(model.Password);

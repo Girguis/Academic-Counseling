@@ -1,5 +1,9 @@
 using FOS.App.ExtensionMethods;
 using System.Text.Json.Serialization;
+using NLog;
+using NLog.Web;
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,10 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.LoadCorsServices();
 //Services responsible for authentication and authorization 
 builder.LoadJwtServices();
+//Services responsible for logging
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
+
 
 var app = builder.Build();
 
@@ -26,6 +34,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 //}
 app.UseCors();
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

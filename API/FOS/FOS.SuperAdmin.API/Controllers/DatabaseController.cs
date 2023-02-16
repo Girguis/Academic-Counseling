@@ -7,7 +7,7 @@ namespace FOS.Doctor.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    //[Authorize]
+    [Authorize]
     public class DatabaseController : ControllerBase
     {
         private readonly IDatabaseRepo databaseRepo;
