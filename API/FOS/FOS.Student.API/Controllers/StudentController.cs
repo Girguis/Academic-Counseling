@@ -1,4 +1,4 @@
-﻿using FOS.App.Repositories;
+﻿using FOS.App.Helpers;
 using FOS.App.Student.DTOs;
 using FOS.App.Student.Mappers;
 using FOS.Core.IRepositories;
@@ -47,7 +47,7 @@ namespace FOS.Student.API.Controllers
         {
             try
             {
-                string hashedPassword = this.HashPassowrd(loginModel.Password);
+                string hashedPassword = Helper.HashPassowrd(loginModel.Password);
                 //Get student by email & password
                 var student = studentRepo.Login(loginModel.Email, hashedPassword);
                 //If student object is null this mean either email or password is incorrect
@@ -112,7 +112,7 @@ namespace FOS.Student.API.Controllers
 
                 List<StudentCourse> courses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id);
                 var program = studentProgramRepo.GetStudentCurrentProgram(student.Id);
-                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear(),program.ArabicName);
+                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear(), program.ArabicName);
                 return Ok(new
                 {
                     Data = mapedStudent
@@ -136,7 +136,7 @@ namespace FOS.Student.API.Controllers
                 DB.Models.Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new { Massage = "Student not found" });
-                student.Password = this.HashPassowrd(model.Password);
+                student.Password = Helper.HashPassowrd(model.Password);
                 var updated = studentRepo.Update(student);
                 if (!updated)
                     return BadRequest(new { Massage = "Error occured while updating password" });

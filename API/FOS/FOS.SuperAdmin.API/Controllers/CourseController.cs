@@ -175,7 +175,7 @@ namespace FOS.Doctor.API.Controllers
                     ws.Cell("D" + (i + 2)).Value = studentsList.ElementAt(i).Mark;
                 }
 
-                var range = ws.Range(1, 1, studentsList.Count + 1, 4);
+                var range = ws.Range(1, 1, studentsList.Count() + 1, 4);
                 var table = range.CreateTable();
                 table.Theme = XLTableTheme.TableStyleMedium16;
                 table.Style.Font.FontSize = 14;

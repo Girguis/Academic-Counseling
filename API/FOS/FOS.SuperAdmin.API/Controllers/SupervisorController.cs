@@ -1,5 +1,6 @@
 ﻿using FOS.App.Doctor.DTOs;
 using FOS.App.Doctor.Mappers;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.Doctor.API.Extenstions;
@@ -45,7 +46,7 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
-                string hashedPassword = this.HashPassowrd(loginModel.Password);
+                string hashedPassword = Helper.HashPassowrd(loginModel.Password);
                 var supervisor = supervisorRepo.Login(loginModel.Email, hashedPassword);
                 if (supervisor != null)
                 {
@@ -68,11 +69,11 @@ namespace FOS.Doctor.API.Controllers
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var stringToken = tokenHandler.WriteToken(token);
-                    var res = new
+                    return Ok(new
                     {
-                        Token = stringToken,
-                    };
-                    return Ok(res);
+                        Massage = "success",
+                        Token = stringToken
+                    });
                 }
                 return Unauthorized();
             }
@@ -160,7 +161,7 @@ namespace FOS.Doctor.API.Controllers
                         Massage = "Email Already Used",
                         Data = supervisor
                     });
-                supervisor.Password = this.HashPassowrd(supervisor.Password);
+                supervisor.Password = Helper.HashPassowrd(supervisor.Password);
                 var mappedSupervisor = supervisor.ToDBSupervisorModel(true);
                 var res = supervisorRepo.Add(mappedSupervisor);
                 if (res == null)
@@ -191,14 +192,14 @@ namespace FOS.Doctor.API.Controllers
             return Ok();
         }
         [HttpPut("Update/{guid}")]
-        public IActionResult Update(string guid,SupervisorModel supervisorModel)
+        public IActionResult Update(string guid, SupervisorModel supervisorModel)
         {
             try
             {
                 var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound(new { Massage = "Supervisor not found" });
-                
-                if(supervisor.Email != supervisorModel.Email && supervisorRepo.IsEmailReserved(supervisorModel.Email))
+
+                if (supervisor.Email != supervisorModel.Email && supervisorRepo.IsEmailReserved(supervisorModel.Email))
                 {
                     return BadRequest(new
                     {
@@ -206,10 +207,10 @@ namespace FOS.Doctor.API.Controllers
                         Data = supervisor
                     });
                 }
-                supervisorModel.Password = this.HashPassowrd(supervisorModel.Password);
+                supervisorModel.Password = Helper.HashPassowrd(supervisorModel.Password);
                 supervisor = supervisor.SupervisorUpdater(supervisorModel);
                 var res = supervisorRepo.Update(supervisor);
-                if (res == null)
+                if (!res)
                     return BadRequest(new
                     {
                         Massage = "Error Occured While Updating Supervisor",
@@ -223,7 +224,7 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
-        
+
         [HttpPost]
         [Route("ChangePassword")]
         [Route("ChangePassword/{guid}")]
@@ -231,11 +232,11 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
-                if(string.IsNullOrEmpty(guid))
+                if (string.IsNullOrEmpty(guid))
                     guid = this.Guid();
                 var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound();
-                supervisor.Password = this.HashPassowrd(model.Password);
+                supervisor.Password = Helper.HashPassowrd(model.Password);
                 var updated = supervisorRepo.Update(supervisor);
                 if (!updated)
                     return BadRequest(new

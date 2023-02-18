@@ -75,7 +75,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Debug\net6.0\FOS.Doctor.API.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Debug\net6.0\FOS.Doctor.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Supervisor.API\obj\Debug\net6.0\ref\FOS.Doctor.API.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\appsettings.Development.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\appsettings.json
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\FOS.Doctor.API.exe
@@ -87,7 +87,6 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\AutoMapper.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\ClosedXML.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\ExcelNumberFormat.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Irony.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
@@ -108,6 +107,9 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\NLog.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\NLog.Extensions.Logging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\NLog.Web.AspNetCore.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\SixLabors.Fonts.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -122,6 +124,7 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\System.Windows.Extensions.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\XLParser.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll

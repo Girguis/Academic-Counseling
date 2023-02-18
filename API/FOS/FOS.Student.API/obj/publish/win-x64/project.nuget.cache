@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hOo/fhX1IUAGzn0Ls5mLAqbUkjALdBxKLO5c0SYJeQJkwfqrYrUbVG0nnwDhap5YHfh29j0W5FsxFVlseBkrmA==",
+  "dgSpecHash": "UO7XCUvF0iSrLl3mqrkspF74+Pt4/cPZR/6mhibCWzWcwmSZieZkv46MAyxCMiu2nqrC4Lql4bm3uxESXZzDPg==",
   "success": true,
   "projectFilePath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\FOS.Student.API.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,9 @@
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\nlog\\5.1.1\\nlog.5.1.1.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\nlog.extensions.logging\\5.2.1\\nlog.extensions.logging.5.2.1.nupkg.sha512",
+    "C:\\Users\\Girguis\\.nuget\\packages\\nlog.web.aspnetcore\\5.2.1\\nlog.web.aspnetcore.5.2.1.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

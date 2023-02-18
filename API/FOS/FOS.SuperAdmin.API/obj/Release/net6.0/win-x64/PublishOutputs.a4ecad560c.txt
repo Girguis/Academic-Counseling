@@ -30,6 +30,9 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\n
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.OpenApi.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\Newtonsoft.Json.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\NLog.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\NLog.Extensions.Logging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\NLog.Web.AspNetCore.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\SixLabors.Fonts.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Release\net6.0\win-x64\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll

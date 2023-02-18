@@ -105,6 +105,9 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\NLog.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\NLog.Extensions.Logging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\NLog.Web.AspNetCore.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

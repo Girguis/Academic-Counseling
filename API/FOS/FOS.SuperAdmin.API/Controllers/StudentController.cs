@@ -1,11 +1,12 @@
 ﻿using ClosedXML.Excel;
 using FOS.App.Doctor.DTOs;
 using FOS.App.Doctor.Mappers;
+using FOS.App.Helpers;
 using FOS.App.Student.Mappers;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
-using FOS.Doctor.API.Helpers;
 using FOS.Doctor.API.Mappers;
 using FOS.Doctor.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -55,7 +56,7 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
-                List<DB.Models.Student> students = studentRepo.GetStudentsWithWarnings(out int totalCount, criteria);
+                List<Student> students = studentRepo.GetStudentsWithWarnings(out int totalCount, criteria);
                 List<StudentWarningsDTO> mappedStudents = new List<StudentWarningsDTO>();
                 for (int i = 0; i < students.Count; i++)
                 {
@@ -84,7 +85,7 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
-                List<DB.Models.Student> students = studentRepo.GetAll(out int totalCount, criteria);
+                List<Student> students = studentRepo.GetAll(out int totalCount, criteria);
                 List<StudentWarningsDTO> mappedStudents = new List<StudentWarningsDTO>();
                 for (int i = 0; i < students.Count; i++)
                 {
@@ -118,7 +119,7 @@ namespace FOS.Doctor.API.Controllers
         {
             try
             {
-                DB.Models.Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new { Massage = "Student not found" });
                 var studentCourses = studentRepo.GetAcademicDetails(guid);
@@ -189,6 +190,7 @@ namespace FOS.Doctor.API.Controllers
                     int studentID = std.Id;
                     short currentYearID = 1;
                     int currentProgramID;
+                    int semesterCounter = 0;
                     string currentAcademicYearStr = "";
                     var subStudentCourses = new List<StudentCourse>();
                     var subStudentPrograms = new List<StudentProgram>();
@@ -207,8 +209,11 @@ namespace FOS.Doctor.API.Controllers
                                 var ProgramNameStr = cellValues[3].Trim();
                                 var semesterStr = ws.Cell("C" + (i + 2)).Value.ToString().Split('-')[0].Trim();
                                 byte semesterNo = Helper.GetSemesterNumber(semesterStr);
+                                if (semesterNo != (int)SemesterEnum.Summer)
+                                    semesterCounter++;
                                 currentYearID = academicYearsLst.FirstOrDefault(x => x.AcademicYear1 == currentAcademicYearStr && x.Semester == semesterNo).Id;
-                                currentProgramID = programsLst.FirstOrDefault(x => x.ArabicName == ProgramNameStr).Id;
+                                currentProgramID = programsLst.Where(x => x.ArabicName == ProgramNameStr && x.Semester <= semesterCounter)
+                                                    .OrderByDescending(x => x.Semester).FirstOrDefault().Id;
                                 if (!subStudentPrograms.Any(x => x.ProgramId == currentProgramID))
                                     subStudentPrograms.Add(new StudentProgram
                                     {
@@ -222,6 +227,8 @@ namespace FOS.Doctor.API.Controllers
                             {
                                 var semesterStr = ws.Cell("C" + i).Value.ToString().Split('-')[0].Trim();
                                 var semesterNo = Helper.GetSemesterNumber(semesterStr);
+                                if (semesterNo != (int)SemesterEnum.Summer)
+                                    semesterCounter++;
                                 currentYearID = academicYearsLst.FirstOrDefault(x => x.AcademicYear1 == currentAcademicYearStr && x.Semester == semesterNo).Id;
                                 i += 2;
                             }
