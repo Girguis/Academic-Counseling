@@ -31,5 +31,16 @@ namespace FOS.App.Repositories
                 return filePath;
             return null;
         }
+
+        public bool Restore(string filePath)
+        {
+            filePath = filePath.Replace("\\", "/");
+            var dbName = context.Database.GetDbConnection().Database;
+            var query = string.Format("USE master ALTER DATABASE {0} SET SINGLE_USER WITH ROLLBACK IMMEDIATE RESTORE DATABASE {1} FROM DISK = '{2}' WITH REPLACE", dbName, dbName, filePath);
+            var res = context.Database.ExecuteSqlRaw(query);
+            if (res < 0)
+                return true;
+            return false;
+        }
     }
 }

@@ -3,5 +3,6 @@
     public interface IDatabaseRepo
     {
         string Backup();
+        bool Restore(string filePath);
     }
 }

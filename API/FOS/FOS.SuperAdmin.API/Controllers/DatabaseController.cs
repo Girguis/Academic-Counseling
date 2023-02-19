@@ -42,6 +42,35 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
+        [HttpPost("Restore")]
+        public IActionResult Restore(IFormFile dbFile) 
+        {
+            try
+            {
+                if (dbFile.Length < 1)
+                    return BadRequest(new { Massage = "Invalid file" });
+
+                string uploads = Path.Combine(Directory.GetCurrentDirectory(), "DbRestoreFiles");
+                if(!Directory.Exists(uploads))
+                    Directory.CreateDirectory(uploads);
+                string filePath = Path.Combine(uploads, dbFile.FileName);
+                using Stream fileStream = new FileStream(filePath, FileMode.Create);
+                dbFile.CopyTo(fileStream);
+                fileStream.Close();
+                bool restored = databaseRepo.Restore(filePath);
+                if (!restored)
+                    return BadRequest(new { Massage = "Error occured while restoring database" });
+                return Ok(new
+                {
+                    Massage = "Restored"
+                });
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 
 }
