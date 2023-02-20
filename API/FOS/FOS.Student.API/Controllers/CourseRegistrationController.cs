@@ -84,7 +84,7 @@ namespace FOS.Student.API.Controllers
                 List<byte> semesters = coursesDTOs.Select(x => x.Semester).Distinct().ToList();
                 int studentProgramID = studentRepo.GetCurrentProgram(guid).Program.Id;
                 List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
-                                                    .GetOptionalCoursesDistibution(studentProgramID)
+                                                    .GetOptionalCoursesDistibution(studentProgramID,student.Id)
                                                     .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
                                                     .ToList();
                 List<ElectiveCourseDTO> optionalCoursesDTO = new();

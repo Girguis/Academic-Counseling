@@ -56,17 +56,3 @@ C:\Users\Girguis\Desktop\FOS\FOS.DB\obj\Debug\net6.0\refint\FOS.DB.dll
 C:\Users\Girguis\Desktop\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.pdb
 C:\Users\Girguis\Desktop\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.genruntimeconfig.cache
 C:\Users\Girguis\Desktop\FOS\FOS.DB\obj\Debug\net6.0\ref\FOS.DB.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\bin\Debug\net6.0\FOS.DB.deps.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\bin\Debug\net6.0\FOS.DB.runtimeconfig.json
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\bin\Debug\net6.0\FOS.DB.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\bin\Debug\net6.0\FOS.DB.pdb
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.csproj.AssemblyReference.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.GeneratedMSBuildEditorConfig.editorconfig
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.AssemblyInfoInputs.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.AssemblyInfo.cs
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.csproj.CoreCompileInputs.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\refint\FOS.DB.dll
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.pdb
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\FOS.DB.genruntimeconfig.cache
-F:\material\4th year\Graduation Project\API\FOS\FOS.DB\obj\Debug\net6.0\ref\FOS.DB.dll

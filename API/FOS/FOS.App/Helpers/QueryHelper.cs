@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Net.WebSockets;
 
 namespace FOS.App.Helpers
 {
@@ -37,6 +38,27 @@ namespace FOS.App.Helpers
             parameter.TypeName = "[dbo].[" + tableTypeName + "]";
             parameter.SqlDbType = SqlDbType.Structured;
             return parameter;
+        }
+        public static object ExecuteFunction(string connectionString, string functionName, List<object> parameters)
+        {
+            object res;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                var query = "SELECT [dbo].[" + functionName + "](" + string.Join(",", parameters) + ")";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.CommandType = CommandType.Text;
+                try
+                {
+                    res = cmd.ExecuteScalar();
+                }
+                catch(Exception ex)
+                {
+                    res = null;
+                }
+                con.Close();
+            }
+            return res;
         }
     }
 }

@@ -142,7 +142,7 @@ namespace FOS.Doctor.API.Controllers
                         .ToDTO(programName, courses, cGpa, cHours, i == academicYears.Count - 1);
                     academicYearsDTO.Add(acaDTO);
                 }
-
+                academicYearsDTO.Reverse();
                 string? progName = studentPrograms.Count > 0 ? studentPrograms?.ElementAt(studentPrograms.Count - 1).Program.Name : "";
                 StudentAcademicReportDTO? studentReport =
                             student?.ToDTO(academicYearsDTO, progName);

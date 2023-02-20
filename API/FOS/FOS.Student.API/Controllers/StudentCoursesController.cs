@@ -53,7 +53,7 @@ namespace FOS.Student.API.Controllers
 
                 List<AcademicYear> academicYears = academicYearRepo.GetAll(student.Id);
                 List<AcademicYearsDTO> academicYearsDTO = new List<AcademicYearsDTO>();
-                for (int i = 0; i < academicYears.Count; i++)
+                for (int i = academicYears.Count - 1; i >= 0; i--)
                 {
                     double? sgpa = academicYearRepo.GetAcademicYearGPA(student.Id, academicYears.ElementAt(i).Id);
                     sgpa = sgpa != null ? Math.Round(sgpa.Value, 4) : sgpa;
