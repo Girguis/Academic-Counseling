@@ -1,10 +1,10 @@
 ﻿using ClosedXML.Excel;
 using FOS.App.Doctor.DTOs;
 using FOS.App.Doctor.Mappers;
-using FOS.App.Helpers;
+using FOS.App.ExcelReader;
 using FOS.App.Student.Mappers;
-using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using FOS.Doctor.API.Mappers;
@@ -155,152 +155,83 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("AddFromExcel")]
-        public IActionResult AddFromExcel(List<IFormFile> files)
+        [HttpPost("ReadAcademicReport")]
+        public IActionResult ReadAcademicReport(IFormFile file)
         {
             try
             {
-                if (!files.TrueForAll(x => x.Length > 1 && x.FileName.EndsWith(".xlsx")) || files.Count <1)
+                if (file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
                 {
                     return BadRequest();
                 }
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
                 var coursesLst = courseRepo.GetAll();
-                List<List<StudentCourse>> studentCourses = new List<List<StudentCourse>>();
-                List<List<StudentProgram>> studentPrograms = new List<List<StudentProgram>>();
-                Parallel.For(0, files.Count(), index =>
+                MemoryStream ms = new MemoryStream();
+                file.OpenReadStream().CopyTo(ms);
+                var wb = new XLWorkbook(ms);
+                ms.Close();
+                var ws = wb.Worksheet(1);
+                var sheet = AcademicReportReader.Read(ws, studentRepo, academicYearsLst, programsLst, coursesLst);
+                var courses = studentCoursesRepo.CompareStudentCourse(sheet.Item6, sheet.Item4);
+                var toBeInserted = courses.Item1.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                var toBeRemoved = courses.Item2.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                var toBeUpdated = courses.Item4.Select(x => StudentCoursesUpdateModel.ToViewModel(x, courses.Item3, academicYearsLst));
+                return Ok(new AcademicRecordModels
                 {
-                    MemoryStream ms = new MemoryStream();
-                    files.ElementAt(index).OpenReadStream().CopyTo(ms);
-                    var wb = new XLWorkbook(ms);
-                    ms.Close();
-                    var ws = wb.Worksheet(1);
-                    int rowsCount = ws.Rows().Count();
-                    var student = new StudentBasicModel();
-                    student.Name = ws.Cell("Q9").Value.ToString();
-                    student.Ssn = ws.Cell("E12").Value.ToString();
-                    student.SeatNumber = ws.Cell("E9").Value.ToString();
-                    var std = studentRepo.GetBySSN(student.Ssn);
-                    if (std == null)
-                    {
-                        std = student.ToDbModel();
-                        std = studentRepo.Add(std);
-                    }
-                    int studentID = std.Id;
-                    short currentYearID = 1;
-                    int currentProgramID;
-                    int semesterCounter = 0;
-                    string currentAcademicYearStr = "";
-                    var subStudentCourses = new List<StudentCourse>();
-                    var subStudentPrograms = new List<StudentProgram>();
-                    for (int i = 21; i <= rowsCount; i++)
-                    {
-                        if (!ws.Cell("C" + i).IsEmpty()
-                            && ws.Cell("C" + i).Value.ToString().Trim().Length > 1
-                            && ws.Cell("U" + i).IsEmpty())
-                        {
-                            string cellVal = ws.Cell("C" + i).Value.ToString();
-                            var cellValues = cellVal.Split('-');
-                            int count = cellValues.Count();
-                            if (count == 4)
-                            {
-                                currentAcademicYearStr = cellValues[1].Trim() + "/" + cellValues[2].Trim();
-                                var ProgramNameStr = cellValues[3].Trim();
-                                var semesterStr = ws.Cell("C" + (i + 2)).Value.ToString().Split('-')[0].Trim();
-                                byte semesterNo = Helper.GetSemesterNumber(semesterStr);
-                                if (semesterNo != (int)SemesterEnum.Summer)
-                                    semesterCounter++;
-                                currentYearID = academicYearsLst.FirstOrDefault(x => x.AcademicYear1 == currentAcademicYearStr && x.Semester == semesterNo).Id;
-                                currentProgramID = programsLst.Where(x => x.ArabicName == ProgramNameStr && x.Semester <= semesterCounter)
-                                                    .OrderByDescending(x => x.Semester).FirstOrDefault().Id;
-                                if (!subStudentPrograms.Any(x => x.ProgramId == currentProgramID))
-                                    subStudentPrograms.Add(new StudentProgram
-                                    {
-                                        StudentId = studentID,
-                                        ProgramId = currentProgramID,
-                                        AcademicYear = currentYearID
-                                    });
-                                i += 4;
-                            }
-                            else if (count == 2)
-                            {
-                                var semesterStr = ws.Cell("C" + i).Value.ToString().Split('-')[0].Trim();
-                                var semesterNo = Helper.GetSemesterNumber(semesterStr);
-                                if (semesterNo != (int)SemesterEnum.Summer)
-                                    semesterCounter++;
-                                currentYearID = academicYearsLst.FirstOrDefault(x => x.AcademicYear1 == currentAcademicYearStr && x.Semester == semesterNo).Id;
-                                i += 2;
-                            }
-                        }
-                        else if (!ws.Cell("U" + i).IsEmpty())
-                        {
-                            StudentCourse course = new StudentCourse();
-                            course.StudentId = studentID;
-                            course.AcademicYearId = currentYearID;
-                            var courseCode = ws.Cell("U" + i).Value.ToString();
-                            course.CourseId = coursesLst.FirstOrDefault(x => x.CourseCode == courseCode).Id;
-                            if (ws.Cell("O" + i).IsEmpty())
-                            {
-                                course.HasExecuse = true;
-                                course.Mark = null;
-                                course.IsGpaincluded = false;
-                            }
-                            else
-                            {
-                                course.HasExecuse = false;
-                                if (ws.Cell("S" + i).Value.ToString().Contains("-**"))
-                                {
-                                    course.IsGpaincluded = false;
-                                    course.Grade = ws.Cell("R" + i).Value.ToString();
-                                    course.Mark = null;
-                                }
-                                else if (ws.Cell("S" + i).Value.ToString().Contains("-"))
-                                {
-                                    course.IsGpaincluded = false;
-                                    course.Grade = ws.Cell("R" + i).Value.ToString();
-                                    course.Mark = byte.Parse(ws.Cell("O" + i).Value.ToString());
-                                }
-                                else
-                                {
-                                    course.IsGpaincluded = true;
-                                    course.Mark = byte.Parse(ws.Cell("O" + i).Value.ToString());
-                                }
-                            }
-                            course.IsApproved = true;
-                            subStudentCourses.Add(course);
-                        }
-                    }
-                    studentCourses.Add(subStudentCourses);
-                    studentPrograms.Add(subStudentPrograms);
+                    Name = sheet.Item1,
+                    SSN = sheet.Item2,
+                    SeatNumber = sheet.Item3,
+                    StudentPrograms = sheet.Item5,
+                    ToBeInserted = toBeInserted.ToList(),
+                    ToBeRemoved = toBeRemoved.ToList(),
+                    ToBeUpdated = toBeUpdated.ToList()
                 });
-                List<object> list = new List<object>();
-                for (int i = 0; i < studentPrograms.Count; i++)
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("UpdateFromAcademicReport")]
+        public IActionResult UpdateFromAcademicReport(AcademicRecordModels model)
+        {
+            try
+            {
+                var student = studentRepo.GetBySSN(model.SSN);
+                if (student == null)
                 {
-                    var res = studentProgramRepo.AddStudentPrograms(studentPrograms[i]);
-                    if (!res)
-                        list.Add(new
-                        {
-                            Error = "Error happend while adding programs for student",
-                            Data = studentPrograms[i]
-                        });
+                    student = new StudentBasicModel()
+                    {
+                        Name = model.Name,
+                        SeatNumber = model.SeatNumber,
+                        Ssn = model.SSN
+                    }.ToDbModel();
+                    student = studentRepo.Add(student);
                 }
-                for (int i = 0; i < studentCourses.Count; i++)
+                for (int i = 0; i < model.StudentPrograms.Count; i++)
+                    model.StudentPrograms.ElementAt(i).StudentId = student.Id;
+                var addPrograms = studentProgramRepo.AddStudentPrograms(model.StudentPrograms);
+                if (!addPrograms)
                 {
-                    var res = studentCoursesRepo.AddStudentCourses(studentCourses[i]);
-                    if (!res)
-                        list.Add(new
-                        {
-                            Error = "Error happend while adding courses for student",
-                            Data = studentCourses[i]
-                        });
-                }
-                if (list.Any())
                     return BadRequest(new
                     {
-                        Errors = list
+                        Massage = "Error happend while adding programs for student",
+                        Data = model
                     });
-                return Ok();
+                }
+                var addCourses = studentCoursesRepo.UpdateStudentCourses(student.Id, model);
+                if (!addCourses)
+                    return BadRequest(new
+                    {
+                        Massage = "Error occured while updating courses data",
+                        Data = model
+                    });
+                return Ok(new
+                {
+                    Massage = "Updated"
+                });
             }
             catch (Exception ex)
             {

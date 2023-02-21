@@ -1,5 +1,6 @@
 ﻿using FOS.App.Comparers;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -29,9 +30,18 @@ namespace FOS.App.Repositories
             return true;
         }
 
-        public bool AddStudentPrograms(List<StudentProgram> studentPrograms)
+        public bool AddStudentPrograms(List<StudentProgramModel> model)
         {
-            var savedStudentProgramsLst = GetAllStudentPrograms(studentPrograms.ElementAt(0).StudentId);
+            var savedStudentProgramsLst = GetAllStudentPrograms(model.ElementAt(0).StudentId);
+            var studentPrograms = model.Select(x => new StudentProgram()
+            {
+                StudentId = x.StudentId,
+                AcademicYear = x.AcademicYear,
+                ProgramId = x.ProgramId,
+                AcademicYearNavigation = null,
+                Program = null,
+                Student = null
+            });
             StudentProgramComparer programComparer = new StudentProgramComparer();
             IEnumerable<StudentProgram> toBeSavedLst = studentPrograms.Except(savedStudentProgramsLst, programComparer);
             if (!toBeSavedLst.Any())

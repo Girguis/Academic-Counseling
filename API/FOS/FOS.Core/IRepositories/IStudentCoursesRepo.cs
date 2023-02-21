@@ -10,7 +10,9 @@ namespace FOS.Core.IRepositories
         List<StudentCourse> GetCurrentAcademicYearCourses(int studentID);
         List<ProgramCourse> GetCoursesForRegistration(int studentID);
         bool RegisterCourses(int studentID, short academicYearID, List<int> courseIDs);
-        bool AddStudentCourses(List<StudentCourse> studentCourses);
+        bool UpdateStudentCourses(List<StudentCourse> studentCourses);
+        bool UpdateStudentCourses(int studentID,AcademicRecordModels model);
+        public Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
         List<StudentCourse> GetStudentsList(int courseID, short academicYearID);
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model);
     }

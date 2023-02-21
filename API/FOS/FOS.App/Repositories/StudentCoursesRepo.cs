@@ -31,7 +31,7 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public IEnumerable<StudentCourse> GetAllCourses(int studentID)
         {
-            return context.StudentCourses.Where(x => x.StudentId == studentID);
+            return context.StudentCourses.Where(x => x.StudentId == studentID).Include(x => x.Course).AsNoTracking().AsParallel();
         }
         /// <summary>
         /// Method to get all courses for a certain student for the current year
@@ -87,12 +87,111 @@ namespace FOS.App.Repositories
             };
             return QueryHelper.Execute(connectionString, "StudentCoursesRegistration", parameters);
         }
-        public bool AddStudentCourses(List<StudentCourse> studentCourses)
+
+        public Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses)
+        {
+            if (studentID == -1)
+                return Tuple.Create(studentCourses, new List<StudentCourse>(), new List<StudentCourse>(), new List<StudentCourse>());
+            var savedCoursesLst = GetAllCourses(studentID);
+            ToBeInsertedStudentCoursesComparer insertedCoursesComparer = new();
+            ToBeUpdatedStudentCoursesComparer updatedCoursesComparer = new();
+            List<StudentCourse> toBeSavedLst = studentCourses
+                .Except(savedCoursesLst, insertedCoursesComparer)
+                .ToList();
+            List<StudentCourse> toBeRemovedLst = savedCoursesLst
+                                                .Except(studentCourses, insertedCoursesComparer)
+                                                .ToList();
+            List<StudentCourse> toBeUpdatedLst = studentCourses
+                                                .Except(savedCoursesLst, updatedCoursesComparer)
+                                                .Except(toBeSavedLst,insertedCoursesComparer)
+                                                .ToList();
+            List<StudentCourse> toBeUpdatedOldMarksLst = savedCoursesLst
+                                                        .Except(studentCourses, updatedCoursesComparer)
+                                                        .Except(toBeSavedLst, insertedCoursesComparer)
+                                                        .Except(toBeRemovedLst, insertedCoursesComparer)
+                                                        .ToList();
+            return Tuple.Create(toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst);
+        }
+        public bool UpdateStudentCourses(int studentID, AcademicRecordModels model)
+        {
+            string query = "";
+            for (int i = 0; i < model.ToBeRemoved.Count; i++)
+            {
+                var obj = model.ToBeRemoved.ElementAt(i);
+                query +=
+                    string
+                    .Format("UPDATE StudentCourses SET IsIncluded = 0 WHERE CourseID = {0} AND StudentID = {1} AND AcademicYearID = {2}; "
+                    , obj.CourseID, studentID, obj.AcademicYearID);
+            }
+            for (int i = 0; i < model.ToBeUpdated.Count; i++)
+            {
+                var obj = model.ToBeUpdated.ElementAt(i);
+                query += string
+                    .Format("UPDATE StudentCourses SET Mark = {0} WHERE CourseID = {1} AND StudentID = {2} AND AcademicYearID = {3}; ",
+                    obj.NewMark, obj.CourseID, studentID, obj.AcademicYearID);
+            }
+            for (int i = 0; i < model.ToBeInserted.Count(); i++)
+            {
+                var course = model.ToBeInserted.ElementAt(i);
+                if (course.HasExecuse == true)
+                {
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,HasExecuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5});",
+                        studentID, course.CourseID, course.AcademicYearID, 1, 1, 0);
+                }
+                else if (course.IsGpaIncluded == false && course.Mark == null)
+                {
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGpaIncluded,Grade) VALUES({0},{1},{2},{3},{4},'{5}');",
+                        studentID, course.CourseID, course.AcademicYearID, 1, 0, course.Grade.Trim());
+                }
+                else if (course.IsGpaIncluded == false && course.Mark != null)
+                {
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGpaIncluded,Mark) VALUES({0},{1},{2},{3},{4},{5});",
+                        studentID, course.CourseID, course.AcademicYearID, 1, 0, course.Mark);
+                }
+                else
+                {
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,IsGpaIncluded,Mark) VALUES({0},{1},{2},{3},{4},{5});",
+                            studentID, course.CourseID, course.AcademicYearID, 1, 1, course.Mark);
+                }
+            }
+            if (string.IsNullOrEmpty(query))
+                return true;
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@StudentID", studentID),
+                new SqlParameter("@Query", query)
+            };
+            return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
+        }
+        public List<StudentCourse> GetStudentsList(int courseID, short academicYearID)
+        {
+            return context.StudentCourses
+             .Where(x => x.CourseId == courseID && x.AcademicYearId == academicYearID)
+             .Include(x => x.Student)
+             .AsParallel()
+             .ToList();
+        }
+
+        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model)
+        {
+            string query = "";
+            for (int i = 0; i < model.Count; i++)
+                query += string.Concat("UPDATE StudentCourses SET Mark = ", model.ElementAt(i).Mark.HasValue ? model.ElementAt(i).Mark.Value : "NULL",
+                    " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
+                    " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
+
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Query", query)
+            };
+            return QueryHelper.Execute(connectionString, "QueryExecuter", parameters);
+        }
+        public bool UpdateStudentCourses(List<StudentCourse> studentCourses)
         {
             int studentID = studentCourses.ElementAt(0).StudentId;
             var savedCoursesLst = GetAllCourses(studentID);
-            StudentCoursesComparer coursesComparer = new StudentCoursesComparer();
-            IEnumerable<StudentCourse> toBeSavedLst = studentCourses.Except(savedCoursesLst, coursesComparer);
+            ToBeInsertedStudentCoursesComparer insertedCoursesComparer = new();
+            IEnumerable<StudentCourse> toBeSavedLst = studentCourses.Except(savedCoursesLst, insertedCoursesComparer);
             if (!toBeSavedLst.Any())
                 return true;
             string query = "";
@@ -127,29 +226,5 @@ namespace FOS.App.Repositories
             };
             return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
         }
-        public List<StudentCourse> GetStudentsList(int courseID, short academicYearID)
-        {
-            return context.StudentCourses
-             .Where(x => x.CourseId == courseID && x.AcademicYearId == academicYearID)
-             .Include(x => x.Student)
-             .AsParallel()
-             .ToList();
-        }
-
-        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model)
-        {
-            string query = "";
-            for (int i = 0; i < model.Count; i++)
-                query += string.Concat("UPDATE StudentCourses SET Mark = ", model.ElementAt(i).Mark.HasValue? model.ElementAt(i).Mark.Value:"NULL",
-                    " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
-                    " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
-
-            List<SqlParameter> parameters = new List<SqlParameter>
-            {
-                new SqlParameter("@Query", query)
-            };
-            return QueryHelper.Execute(connectionString, "QueryExecuter", parameters);
-        }
-
     }
 }

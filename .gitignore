@@ -2,3 +2,10 @@
 *.log
 *.dll
 bin/
+*.vsidx
+*.vsidx
+*.cache
+*.props
+API/FOS/.vs/FOS/v17/.suo
+*.dll
+*.dll

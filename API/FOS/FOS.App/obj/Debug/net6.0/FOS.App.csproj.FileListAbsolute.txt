@@ -64,3 +64,21 @@ C:\Users\Girguis\Desktop\FOS\FOS.App\obj\Debug\net6.0\refint\FOS.App.dll
 C:\Users\Girguis\Desktop\FOS\FOS.App\obj\Debug\net6.0\FOS.App.pdb
 C:\Users\Girguis\Desktop\FOS\FOS.App\obj\Debug\net6.0\FOS.App.genruntimeconfig.cache
 C:\Users\Girguis\Desktop\FOS\FOS.App\obj\Debug\net6.0\ref\FOS.App.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.csproj.AssemblyReference.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.GeneratedMSBuildEditorConfig.editorconfig
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.AssemblyInfoInputs.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.AssemblyInfo.cs
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.csproj.CoreCompileInputs.cache
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\Configs\FilterConfiguration.json
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.App.deps.json
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.App.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.App.pdb
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.Core.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.DB.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.Core.pdb
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\bin\Debug\net6.0\FOS.DB.pdb
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.csproj.CopyComplete
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\refint\FOS.App.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\FOS.App.pdb
+F:\material\4th year\Graduation Project\API\FOS\FOS.App\obj\Debug\net6.0\ref\FOS.App.dll
