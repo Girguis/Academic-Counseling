@@ -164,3 +164,4 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.pdb
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\FOS.Student.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\obj\Debug\net6.0\ref\FOS.Student.API.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Debug\net6.0\Dapper.dll

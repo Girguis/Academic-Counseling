@@ -1,4 +1,5 @@
-﻿using FOS.App.Comparers;
+﻿using Dapper;
+using FOS.App.Comparers;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
@@ -62,14 +63,22 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public List<ProgramCourse> GetCoursesForRegistration(int studentID)
         {
-            var studentIDParam = new SqlParameter("@StudentID", studentID);
-            var res = context.ProgramCourses.FromSqlRaw("exec GetAvailableCoursesToRegister @StudentID",
-                                    studentIDParam).ToList();
-            var res2 = context.Courses.FromSqlRaw("exec GetAvailableCoursesToRegister @StudentID",
-                                    studentIDParam).ToList();
-            for (int i = 0; i < res.Count(); i++)
-                res.ElementAt(i).Course = res2.ElementAt(i);
-            return res;
+            var parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            using SqlConnection con = new SqlConnection(connectionString);
+            var programCourses =
+                con.Query<ProgramCourse, Course, ProgramCourse>
+                ("GetAvailableCoursesToRegister",
+                (program, course) =>
+                {
+                    program.Course = course;
+                    return program;
+                },
+                param: parameters,
+                splitOn: "ID",
+                commandType: CommandType.StoredProcedure);
+
+            return programCourses?.ToList();
         }
         public bool RegisterCourses(int studentID, short academicYearID, List<int> courses)
         {
@@ -103,7 +112,7 @@ namespace FOS.App.Repositories
                                                 .ToList();
             List<StudentCourse> toBeUpdatedLst = studentCourses
                                                 .Except(savedCoursesLst, updatedCoursesComparer)
-                                                .Except(toBeSavedLst,insertedCoursesComparer)
+                                                .Except(toBeSavedLst, insertedCoursesComparer)
                                                 .ToList();
             List<StudentCourse> toBeUpdatedOldMarksLst = savedCoursesLst
                                                         .Except(studentCourses, updatedCoursesComparer)

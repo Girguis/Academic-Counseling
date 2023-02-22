@@ -1,7 +1,10 @@
-﻿using FOS.Core.IRepositories;
+﻿using Dapper;
+using FOS.App.Helpers;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
@@ -11,12 +14,16 @@ namespace FOS.App.Repositories
         private readonly FOSContext context;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IStudentRepo studentRepo;
+        private readonly IConfiguration configuration;
+        private readonly string connectionString;
 
-        public BifurcationRepo(FOSContext context, IAcademicYearRepo academicYearRepo, IStudentRepo studentRepo)
+        public BifurcationRepo(FOSContext context, IAcademicYearRepo academicYearRepo, IStudentRepo studentRepo, IConfiguration configuration)
         {
             this.context = context;
             this.academicYearRepo = academicYearRepo;
             this.studentRepo = studentRepo;
+            this.configuration = configuration;
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
         public object BifurcateStudents()
         {
@@ -107,11 +114,10 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(studentProgram[i].ProgramId, studentProgram[i].StudentId, studentProgram[i].AcademicYear);
             }
-            var studentProgramParam = new SqlParameter("@StudentProgram", dt);
-            studentProgramParam.SqlDbType = SqlDbType.Structured;
-            studentProgramParam.TypeName = "[dbo].[StudentsProgramsType]";
-
-            return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentsToPrograms] @StudentProgram", studentProgramParam) > 0;
+            return QueryHelper.Execute(connectionString, "AddStudentsToPrograms", new List<SqlParameter>()
+            {
+                QueryHelper.DataTableToSqlParameter(dt,"StudentProgram","StudentsProgramsType"),
+            });
         }
         /// <summary>
         /// Method to execute a stored procedure that removes old StudentDesire and add new desires
@@ -120,7 +126,6 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public bool AddDesires(int studentID, List<byte> desires)
         {
-            var studentIdParam = new SqlParameter("@StudentID", studentID);
             var dt = new DataTable();
             dt.Columns.Add("ProgramID");
             dt.Columns.Add("DesireNumber");
@@ -128,11 +133,11 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(desires[i], i + 1);
             }
-            var desiresParam = new SqlParameter("@Desires", dt);
-            desiresParam.SqlDbType = SqlDbType.Structured;
-            desiresParam.TypeName = "[dbo].[StudentDesiresType]";
-
-            return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentDesires] @Desires, @StudentID", desiresParam, studentIdParam) > 0;
+            return QueryHelper.Execute(connectionString, "AddStudentDesires", new List<SqlParameter>()
+            {
+                QueryHelper.DataTableToSqlParameter(dt,"Desires","StudentDesiresType"),
+                new SqlParameter("@StudentID", studentID)
+            });
         }
         /// <summary>
         /// Method to get programs that student can choose from
@@ -145,27 +150,18 @@ namespace FOS.App.Repositories
         {
             DB.Models.Student student = studentRepo.Get(guid);
             Program studentProgram = studentRepo.GetCurrentProgram(guid).Program;
-            List<Program> subPrograms = new List<Program>();
-            if (studentProgram == null)
-            {
-                subPrograms = context.ProgramRelations
-                .Where(x => x.Program == null)
-                .Include(x => x.SubProgram)
-                .Select(x => x.SubProgram)
+            int? progID = studentProgram?.Id;
+            var parmeters = new DynamicParameters();
+            parmeters.Add("@ProgramID", progID);
+            using var con = new SqlConnection(connectionString);
+            return con.Query<Program>(
+                "GetSubPrograms",
+                parmeters,
+                commandType: CommandType.StoredProcedure
+                ).Where(x =>
+                x.Semester == student.SemestersNumberInProgram &
+                x.Semester % 2 == academicYearRepo.GetCurrentYear().Semester % 2)
                 .ToList();
-            }
-            else
-            {
-                subPrograms = context.ProgramRelations
-                .Where(x => x.ProgramId == studentProgram.Id)
-                .Include(x => x.SubProgram)
-                .Select(x => x.SubProgram)
-                .ToList();
-            }
-            List<Program> result = subPrograms
-                .Where(x => x.Semester == student.SemestersNumberInProgram & x.Semester % 2 == academicYearRepo.GetCurrentYear().Semester % 2)
-                .ToList();
-            return result;
         }
         /// <summary>
         /// Method to get student desires from database
@@ -175,7 +171,7 @@ namespace FOS.App.Repositories
         public List<StudentDesire> GetDesires(string guid)
         {
             IQueryable<StudentDesire> desires = context.StudentDesires.Where(x => x.Student.Guid == guid).Include(x => x.Program);
-            if (desires.Count() < 1)
+            if (!desires.Any())
                 return null;
             return desires.ToList();
         }

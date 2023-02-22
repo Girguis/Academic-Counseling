@@ -69,6 +69,7 @@ namespace FOS.App.Repositories
 
             List<SqlParameter> parameters = new List<SqlParameter>() {
                 new SqlParameter("@Name", model.programData.Name),
+                new SqlParameter("@SuperProgramID", model.programData.SuperProgramID),
                 new SqlParameter("@Semester", model.programData.Semester),
                 new SqlParameter("@Percentage", model.programData.Percentage),
                 new SqlParameter("@IsRegular", model.programData.IsRegular),
@@ -76,7 +77,6 @@ namespace FOS.App.Repositories
                 new SqlParameter("@TotalHours", model.programData.TotalHours),
                 new SqlParameter("@EnglishName", model.programData.EnglishName),
                 new SqlParameter("@ArabicName", model.programData.ArabicName),
-                new SqlParameter("@SuperProgramID", model.SuperProgramID),
                 QueryHelper.DataTableToSqlParameter(coursesLstDt,"CoursesList","ProgramCoursesType"),
                 QueryHelper.DataTableToSqlParameter(prerequisiteCoursesLstDt,"PrerequisiteCoursesList","PrerequisiteCoursesType"),
                 QueryHelper.DataTableToSqlParameter(programDistributionLstDt,"ProgramDistributionList","ProgramDistributionType"),

@@ -7,8 +7,6 @@ namespace FOS.Core.Models
         [Required]
         public ProgramDataModel programData { get; set; }
         [Required]
-        public int SuperProgramID { get; set; }
-        [Required]
         public List<ProgramCourseModel> CoursesList { get; set; }
         [Required]
         public List<PrerequisiteCourseModel> PrerequisiteCoursesList { get; set; }
@@ -35,6 +33,8 @@ namespace FOS.Core.Models
         public string EnglishName { get; set; }
         [Required]
         public string ArabicName { get; set; }
+        [Required]
+        public int? SuperProgramID { get; set; }
     }
     public class ProgramCourseModel
     {

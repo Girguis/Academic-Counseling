@@ -16,7 +16,6 @@ namespace FOS.App.Repositories
         /// Method used to add new Academic year to DB
         /// </summary>
         /// <returns></returns>
-        ///eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJHdWlkIjoiQTk1QTQzMDQtRTIxNS00NkEzLUEzQzktM0QwMUY5MEYwODY4IiwibmJmIjoxNjc1OTgwODExLCJleHAiOjE2NzYwMDI0MTEsImlhdCI6MTY3NTk4MDgxMSwiaXNzIjoiaGZkdWV3aHJwN3luNTQ0M3U5cGlyZnR0NXl1aGdmY3hkZmVyNTY0dzhteW4zOXdvcDkzbXo0dTJuN256MzI0NnRiajZ0ejU2MzJjcjUiLCJhdWQiOiIydnQzN2JubXpodm5mc2pid3RubXl1am1hd2VzcnRmZ3lodWppa21uY3hkZXM0NTZ5N3VpamhidmNkeHNlNDU2NzhpOW9rbG1uYiJ9.YeqbQf9YOvlAdyTDluDVv17dErU3VF0F7NL6SFnmtJ1c-Zktrt1OMjHcVsIAOg7rJe0WoXUq09mrb20AnLNyww
         public bool StartNewYear()
         {
             AcademicYear currentAcademicYear = GetCurrentYear();
@@ -47,7 +46,7 @@ namespace FOS.App.Repositories
         }
         public List<AcademicYear> GetAcademicYearsList()
         {
-            return context.AcademicYears.ToList();
+            return context.AcademicYears.AsNoTracking().ToList();
         }
         /// <summary>
         /// Method used to calulate semester GPA for any student in any academic year

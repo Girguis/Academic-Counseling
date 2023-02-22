@@ -7,6 +7,7 @@ namespace FOS.DB.Models
     {
         public Program()
         {
+            InverseSuperProgram = new HashSet<Program>();
             Supervisors = new HashSet<Supervisor>();
         }
 
@@ -19,7 +20,10 @@ namespace FOS.DB.Models
         public byte TotalHours { get; set; }
         public string EnglishName { get; set; } = null!;
         public string ArabicName { get; set; } = null!;
+        public int? SuperProgramId { get; set; }
 
+        public virtual Program? SuperProgram { get; set; }
+        public virtual ICollection<Program> InverseSuperProgram { get; set; }
         public virtual ICollection<Supervisor> Supervisors { get; set; }
     }
 }

@@ -16,11 +16,10 @@ namespace FOS.DB.Models
         public string Nationality { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public string? AcademicCode { get; set; }
-        public string? SeatNumber { get; set; }
+        public string AcademicCode { get; set; } = null!;
+        public string SeatNumber { get; set; } = null!;
         public byte AvailableCredits { get; set; }
         public byte? WarningsNumber { get; set; }
-        public bool? IsInSpecialProgram { get; set; }
         public int? SupervisorId { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsCrossStudent { get; set; }
@@ -32,6 +31,7 @@ namespace FOS.DB.Models
         public short? Rank { get; set; }
         public short? CalculatedRank { get; set; }
         public bool? IsActive { get; set; }
+        public bool? IsInSpecialProgram { get; set; }
 
         public virtual Supervisor? Supervisor { get; set; }
     }

@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
-        private readonly IConfiguration configuration;
-
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
+        public FOSContext(DbContextOptions<FOSContext> options)
             : base(options)
         {
-            this.configuration = configuration;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -29,7 +25,6 @@ namespace FOS.DB.Models
         public virtual DbSet<Program> Programs { get; set; } = null!;
         public virtual DbSet<ProgramCourse> ProgramCourses { get; set; } = null!;
         public virtual DbSet<ProgramDistribution> ProgramDistributions { get; set; } = null!;
-        public virtual DbSet<ProgramRelation> ProgramRelations { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<StudentCourse> StudentCourses { get; set; } = null!;
         public virtual DbSet<StudentDesire> StudentDesires { get; set; } = null!;
@@ -43,7 +38,7 @@ namespace FOS.DB.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(configuration["FosDB"]);
+                optionsBuilder.UseSqlServer("Server=DESKTOP-U2JEEI8;Database=FOS;Trusted_Connection=True;");
             }
         }
 
@@ -133,12 +128,21 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.SuperProgramId).HasColumnName("SuperProgramID");
+
                 entity.Property(e => e.TotalHours).HasDefaultValueSql("((140))");
+
+                entity.HasOne(d => d.SuperProgram)
+                    .WithMany(p => p.InverseSuperProgram)
+                    .HasForeignKey(d => d.SuperProgramId)
+                    .HasConstraintName("FK_Program_Program");
             });
 
             modelBuilder.Entity<ProgramCourse>(entity =>
             {
                 entity.HasNoKey();
+
+                entity.Property(e => e.Category).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
 
@@ -172,26 +176,6 @@ namespace FOS.DB.Models
                     .HasForeignKey(d => d.ProgramId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProgramDistribution_Program");
-            });
-
-            modelBuilder.Entity<ProgramRelation>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
-
-                entity.Property(e => e.SubProgramId).HasColumnName("SubProgramID");
-
-                entity.HasOne(d => d.Program)
-                    .WithMany()
-                    .HasForeignKey(d => d.ProgramId)
-                    .HasConstraintName("FK_ProgramRelations_Program");
-
-                entity.HasOne(d => d.SubProgram)
-                    .WithMany()
-                    .HasForeignKey(d => d.SubProgramId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ProgramRelations_Program1");
             });
 
             modelBuilder.Entity<Student>(entity =>

@@ -162,3 +162,4 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net6.0\FOS.Doctor.API.genruntimeconfig.cache
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net6.0\ref\FOS.Doctor.API.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\obj\Debug\net6.0\FOS.Doctor.API.MvcApplicationPartsAssemblyInfo.cs
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Debug\net6.0\Dapper.dll

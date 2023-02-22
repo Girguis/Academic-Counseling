@@ -1,8 +1,8 @@
 ﻿using FOS.App.Comparers;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.DB.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -12,12 +12,9 @@ namespace FOS.App.Repositories
     public class StudentProgramRepo : IStudentProgramRepo
     {
         private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-
-        public StudentProgramRepo(FOSContext context,IConfiguration configuration)
+        public StudentProgramRepo(FOSContext context)
         {
             this.context = context;
-            this.configuration = configuration;
         }
 
         public bool AddStudentProgram(StudentProgram studentProgram)
@@ -53,10 +50,7 @@ namespace FOS.App.Repositories
             for (var i = 0; i < toBeSavedLst.Count(); i++)
                 dt.Rows.Add(toBeSavedLst.ElementAt(i).ProgramId, toBeSavedLst.ElementAt(i).StudentId, toBeSavedLst.ElementAt(i).AcademicYear);
 
-            var studentProgramParam = new SqlParameter("@StudentProgram", dt);
-            studentProgramParam.SqlDbType = SqlDbType.Structured;
-            studentProgramParam.TypeName = "[dbo].[StudentsProgramsType]";
-
+            var studentProgramParam = QueryHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType");
             return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentsToPrograms] @StudentProgram", studentProgramParam) > 0;
         }
 
@@ -72,7 +66,7 @@ namespace FOS.App.Repositories
                 .Include(x => x.Program)
                 .AsNoTracking()
                 .AsParallel()
-                .MaxBy(x=>x.AcademicYear)
+                .MaxBy(x => x.AcademicYear)
                 .Program;
         }
 
