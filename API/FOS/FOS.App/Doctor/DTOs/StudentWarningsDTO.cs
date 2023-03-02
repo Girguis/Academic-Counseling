@@ -1,4 +1,4 @@
-﻿namespace FOS.App.Doctor.DTOs
+﻿namespace FOS.App.Doctors.DTOs
 {
     /// <summary>
     /// Model which will be sent to the client
@@ -11,5 +11,7 @@
         public byte? PassedHours { get; set; }
         public byte? Level { get; set; }
         public byte? WarningsNumber { get; set; }
+        public int? ProgramID { get; set; }
+        public string ProgramName { get; set; }
     }
 }

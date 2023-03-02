@@ -1,18 +1,20 @@
 ﻿using ClosedXML.Excel;
-using FOS.App.Doctor.DTOs;
-using FOS.App.Doctor.Mappers;
+using FOS.App.Doctors.DTOs;
+using FOS.App.Doctors.Mappers;
 using FOS.App.ExcelReader;
-using FOS.App.Student.Mappers;
+using FOS.App.Helpers;
+using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
-using FOS.Doctor.API.Mappers;
-using FOS.Doctor.API.Models;
+using FOS.Doctors.API.Extenstions;
+using FOS.Doctors.API.Mappers;
+using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Doctor.API.Controllers
+namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,6 +29,7 @@ namespace FOS.Doctor.API.Controllers
         private readonly ICourseRepo courseRepo;
         private readonly IStudentProgramRepo studentProgramRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
+        private readonly IDoctorRepo doctorRepo;
 
         public StudentController(IStudentRepo studentRepo,
             ILogger<StudentController> logger,
@@ -34,7 +37,8 @@ namespace FOS.Doctor.API.Controllers
             IProgramRepo programRepo,
             ICourseRepo courseRepo,
             IStudentProgramRepo studentProgramRepo,
-            IStudentCoursesRepo studentCoursesRepo)
+            IStudentCoursesRepo studentCoursesRepo,
+            IDoctorRepo doctorRepo)
         {
             this.studentRepo = studentRepo;
             this.logger = logger;
@@ -43,6 +47,7 @@ namespace FOS.Doctor.API.Controllers
             this.courseRepo = courseRepo;
             this.studentProgramRepo = studentProgramRepo;
             this.studentCoursesRepo = studentCoursesRepo;
+            this.doctorRepo = doctorRepo;
         }
 
         /// <summary>
@@ -103,6 +108,64 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
+        [HttpDelete("Deactivate/{guid}")]
+        public IActionResult Deactivate(string guid)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                var res = studentRepo.Deactivate(guid);
+                if (!res)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Occured While Deactivating student account",
+                        Data = guid
+                    });
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("Activate")]
+        public IActionResult Activate([FromBody]GuidModel model)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(model.Guid)) return NoContent();
+                var res = studentRepo.Activate(model.Guid);
+                if (!res)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Occured While Deactivating student account",
+                        Data = model.Guid
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("TestGetStudents")]
+        public IActionResult TestGetStudents(SearchCriteria criteria)
+        {
+            int.TryParse(this.ProgramID(), out int programID);
+            var students = studentRepo.GetStudents(criteria, out int totalCount, string.IsNullOrEmpty(this.ProgramID()) ? null : programID);
+            List<StudentWarningsDTO> mappedStudents = new();
+            for (int i = 0; i < students.Count; i++)
+            {
+                mappedStudents.Add(students.ElementAt(i).ToDTO());
+            }
+            return Ok(new
+            {
+                Data = mappedStudents,
+                TotalCount = totalCount
+            });
+        }
         /// <summary>
         /// This one take GUID as paramter and check if there exist a student with the GUID or not
         /// if yes then retrive all enrolled courses and his programs and a list of his/her academic years
@@ -143,9 +206,8 @@ namespace FOS.Doctor.API.Controllers
                     academicYearsDTO.Add(acaDTO);
                 }
                 academicYearsDTO.Reverse();
-                string? progName = studentPrograms.Count > 0 ? studentPrograms?.ElementAt(studentPrograms.Count - 1).Program.Name : "";
                 StudentAcademicReportDTO? studentReport =
-                            student?.ToDTO(academicYearsDTO, progName);
+                            student?.ToDTO(academicYearsDTO);
                 studentReport = studentReport == null ? new StudentAcademicReportDTO() : studentReport;
                 return Ok(studentReport);
             }
@@ -232,6 +294,29 @@ namespace FOS.Doctor.API.Controllers
                 {
                     Massage = "Updated"
                 });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ChangePassword/{guid}")]
+        public IActionResult ChangePassword(string guid, ChangePasswordModel model)
+        {
+            try
+            {
+                var student = studentRepo.Get(guid);
+                if (student == null) return NotFound();
+                student.Password = Helper.HashPassowrd(model.Password);
+                var updated = studentRepo.Update(student);
+                if (!updated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Happend while updating password",
+                        Data = model
+                    });
+                return Ok();
             }
             catch (Exception ex)
             {

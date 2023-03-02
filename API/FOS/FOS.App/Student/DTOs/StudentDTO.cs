@@ -1,6 +1,6 @@
 ﻿using FOS.DB.Models;
 
-namespace FOS.App.Student.DTOs
+namespace FOS.App.Students.DTOs
 {
     /// <summary>
     /// Model which will be sent to the client
@@ -8,7 +8,7 @@ namespace FOS.App.Student.DTOs
     public class StudentDTO
     {
         public string Name { get; set; } = null!;
-        public string SupervisorName { get; set; } = null!;
+        public string DoctorName { get; set; } = null!;
         public string ProgramName { get; set; }
         public string Ssn { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;

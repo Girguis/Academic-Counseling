@@ -1,16 +1,16 @@
 ﻿using ClosedXML.Excel;
-using FOS.App.Doctor.DTOs;
-using FOS.App.Doctor.Mappers;
+using FOS.App.Doctors.DTOs;
+using FOS.App.Doctors.Mappers;
 using FOS.App.ExcelReader;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
-using FOS.Doctor.API.Mappers;
-using FOS.Doctor.API.Models;
+using FOS.Doctors.API.Mappers;
+using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Doctor.API.Controllers
+namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

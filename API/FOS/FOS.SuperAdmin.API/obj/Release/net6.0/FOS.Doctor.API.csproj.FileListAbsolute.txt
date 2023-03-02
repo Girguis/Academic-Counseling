@@ -85,3 +85,4 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\n
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\NLog.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\NLog.Extensions.Logging.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\NLog.Web.AspNetCore.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.SuperAdmin.API\bin\Release\net6.0\Dapper.dll

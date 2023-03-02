@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace FOS.Core.Enums
 {
     public enum SemesterEnum
     {
-        [Display(Name ="Autumn")]
-        Autumn = 1,
-        [Display(Name = "Spring")]
+        [Description("Fall")]
+        Fall = 1,
+        [Description("Spring")]
         Spring = 2,
-        [Display(Name = "Summer")]
+        [Description("Summer")]
         Summer = 3
     }
 }

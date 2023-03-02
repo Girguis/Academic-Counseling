@@ -1,4 +1,4 @@
-﻿namespace FOS.App.Doctor.DTOs
+﻿namespace FOS.App.Doctors.DTOs
 {
     /// <summary>
     /// Model which will be sent to the client

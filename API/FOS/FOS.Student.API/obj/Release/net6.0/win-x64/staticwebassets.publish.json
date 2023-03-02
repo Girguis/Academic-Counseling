@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "LvT2OTtPoWoNZBhVlbueLHQDmN9GOCFiYnTqMHj1fE0=",
-  "Source": "FOS.Student.API",
-  "BasePath": "_content/FOS.Student.API",
+  "Hash": "XOeDYIULXgxjkGaw7E6toaEU92uSZdee9GGfCAi1XtE=",
+  "Source": "FOS.Students.API",
+  "BasePath": "_content/FOS.Students.API",
   "Mode": "Default",
   "ManifestType": "Publish",
   "ReferencedProjectsConfiguration": [],

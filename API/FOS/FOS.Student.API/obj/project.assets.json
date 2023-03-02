@@ -7453,9 +7453,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\FOS.Student.API.csproj",
-      "projectName": "FOS.Student.API",
-      "projectPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\FOS.Student.API.csproj",
+      "projectUniqueName": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\FOS.Students.API.csproj",
+      "projectName": "FOS.Students.API",
+      "projectPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\FOS.Students.API.csproj",
       "packagesPath": "C:\\Users\\Girguis\\.nuget\\packages\\",
       "outputPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.Student.API\\obj\\",
       "projectStyle": "PackageReference",

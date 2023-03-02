@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using FOS.App.Doctor.DTOs;
+using FOS.App.Doctors.DTOs;
     
-namespace FOS.App.Doctor.Mappers
+namespace FOS.App.Doctors.Mappers
 {
     public static class StudentAcademicReportMapper
     {
@@ -9,16 +9,16 @@ namespace FOS.App.Doctor.Mappers
         /// Extension method used to map from Student, AcademicYearDTO and programName
         /// to StudentAcademicReportDTO model
         /// </summary>
-        public static StudentAcademicReportDTO ToDTO(this DB.Models.Student student, List<AcademicYearDTO> academicYears, string programName)
+        public static StudentAcademicReportDTO ToDTO(this DB.Models.Student student, List<AcademicYearDTO> academicYears)
         {
             var config = new MapperConfiguration(c =>
             c.CreateMap<DB.Models.Student, StudentAcademicReportDTO>()
             .ForMember(o => o.Cgpa, x => x.MapFrom(z => z.Cgpa))
+            .ForMember(o=>o.ProgramName,x=>x.MapFrom(z=>z.CurrentProgram.ArabicName))
             );
             var mapper = config.CreateMapper();
             var studentReport = mapper.Map<StudentAcademicReportDTO>(student);
             studentReport.academicYearsDetails = academicYears;
-            studentReport.ProgramName = programName;
             return studentReport;
         }
     }

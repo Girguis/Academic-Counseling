@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "57yNFU/9WQ9rTwbR4bfSimf3a4dkNPBZuXVkYNUDukpPR90jDQR/mYZInwrR7HmWBTKLeBypv3Gtf7KR0ZtsyQ==",
+  "dgSpecHash": "MpQPBBIIwzeab8V9+X2EebayiuIfy2eE9wTLhDn3pPLXJuENxrnwooLm3cIoQGZRPFvW3HfArPerbg3mzSq+0w==",
   "success": true,
-  "projectFilePath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctor.API.csproj",
+  "projectFilePath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctors.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Girguis\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Girguis\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

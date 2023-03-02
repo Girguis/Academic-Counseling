@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using FOS.DB.Models;
-using FOS.Doctor.API.Models;
+using FOS.Doctors.API.Models;
 
-namespace FOS.Doctor.API.Mappers
+namespace FOS.Doctors.API.Mappers
 {
-    public static class SupervisorMapper
+    public static class DoctorMapper
     {
-        public static Supervisor ToDBSupervisorModel(this SupervisorModel supervisorModel,bool isNew)
+        public static Doctor ToDBDoctorModel(this DoctorAddModel supervisorModel,bool isNew)
         {
             var config = new MapperConfiguration(c =>
-                            c.CreateMap<SupervisorModel, Supervisor>());
+                            c.CreateMap<DoctorAddModel, Doctor>());
             var mapper = config.CreateMapper();
-            var supervisor = mapper.Map<Supervisor>(supervisorModel);
+            var supervisor = mapper.Map<Doctor>(supervisorModel);
             if(isNew)
             {
                 supervisor.CreatedOn = DateTime.UtcNow.AddHours(2);
@@ -20,12 +20,12 @@ namespace FOS.Doctor.API.Mappers
             }
             return supervisor;
         }
-        public static Supervisor SupervisorUpdater(this Supervisor toBeUpdated, SupervisorModel fromModel)
+        public static Doctor DoctorUpdater(this Doctor toBeUpdated, DoctorUpdateModel fromModel)
         {
             toBeUpdated.Email = fromModel.Email;
             toBeUpdated.Name = fromModel.Name;
-            toBeUpdated.Password = fromModel.Password;
             toBeUpdated.ProgramId= fromModel.ProgramId;
+            toBeUpdated.Type = fromModel.Type;
             return toBeUpdated;
         }
     }

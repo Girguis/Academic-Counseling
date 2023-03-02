@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using NLog;
 using NLog.Web;
 
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.LoadSwaggerVersioningServices("v1", "Doctor's API", 1, 0);
 //Services responsible for using db connection
 builder.LoadDBServices();
 //Services responsible for loading dependency injection
-builder.Services.LoadSupervisorServices();
+builder.Services.LoadDoctorServices();
 //Services responsible for Mapping from DB models to DTOs and vice versa
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //Services responsible for allow calling API from any Platform

@@ -1,16 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace FOS.Core.Enums
 {
     public enum PrerequisiteCoursesRelationEnum
     {
-        [Display(Name ="Has No Prerequisites")]
+        [Description("Has No Prerequisites")]
         NoPrerequisite,
-        [Display(Name = "Has 1 Prerequisite")]
+        [Description("Has 1 Prerequisite")]
         OnePrerequisite,
-        [Display(Name = "Prerequisites with \"AND\" relation")]
+        [Description("Prerequisites with 'AND' relation")]
         AndRelationPrerequisites,
-        [Display(Name = "Prerequisites with \"OR\" relation")]
+        [Description("Prerequisites with 'OR' relation")]
         OrRelationPrerequisites,
     }
 }

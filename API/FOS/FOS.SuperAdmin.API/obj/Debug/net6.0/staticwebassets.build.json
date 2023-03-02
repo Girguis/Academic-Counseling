@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "WC0bULb6TcweIa/VzRc5X0Lgh1J5K4c+GAcIvCvJE9I=",
-  "Source": "FOS.Doctor.API",
-  "BasePath": "_content/FOS.Doctor.API",
+  "Hash": "xsg5cnEsE9qTuzcYaz5A9FoGyb8Wr5/CnIytUdvFV0g=",
+  "Source": "FOS.Doctors.API",
+  "BasePath": "_content/FOS.Doctors.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

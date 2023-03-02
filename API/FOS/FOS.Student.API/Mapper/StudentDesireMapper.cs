@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FOS.App.Student.DTOs;
+using FOS.App.Students.DTOs;
 using FOS.DB.Models;
 
-namespace FOS.Student.API.Mapper
+namespace FOS.Students.API.Mapper
 {
     public static class StudentDesireMapper
     {

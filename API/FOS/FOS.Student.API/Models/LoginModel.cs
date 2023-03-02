@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FOS.Student.API.Models
+namespace FOS.Students.API.Models
 {
     public class LoginModel
     {

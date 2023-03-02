@@ -1,32 +1,33 @@
-﻿using FOS.App.Doctor.DTOs;
-using FOS.App.Doctor.Mappers;
+﻿using FOS.App.Doctors.DTOs;
+using FOS.App.Doctors.Mappers;
 using FOS.App.Helpers;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
-using FOS.Doctor.API.Extenstions;
-using FOS.Doctor.API.Mappers;
-using FOS.Doctor.API.Models;
+using FOS.Doctors.API.Extenstions;
+using FOS.Doctors.API.Mappers;
+using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-namespace FOS.Doctor.API.Controllers
+namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize]
-    public class SupervisorController : ControllerBase
+    public class DoctorController : ControllerBase
     {
-        private readonly ISupervisorRepo supervisorRepo;
+        private readonly IDoctorRepo supervisorRepo;
         private readonly IConfiguration configuration;
-        private readonly ILogger<SupervisorController> logger;
+        private readonly ILogger<DoctorController> logger;
 
-        public SupervisorController(ISupervisorRepo supervisorRepo,
+        public DoctorController(IDoctorRepo supervisorRepo,
                                     IConfiguration configuration,
-                                    ILogger<SupervisorController> logger)
+                                    ILogger<DoctorController> logger)
         {
             this.supervisorRepo = supervisorRepo;
             this.configuration = configuration;
@@ -48,6 +49,7 @@ namespace FOS.Doctor.API.Controllers
             {
                 string hashedPassword = Helper.HashPassowrd(loginModel.Password);
                 var supervisor = supervisorRepo.Login(loginModel.Email, hashedPassword);
+                var roleName = Enum.GetName((DoctorTypesEnum)supervisor.Type);
                 if (supervisor != null)
                 {
                     var issuer = configuration["Jwt:Issuer"];
@@ -58,7 +60,8 @@ namespace FOS.Doctor.API.Controllers
                         Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Guid", supervisor.Guid),
-                            new Claim(ClaimTypes.Role,"Admin")
+                            new Claim(ClaimTypes.Role,roleName??"Doctor"),
+                            new Claim("ProgramID",supervisor.ProgramId.ToString())
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,
@@ -86,11 +89,11 @@ namespace FOS.Doctor.API.Controllers
         /// <summary>
         /// Get informations of logged in supervisor by GUID
         /// GUID if retrived from access token, which is sent from the client-side in the header
-        /// Retrives supervisor by GUID and map it to SupervisorDTO model
+        /// Retrives supervisor by GUID and map it to DoctorDTO model
         /// </summary>
         /// <returns>Supervior details</returns>
         [HttpGet("GetSuperviorInfo")]
-        [ProducesResponseType(200, Type = typeof(SupervisorDTO))]
+        [ProducesResponseType(200, Type = typeof(DoctorDTO))]
         public IActionResult GetSuperviorInfo()
         {
             try
@@ -99,11 +102,11 @@ namespace FOS.Doctor.API.Controllers
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new { Massage = "Id not found" });
 
-                DB.Models.Supervisor supervisor = supervisorRepo.GetById(guid);
+                DB.Models.Doctor supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null)
-                    return NotFound(new { Massage = "Supervisor not found" });
+                    return NotFound(new { Massage = "Doctor not found" });
 
-                SupervisorDTO supervisorDTO = supervisor.ToDTO();
+                DoctorDTO supervisorDTO = supervisor.ToDTO();
                 return Ok(supervisorDTO);
             }
             catch (Exception ex)
@@ -119,8 +122,8 @@ namespace FOS.Doctor.API.Controllers
             {
                 if (string.IsNullOrWhiteSpace(guid)) return NoContent();
                 var supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null) return NotFound(new { Massage = "Supervisor not found" });
-                SupervisorDTO supervisorDTO = supervisor.ToDTO();
+                if (supervisor == null) return NotFound(new { Massage = "Doctor not found" });
+                DoctorDTO supervisorDTO = supervisor.ToDTO();
                 return Ok(supervisorDTO);
             }
             catch (Exception ex)
@@ -135,7 +138,7 @@ namespace FOS.Doctor.API.Controllers
             try
             {
                 var supervisors = supervisorRepo.GetAll(out int totalCount, criteria);
-                List<SupervisorDTO> supervisorDTOs = new List<SupervisorDTO>();
+                List<DoctorDTO> supervisorDTOs = new List<DoctorDTO>();
                 for (int i = 0; i < supervisors.Count; i++)
                     supervisorDTOs.Add(supervisors.ElementAt(i).ToDTO());
                 return Ok(new
@@ -151,7 +154,7 @@ namespace FOS.Doctor.API.Controllers
             }
         }
         [HttpPost("Add")]
-        public IActionResult Add(SupervisorModel supervisor)
+        public IActionResult Add(DoctorAddModel supervisor)
         {
             try
             {
@@ -162,12 +165,12 @@ namespace FOS.Doctor.API.Controllers
                         Data = supervisor
                     });
                 supervisor.Password = Helper.HashPassowrd(supervisor.Password);
-                var mappedSupervisor = supervisor.ToDBSupervisorModel(true);
-                var res = supervisorRepo.Add(mappedSupervisor);
+                var mappedDoctor = supervisor.ToDBDoctorModel(true);
+                var res = supervisorRepo.Add(mappedDoctor);
                 if (res == null)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Adding Supervisor",
+                        Massage = "Error Occured While Adding Doctor",
                         Data = supervisor
                     });
                 return Ok();
@@ -178,26 +181,55 @@ namespace FOS.Doctor.API.Controllers
                 return Problem();
             }
         }
-        [HttpDelete("Delete/{guid}")]
-        public IActionResult Delete(string guid)
+        [HttpDelete("Deactivate/{guid}")]
+        public IActionResult Deactivate(string guid)
         {
-            if (string.IsNullOrWhiteSpace(guid)) return NoContent();
-            var res = supervisorRepo.Delete(guid);
-            if (!res)
-                return BadRequest(new
-                {
-                    Massage = "Error Occured While Deleting Supervisor",
-                    Data = guid
-                });
-            return Ok();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                var res = supervisorRepo.Deactivate(guid);
+                if (!res)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Occured While Deactivating Doctor account",
+                        Data = guid
+                    });
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("Activate")]
+        public IActionResult Activate([FromBody]GuidModel model)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(model.Guid)) return NoContent();
+                var res = supervisorRepo.Activate(model.Guid);
+                if (!res)
+                    return BadRequest(new
+                    {
+                        Massage = "Error Occured While Deactivating Doctor account",
+                        Data = model.Guid
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
         }
         [HttpPut("Update/{guid}")]
-        public IActionResult Update(string guid, SupervisorModel supervisorModel)
+        public IActionResult Update(string guid, DoctorUpdateModel supervisorModel)
         {
             try
             {
                 var supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null) return NotFound(new { Massage = "Supervisor not found" });
+                if (supervisor == null) return NotFound(new { Massage = "Doctor not found" });
 
                 if (supervisor.Email != supervisorModel.Email && supervisorRepo.IsEmailReserved(supervisorModel.Email))
                 {
@@ -207,13 +239,12 @@ namespace FOS.Doctor.API.Controllers
                         Data = supervisor
                     });
                 }
-                supervisorModel.Password = Helper.HashPassowrd(supervisorModel.Password);
-                supervisor = supervisor.SupervisorUpdater(supervisorModel);
+                supervisor = supervisor.DoctorUpdater(supervisorModel);
                 var res = supervisorRepo.Update(supervisor);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Updating Supervisor",
+                        Massage = "Error Occured While Updating Doctor",
                         Data = supervisorModel
                     });
                 return Ok();

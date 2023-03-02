@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace FOS.Doctor.API.Extenstions
+namespace FOS.Doctors.API.Extenstions
 {
     internal static class ControllerExtension
     {
@@ -15,6 +13,10 @@ namespace FOS.Doctor.API.Extenstions
         public static string? Guid(this ControllerBase controller)
         {
             return controller.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
+        }        
+        public static string? ProgramID(this ControllerBase controller)
+        {
+            return controller.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "ProgramID")?.Value;
         }
     }
 

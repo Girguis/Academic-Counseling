@@ -1,14 +1,23 @@
-﻿using FOS.Core.IRepositories;
+﻿using Dapper;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class SuperAdminRepo : ISuperAdminRepo
     {
         private readonly FOSContext context;
-        public SuperAdminRepo(FOSContext context)
+        private readonly IConfiguration configuration;
+        private readonly string connectionString;
+
+        public SuperAdminRepo(FOSContext context, IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
         /// <summary>
         /// Method to get supervisor details
@@ -29,9 +38,13 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public SuperAdmin Login(string email, string hashedPassword)
         {
-            return context.SuperAdmins
-                .FirstOrDefault(x => x.Email == email &
-                                x.Password == hashedPassword);
+            DynamicParameters parameters = new();
+            parameters.Add("@Email", email);
+            parameters.Add("@Password", hashedPassword);
+            using SqlConnection con = new SqlConnection(connectionString);
+            return con.Query<SuperAdmin>("Login_SuperAdmin",
+                param: parameters,
+                commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
 
         public bool Update(SuperAdmin superAdmin)

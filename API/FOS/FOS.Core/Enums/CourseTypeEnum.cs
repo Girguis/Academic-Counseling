@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace FOS.Core.Enums
 {
     public enum CourseTypeEnum
     {
-        [Display(Name = "Mandetory")]
+        [Description("Mandetory")]
         Mandetory = 1,
-        [Display(Name = "Elective")]
+        [Description("Elective")]
         Elective = 2,
-        [Display(Name = "University Requirement")]
+        [Description("University Requirement")]
         UniversityRequirement = 3
     }
 }

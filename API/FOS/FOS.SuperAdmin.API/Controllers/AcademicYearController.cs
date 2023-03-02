@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Doctor.API.Controllers
+namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     [Authorize]
-
-
     public class AcademicYearController : ControllerBase
     {
         private readonly IAcademicYearRepo academicYearRepo;

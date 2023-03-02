@@ -1,9 +1,9 @@
-﻿using FOS.App.Doctor.DTOs;
-using FOS.App.Doctor.Mappers;
+﻿using FOS.App.Doctors.DTOs;
+using FOS.App.Doctors.Mappers;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
-using FOS.Doctor.API.Extenstions;
-using FOS.Doctor.API.Models;
+using FOS.Doctors.API.Extenstions;
+using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FOS.Doctor.API.Controllers
+namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

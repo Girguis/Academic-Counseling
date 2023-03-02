@@ -1,9 +1,9 @@
-﻿namespace FOS.App.Doctor.DTOs
+﻿namespace FOS.App.Doctors.DTOs
 {
     /// <summary>
     /// Model which will be sent to the client
     /// </summary>
-    public class SupervisorDTO
+    public class DoctorDTO
     {
         public string Guid { get; set; }
         public string Name { get; set; }

@@ -1,13 +1,12 @@
-﻿using FOS.App.Repositories;
-using FOS.App.Student.DTOs;
-using FOS.App.Student.Mappers;
+﻿using FOS.App.Students.DTOs;
+using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
-using FOS.Student.API.Extensions;
+using FOS.Students.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Student.API.Controllers
+namespace FOS.Students.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

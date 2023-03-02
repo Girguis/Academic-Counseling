@@ -1,18 +1,25 @@
-﻿using FOS.App.Helpers;
+﻿using Dapper;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class StudentRepo : IStudentRepo
     {
         private readonly FOSContext context;
-
-        public StudentRepo(FOSContext context)
+        private readonly IConfiguration configuration;
+        private readonly string connectionString;
+        public StudentRepo(FOSContext context,IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
         /// <summary>
         /// Method to get the academic details for a certian student
@@ -33,10 +40,10 @@ namespace FOS.App.Repositories
         /// <param name="totalCount"></param>
         /// <param name="criteria"></param>
         /// <returns></returns>
-        public List<DB.Models.Student> GetAll(out int totalCount, SearchCriteria criteria = null)
+        public List<Student> GetAll(out int totalCount, SearchCriteria criteria = null,bool includeProgram = true)
         {
-            DbSet<DB.Models.Student> students = context.Students;
-            return DataFilter<DB.Models.Student>.FilterData(students, criteria, out totalCount);
+            DbSet<Student> students = context.Students;
+            return DataFilter<Student>.FilterData(students, criteria, out totalCount, (includeProgram == true?"CurrentProgram":""));
         }
         /// <summary>
         /// Method to get student program history
@@ -57,7 +64,7 @@ namespace FOS.App.Repositories
         /// <param name="totalCount"></param>
         /// <param name="criteria"></param>
         /// <returns></returns>
-        public List<DB.Models.Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null)
+        public List<Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null)
         {
             criteria.Filters ??= new List<SearchBaseModel>();
             criteria.Filters.Add(new SearchBaseModel()
@@ -85,9 +92,48 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public DB.Models.Student Get(string GUID)
+        public Student Get(string GUID)
         {
-            return context.Students.Include("Supervisor").FirstOrDefault(x => x.Guid == GUID);
+            return context.Students
+                .Include("Doctor")
+                .Include("CurrentProgram")
+                .FirstOrDefault(x => x.Guid == GUID);
+        }
+        public List<Student> GetStudents(SearchCriteria criteria, out int totalCount, int? DoctorProgramID = null) 
+        {
+            DynamicParameters parameters = new();
+            parameters.Add("@ProgramID", DoctorProgramID);
+            parameters.Add("@AcademicCode", criteria.Filters.FirstOrDefault(x=>x.Key.ToLower() == "academiccode")?.Value?.ToString());
+            parameters.Add("@SeatNumber", criteria.Filters.FirstOrDefault(x=>x.Key.ToLower() == "seatnumber")?.Value?.ToString());
+            parameters.Add("@WarningsNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "warningsnumber")?.Value?.ToString());
+            parameters.Add("@SupervisorID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "supervisorid")?.Value?.ToString());
+            parameters.Add("@CGPA", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "cgpa")?.Value?.ToString());
+            parameters.Add("@PassedHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "passedhours")?.Value?.ToString());
+            parameters.Add("@Level", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "level")?.Value?.ToString());
+            parameters.Add("@IsGraduated", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isgraduated")?.Value?.ToString());
+            parameters.Add("@IsActive", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isactive")?.Value?.ToString());
+            parameters.Add("@CurrentProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "currentprogramid")?.Value?.ToString());
+            parameters.Add("@Name", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "name")?.Value?.ToString());
+            parameters.Add("@SSN", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "ssn")?.Value?.ToString());
+            parameters.Add("@PageNumber", criteria.PageNumber == 0 ? 1 : criteria.PageNumber);
+            parameters.Add("@PageSize", criteria.PageSize == 0 ? 20 : criteria.PageSize);
+            parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "s.id" : criteria.OrderByColumn);
+            parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
+            parameters.Add("@TotalCount",dbType:DbType.Int32,direction:ParameterDirection.Output);
+            using SqlConnection con = new SqlConnection(connectionString);
+            var stds = con.Query<Student, Program, Student>
+                ("GetStudents",
+                (student, program) =>
+                {
+                    student.CurrentProgram = program; return student;
+                },
+                param: parameters,
+                splitOn: "ArabicName",
+                commandType: CommandType.StoredProcedure
+                )?.ToList();
+            try{totalCount = parameters.Get<int>("Totalcount");}
+            catch { totalCount = stds.Count; }
+            return stds;
         }
         /// <summary>
         /// Method used to get student current program
@@ -109,18 +155,21 @@ namespace FOS.App.Repositories
         /// <param name="email"></param>
         /// <param name="hashedPassword"></param>
         /// <returns></returns>
-        public DB.Models.Student Login(string email, string hashedPassword)
+        public Student Login(string email, string hashedPassword)
         {
-            //var emailParam = new SqlParameter("@Email", email);
-            //var passwordParam = new SqlParameter("@Password", hashedPassword);  
-            //return context.Students.FromSqlRaw("exec SP_DB.Models.StudentLogin @Email,@Password", emailParam, passwordParam).ToList().FirstOrDefault();
-            return context.Students.FirstOrDefault(x => x.Email == email & x.Password == hashedPassword);
+            DynamicParameters parameters = new();
+            parameters.Add("@Email", email);
+            parameters.Add("@Password", hashedPassword);
+            using SqlConnection con = new SqlConnection(connectionString);
+            return con.Query<Student>("Login_Student",
+                param: parameters,
+                commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
-        public DB.Models.Student GetBySSN(string ssn)
+        public Student GetBySSN(string ssn)
         {
             return context.Students.FirstOrDefault(x => x.Ssn == ssn);
         }
-        public DB.Models.Student Add(DB.Models.Student student)
+        public Student Add(Student student)
         {
             var std = GetBySSN(student.Ssn);
             if (std != null)
@@ -132,9 +181,26 @@ namespace FOS.App.Repositories
             return null;
         }
 
-        public bool Update(DB.Models.Student student)
+        public bool Update(Student student)
         {
             if (student == null) return false;
+            context.Entry(student).State = EntityState.Modified;
+            return context.SaveChanges() > 0;
+        }
+
+        public bool Deactivate(string guid)
+        {
+            var student = Get(guid);
+            if (student == null) return false;
+            student.IsActive = false;
+            context.Entry(student).State = EntityState.Modified;
+            return context.SaveChanges() > 0;
+        }
+        public bool Activate(string guid)
+        {
+            var student = Get(guid);
+            if (student == null) return false;
+            student.IsActive = true;
             context.Entry(student).State = EntityState.Modified;
             return context.SaveChanges() > 0;
         }

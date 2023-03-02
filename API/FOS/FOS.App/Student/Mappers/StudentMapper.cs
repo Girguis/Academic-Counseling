@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FOS.App.Student.DTOs;
+using FOS.App.Students.DTOs;
 using FOS.DB.Models;
 
-namespace FOS.App.Student.Mappers
+namespace FOS.App.Students.Mappers
 {
     public static class StudentMapper
     {
@@ -14,7 +14,7 @@ namespace FOS.App.Student.Mappers
         {
 
             var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Student, StudentDTO>()
-            .ForMember(x => x.SupervisorName, o => o.MapFrom(z =>z.Supervisor.Name)));
+            .ForMember(x => x.DoctorName, o => o.MapFrom(z =>z.Doctor.Name)));
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentDTO>(student);
             studentDto.Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank;

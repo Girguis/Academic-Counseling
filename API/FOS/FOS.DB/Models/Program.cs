@@ -7,8 +7,9 @@ namespace FOS.DB.Models
     {
         public Program()
         {
+            Doctors = new HashSet<Doctor>();
             InverseSuperProgram = new HashSet<Program>();
-            Supervisors = new HashSet<Supervisor>();
+            Students = new HashSet<Student>();
         }
 
         public int Id { get; set; }
@@ -23,7 +24,8 @@ namespace FOS.DB.Models
         public int? SuperProgramId { get; set; }
 
         public virtual Program? SuperProgram { get; set; }
+        public virtual ICollection<Doctor> Doctors { get; set; }
         public virtual ICollection<Program> InverseSuperProgram { get; set; }
-        public virtual ICollection<Supervisor> Supervisors { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
     }
 }

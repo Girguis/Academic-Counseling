@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FOS.App.Student.DTOs;
+using FOS.App.Students.DTOs;
 using FOS.DB.Models;
 
-namespace FOS.App.Student.Mappers
+namespace FOS.App.Students.Mappers
 {
     public static class StudentCourceMapper
     {

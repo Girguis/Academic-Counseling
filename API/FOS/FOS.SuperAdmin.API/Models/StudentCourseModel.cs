@@ -1,4 +1,4 @@
-﻿namespace FOS.Doctor.API.Models
+﻿namespace FOS.Doctors.API.Models
 {
     public class StudentCourseModel
     {

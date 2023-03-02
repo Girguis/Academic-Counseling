@@ -1,4 +1,4 @@
-﻿namespace FOS.App.Student.DTOs
+﻿namespace FOS.App.Students.DTOs
 {
     public class ElectiveCourseDTO
     {

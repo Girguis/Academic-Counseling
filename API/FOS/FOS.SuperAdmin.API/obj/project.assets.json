@@ -7454,9 +7454,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctor.API.csproj",
-      "projectName": "FOS.Doctor.API",
-      "projectPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctor.API.csproj",
+      "projectUniqueName": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctors.API.csproj",
+      "projectName": "FOS.Doctors.API",
+      "projectPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\FOS.Doctors.API.csproj",
       "packagesPath": "C:\\Users\\Girguis\\.nuget\\packages\\",
       "outputPath": "F:\\material\\4th year\\Graduation Project\\API\\FOS\\FOS.SuperAdmin.API\\obj\\",
       "projectStyle": "PackageReference",

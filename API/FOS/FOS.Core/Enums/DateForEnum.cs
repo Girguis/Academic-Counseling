@@ -1,16 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 
 namespace FOS.Core.Enums
 {
     public enum DateForEnum
     {
-        [Display(Name = "Bifurcation")]
+        [Description("Bifurcation")]
         Bifurcation,
-        [Display(Name = "Course Registration")]
+        [Description("Course Registration")]
         CourseRegistration,
-        [Display(Name = "Course Withdraw")]
+        [Description("Course Withdraw")]
         CourseWithdraw,
-        [Display(Name = "Courses Add And Delete")]
+        [Description("Courses Add And Delete")]
         AddAndDeleteCourse
     }
 }

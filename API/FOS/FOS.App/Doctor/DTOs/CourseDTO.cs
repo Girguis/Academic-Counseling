@@ -1,6 +1,6 @@
 ﻿using FOS.DB.Models;
 
-namespace FOS.App.Doctor.DTOs
+namespace FOS.App.Doctors.DTOs
 {
     public class CourseDTO
     {

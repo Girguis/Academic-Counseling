@@ -3,7 +3,7 @@ using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Student.API.Controllers
+namespace FOS.Students.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

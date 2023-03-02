@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace FOS.DB.Models
 {
     public partial class FOSContext : DbContext
     {
+        private readonly IConfiguration configuration;
+
         public FOSContext()
         {
         }
 
-        public FOSContext(DbContextOptions<FOSContext> options)
+        public FOSContext(DbContextOptions<FOSContext> options,IConfiguration configuration)
             : base(options)
         {
+            this.configuration = configuration;
         }
 
         public virtual DbSet<AcademicYear> AcademicYears { get; set; } = null!;
@@ -21,6 +25,7 @@ namespace FOS.DB.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CoursePrerequisite> CoursePrerequisites { get; set; } = null!;
         public virtual DbSet<Date> Dates { get; set; } = null!;
+        public virtual DbSet<Doctor> Doctors { get; set; } = null!;
         public virtual DbSet<ElectiveCourseDistribution> ElectiveCourseDistributions { get; set; } = null!;
         public virtual DbSet<Program> Programs { get; set; } = null!;
         public virtual DbSet<ProgramCourse> ProgramCourses { get; set; } = null!;
@@ -30,7 +35,6 @@ namespace FOS.DB.Models
         public virtual DbSet<StudentDesire> StudentDesires { get; set; } = null!;
         public virtual DbSet<StudentProgram> StudentPrograms { get; set; } = null!;
         public virtual DbSet<SuperAdmin> SuperAdmins { get; set; } = null!;
-        public virtual DbSet<Supervisor> Supervisors { get; set; } = null!;
         public virtual DbSet<TeacherCourse> TeacherCourses { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -38,7 +42,7 @@ namespace FOS.DB.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-U2JEEI8;Database=FOS;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(configuration["ConnectionStrings:FosDB"]);
             }
         }
 
@@ -105,6 +109,29 @@ namespace FOS.DB.Models
                 entity.Property(e => e.EndDate).HasColumnType("smalldatetime");
 
                 entity.Property(e => e.StartDate).HasColumnType("smalldatetime");
+            });
+
+            modelBuilder.Entity<Doctor>(entity =>
+            {
+                entity.ToTable("Doctor");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("smalldatetime");
+
+                entity.Property(e => e.Guid)
+                    .IsUnicode(false)
+                    .HasColumnName("GUID");
+
+                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.Property(e => e.Type).HasDefaultValueSql("((1))");
+
+                entity.HasOne(d => d.Program)
+                    .WithMany(p => p.Doctors)
+                    .HasForeignKey(d => d.ProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Doctor_Program");
             });
 
             modelBuilder.Entity<ElectiveCourseDistribution>(entity =>
@@ -204,6 +231,8 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.CreatedOn).HasColumnType("smalldatetime");
 
+                entity.Property(e => e.CurrentProgramId).HasColumnName("CurrentProgramID");
+
                 entity.Property(e => e.Gender)
                     .HasMaxLength(1)
                     .IsUnicode(false)
@@ -240,14 +269,19 @@ namespace FOS.DB.Models
                     .IsUnicode(false)
                     .HasColumnName("SSN");
 
-                entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
+                entity.Property(e => e.SupervisorID).HasColumnName("SupervisorID");
 
                 entity.Property(e => e.WarningsNumber).HasComputedColumnSql("([dbo].[GetNumberOfWarnings]([ID]))", false);
 
-                entity.HasOne(d => d.Supervisor)
+                entity.HasOne(d => d.CurrentProgram)
                     .WithMany(p => p.Students)
-                    .HasForeignKey(d => d.SupervisorId)
-                    .HasConstraintName("FK_Student_Supervisor");
+                    .HasForeignKey(d => d.CurrentProgramId)
+                    .HasConstraintName("FK_Student_Program");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.Students)
+                    .HasForeignKey(d => d.SupervisorID)
+                    .HasConstraintName("FK_Student_Doctor");
             });
 
             modelBuilder.Entity<StudentCourse>(entity =>
@@ -358,27 +392,6 @@ namespace FOS.DB.Models
                     .HasColumnName("GUID");
             });
 
-            modelBuilder.Entity<Supervisor>(entity =>
-            {
-                entity.ToTable("Supervisor");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CreatedOn).HasColumnType("smalldatetime");
-
-                entity.Property(e => e.Guid)
-                    .IsUnicode(false)
-                    .HasColumnName("GUID");
-
-                entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
-
-                entity.HasOne(d => d.Program)
-                    .WithMany(p => p.Supervisors)
-                    .HasForeignKey(d => d.ProgramId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Supervisor_Program");
-            });
-
             modelBuilder.Entity<TeacherCourse>(entity =>
             {
                 entity.HasNoKey();
@@ -387,7 +400,7 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
 
-                entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
+                entity.Property(e => e.DoctorId).HasColumnName("DoctorID");
 
                 entity.HasOne(d => d.AcademicYear)
                     .WithMany()
@@ -401,10 +414,10 @@ namespace FOS.DB.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TeacherCourses_Course");
 
-                entity.HasOne(d => d.Supervisor)
+                entity.HasOne(d => d.Doctor)
                     .WithMany()
-                    .HasForeignKey(d => d.SupervisorId)
-                    .HasConstraintName("FK_TeacherCourses_Supervisor");
+                    .HasForeignKey(d => d.DoctorId)
+                    .HasConstraintName("FK_TeacherCourses_Doctor");
             });
 
             OnModelCreatingPartial(modelBuilder);

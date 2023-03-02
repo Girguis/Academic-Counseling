@@ -7,15 +7,15 @@ using FOS.App.Repositories;
 namespace FOS.App.ExtensionMethods
 {
     /// <summary>
-    /// Extension method that includes all dependency injection used in Supervisor project
+    /// Extension method that includes all dependency injection used in Doctor project
     /// </summary>
     public static class DoctorServiceCollectionExtension
     {
-        public static IServiceCollection LoadSupervisorServices(this IServiceCollection services)
+        public static IServiceCollection LoadDoctorServices(this IServiceCollection services)
         {
             services.AddDbContext<FOSContext>(ServiceLifetime.Scoped);
             services.AddScoped<ILogger>(provider => provider.GetRequiredService<ILogger>());
-            services.AddScoped<ISupervisorRepo, SupervisorRepo>();
+            services.AddScoped<IDoctorRepo, DoctorRepo>();
             services.AddScoped<IStudentRepo, StudentRepo>();
             services.AddScoped<IDatabaseRepo, DatabaseRepo>();
             services.AddScoped<IAcademicYearRepo, AcademicYearRepo>();
@@ -28,6 +28,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
             services.AddScoped<IStudentCoursesRepo, StudentCoursesRepo>();
             services.AddScoped<ICommonQuestionsRepo, CommonQuestionsRepo>();
+            services.AddScoped<ISuperAdminRepo, SuperAdminRepo>();
             return services;
         }
     }

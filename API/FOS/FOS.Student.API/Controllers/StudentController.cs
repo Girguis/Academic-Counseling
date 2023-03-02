@@ -1,10 +1,11 @@
-﻿using FOS.App.Helpers;
-using FOS.App.Student.DTOs;
-using FOS.App.Student.Mappers;
+﻿using FOS.App.Doctors.Mappers;
+using FOS.App.Helpers;
+using FOS.App.Students.DTOs;
+using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
 using FOS.DB.Models;
-using FOS.Student.API.Extensions;
-using FOS.Student.API.Models;
+using FOS.Students.API.Extensions;
+using FOS.Students.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FOS.Student.API.Controllers
+namespace FOS.Students.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -106,13 +107,12 @@ namespace FOS.Student.API.Controllers
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new { Massage = "Id not found" });
 
-                DB.Models.Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new { Massage = "Student not found" });
 
                 List<StudentCourse> courses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id);
-                var program = studentProgramRepo.GetStudentCurrentProgram(student.Id);
-                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear(), program.ArabicName);
+                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear(), student.CurrentProgram?.ArabicName);
                 return Ok(new
                 {
                     Data = mapedStudent

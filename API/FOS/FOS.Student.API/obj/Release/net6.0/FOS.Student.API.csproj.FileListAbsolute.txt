@@ -78,3 +78,11 @@ F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\NLog.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\NLog.Extensions.Logging.dll
 F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\NLog.Web.AspNetCore.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\ClosedXML.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Dapper.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\DocumentFormat.OpenXml.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\ExcelNumberFormat.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\Irony.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\SixLabors.Fonts.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\System.IO.Packaging.dll
+F:\material\4th year\Graduation Project\API\FOS\FOS.Student.API\bin\Release\net6.0\XLParser.dll

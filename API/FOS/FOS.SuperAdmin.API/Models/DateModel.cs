@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FOS.Doctor.API.Models
+namespace FOS.Doctors.API.Models
 {
     public class DateModel
     {

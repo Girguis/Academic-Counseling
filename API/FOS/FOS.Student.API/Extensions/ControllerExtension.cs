@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FOS.Student.API.Extensions
+namespace FOS.Students.API.Extensions
 {
     internal static class ControllerExtension
     {

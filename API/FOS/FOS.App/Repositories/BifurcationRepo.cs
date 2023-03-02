@@ -149,8 +149,7 @@ namespace FOS.App.Repositories
         public List<Program> GetAvailableProgram(string guid)
         {
             DB.Models.Student student = studentRepo.Get(guid);
-            Program studentProgram = studentRepo.GetCurrentProgram(guid).Program;
-            int? progID = studentProgram?.Id;
+            int? progID = student.CurrentProgramId;
             var parmeters = new DynamicParameters();
             parmeters.Add("@ProgramID", progID);
             using var con = new SqlConnection(connectionString);

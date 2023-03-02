@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace FOS.DB.Models
 {
-    public partial class Supervisor
+    public partial class Doctor
     {
-        public Supervisor()
+        public Doctor()
         {
             Students = new HashSet<Student>();
         }
@@ -18,6 +18,7 @@ namespace FOS.DB.Models
         public bool IsActive { get; set; }
         public DateTime CreatedOn { get; set; }
         public int ProgramId { get; set; }
+        public byte Type { get; set; }
 
         public virtual Program Program { get; set; } = null!;
         public virtual ICollection<Student> Students { get; set; }

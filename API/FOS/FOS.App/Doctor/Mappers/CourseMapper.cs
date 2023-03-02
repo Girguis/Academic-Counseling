@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FOS.App.Doctor.DTOs;
+using FOS.App.Doctors.DTOs;
 using FOS.DB.Models;
 
-namespace FOS.App.Doctor.Mappers
+namespace FOS.App.Doctors.Mappers
 {
     public static class CourseMapper
     {

@@ -20,7 +20,7 @@ namespace FOS.DB.Models
         public string SeatNumber { get; set; } = null!;
         public byte AvailableCredits { get; set; }
         public byte? WarningsNumber { get; set; }
-        public int? SupervisorId { get; set; }
+        public int? SupervisorID { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsCrossStudent { get; set; }
         public byte SemestersNumberInProgram { get; set; }
@@ -32,7 +32,9 @@ namespace FOS.DB.Models
         public short? CalculatedRank { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsInSpecialProgram { get; set; }
+        public int? CurrentProgramId { get; set; }
 
-        public virtual Supervisor? Supervisor { get; set; }
+        public virtual Program? CurrentProgram { get; set; }
+        public virtual Doctor? Doctor { get; set; }
     }
 }

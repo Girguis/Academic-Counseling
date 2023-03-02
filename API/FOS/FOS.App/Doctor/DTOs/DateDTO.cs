@@ -1,4 +1,4 @@
-﻿namespace FOS.App.Doctor.DTOs
+﻿namespace FOS.App.Doctors.DTOs
 {
     public class DateDTO
     {

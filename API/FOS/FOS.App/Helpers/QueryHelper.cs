@@ -63,6 +63,8 @@ namespace FOS.App.Helpers
         public static List<T> Execute<T>(string connectionString, string storedProcedureName, DynamicParameters parameters)
         {
             using SqlConnection con = new SqlConnection(connectionString);
+            if(parameters == null)
+                return con.Query<T>(storedProcedureName, commandType: CommandType.StoredProcedure)?.ToList();
             return con.Query<T>(storedProcedureName, param: parameters, commandType: CommandType.StoredProcedure)?.ToList();
         }
     }
