@@ -13,5 +13,15 @@
         public byte? WarningsNumber { get; set; }
         public int? ProgramID { get; set; }
         public string ProgramName { get; set; }
+        public string Ssn { get; set; } 
+        public string PhoneNumber { get; set; } 
+        public string Address { get; set; } 
+        public string Gender { get; set; }  
+        public string AcademicCode { get; set; } 
+        public string SeatNumber { get; set; } 
+        public byte AvailableCredits { get; set; }
+        public int? SupervisorID { get; set; }
+        public string SupervisorName { get; set; }
+        public short? Rank { get; set; }
     }
 }

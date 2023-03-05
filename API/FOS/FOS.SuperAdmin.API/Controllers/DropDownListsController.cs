@@ -1,6 +1,7 @@
 ﻿using FOS.App.Helpers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Doctors.API.Extenstions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,6 +48,20 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var lst = Helper.EnumToList<DateForEnum>();
+                return Ok(lst);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetGenderTypes")]
+        public IActionResult GetGenderTypes()
+        {
+            try
+            {
+                var lst = Helper.EnumToList<GenderEnum>();
                 return Ok(lst);
             }
             catch (Exception ex)
@@ -102,7 +117,8 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                var lst = Helper.ProgramsToList(programRepo.GetPrograms());
+                int.TryParse(this.ProgramID(), out int num);
+                var lst = Helper.ProgramsToList(programRepo.GetPrograms(string.IsNullOrEmpty(this.ProgramID()) ? null : num));
                 return Ok(lst);
             }
             catch (Exception ex)

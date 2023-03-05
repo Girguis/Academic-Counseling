@@ -16,7 +16,7 @@ namespace FOS.Doctors.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "SuperAdmin")]
     public class SuperAdminController : ControllerBase
     {
         private readonly ISuperAdminRepo superAdminRepo;
@@ -57,7 +57,8 @@ namespace FOS.Doctors.API.Controllers
                         Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Guid", superAdmin.Guid),
-                            new Claim(ClaimTypes.Role, "Admin")
+                            new Claim(ClaimTypes.Role, "SuperAdmin"),
+                            new Claim("ProgramID", "")
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,

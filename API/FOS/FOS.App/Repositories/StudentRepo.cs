@@ -111,25 +111,32 @@ namespace FOS.App.Repositories
             parameters.Add("@CGPA", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "cgpa")?.Value?.ToString());
             parameters.Add("@PassedHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "passedhours")?.Value?.ToString());
             parameters.Add("@Level", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "level")?.Value?.ToString());
+            parameters.Add("@Gender", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "gender")?.Value?.ToString());
             parameters.Add("@IsGraduated", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isgraduated")?.Value?.ToString());
             parameters.Add("@IsActive", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isactive")?.Value?.ToString());
             parameters.Add("@CurrentProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "currentprogramid")?.Value?.ToString());
             parameters.Add("@Name", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "name")?.Value?.ToString());
             parameters.Add("@SSN", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "ssn")?.Value?.ToString());
+            parameters.Add("@PhoneNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "phonenumber")?.Value?.ToString());
+            parameters.Add("@Address", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "address")?.Value?.ToString());
             parameters.Add("@PageNumber", criteria.PageNumber == 0 ? 1 : criteria.PageNumber);
             parameters.Add("@PageSize", criteria.PageSize == 0 ? 20 : criteria.PageSize);
             parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "s.id" : criteria.OrderByColumn);
             parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
             parameters.Add("@TotalCount",dbType:DbType.Int32,direction:ParameterDirection.Output);
             using SqlConnection con = new SqlConnection(connectionString);
-            var stds = con.Query<Student, Program, Student>
+            var stds = con.Query<Student, string,string, Student>
                 ("GetStudents",
-                (student, program) =>
+                (student, program, Doctor) =>
                 {
-                    student.CurrentProgram = program; return student;
+                    student.CurrentProgram = new Program();
+                    student.CurrentProgram.ArabicName = program;
+                    student.Doctor = new Doctor();
+                    student.Doctor.Name = Doctor; 
+                    return student;
                 },
                 param: parameters,
-                splitOn: "ArabicName",
+                splitOn: "ProgramName,SupervisorName",
                 commandType: CommandType.StoredProcedure
                 )?.ToList();
             int totalCount;

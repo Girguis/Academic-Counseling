@@ -49,18 +49,18 @@ namespace FOS.Doctors.API.Controllers
             this.studentCoursesRepo = studentCoursesRepo;
             this.doctorRepo = doctorRepo;
         }
-        [HttpDelete("Deactivate/{guid}")]
-        public IActionResult Deactivate(string guid)
+        [HttpPost("Deactivate")]
+        public IActionResult Deactivate([FromBody] GuidModel model)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
-                var res = studentRepo.Deactivate(guid);
+                if (string.IsNullOrWhiteSpace(model.Guid)) return NoContent();
+                var res = studentRepo.Deactivate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
                         Massage = "Error Occured While Deactivating student account",
-                        Data = guid
+                        Data = model.Guid
                     });
                 return Ok();
             }

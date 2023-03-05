@@ -8,7 +8,7 @@ namespace FOS.Core.IRepositories
     {
         Program GetProgram(int id);
         List<Program> GetPrograms(out int totalCount, SearchCriteria criteria);
-        List<Program> GetPrograms();
+        List<Program> GetPrograms(int? superProgID = null);
         bool AddProgram(ProgramModel model);
     }
 }

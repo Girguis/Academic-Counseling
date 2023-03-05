@@ -1,4 +1,5 @@
-﻿using FOS.App.Helpers;
+﻿using Dapper;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.SearchModels;
@@ -94,9 +95,11 @@ namespace FOS.App.Repositories
         {
             return context.Programs.FirstOrDefault(x => x.Id == id);
         }
-        public List<Program> GetPrograms()
+        public List<Program> GetPrograms(int? superProgID = null)
         {
-            return context.Programs.AsParallel().ToList();
+            DynamicParameters parameter = new DynamicParameters();
+            parameter.Add("@ProgramID", superProgID);
+            return QueryHelper.Execute<Program>(connectionString, "GetAllSubPrograms", parameter);
         }
         public List<Program> GetPrograms(out int totalCount, SearchCriteria criteria)
         {

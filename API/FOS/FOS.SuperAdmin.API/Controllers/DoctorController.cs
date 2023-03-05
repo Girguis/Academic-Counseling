@@ -181,18 +181,18 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpDelete("Deactivate/{guid}")]
-        public IActionResult Deactivate(string guid)
+        [HttpPost("Deactivate")]
+        public IActionResult Deactivate([FromBody] GuidModel model)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(guid)) return NotFound();
-                var res = supervisorRepo.Deactivate(guid);
+                if (string.IsNullOrWhiteSpace(model.Guid)) return NotFound();
+                var res = supervisorRepo.Deactivate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
                         Massage = "Error Occured While Deactivating Doctor account",
-                        Data = guid
+                        Data = model.Guid
                     });
                 return Ok();
             }
