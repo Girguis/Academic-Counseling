@@ -1,8 +1,10 @@
-﻿using FOS.App.Comparers;
+﻿using Dapper;
+using FOS.App.Comparers;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.DB.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Data;
@@ -12,9 +14,14 @@ namespace FOS.App.Repositories
     public class StudentProgramRepo : IStudentProgramRepo
     {
         private readonly FOSContext context;
-        public StudentProgramRepo(FOSContext context)
+        private readonly IConfiguration configuration;
+        private readonly string connectionString;
+
+        public StudentProgramRepo(FOSContext context,IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
+            connectionString= this.configuration["ConnectionStrings:FosDB"];
         }
 
         public bool AddStudentProgram(StudentProgram studentProgram)
@@ -84,17 +91,8 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public object ProgramsStatistics()
         {
-            var result = context.StudentPrograms.Include(x => x.Program)
-                .ToList()
-                .OrderByDescending(x => x.AcademicYear)
-                .GroupBy(x => x.StudentId)
-                .Select(x => x.FirstOrDefault());
-
-            return result.GroupBy(x => x.Program).Select(x => new
-            {
-                Key = x.Key.Name,
-                Count = x.Count()
-            });
+            SqlConnection con = new SqlConnection(connectionString);
+            return con.Query<StatisticsModel>("ProgramsStatistics", commandType: CommandType.StoredProcedure);
         }
     }
 }

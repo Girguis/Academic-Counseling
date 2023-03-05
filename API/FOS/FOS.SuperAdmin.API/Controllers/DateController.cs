@@ -31,10 +31,7 @@ namespace FOS.Doctors.API.Controllers
                 var datesDto = new List<DateDTO>();
                 for (int i = 0; i < dates.Count; i++)
                     datesDto.Add(dates.ElementAt(i).ToDTO());
-                return Ok(new
-                {
-                    Data = datesDto
-                });
+                return Ok(datesDto);
             }
             catch (Exception ex)
             {
@@ -53,10 +50,7 @@ namespace FOS.Doctors.API.Controllers
                 if (date == null)
                     return NotFound();
                 var dateDto = date.ToDTO();
-                return Ok(new
-                {
-                    Data = dateDto
-                });
+                return Ok(dateDto);
             }
             catch (Exception ex)
             {

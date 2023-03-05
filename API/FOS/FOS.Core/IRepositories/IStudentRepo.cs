@@ -5,7 +5,7 @@ namespace FOS.Core.IRepositories
 {
     public interface IStudentRepo
     {
-        List<Student> GetStudents(SearchCriteria criteria,out int totalCount,int? DoctorProgramID = null);
+        Tuple<int, List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
         List<Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null);
         List<Student> GetAll(out int totalCount, SearchCriteria criteria = null,bool includeProgram = true);
         Student Get(string GUID);

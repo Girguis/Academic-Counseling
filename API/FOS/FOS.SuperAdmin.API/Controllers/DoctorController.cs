@@ -49,9 +49,9 @@ namespace FOS.Doctors.API.Controllers
             {
                 string hashedPassword = Helper.HashPassowrd(loginModel.Password);
                 var supervisor = supervisorRepo.Login(loginModel.Email, hashedPassword);
-                var roleName = Enum.GetName((DoctorTypesEnum)supervisor.Type);
                 if (supervisor != null)
                 {
+                    var roleName = Enum.GetName((DoctorTypesEnum)supervisor.Type);
                     var issuer = configuration["Jwt:Issuer"];
                     var audience = configuration["Jwt:Audience"];
                     var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
@@ -92,9 +92,9 @@ namespace FOS.Doctors.API.Controllers
         /// Retrives supervisor by GUID and map it to DoctorDTO model
         /// </summary>
         /// <returns>Supervior details</returns>
-        [HttpGet("GetSuperviorInfo")]
+        [HttpGet("GetInfo")]
         [ProducesResponseType(200, Type = typeof(DoctorDTO))]
-        public IActionResult GetSuperviorInfo()
+        public IActionResult GetInfo()
         {
             try
             {
@@ -120,7 +120,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                if (string.IsNullOrWhiteSpace(guid)) return NotFound();
                 var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound(new { Massage = "Doctor not found" });
                 DoctorDTO supervisorDTO = supervisor.ToDTO();
@@ -186,7 +186,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                if (string.IsNullOrWhiteSpace(guid)) return NotFound();
                 var res = supervisorRepo.Deactivate(guid);
                 if (!res)
                     return BadRequest(new
@@ -207,12 +207,12 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(model.Guid)) return NoContent();
+                if (string.IsNullOrWhiteSpace(model.Guid)) return NotFound();
                 var res = supervisorRepo.Activate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Deactivating Doctor account",
+                        Massage = "Error Occured While Activating Doctor account",
                         Data = model.Guid
                     });
                 return Ok();
@@ -231,7 +231,8 @@ namespace FOS.Doctors.API.Controllers
                 var supervisor = supervisorRepo.GetById(guid);
                 if (supervisor == null) return NotFound(new { Massage = "Doctor not found" });
 
-                if (supervisor.Email != supervisorModel.Email && supervisorRepo.IsEmailReserved(supervisorModel.Email))
+                if (supervisor.Email != supervisorModel.Email 
+                    && supervisorRepo.IsEmailReserved(supervisorModel.Email))
                 {
                     return BadRequest(new
                     {

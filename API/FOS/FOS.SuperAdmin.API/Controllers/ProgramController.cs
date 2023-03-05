@@ -48,10 +48,7 @@ namespace FOS.Doctors.API.Controllers
                 var program = programRepo.GetProgram(id);
                 if(program == null)
                     return NotFound();
-                return Ok(new
-                {
-                    Data = program
-                });
+                return Ok(program);
             }
             catch (Exception ex)
             {

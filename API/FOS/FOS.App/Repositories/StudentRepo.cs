@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
@@ -81,10 +82,10 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public object GenderStatistics()
         {
-            return context.Students.GroupBy(x => x.Gender).Select(x => new
+            return context.Students.GroupBy(x => x.Gender).Select(x => new StatisticsModel
             {
-                x.Key,
-                Count = x.Count()
+                Key = x.Key,
+                Value = x.Count()
             })?.ToList();
         }
         /// <summary>
@@ -99,7 +100,7 @@ namespace FOS.App.Repositories
                 .Include("CurrentProgram")
                 .FirstOrDefault(x => x.Guid == GUID);
         }
-        public List<Student> GetStudents(SearchCriteria criteria, out int totalCount, int? DoctorProgramID = null) 
+        public Tuple<int,List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null) 
         {
             DynamicParameters parameters = new();
             parameters.Add("@ProgramID", DoctorProgramID);
@@ -131,9 +132,10 @@ namespace FOS.App.Repositories
                 splitOn: "ArabicName",
                 commandType: CommandType.StoredProcedure
                 )?.ToList();
-            try{totalCount = parameters.Get<int>("Totalcount");}
+            int totalCount;
+            try{totalCount = parameters.Get<int>("TotalCount");}
             catch { totalCount = stds.Count; }
-            return stds;
+            return Tuple.Create(totalCount, stds);
         }
         /// <summary>
         /// Method used to get student current program

@@ -37,19 +37,5 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
-        {
-            try
-            {
-                var years = academicYearRepo.GetAcademicYearsList();
-                return Ok(new { Data = years });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
     }
 }

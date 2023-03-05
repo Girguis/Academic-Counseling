@@ -49,65 +49,6 @@ namespace FOS.Doctors.API.Controllers
             this.studentCoursesRepo = studentCoursesRepo;
             this.doctorRepo = doctorRepo;
         }
-
-        /// <summary>
-        /// Get students with 1 or more warning by using studentRepo.GetStudentsWithWarnings
-        /// After getting the list of students, it will be mapped to StudentWarningsDTO model
-        /// </summary>
-        /// <param name="criteria"></param>
-        /// <returns>list of students who have 1 or more warning and their total count</returns>
-        [HttpPost("GetStudentsWithWarnings")]
-        public IActionResult GetStudentsWithWarnings([FromBody] SearchCriteria criteria)
-        {
-            try
-            {
-                List<Student> students = studentRepo.GetStudentsWithWarnings(out int totalCount, criteria);
-                List<StudentWarningsDTO> mappedStudents = new List<StudentWarningsDTO>();
-                for (int i = 0; i < students.Count; i++)
-                {
-                    mappedStudents.Add(students.ElementAt(i).ToDTO());
-                }
-                return Ok(new
-                {
-                    Data = mappedStudents,
-                    TotalCount = totalCount
-                });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
-        /// <summary>
-        /// Get all students with or without warning by using studentRepo.GetAll
-        /// After getting the list of students, it will be mapped to StudentWarningsDTO model 
-        /// </summary>
-        /// <param name="criteria"></param>
-        /// <returns>List of mapped students and total count</returns>
-        [HttpPost("GetStudents")]
-        public IActionResult GetStudents([FromBody] SearchCriteria criteria)
-        {
-            try
-            {
-                List<Student> students = studentRepo.GetAll(out int totalCount, criteria);
-                List<StudentWarningsDTO> mappedStudents = new List<StudentWarningsDTO>();
-                for (int i = 0; i < students.Count; i++)
-                {
-                    mappedStudents.Add(students.ElementAt(i).ToDTO());
-                }
-                return Ok(new
-                {
-                    Data = mappedStudents,
-                    TotalCount = totalCount
-                });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
         [HttpDelete("Deactivate/{guid}")]
         public IActionResult Deactivate(string guid)
         {
@@ -150,12 +91,13 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("TestGetStudents")]
-        public IActionResult TestGetStudents(SearchCriteria criteria)
+        [HttpPost("GetStudents")]
+        public IActionResult GetStudents(SearchCriteria criteria)
         {
             int.TryParse(this.ProgramID(), out int programID);
-            var students = studentRepo.GetStudents(criteria, out int totalCount, string.IsNullOrEmpty(this.ProgramID()) ? null : programID);
-            List<StudentWarningsDTO> mappedStudents = new();
+            var result = studentRepo.GetAll(criteria,string.IsNullOrEmpty(this.ProgramID()) ? null : programID);
+            var students = result.Item2;
+            List<StudentsDTO> mappedStudents = new();
             for (int i = 0; i < students.Count; i++)
             {
                 mappedStudents.Add(students.ElementAt(i).ToDTO());
@@ -163,7 +105,7 @@ namespace FOS.Doctors.API.Controllers
             return Ok(new
             {
                 Data = mappedStudents,
-                TotalCount = totalCount
+                TotalCount = result.Item1
             });
         }
         /// <summary>
@@ -229,12 +171,7 @@ namespace FOS.Doctors.API.Controllers
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
                 var coursesLst = courseRepo.GetAll();
-                MemoryStream ms = new MemoryStream();
-                file.OpenReadStream().CopyTo(ms);
-                var wb = new XLWorkbook(ms);
-                ms.Close();
-                var ws = wb.Worksheet(1);
-                var sheet = AcademicReportReader.Read(ws, studentRepo, academicYearsLst, programsLst, coursesLst);
+                var sheet = AcademicReportReader.Read(file, studentRepo, academicYearsLst, programsLst, coursesLst);
                 var courses = studentCoursesRepo.CompareStudentCourse(sheet.Item6, sheet.Item4);
                 var toBeInserted = courses.Item1.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
                 var toBeRemoved = courses.Item2.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));

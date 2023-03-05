@@ -9,20 +9,23 @@ namespace FOS.Doctors.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    //[Authorize]
+    [Authorize]
     public class DropDownListsController : ControllerBase
     {
         private readonly ILogger<DropDownListsController> logger;
         private readonly IProgramRepo programRepo;
         private readonly ICourseRepo courseRepo;
+        private readonly IAcademicYearRepo academicYearRepo;
 
         public DropDownListsController(ILogger<DropDownListsController> logger,
             IProgramRepo programRepo,
-            ICourseRepo courseRepo)
+            ICourseRepo courseRepo,
+            IAcademicYearRepo academicYearRepo)
         {
             this.logger = logger;
             this.programRepo = programRepo;
             this.courseRepo = courseRepo;
+            this.academicYearRepo = academicYearRepo;
         }
         [HttpGet("GetCourseTypes")]
         public IActionResult GetCourseTypes()
@@ -32,7 +35,7 @@ namespace FOS.Doctors.API.Controllers
                 var lst = Helper.EnumToList<CourseTypeEnum>();
                 return Ok(lst);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -101,7 +104,8 @@ namespace FOS.Doctors.API.Controllers
             {
                 var lst = Helper.ProgramsToList(programRepo.GetPrograms());
                 return Ok(lst);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -113,6 +117,20 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var lst = Helper.CoursesToList(courseRepo.GetAll());
+                return Ok(lst);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetAcademicYearsList")]
+        public IActionResult GetAcademicYearsList()
+        {
+            try
+            {
+                var lst = Helper.AcademicYearsToList(academicYearRepo.GetAcademicYearsList());
                 return Ok(lst);
             }
             catch (Exception ex)

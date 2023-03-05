@@ -36,8 +36,8 @@ namespace FOS.Doctors.API.Controllers
             this.academicYearRepo = academicYearRepo;
             this.coursePrerequisiteRepo = coursePrerequisiteRepo;
         }
-        [HttpPost("Get")]
-        public IActionResult GetCourses([FromBody] SearchCriteria criteria)
+        [HttpPost("GetAll")]
+        public IActionResult GetAll([FromBody] SearchCriteria criteria)
         {
             try
             {
@@ -67,10 +67,7 @@ namespace FOS.Doctors.API.Controllers
                 if (course == null)
                     return NotFound();
                 var courseDTO = course.ToDTO();
-                return Ok(new
-                {
-                    Data = courseDTO
-                });
+                return Ok(courseDTO);
             }
             catch (Exception ex)
             {

@@ -6,12 +6,12 @@ namespace FOS.App.Helpers
 {
     public class DataFilter<T> where T : class
     {
-        public static List<T> FilterData(DbSet<T> dataToFilter, SearchCriteria criteria, out int totalCount,string includes = "")
+        public static List<T> FilterData(DbSet<T> dataToFilter, SearchCriteria criteria, out int totalCount,string includes = null)
         {
             if (criteria == null)
             {
                 List<T> dataLst = string.IsNullOrEmpty(includes) ? dataToFilter?.ToList() : dataToFilter.Include(includes)?.ToList();
-                totalCount = dataLst.Count();
+                totalCount = dataLst.Count;
                 return dataLst;
             }
             var data = string.IsNullOrEmpty(includes) ? dataToFilter.AsQueryable() : dataToFilter.Include(includes).AsQueryable();

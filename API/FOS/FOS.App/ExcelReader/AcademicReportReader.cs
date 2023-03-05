@@ -4,6 +4,7 @@ using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.DB.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FOS.App.ExcelReader
 {
@@ -11,12 +12,17 @@ namespace FOS.App.ExcelReader
     {
         public static Tuple<string, string, string, List<StudentCourse>, List<StudentProgramModel>,int>
             Read
-            (IXLWorksheet ws,
+            (IFormFile file,
             IStudentRepo studentRepo,
             List<AcademicYear> academicYearsLst,
             List<Program> programsLst,
             List<Course> coursesLst)
         {
+            MemoryStream ms = new MemoryStream();
+            file.OpenReadStream().CopyTo(ms);
+            var wb = new XLWorkbook(ms);
+            ms.Close();
+            var ws = wb.Worksheet(1);
             List<StudentCourse> studentCourses = new List<StudentCourse>();
             List<StudentProgramModel> studentPrograms = new List<StudentProgramModel>();
             int rowsCount = ws.Rows().Count();
