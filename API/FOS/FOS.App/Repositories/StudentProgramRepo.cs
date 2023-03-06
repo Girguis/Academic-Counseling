@@ -84,15 +84,5 @@ namespace FOS.App.Repositories
                                 && x.ProgramId == studentProgram.ProgramId
                                 && x.AcademicYear == studentProgram.AcademicYear);
         }
-
-        /// <summary>
-        /// Function to get number of students in each program
-        /// </summary>
-        /// <returns></returns>
-        public object ProgramsStatistics()
-        {
-            SqlConnection con = new SqlConnection(connectionString);
-            return con.Query<StatisticsModel>("ProgramsStatistics", commandType: CommandType.StoredProcedure);
-        }
     }
 }

@@ -7,12 +7,11 @@ namespace FOS.Core.IRepositories
     {
         Tuple<int, List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
         List<Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null);
-        List<Student> GetAll(out int totalCount, SearchCriteria criteria = null,bool includeProgram = true);
+        List<Student> GetAll(out int totalCount, SearchCriteria criteria = null, bool includeProgram = true);
         Student Get(string GUID);
         List<StudentCourse> GetAcademicDetails(string GUID);
         List<StudentProgram> GetPrograms(string GUID);
         StudentProgram GetCurrentProgram(string GUID);
-        object GenderStatistics();
         Student Login(string email, string hashedPassword);
         Student Add(Student student);
         Student GetBySSN(string ssn);

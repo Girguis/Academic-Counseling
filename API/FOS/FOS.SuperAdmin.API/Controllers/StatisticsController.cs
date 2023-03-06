@@ -1,4 +1,5 @@
 ﻿using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +12,12 @@ namespace FOS.Doctors.API.Controllers
     public class StatisticsController : Controller
     {
         private readonly ILogger<StatisticsController> logger;
-        private readonly IStudentRepo studentRepo;
-        private readonly IStudentProgramRepo programRepo;
-
+        private readonly IStatisticsRepo statisticsRepo;
         public StatisticsController(ILogger<StatisticsController> logger,
-            IStudentRepo studentRepo,
-            IStudentProgramRepo programRepo)
+            IStatisticsRepo statisticsRepo)
         {
             this.logger = logger;
-            this.studentRepo = studentRepo;
-            this.programRepo = programRepo;
+            this.statisticsRepo = statisticsRepo;
         }
 
         /// <summary>
@@ -32,7 +29,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                return Ok(studentRepo.GenderStatistics());
+                return Ok(statisticsRepo.GetGendersStatistics());
             }
             catch (Exception ex)
             {
@@ -49,7 +46,20 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                return Ok(programRepo.ProgramsStatistics());
+                return Ok(statisticsRepo.GetProgramsStatistics());
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("StudentsGPAStatistics")]
+        public IActionResult StudentsGPAStatistics(StudentsGradesParatmeterModel model)
+        {
+            try
+            {
+                return Ok(statisticsRepo.GetStudentsGradesStatistics(model));
             }
             catch (Exception ex)
             {

@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
-using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
@@ -16,7 +15,7 @@ namespace FOS.App.Repositories
         private readonly FOSContext context;
         private readonly IConfiguration configuration;
         private readonly string connectionString;
-        public StudentRepo(FOSContext context,IConfiguration configuration)
+        public StudentRepo(FOSContext context, IConfiguration configuration)
         {
             this.context = context;
             this.configuration = configuration;
@@ -41,10 +40,10 @@ namespace FOS.App.Repositories
         /// <param name="totalCount"></param>
         /// <param name="criteria"></param>
         /// <returns></returns>
-        public List<Student> GetAll(out int totalCount, SearchCriteria criteria = null,bool includeProgram = true)
+        public List<Student> GetAll(out int totalCount, SearchCriteria criteria = null, bool includeProgram = true)
         {
             DbSet<Student> students = context.Students;
-            return DataFilter<Student>.FilterData(students, criteria, out totalCount, (includeProgram == true?"CurrentProgram":""));
+            return DataFilter<Student>.FilterData(students, criteria, out totalCount, includeProgram == true ? "CurrentProgram" : "");
         }
         /// <summary>
         /// Method to get student program history
@@ -77,18 +76,6 @@ namespace FOS.App.Repositories
             return GetAll(out totalCount, criteria)?.ToList();
         }
         /// <summary>
-        /// Get number of males and females
-        /// </summary>
-        /// <returns></returns>
-        public object GenderStatistics()
-        {
-            return context.Students.GroupBy(x => x.Gender).Select(x => new StatisticsModel
-            {
-                Key = x.Key,
-                Value = x.Count()
-            })?.ToList();
-        }
-        /// <summary>
         /// Method used to retrive student record from Student table by GUID
         /// </summary>
         /// <param name="GUID"></param>
@@ -100,12 +87,12 @@ namespace FOS.App.Repositories
                 .Include("CurrentProgram")
                 .FirstOrDefault(x => x.Guid == GUID);
         }
-        public Tuple<int,List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null) 
+        public Tuple<int, List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null)
         {
             DynamicParameters parameters = new();
             parameters.Add("@ProgramID", DoctorProgramID);
-            parameters.Add("@AcademicCode", criteria.Filters.FirstOrDefault(x=>x.Key.ToLower() == "academiccode")?.Value?.ToString());
-            parameters.Add("@SeatNumber", criteria.Filters.FirstOrDefault(x=>x.Key.ToLower() == "seatnumber")?.Value?.ToString());
+            parameters.Add("@AcademicCode", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "academiccode")?.Value?.ToString());
+            parameters.Add("@SeatNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "seatnumber")?.Value?.ToString());
             parameters.Add("@WarningsNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "warningsnumber")?.Value?.ToString());
             parameters.Add("@SupervisorID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "supervisorid")?.Value?.ToString());
             parameters.Add("@CGPA", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "cgpa")?.Value?.ToString());
@@ -123,16 +110,16 @@ namespace FOS.App.Repositories
             parameters.Add("@PageSize", criteria.PageSize == 0 ? 20 : criteria.PageSize);
             parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "s.id" : criteria.OrderByColumn);
             parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
-            parameters.Add("@TotalCount",dbType:DbType.Int32,direction:ParameterDirection.Output);
+            parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             using SqlConnection con = new SqlConnection(connectionString);
-            var stds = con.Query<Student, string,string, Student>
+            var stds = con.Query<Student, string, string, Student>
                 ("GetStudents",
                 (student, program, Doctor) =>
                 {
                     student.CurrentProgram = new Program();
                     student.CurrentProgram.ArabicName = program;
                     student.Doctor = new Doctor();
-                    student.Doctor.Name = Doctor; 
+                    student.Doctor.Name = Doctor;
                     return student;
                 },
                 param: parameters,
@@ -140,7 +127,7 @@ namespace FOS.App.Repositories
                 commandType: CommandType.StoredProcedure
                 )?.ToList();
             int totalCount;
-            try{totalCount = parameters.Get<int>("TotalCount");}
+            try { totalCount = parameters.Get<int>("TotalCount"); }
             catch { totalCount = stds.Count; }
             return Tuple.Create(totalCount, stds);
         }
