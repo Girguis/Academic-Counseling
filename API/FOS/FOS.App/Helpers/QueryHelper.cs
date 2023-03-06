@@ -67,6 +67,12 @@ namespace FOS.App.Helpers
                 return con.Query<T>(storedProcedureName, commandType: CommandType.StoredProcedure)?.ToList();
             return con.Query<T>(storedProcedureName, param: parameters, commandType: CommandType.StoredProcedure)?.ToList();
         }
+        public static bool ExecuteQuery(string connectionString,string query)
+        {
+            using SqlConnection con = new SqlConnection(connectionString);
+            var res = con.Query(query, commandType: CommandType.Text);
+            return true;
+        }
     }
 }
 

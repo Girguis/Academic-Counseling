@@ -11,5 +11,8 @@ namespace FOS.Core.IRepositories
         Course GetById(int id);
         List<Course> GetAll(out int totalCount, SearchCriteria criteria = null);
         List<Course> GetAll();
+        bool Activate(List<int> courseIDs);
+        bool Deactivate(List<int> courseIDs);
+
     }
 }

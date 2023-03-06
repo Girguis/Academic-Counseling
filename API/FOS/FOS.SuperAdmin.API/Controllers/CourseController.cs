@@ -86,7 +86,7 @@ namespace FOS.Doctors.API.Controllers
                     courses.Add(models.ElementAt(i).ToDBCourseModel());
 
                 var savedCourses = courseRepo.Add(courses);
-                if (savedCourses == false)
+                if (!savedCourses)
                     return BadRequest(new
                     {
                         Massage = "Error Occured while adding course",
@@ -136,6 +136,58 @@ namespace FOS.Doctors.API.Controllers
                     Massage = "Error Occured while updating course",
                     Data = courseModel
                 });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("Activate")]
+        public IActionResult Activate([FromBody] List<int> courseIDs)
+        {
+            try
+            {
+                if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs[0] == 0))
+                    return BadRequest(new
+                    {
+                        Massage = "List can't be empty",
+                        Data = courseIDs
+                    });
+                var activated = courseRepo.Activate(courseIDs);
+                if(!activated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error occured while activating courses",
+                        Data = courseIDs
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("Deactivate")]
+        public IActionResult Deactivate([FromBody] List<int> courseIDs)
+        {
+            try
+            {
+                if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs[0] == 0))
+                    return BadRequest(new
+                    {
+                        Massage = "List can't be empty",
+                        Data = courseIDs
+                    });
+                var activated = courseRepo.Deactivate(courseIDs);
+                if (!activated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error occured while deactivating courses",
+                        Data = courseIDs
+                    });
                 return Ok();
             }
             catch (Exception ex)

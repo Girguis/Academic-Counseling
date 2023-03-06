@@ -58,8 +58,8 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpPatch("Update/{id}")]
-        public IActionResult Update(int id, DateModel model)
+        [HttpPost("Update/{id}")]
+        public IActionResult Update(int id, [FromBody]DateModel model)
         {
             try
             {

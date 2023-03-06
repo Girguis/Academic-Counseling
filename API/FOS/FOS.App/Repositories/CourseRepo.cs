@@ -2,16 +2,23 @@
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FOS.App.Repositories
 {
     public class CourseRepo : ICourseRepo
     {
         private readonly FOSContext context;
-        public CourseRepo(FOSContext context)
+        private readonly IConfiguration configuration;
+        private readonly string connectionString;
+
+        public CourseRepo(FOSContext context, IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
         public bool Add(List<Course> courses)
         {
@@ -47,6 +54,26 @@ namespace FOS.App.Repositories
             if (course == null) return false;
             context.Entry(course).State = EntityState.Modified;
             return context.SaveChanges() > 0;
+        }
+        public bool Activate(List<int> courseIDs)
+        {
+            string courseLst = string.Concat("(", string.Join(",", courseIDs), ")");
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@IsActive", true),
+                new SqlParameter("@CourseLst", courseLst)
+            };
+            return QueryHelper.Execute(connectionString, "CoursesActivation", parameters);
+        }
+        public bool Deactivate(List<int> courseIDs)
+        {
+            string courseLst = string.Concat("(", string.Join(",", courseIDs), ")");
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@IsActive",false),
+                new SqlParameter("@CourseLst", courseLst)
+            };
+            return QueryHelper.Execute(connectionString, "CoursesActivation", parameters);
         }
     }
 }
