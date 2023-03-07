@@ -2,10 +2,9 @@
 *.log
 *.dll
 bin/
-*.vsidx
+obj/
 *.vsidx
 *.cache
 *.props
 API/FOS/.vs/FOS/v17/.suo
-*.dll
-*.dll
+backup/

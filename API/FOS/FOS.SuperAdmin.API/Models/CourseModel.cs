@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FOS.Doctors.API.Models
+﻿namespace FOS.Doctors.API.Models
 {
     public class CourseModel
     {
-        public int? Id { get; set; } = null;
         public string CourseCode { get; set; } = null!;
         public string CourseName { get; set; } = null!;
         public byte CreditHours { get; set; }
@@ -14,5 +11,6 @@ namespace FOS.Doctors.API.Models
         public bool IsActive { get; set; }
         public byte Level { get; set; }
         public byte Semester { get; set; }
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using FOS.DB.Models;
-
-namespace FOS.App.Doctors.DTOs
+﻿namespace FOS.App.Doctors.DTOs
 {
     public class CourseDTO
     {
@@ -12,10 +10,8 @@ namespace FOS.App.Doctors.DTOs
         public byte LabHours { get; set; }
         public byte SectionHours { get; set; }
         public bool IsActive { get; set; }
-        public byte PrerequisiteRelation { get; set; }
         public byte Level { get; set; }
         public byte Semester { get; set; }
-        public List<Prerequisite> Prerequisites { get; set; }
     }
     public class Prerequisite
     {

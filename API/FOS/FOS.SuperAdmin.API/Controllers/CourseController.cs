@@ -77,11 +77,11 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult AddCourse(List<CourseModel> models)
+        public IActionResult AddCourse(HashSet<CourseModel> models)
         {
             try
             {
-                List<Course> courses = new List<Course>();
+                List<Course> courses = new();
                 for (int i = 0; i < models.Count; i++)
                     courses.Add(models.ElementAt(i).ToDBCourseModel());
 
@@ -124,12 +124,12 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpPut("Update")]
-        public IActionResult UpdateCourse(CourseModel courseModel)
+        [HttpPut("Update/{id}")]
+        public IActionResult UpdateCourse(int id, CourseModel courseModel)
         {
             try
             {
-                Course course = courseModel.ToDBCourseModel();
+                Course course = courseModel.ToDBCourseModel(id);
                 bool res = courseRepo.Update(course);
                 if (!res) return BadRequest(new
                 {
@@ -156,7 +156,7 @@ namespace FOS.Doctors.API.Controllers
                         Data = courseIDs
                     });
                 var activated = courseRepo.Activate(courseIDs);
-                if(!activated)
+                if (!activated)
                     return BadRequest(new
                     {
                         Massage = "Error occured while activating courses",
