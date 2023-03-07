@@ -1,5 +1,4 @@
 ﻿using FOS.Core.IRepositories;
-using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,16 +19,12 @@ namespace FOS.Students.API.Controllers
             this.questionsRepo = questionsRepo;
         }
         [HttpPost("GetAll")]
-        public IActionResult GetAll(SearchCriteria criteria)
+        public IActionResult GetAll()
         {
             try
             {
-                var questions = questionsRepo.GetQuestions(out int totalCount, criteria);
-                return Ok(new
-                {
-                    Data = questions,
-                    TotalCount = totalCount
-                });
+                var questions = questionsRepo.GetQuestions();
+                return Ok(questions);
             }
             catch (Exception ex)
             {

@@ -94,6 +94,8 @@ namespace FOS.App.Repositories
             parameters.Add("@AcademicCode", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "academiccode")?.Value?.ToString());
             parameters.Add("@SeatNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "seatnumber")?.Value?.ToString());
             parameters.Add("@WarningsNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "warningsnumber")?.Value?.ToString());
+            var warningsOp = criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "warningsnumber")?.Operator?.ToString();
+            parameters.Add("@WarningsOp", string.IsNullOrEmpty(warningsOp) ? "=" : warningsOp);
             parameters.Add("@SupervisorID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "supervisorid")?.Value?.ToString());
             parameters.Add("@CGPA", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "cgpa")?.Value?.ToString());
             parameters.Add("@PassedHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "passedhours")?.Value?.ToString());
@@ -106,8 +108,8 @@ namespace FOS.App.Repositories
             parameters.Add("@SSN", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "ssn")?.Value?.ToString());
             parameters.Add("@PhoneNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "phonenumber")?.Value?.ToString());
             parameters.Add("@Address", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "address")?.Value?.ToString());
-            parameters.Add("@PageNumber", criteria.PageNumber == 0 ? 1 : criteria.PageNumber);
-            parameters.Add("@PageSize", criteria.PageSize == 0 ? 20 : criteria.PageSize);
+            parameters.Add("@PageNumber", criteria.PageNumber <= 0 ? 1 : criteria.PageNumber);
+            parameters.Add("@PageSize", criteria.PageSize <= 0 ? 20 : criteria.PageSize);
             parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "s.id" : criteria.OrderByColumn);
             parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
             parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);

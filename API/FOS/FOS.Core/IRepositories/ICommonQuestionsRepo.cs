@@ -8,6 +8,7 @@ namespace FOS.Core.IRepositories
     {
         CommonQuestion GetQuestion(int id);
         List<CommonQuestion> GetQuestions(out int totalCount,SearchCriteria criteria);
+        List<CommonQuestion> GetQuestions();
         bool AddQuestion(List<QuestionModel> questions);
         bool UpdateQuestion(CommonQuestion question);
         bool DeleteQuestion(CommonQuestion question);

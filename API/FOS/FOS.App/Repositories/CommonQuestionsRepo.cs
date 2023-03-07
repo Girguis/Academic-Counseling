@@ -48,6 +48,10 @@ namespace FOS.App.Repositories
             DbSet<CommonQuestion> commonQuestions = context.CommonQuestions;
             return DataFilter<CommonQuestion>.FilterData(commonQuestions, criteria, out totalCount);
         }
+        public List<CommonQuestion> GetQuestions()
+        {
+            return context.CommonQuestions?.ToList();
+        }
 
         public bool UpdateQuestion(CommonQuestion question)
         {

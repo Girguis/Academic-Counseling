@@ -15,10 +15,13 @@ namespace FOS.App.Doctors.Mappers
             c.CreateMap<DB.Models.Student, StudentAcademicReportDTO>()
             .ForMember(o => o.Cgpa, x => x.MapFrom(z => z.Cgpa))
             .ForMember(o=>o.ProgramName,x=>x.MapFrom(z=>z.CurrentProgram.ArabicName))
+            .ForMember(o=>o.SupervisorName,x=>x.MapFrom(z=>z.Doctor.Name)
+            )
             );
             var mapper = config.CreateMapper();
             var studentReport = mapper.Map<StudentAcademicReportDTO>(student);
             studentReport.academicYearsDetails = academicYears;
+            studentReport.Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank;
             return studentReport;
         }
     }
