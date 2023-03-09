@@ -9,7 +9,8 @@ namespace FOS.Core.IRepositories
         bool Delete(Course course);
         bool Update(Course course);
         Course GetById(int id);
-        List<Course> GetAll(out int totalCount, SearchCriteria criteria = null);
+        (Course course, IEnumerable<string> doctors, IEnumerable<string> programs) GetCourseDetails(int id);
+        List<Course> GetAll(out int totalCount, SearchCriteria criteria = null,int? doctorProgramID = null);
         List<Course> GetAll();
         bool Activate(List<int> courseIDs);
         bool Deactivate(List<int> courseIDs);

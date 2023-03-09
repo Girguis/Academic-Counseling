@@ -117,9 +117,8 @@ namespace FOS.Doctors.API.Controllers
         public IActionResult GetProgramsList()
         {
             try
-            {
-                int.TryParse(this.ProgramID(), out int num);
-                var lst = Helper.ProgramsToList(programRepo.GetPrograms(string.IsNullOrEmpty(this.ProgramID()) ? null : num));
+            { 
+                var lst = Helper.ProgramsToList(programRepo.GetPrograms(this.ProgramID()));
                 return Ok(lst);
             }
             catch (Exception ex)

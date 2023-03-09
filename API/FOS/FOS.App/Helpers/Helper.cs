@@ -66,7 +66,7 @@ namespace FOS.App.Helpers
             return programs.Select(x => new General
             {
                 ID = x.Id,
-                Name = string.Concat(x.Name, "-", x.ArabicName)
+                Name = string.Concat(x.Name)
             }).ToList();
         }
         public static List<General> CoursesToList(List<Course> courses)

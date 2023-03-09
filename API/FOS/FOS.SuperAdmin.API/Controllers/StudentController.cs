@@ -94,8 +94,7 @@ namespace FOS.Doctors.API.Controllers
         [HttpPost("GetStudents")]
         public IActionResult GetStudents(SearchCriteria criteria)
         {
-            int.TryParse(this.ProgramID(), out int programID);
-            var result = studentRepo.GetAll(criteria,string.IsNullOrEmpty(this.ProgramID()) ? null : programID);
+            var result = studentRepo.GetAll(criteria, this.ProgramID());
             var students = result.Item2;
             List<StudentsDTO> mappedStudents = new();
             for (int i = 0; i < students.Count; i++)

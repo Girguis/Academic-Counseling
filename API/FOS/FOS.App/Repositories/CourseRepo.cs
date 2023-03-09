@@ -1,10 +1,12 @@
-﻿using FOS.App.Helpers;
+﻿using Dapper;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace FOS.App.Repositories
 {
@@ -36,10 +38,30 @@ namespace FOS.App.Repositories
             context.Courses.Remove(course);
             return context.SaveChanges() > 0;
         }
-        public List<Course> GetAll(out int totalCount, SearchCriteria criteria = null)
+        public List<Course> GetAll(out int totalCount, SearchCriteria criteria = null, int? doctorProgramID = null)
         {
-            DbSet<Course> courses = context.Courses;
-            return DataFilter<Course>.FilterData(courses, criteria, out totalCount);
+            DynamicParameters parameters = new();
+            parameters.Add("@ProgramID", doctorProgramID);
+            parameters.Add("@CourseProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "courseprogramID")?.Value?.ToString());
+            parameters.Add("@CourseCode", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "coursecode")?.Value?.ToString());
+            parameters.Add("@CourseName", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "coursename")?.Value?.ToString());
+            parameters.Add("@CreditHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "credithours")?.Value?.ToString());
+            parameters.Add("@LectureHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "lecturehours")?.Value?.ToString());
+            parameters.Add("@LabHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "labhours")?.Value?.ToString());
+            parameters.Add("@SectionHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "sectionhours")?.Value?.ToString());
+            parameters.Add("@IsActive", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isactive")?.Value?.ToString());
+            parameters.Add("@Level", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "level")?.Value?.ToString());
+            parameters.Add("@Semester", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "semester")?.Value?.ToString());
+            parameters.Add("@PageNumber", criteria.PageNumber <= 0 ? 1 : criteria.PageNumber);
+            parameters.Add("@PageSize", criteria.PageSize <= 0 ? 20 : criteria.PageSize);
+            parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "c.id" : criteria.OrderByColumn);
+            parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
+            parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+            using SqlConnection con = new SqlConnection(connectionString);
+            var courses = con.Query<Course>("GetCourses", parameters, commandType: CommandType.StoredProcedure)?.ToList();
+            try { totalCount = parameters.Get<int>("TotalCount"); }
+            catch { totalCount = courses.Count; }
+            return courses;
         }
         public List<Course> GetAll()
         {
@@ -48,6 +70,17 @@ namespace FOS.App.Repositories
         public Course GetById(int id)
         {
             return context.Courses.FirstOrDefault(x => x.Id == id);
+        }
+        public (Course course, IEnumerable<string> doctors, IEnumerable<string> programs) GetCourseDetails(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@CourseID", id);
+            SqlConnection con = new SqlConnection(connectionString);
+            var res = con.QueryMultiple("GetCourseDetails", parameters, commandType: System.Data.CommandType.StoredProcedure);
+            var firstRes = res.ReadFirstOrDefault<Course>();
+            var secondRes = res.Read<string>();
+            var thirdResult = res.Read<string>();
+            return (firstRes, secondRes, thirdResult);
         }
         public bool Update(Course course)
         {

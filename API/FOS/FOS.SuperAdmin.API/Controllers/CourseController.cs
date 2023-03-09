@@ -2,9 +2,11 @@
 using FOS.App.Doctors.DTOs;
 using FOS.App.Doctors.Mappers;
 using FOS.App.ExcelReader;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
+using FOS.Doctors.API.Extenstions;
 using FOS.Doctors.API.Mappers;
 using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -41,13 +43,10 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                var courses = courseRepo.GetAll(out int totalCount, criteria);
-                var courseDTO = new List<CourseDTO>();
-                for (int i = 0; i < courses.Count; i++)
-                    courseDTO.Add(courses.ElementAt(i).ToDTO());
+                var courses = courseRepo.GetAll(out int totalCount, criteria, this.ProgramID());
                 return Ok(new
                 {
-                    Courses = courseDTO,
+                    Courses = courses,
                     TotalCount = totalCount
                 });
             }
@@ -59,15 +58,20 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpGet("GetByID/{id}")]
+        [AllowAnonymous]
         public IActionResult GetByID(int id)
         {
             try
             {
-                var course = courseRepo.GetById(id);
-                if (course == null)
+                var courseData = courseRepo.GetCourseDetails(id);
+                if (courseData.course == null)
                     return NotFound();
-                var courseDTO = course.ToDTO();
-                return Ok(courseDTO);
+                return Ok(new
+                {
+                    Course = courseData.course,
+                    Doctors = courseData.doctors,
+                    Programs = courseData.programs
+                });
             }
             catch (Exception ex)
             {
@@ -203,8 +207,9 @@ namespace FOS.Doctors.API.Controllers
             {
                 var course = courseRepo.GetById(courseID);
                 if (course == null) return NotFound();
-                var studentsList = studentCoursesRepo.GetStudentsList(course.Id, academicYearRepo.GetCurrentYear().Id);
-                var stream = CourseGradesSheet.CreateSheet(studentsList, course);
+                var academicYear = academicYearRepo.GetCurrentYear();
+                var studentsList = studentCoursesRepo.GetStudentsList(course.Id,academicYear.Id);
+                var stream = CourseGradesSheet.CreateSheet(studentsList, course,string.Concat(academicYear.AcademicYear1," - ",Helper.GetSemesterName(academicYear.Semester)));
                 return File(stream,
                     "application/vnd.ms-excel",
                     string.Concat(course.CourseCode, "_", course.CourseName, "_GradesSheet", ".xlsx")

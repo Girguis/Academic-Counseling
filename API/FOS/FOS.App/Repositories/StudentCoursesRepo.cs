@@ -177,6 +177,7 @@ namespace FOS.App.Repositories
             return context.StudentCourses
              .Where(x => x.CourseId == courseID && x.AcademicYearId == academicYearID)
              .Include(x => x.Student)
+             .Include(x => x.Student.CurrentProgram)
              .AsParallel()
              .ToList();
         }
