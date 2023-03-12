@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using FOS.App.Doctors.DTOs;
 using FOS.Core.Enums;
+using FOS.Core.Models.DTOs;
 
 namespace FOS.App.Doctors.Mappers
 {
@@ -20,9 +20,8 @@ namespace FOS.App.Doctors.Mappers
             );
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentsDTO>(student);
-            try{studentDto.Gender = Enum.GetName(typeof(GenderEnum), Int32.Parse(studentDto.Gender));}
-            catch{ studentDto.Gender = Enum.GetName<GenderEnum>(GenderEnum.Male); }
-            studentDto.Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank;
+            try { studentDto.Gender = Enum.GetName(typeof(GenderEnum), Int32.Parse(studentDto.Gender)); }
+            catch { studentDto.Gender = Enum.GetName<GenderEnum>(GenderEnum.Male); }
             return studentDto;
         }
     }

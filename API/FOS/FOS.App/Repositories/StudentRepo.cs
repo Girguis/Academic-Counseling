@@ -1,11 +1,13 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.DTOs;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Data;
 
 namespace FOS.App.Repositories
@@ -82,12 +84,12 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public Student Get(string GUID)
         {
-            return context.Students
-                .Include("Doctor")
-                .Include("CurrentProgram")
-                .FirstOrDefault(x => x.Guid == GUID);
+            SqlConnection con = new SqlConnection(connectionString);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@GUID", GUID);
+            return con.Query<Student>("GetStudent", parameters, commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
-        public Tuple<int, List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null)
+        public (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null)
         {
             DynamicParameters parameters = new();
             parameters.Add("@ProgramID", DoctorProgramID);
@@ -108,30 +110,22 @@ namespace FOS.App.Repositories
             parameters.Add("@SSN", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "ssn")?.Value?.ToString());
             parameters.Add("@PhoneNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "phonenumber")?.Value?.ToString());
             parameters.Add("@Address", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "address")?.Value?.ToString());
+            parameters.Add("@IncludeRegistrationDetails", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "includeregistrationdetails")?.Value?.ToString());
             parameters.Add("@PageNumber", criteria.PageNumber <= 0 ? 1 : criteria.PageNumber);
             parameters.Add("@PageSize", criteria.PageSize <= 0 ? 20 : criteria.PageSize);
             parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "s.id" : criteria.OrderByColumn);
             parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
             parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
             using SqlConnection con = new SqlConnection(connectionString);
-            var stds = con.Query<Student, string, string, Student>
+            var students = con.Query<StudentsDTO>
                 ("GetStudents",
-                (student, program, Doctor) =>
-                {
-                    student.CurrentProgram = new Program();
-                    student.CurrentProgram.ArabicName = program;
-                    student.Doctor = new Doctor();
-                    student.Doctor.Name = Doctor;
-                    return student;
-                },
                 param: parameters,
-                splitOn: "ProgramName,SupervisorName",
                 commandType: CommandType.StoredProcedure
                 )?.ToList();
             int totalCount;
             try { totalCount = parameters.Get<int>("TotalCount"); }
-            catch { totalCount = stds.Count; }
-            return Tuple.Create(totalCount, stds);
+            catch { totalCount = students.Count; }
+            return (totalCount, students);
         }
         /// <summary>
         /// Method used to get student current program
@@ -165,7 +159,10 @@ namespace FOS.App.Repositories
         }
         public Student GetBySSN(string ssn)
         {
-            return context.Students.FirstOrDefault(x => x.Ssn == ssn);
+            SqlConnection con = new SqlConnection(connectionString);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@SSN", ssn);
+            return con.Query<Student>("GetStudent", parameters, commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
         public Student Add(Student student)
         {

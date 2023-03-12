@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FOS.App", "FOS.App\FOS.App.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FOS.Students.API", "FOS.Student.API\FOS.Students.API.csproj", "{2DBB32C6-E26E-4A48-A5EB-B70EDF878FA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FOS.Doctors.API", "FOS.SuperAdmin.API\FOS.Doctors.API.csproj", "{5C11AD43-BBD9-4C74-8C96-BF4C20BD7810}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FOS.Doctors.API", "FOS.Doctor.API\FOS.Doctors.API.csproj", "{3FDF6739-1044-4325-B833-63DEDE97AB58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{2DBB32C6-E26E-4A48-A5EB-B70EDF878FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DBB32C6-E26E-4A48-A5EB-B70EDF878FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DBB32C6-E26E-4A48-A5EB-B70EDF878FA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C11AD43-BBD9-4C74-8C96-BF4C20BD7810}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C11AD43-BBD9-4C74-8C96-BF4C20BD7810}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C11AD43-BBD9-4C74-8C96-BF4C20BD7810}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C11AD43-BBD9-4C74-8C96-BF4C20BD7810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FDF6739-1044-4325-B833-63DEDE97AB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FDF6739-1044-4325-B833-63DEDE97AB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FDF6739-1044-4325-B833-63DEDE97AB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FDF6739-1044-4325-B833-63DEDE97AB58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

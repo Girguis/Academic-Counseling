@@ -94,18 +94,20 @@ namespace FOS.Doctors.API.Controllers
         [HttpPost("GetStudents")]
         public IActionResult GetStudents(SearchCriteria criteria)
         {
-            var result = studentRepo.GetAll(criteria, this.ProgramID());
-            var students = result.Item2;
-            List<StudentsDTO> mappedStudents = new();
-            for (int i = 0; i < students.Count; i++)
+            try
             {
-                mappedStudents.Add(students.ElementAt(i).ToDTO());
+                var result = studentRepo.GetAll(criteria, this.ProgramID());
+                return Ok(new
+                {
+                    Data = result.students,
+                    TotalCount = result.totalCount
+                });
             }
-            return Ok(new
+            catch(Exception ex)
             {
-                Data = mappedStudents,
-                TotalCount = result.Item1
-            });
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
         }
         /// <summary>
         /// This one take GUID as paramter and check if there exist a student with the GUID or not

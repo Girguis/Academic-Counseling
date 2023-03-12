@@ -58,7 +58,13 @@ namespace FOS.Students.API.Controllers
                         Data = null,
                         Massage = "Bifuraction is not available"
                     });
-                if (studentRepo.Get(guid).IsInSpecialProgram.Value)
+                var student = studentRepo.Get(guid);
+                if (student == null)
+                    return BadRequest(new
+                    {
+                        Massage = "Student Not Found"
+                    });
+                if (student.IsInSpecialProgram.Value)
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,

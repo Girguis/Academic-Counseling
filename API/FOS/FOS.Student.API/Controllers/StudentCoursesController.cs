@@ -17,19 +17,16 @@ namespace FOS.Students.API.Controllers
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IStudentRepo studentRepo;
-        private readonly IElectiveCourseDistributionRepo optionalCourseRepo;
         private readonly ILogger logger;
 
         public StudentCoursesController(IAcademicYearRepo academicYearRepo,
                                         IStudentCoursesRepo studentCoursesRepo,
                                         IStudentRepo studentRepo,
-                                        IElectiveCourseDistributionRepo optionalCourseRepo,
                                         ILogger<StudentCoursesController> logger)
         {
             this.academicYearRepo = academicYearRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.studentRepo = studentRepo;
-            this.optionalCourseRepo = optionalCourseRepo;
             this.logger = logger;
         }
         /// <summary>
@@ -45,11 +42,11 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrEmpty(guid))
-                    return BadRequest("Invalid Student ID");
+                    return BadRequest(new { Massage = "Invalid Student ID" });
 
-                DB.Models.Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return BadRequest("Student Not Found");
+                    return BadRequest(new { Massage = "Student Not Found" });
 
                 List<AcademicYear> academicYears = academicYearRepo.GetAll(student.Id);
                 List<AcademicYearsDTO> academicYearsDTO = new List<AcademicYearsDTO>();
@@ -80,11 +77,11 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrEmpty(guid))
-                    return BadRequest("Invalid Student ID");
+                    return BadRequest(new { Massage = "Invalid Student ID" });
 
-                DB.Models.Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return BadRequest("Student Not Found");
+                    return BadRequest(new { Massage = "Student Not Found" });
 
                 List<StudentCourse> cources = studentCoursesRepo.GetCoursesByAcademicYear(student.Id, academicYearID);
                 List<StudentCoursesDTO> courcesDTO = new List<StudentCoursesDTO>();

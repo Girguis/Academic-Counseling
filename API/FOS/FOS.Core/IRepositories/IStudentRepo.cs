@@ -1,14 +1,15 @@
-﻿using FOS.Core.SearchModels;
+﻿using FOS.Core.Models.DTOs;
+using FOS.Core.SearchModels;
 using FOS.DB.Models;
 
 namespace FOS.Core.IRepositories
 {
     public interface IStudentRepo
     {
-        Tuple<int, List<Student>> GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
         List<Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null);
         List<Student> GetAll(out int totalCount, SearchCriteria criteria = null, bool includeProgram = true);
         Student Get(string GUID);
+        (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
         List<StudentCourse> GetAcademicDetails(string GUID);
         List<StudentProgram> GetPrograms(string GUID);
         StudentProgram GetCurrentProgram(string GUID);
