@@ -4,11 +4,11 @@ namespace FOS.Core.Enums
 {
     public enum CourseTypeEnum
     {
-        [Description("Mandetory")]
+        [Description("اجبارى")]
         Mandetory = 1,
-        [Description("Elective")]
+        [Description("اختياري")]
         Elective = 2,
-        [Description("University Requirement")]
+        [Description("متطلب جامعة")]
         UniversityRequirement = 3
     }
 }

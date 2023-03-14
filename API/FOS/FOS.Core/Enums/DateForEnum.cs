@@ -4,13 +4,13 @@ namespace FOS.Core.Enums
 {
     public enum DateForEnum
     {
-        [Description("Bifurcation")]
+        [Description("التشعيب")]
         Bifurcation,
-        [Description("Course Registration")]
+        [Description("تسجيل المقررات")]
         CourseRegistration,
-        [Description("Course Withdraw")]
+        [Description("انسحاب من مقرر")]
         CourseWithdraw,
-        [Description("Courses Add And Delete")]
+        [Description("حذف واضافة المقرارات")]
         AddAndDeleteCourse
     }
 }

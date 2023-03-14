@@ -9,7 +9,6 @@ using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Data;
 
 namespace FOS.App.Repositories
@@ -84,12 +83,72 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public Student Get(string GUID)
+        public Student Get(string GUID, bool includeProgram = false, bool includeSupervisor = false)
         {
             SqlConnection con = new SqlConnection(connectionString);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@GUID", GUID);
-            return con.Query<Student>("GetStudent", parameters, commandType: CommandType.StoredProcedure)?.FirstOrDefault();
+            parameters.Add("@IncludeProgram", includeProgram);
+            parameters.Add("@IncludeSupervisor", includeSupervisor);
+            string splitOn = string.Empty;
+            if (includeProgram && includeSupervisor)
+            {
+                splitOn = "ProgramName,SupervisorName";
+                return con.Query<Student, string, string, Student>
+                        ("GetStudent",
+                        (student, programName, supervisorName) =>
+                        {
+                            Program p = new Program();
+                            student.CurrentProgram = p;
+                            student.CurrentProgram.Name = programName;
+                            DB.Models.Doctor d = new DB.Models.Doctor();
+                            student.Doctor = d;
+                            student.Doctor.Name = supervisorName;
+                            return student;
+                        },
+                        parameters,
+                        splitOn: splitOn,
+                        commandType: CommandType.StoredProcedure)?
+                        .FirstOrDefault();
+            }
+            else if (includeProgram)
+            {
+                splitOn = "ProgramName";
+                return con.Query<Student, string, Student>
+                      ("GetStudent",
+                      (student, programName) =>
+                      {
+                          Program p = new Program();
+                          student.CurrentProgram = p;
+                          student.CurrentProgram.Name = programName;
+                          return student;
+                      },
+                      parameters,
+                      splitOn: splitOn,
+                      commandType: CommandType.StoredProcedure)?
+                      .FirstOrDefault();
+            }
+            else if (includeSupervisor)
+            {
+                splitOn = "SupervisorName";
+                return con.Query<Student, string, Student>
+                      ("GetStudent",
+                      (student, supervisorName) =>
+                      {
+                          DB.Models.Doctor d = new DB.Models.Doctor();
+                          student.Doctor = d;
+                          student.Doctor.Name = supervisorName;
+                          return student;
+                      },
+                      parameters,
+                      splitOn: splitOn,
+                      commandType: CommandType.StoredProcedure)?
+                      .FirstOrDefault();
+            }
+            else
+            {
+                return con.Query<Student>("GetStudent", parameters, commandType: CommandType.StoredProcedure)?.FirstOrDefault();
+            }
         }
         public (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null)
         {
@@ -209,7 +268,7 @@ namespace FOS.App.Repositories
             parameters.Add("@StudentID", studentID);
             var result = con.QueryMultiple("Report_StudentCoursesSummary", parameters, commandType: CommandType.StoredProcedure);
             var studentData = result.ReadFirstOrDefault<StudentDataReport>();
-            if(studentData == null) return null;
+            if (studentData == null) return null;
             var coursesData = result.Read<CoursesDataReport>();
             return new StudentCoursesSummaryOutModel { Student = studentData, Courses = coursesData };
         }

@@ -4,13 +4,13 @@ namespace FOS.Core.Enums
 {
     public enum PrerequisiteCoursesRelationEnum
     {
-        [Description("Has No Prerequisites")]
+        [Description("بدون متطلب")]
         NoPrerequisite,
-        [Description("Has 1 Prerequisite")]
+        [Description("متطلب واحد")]
         OnePrerequisite,
-        [Description("Prerequisites with 'AND' relation")]
+        [Description("أكثر من متطلب العلاقة بينهم(و)")]
         AndRelationPrerequisites,
-        [Description("Prerequisites with 'OR' relation")]
+        [Description("أكثر من متطلب العلاقة بينهم(أو)")]
         OrRelationPrerequisites,
     }
 }

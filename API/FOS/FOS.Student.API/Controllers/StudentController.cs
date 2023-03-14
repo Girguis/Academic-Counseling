@@ -107,7 +107,7 @@ namespace FOS.Students.API.Controllers
                 if (string.IsNullOrWhiteSpace(guid))
                     return BadRequest(new { Massage = "Id not found" });
 
-                Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid, true, true);
                 if (student == null)
                     return NotFound(new { Massage = "Student not found" });
 

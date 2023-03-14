@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using FOS.App.ExcelReader;
+using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
@@ -280,7 +281,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 var result = studentCoursesRepo.GetStudentsList(model);
                 if (result.Course == null) return NotFound();
-                var bytes = PdfCreator.CreateExamCommitteesPdf(result, model.Level);
+                var bytes = PdfCreator.CreateExamCommitteesPdf(result, model.Level, Helper.GetExamTypeName(model.ExamType));
                 return File(bytes,
                     "application/pdf",
                     string.Concat(result.Course.CourseCode, "_", result.Course.CourseName, "_Committees", ".pdf")

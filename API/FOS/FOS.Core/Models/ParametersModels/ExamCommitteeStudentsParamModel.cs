@@ -5,5 +5,6 @@
         public int CourseID { get; set; }
         public int ProgramID { get; set; }
         public int Level { get; set; }
+        public int ExamType { get; set; }
     }
 }

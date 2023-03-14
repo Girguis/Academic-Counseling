@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.DB.Models;
 using FOS.Core.IRepositories;
 using FOS.Core.SearchModels;
-using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +22,7 @@ namespace FOS.App.Repositories
             connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
 
-        public Doctor Add(Doctor supervisor)
+        public DB.Models.Doctor Add(DB.Models.Doctor supervisor)
         {
             var c = context.Doctors.Add(supervisor);
             var res = context.SaveChanges();
@@ -46,10 +46,10 @@ namespace FOS.App.Repositories
             return Update(supervisor);
         }
 
-        public List<Doctor> GetAll(out int totalCount, SearchCriteria criteria = null)
+        public List<DB.Models.Doctor> GetAll(out int totalCount, SearchCriteria criteria = null)
         {
             var Doctors = context.Doctors;
-            return DataFilter<Doctor>.FilterData((DbSet<Doctor>)Doctors, criteria, out totalCount, "Program");
+            return DataFilter<DB.Models.Doctor>.FilterData((DbSet<DB.Models.Doctor>)Doctors, criteria, out totalCount, "Program");
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public Doctor GetById(string GUID)
+        public DB.Models.Doctor GetById(string GUID)
         {
             return context.Doctors
                 .Include(x => x.Program)
@@ -76,17 +76,17 @@ namespace FOS.App.Repositories
         /// <param name="email"></param>
         /// <param name="hashedPassword"></param>
         /// <returns></returns>
-        public Doctor Login(string email, string hashedPassword)
+        public DB.Models.Doctor Login(string email, string hashedPassword)
         {
             DynamicParameters parameters = new();
             parameters.Add("@Email", email);
             parameters.Add("@Password", hashedPassword);
             using SqlConnection con = new SqlConnection(connectionString);
-            return con.Query<Doctor>("Login_Doctor",
+            return con.Query<DB.Models.Doctor>("Login_Doctor",
                 param: parameters,
                 commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
-        public bool Update(Doctor supervisor)
+        public bool Update(DB.Models.Doctor supervisor)
         {
             if (supervisor == null) return false;
             context.Entry(supervisor).State = EntityState.Modified;

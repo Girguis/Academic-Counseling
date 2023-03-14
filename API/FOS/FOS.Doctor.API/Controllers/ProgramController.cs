@@ -1,6 +1,9 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.App.Doctor.Mappers;
+using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
+using FOS.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace FOS.Doctors.API.Controllers
@@ -48,7 +51,7 @@ namespace FOS.Doctors.API.Controllers
                 var program = programRepo.GetProgram(id);
                 if(program == null)
                     return NotFound();
-                return Ok(program);
+                return Ok(program.ToProgramBasicDTO());
             }
             catch (Exception ex)
             {
@@ -66,10 +69,31 @@ namespace FOS.Doctors.API.Controllers
                 return Ok(new
                 {
                     TotalCount= totalCount,
-                    Data = res
+                    Data = res.ToProgramBasicDTO()
                 });
             }
             catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+
+        [HttpPost("UpdateBasicData")]
+        public IActionResult UpdateBasicData(ProgramBasicDataUpdateParamModel model)
+        {
+            try
+            {
+                var updated = programRepo.UpdateProgramBasicData(model);
+                if (!updated)
+                    return BadRequest(new
+                    {
+                        Massage = "Error occured while updating program",
+                        Data = model
+                    });
+                return Ok();
+            }
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

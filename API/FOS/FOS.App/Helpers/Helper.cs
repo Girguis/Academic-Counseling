@@ -1,15 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Vml;
-using DocumentFormat.OpenXml.Wordprocessing;
 using FOS.Core.Enums;
 using FOS.DB.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.OpenApi.Extensions;
-using System;
-using System.Collections.Immutable;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -47,13 +39,22 @@ namespace FOS.App.Helpers
         {
             var values = Enum.GetValues(typeof(TEnum));
             List<General> list = new();
-            foreach(var value in values)
+            foreach (var value in values)
             {
                 list.Add(new General { ID = (int)value, Name = GetEnumDescription(value) });
             }
             return list;
         }
-        private static string GetEnumDescription(object value)
+        public static string GetExamTypeName(int type)
+        {
+            if ((int)ExamTypeEnum.Practical == type)
+                return "عملي ";
+            else if ((int)ExamTypeEnum.Oral == type)
+                return "شفوي";
+            else
+                return "أعمال فصلية";
+        }
+        public static string GetEnumDescription(object value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());
             DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];

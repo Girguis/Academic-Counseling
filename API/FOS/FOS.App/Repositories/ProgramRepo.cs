@@ -2,6 +2,7 @@
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
@@ -105,6 +106,25 @@ namespace FOS.App.Repositories
         {
             DbSet<Program> programs = context.Programs;
             return DataFilter<Program>.FilterData(programs, criteria, out totalCount);
+        }
+
+        public bool UpdateProgramBasicData(ProgramBasicDataUpdateParamModel model)
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",model.Id),
+                new SqlParameter("@Name",model.Name),
+                new SqlParameter("@Semester",model.Semester),
+                new SqlParameter("@Percentage",model.Percentage),
+                new SqlParameter("@IsRegular",model.IsRegular),
+                new SqlParameter("@IsGeneral",model.IsGeneral),
+                new SqlParameter("@TotalHours",model.TotalHours),
+                new SqlParameter("@ArabicName",model.ArabicName),
+                new SqlParameter("@EnglishName",model.EnglishName),
+            };
+            if (model.SuperProgramId.HasValue)
+                parameters.Add(new SqlParameter("@SuperProgramId", model.SuperProgramId.Value));
+            return QueryHelper.Execute(connectionString, "UpdateProgramBasicData", parameters);
         }
     }
 }

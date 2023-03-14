@@ -10,7 +10,7 @@ namespace FOS.Core.IRepositories
     {
         List<Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null);
         List<Student> GetAll(out int totalCount, SearchCriteria criteria = null, bool includeProgram = true);
-        Student Get(string GUID);
+        Student Get(string GUID, bool includeProgram = false, bool includeSupervisor = false);
         (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
         List<StudentCourse> GetAcademicDetails(string GUID);
         List<StudentProgram> GetPrograms(string GUID);

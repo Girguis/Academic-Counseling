@@ -4,11 +4,11 @@ namespace FOS.Core.Enums
 {
     public enum SemesterEnum
     {
-        [Description("Fall")]
+        [Description("الخريف")]
         Fall = 1,
-        [Description("Spring")]
+        [Description("الربيع")]
         Spring = 2,
-        [Description("Summer")]
+        [Description("الصيف")]
         Summer = 3
     }
 }

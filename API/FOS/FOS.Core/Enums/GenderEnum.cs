@@ -4,9 +4,9 @@ namespace FOS.Core.Enums
 {
     public enum GenderEnum
     {
-        [Description("Male")]
+        [Description("ذكر")]
         Male = 1,
-        [Description("Female")]
+        [Description("أنثى")]
         Female = 2
     }
 }

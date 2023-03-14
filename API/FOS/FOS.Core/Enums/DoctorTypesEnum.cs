@@ -4,11 +4,11 @@ namespace FOS.Core.Enums
 {
     public enum DoctorTypesEnum
     {
-        [Description("Program Admin")]
+        [Description("مسئول برنامج")]
         ProgramAdmin = 1,
-        [Description("Supervisor")]
+        [Description("مرشد أكاديمي")]
         Supervisor = 2,
-        [Description("Doctor")]
+        [Description("دكتور")]
         Doctor = 3
     }
 }

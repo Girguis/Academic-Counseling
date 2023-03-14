@@ -1,5 +1,4 @@
 ﻿using FOS.App.Helpers;
-using FOS.App.Notification;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Doctors.API.Extenstions;
@@ -117,7 +116,7 @@ namespace FOS.Doctors.API.Controllers
         public IActionResult GetProgramsList()
         {
             try
-            { 
+            {
                 var lst = Helper.ProgramsToList(programRepo.GetPrograms(this.ProgramID()));
                 return Ok(lst);
             }
@@ -147,6 +146,20 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var lst = Helper.AcademicYearsToList(academicYearRepo.GetAcademicYearsList());
+                return Ok(lst);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetExamTypeList")]
+        public IActionResult GetExamTypeList()
+        {
+            try
+            {
+                var lst = Helper.EnumToList<ExamTypeEnum>();
                 return Ok(lst);
             }
             catch (Exception ex)
