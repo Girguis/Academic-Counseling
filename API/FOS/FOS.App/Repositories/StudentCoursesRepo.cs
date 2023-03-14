@@ -3,6 +3,8 @@ using FOS.App.Comparers;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -172,14 +174,32 @@ namespace FOS.App.Repositories
             };
             return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
         }
-        public List<StudentCourse> GetStudentsList(int courseID, short academicYearID)
+        public CourseGradesSheetOutModel GetStudentsMarksList(int courseID)
         {
-            return context.StudentCourses
-             .Where(x => x.CourseId == courseID && x.AcademicYearId == academicYearID)
-             .Include(x => x.Student)
-             .Include(x => x.Student.CurrentProgram)
-             .AsParallel()
-             .ToList();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@CourseID", courseID);
+            SqlConnection con = new(connectionString);
+            var result = con.QueryMultiple("Report_CourseGradesSheet", parameters, commandType: CommandType.StoredProcedure);
+            CourseGradesSheetOutModel model = new CourseGradesSheetOutModel();
+            model.Course = result.ReadFirstOrDefault<CourseOutModel>();
+            if (model.Course == null) return null;
+            model.YearModel = result.ReadFirstOrDefault<AcademicYearOutModel>();
+            model.Students = result.Read<StudentMarkOutModel>().ToList();
+            return model;
+        }
+        public ExamCommitteeStudentsOutModel GetStudentsList(ExamCommitteeStudentsParamModel model)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProgramID", model.ProgramID);
+            parameters.Add("@CourseID", model.CourseID);
+            parameters.Add("@Level", model.Level);
+            SqlConnection con = new(connectionString);
+            var result = con.QueryMultiple("Report_ExamCommitteeStudents", parameters, commandType: CommandType.StoredProcedure);
+            ExamCommitteeStudentsOutModel outModel = new ExamCommitteeStudentsOutModel();
+            outModel.Program = result.ReadFirstOrDefault<ProgramOutModel>();
+            outModel.Course = result.ReadFirstOrDefault<CourseOutModel>();
+            outModel.Students = result.Read<StudentOutModel>().ToList();
+            return outModel;
         }
 
         public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model)

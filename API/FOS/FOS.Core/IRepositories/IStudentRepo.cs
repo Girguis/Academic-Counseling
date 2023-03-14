@@ -1,4 +1,6 @@
 ﻿using FOS.Core.Models.DTOs;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 
@@ -19,5 +21,7 @@ namespace FOS.Core.IRepositories
         bool Update(Student student);
         bool Deactivate(string guid);
         bool Activate(string guid);
+        StudentCoursesSummaryOutModel GetStudentCoursesSummary(int studentID);
+        List<StruggledStudentsOutModel> GetStruggledStudents(StruggledStudentsParamModel model);
     }
 }

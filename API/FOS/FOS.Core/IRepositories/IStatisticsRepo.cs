@@ -1,11 +1,13 @@
-﻿using FOS.Core.Models;
+﻿using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 
 namespace FOS.Core.IRepositories
 {
     public interface IStatisticsRepo
     {
-        List<StatisticsModel> GetStudentsGradesStatistics(StudentsGradesParatmeterModel model);
-        List<StatisticsModel> GetProgramsStatistics();
-        List<StatisticsModel> GetGendersStatistics();
+        List<StatisticsOutModel> GetStudentsGradesStatistics(StudentsGradesParatmeterModel model);
+        List<StatisticsOutModel> GetProgramsStatistics();
+        List<StatisticsOutModel> GetGendersStatistics();
+        List<StatisticsOutModel> GetCourseStatistics(CourseStatisticsParameterModel model);
     }
 }

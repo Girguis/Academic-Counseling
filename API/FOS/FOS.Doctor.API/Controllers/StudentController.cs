@@ -1,11 +1,11 @@
-﻿using ClosedXML.Excel;
-using FOS.App.Doctors.DTOs;
+﻿using FOS.App.Doctors.DTOs;
 using FOS.App.Doctors.Mappers;
 using FOS.App.ExcelReader;
 using FOS.App.Helpers;
 using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using FOS.Doctors.API.Extenstions;
@@ -64,14 +64,14 @@ namespace FOS.Doctors.API.Controllers
                     });
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
             }
         }
         [HttpPost("Activate")]
-        public IActionResult Activate([FromBody]GuidModel model)
+        public IActionResult Activate([FromBody] GuidModel model)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace FOS.Doctors.API.Controllers
                     TotalCount = result.totalCount
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -167,7 +167,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 if (file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
                 {
-                    return BadRequest();
+                    return BadRequest(new { Massage = "Invalid file" });
                 }
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
@@ -255,6 +255,40 @@ namespace FOS.Doctors.API.Controllers
                         Data = model
                     });
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("StudentCoursesSummary/{guid}")]
+        public IActionResult StudentCoursesSummary(string guid)
+        {
+            try
+            {
+                var student = studentRepo.Get(guid);
+                if (student == null) return NotFound();
+                var result = studentRepo.GetStudentCoursesSummary(student.Id);
+                if (result == null) return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("GetStruggledStudentsReport")]
+        public IActionResult GetStruggledStudentsReport(StruggledStudentsParamModel model)
+        {
+            try
+            {
+                var students = studentRepo.GetStruggledStudents(model);
+                var stream = StruggledStudentsReport.Create(students);
+                return File(stream,
+                    "application/vnd.ms-excel", 
+                    "StruggledStudents_"+DateTime.UtcNow.AddHours(2).ToString()+".xlsx");
             }
             catch (Exception ex)
             {

@@ -1,8 +1,8 @@
-﻿using FOS.DB.Models;
+﻿using FOS.App.Repositories;
+using FOS.Core.IRepositories;
+using FOS.DB.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using FOS.Core.IRepositories;
-using FOS.App.Repositories;
 
 namespace FOS.App.ExtensionMethods
 {

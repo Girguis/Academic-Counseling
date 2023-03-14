@@ -1,338 +1,8 @@
-USE [FOS]
-GO
-/****** Object:  Trigger [UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[UpdateStudentCurrentProgramAfterDelete]
-GO
-/****** Object:  Trigger [UpdateStudentCurrentProgram]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[UpdateStudentCurrentProgram]
-GO
-/****** Object:  Trigger [UpdateStudentCourse]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[UpdateStudentCourse]
-GO
-/****** Object:  Trigger [GiveBackCredits]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[GiveBackCredits]
-GO
-/****** Object:  Trigger [EntringStudentCourse]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[EntringStudentCourse]
-GO
-/****** Object:  Trigger [RankUpdater]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[RankUpdater]
-GO
-/****** Object:  Trigger [CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[CalculateProgramTotalHoursIfAnyDeleted]
-GO
-/****** Object:  Trigger [CalculateProgramTotalHours]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[CalculateProgramTotalHours]
-GO
-/****** Object:  Trigger [SetActiveCoursesBySemester]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[SetActiveCoursesBySemester]
-GO
-/****** Object:  Trigger [IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TRIGGER IF EXISTS [dbo].[IncreaseNumberOfSemestersInProgramForStudent]
-GO
-/****** Object:  StoredProcedure [dbo].[StudentGradesStatistics]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[StudentGradesStatistics]
-GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[StudentCoursesRegistration]
-GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[QueryExecuter]
-GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[ProgramSwitchingForStudent]
-GO
-/****** Object:  StoredProcedure [dbo].[ProgramsStatistics]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[ProgramsStatistics]
-GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[Login_SuperAdmin]
-GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[Login_Student]
-GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[Login_Doctor]
-GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetSubPrograms]
-GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetStudents]
-GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetStudent]
-GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetPassedCoursesList]
-GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetFailedCoursesList]
-GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetElectiveCoursesDistribution]
-GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetCoursesListExceptPassed]
-GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetCourses]
-GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetCourseDetails]
-GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetAvailableCoursesToRegister]
-GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[GetAllSubPrograms]
-GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[CoursesActivation]
-GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[AddStudentsToPrograms]
-GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[AddStudentDesires]
-GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[AddStudentCourses]
-GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP PROCEDURE IF EXISTS [dbo].[AddProgram]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TeacherCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[TeacherCourses] DROP CONSTRAINT IF EXISTS [FK_TeacherCourses_Supervisor]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TeacherCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[TeacherCourses] DROP CONSTRAINT IF EXISTS [FK_TeacherCourses_Course]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TeacherCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[TeacherCourses] DROP CONSTRAINT IF EXISTS [FK_TeacherCourses_AcademicYear]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentPrograms]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentPrograms] DROP CONSTRAINT IF EXISTS [FK_StudentPrograms_Student]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentPrograms]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentPrograms] DROP CONSTRAINT IF EXISTS [FK_StudentPrograms_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentPrograms]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentPrograms] DROP CONSTRAINT IF EXISTS [FK_StudentPrograms_AcademicYear]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentDesires]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentDesires] DROP CONSTRAINT IF EXISTS [FK_StudentDesires_Student]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentDesires]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentDesires] DROP CONSTRAINT IF EXISTS [FK_StudentDesires_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [FK_StudentCourses_Student]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [FK_StudentCourses_Course]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [FK_StudentCourses_AcademicYear]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
-ALTER TABLE [dbo].[Student] DROP CONSTRAINT IF EXISTS [FK_Student_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
-ALTER TABLE [dbo].[Student] DROP CONSTRAINT IF EXISTS [FK_Student_Doctor]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramDistribution]') AND type in (N'U'))
-ALTER TABLE [dbo].[ProgramDistribution] DROP CONSTRAINT IF EXISTS [FK_ProgramDistribution_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[ProgramCourses] DROP CONSTRAINT IF EXISTS [FK_ProgramCourses_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[ProgramCourses] DROP CONSTRAINT IF EXISTS [FK_ProgramCourses_Course]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Program]') AND type in (N'U'))
-ALTER TABLE [dbo].[Program] DROP CONSTRAINT IF EXISTS [FK_Program_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ElectiveCourseDistribution]') AND type in (N'U'))
-ALTER TABLE [dbo].[ElectiveCourseDistribution] DROP CONSTRAINT IF EXISTS [FK_OptionalCourse_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Doctor]') AND type in (N'U'))
-ALTER TABLE [dbo].[Doctor] DROP CONSTRAINT IF EXISTS [FK_Supervisor_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]') AND type in (N'U'))
-ALTER TABLE [dbo].[CoursePrerequisites] DROP CONSTRAINT IF EXISTS [FK_CoursePrerequisites_Program]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]') AND type in (N'U'))
-ALTER TABLE [dbo].[CoursePrerequisites] DROP CONSTRAINT IF EXISTS [FK_CoursePrerequisites_Course1]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]') AND type in (N'U'))
-ALTER TABLE [dbo].[CoursePrerequisites] DROP CONSTRAINT IF EXISTS [FK_CoursePrerequisites_Course]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [DF_StudentCourses_IsEnhancementCourse]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [DF_StudentCourses_HasExecuse]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [DF_StudentCourses_TookFromCredits]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [DF_StudentCourses_IsIncluded]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[StudentCourses] DROP CONSTRAINT IF EXISTS [DF_StudentCourses_IsApproved]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
-ALTER TABLE [dbo].[Student] DROP CONSTRAINT IF EXISTS [DF_Student_IsActive]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
-ALTER TABLE [dbo].[Student] DROP CONSTRAINT IF EXISTS [DF_Student_SemestersNumberInProgram]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
-ALTER TABLE [dbo].[Student] DROP CONSTRAINT IF EXISTS [DF_Student_AvailableCredits]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
-ALTER TABLE [dbo].[Student] DROP CONSTRAINT IF EXISTS [DF_Student_Gender]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[ProgramCourses] DROP CONSTRAINT IF EXISTS [DF_ProgramCourses_Category]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramCourses]') AND type in (N'U'))
-ALTER TABLE [dbo].[ProgramCourses] DROP CONSTRAINT IF EXISTS [DF_ProgramCourses_PrerequisiteRelationID]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Program]') AND type in (N'U'))
-ALTER TABLE [dbo].[Program] DROP CONSTRAINT IF EXISTS [DF_Program_TotalHours]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Doctor]') AND type in (N'U'))
-ALTER TABLE [dbo].[Doctor] DROP CONSTRAINT IF EXISTS [DF_Doctor_Type]
-GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP INDEX IF EXISTS [K_GUID] ON [dbo].[Student]
-GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[TeacherCourses]
-GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[SuperAdmin]
-GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[StudentPrograms]
-GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[StudentDesires]
-GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[StudentCourses]
-GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[Student]
-GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[ProgramDistribution]
-GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[ProgramCourses]
-GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[Program]
-GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[ElectiveCourseDistribution]
-GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[Doctor]
-GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[Date]
-GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[CoursePrerequisites]
-GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[Course]
-GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[CommonQuestion]
-GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TABLE IF EXISTS [dbo].[AcademicYear]
-GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[RankStudent]
-GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[IsStudentInSpecialProgram]
-GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[IsGraduatedStudent]
-GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[IsCourseIncluded]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[GetSumOfElectivePassedHours]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[GetStudentProgram]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[GetPrequisteNumber]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[GetPassedPrequisteNumber]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[GetNumberOfWarnings]
-GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[GetCurrentYearID]
-GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[CheckIfPassedCourse]
-GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[CanRegisterThisCourse]
-GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[CalculateStudentLevel]
-GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[CalculateSGPA]
-GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[CalculatePassedHours]
-GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP FUNCTION IF EXISTS [dbo].[CalculateCGPA]
-GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[StudentsProgramsType]
-GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[StudentRegistrationCoursesType]
-GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[StudentDesiresType]
-GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[ProgramDistributionType]
-GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[ProgramCoursesType]
-GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[PrerequisiteCoursesType]
-GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP TYPE IF EXISTS [dbo].[ElectiveCourseDistributionType]
-GO
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-03-12 3:47:24 PM ******/
-DROP DATABASE IF EXISTS [FOS]
-GO
-/****** Object:  Database [FOS]    Script Date: 2023-03-12 3:47:24 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'FOS')
+BEGIN
 CREATE DATABASE [FOS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -340,6 +10,7 @@ CREATE DATABASE [FOS]
  LOG ON 
 ( NAME = N'FOS_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS\MSSQL\DATA\FOS_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT
+END
 GO
 ALTER DATABASE [FOS] SET COMPATIBILITY_LEVEL = 150
 GO
@@ -412,7 +83,8 @@ ALTER DATABASE [FOS] SET QUERY_STORE = OFF
 GO
 USE [FOS]
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'ElectiveCourseDistributionType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
@@ -421,13 +93,15 @@ CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Hour] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'PrerequisiteCoursesType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[PrerequisiteCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteCourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'ProgramCoursesType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteRelationID] [tinyint] NULL,
@@ -435,37 +109,43 @@ CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[Category] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'ProgramDistributionType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[ProgramDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
 	[NumberOfHours] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'StudentDesiresType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
 	[ProgramID] [int] NULL,
 	[DesireNumber] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'StudentRegistrationCoursesType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[StudentRegistrationCoursesType] AS TABLE(
 	[CourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.types st JOIN sys.schemas ss ON st.schema_id = ss.schema_id WHERE st.name = N'StudentsProgramsType' AND ss.name = N'dbo')
 CREATE TYPE [dbo].[StudentsProgramsType] AS TABLE(
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[CalculateCGPA](@StudentID INT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CalculateCGPA]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CalculateCGPA](@StudentID INT)
 RETURNS decimal(5,4)
 AS
      BEGIN
@@ -480,13 +160,17 @@ AS
 		 sc.StudentID=@StudentID
 		 RETURN @CGPA;
      END;
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[CalculatePassedHours] (@StudentID INT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CalculatePassedHours]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CalculatePassedHours] (@StudentID INT)
 RETURNS TINYINT
 AS
 BEGIN
@@ -497,19 +181,23 @@ BEGIN
 		c.ID = sc.CourseID AND
 		sc.IsIncluded =1 AND
 		sc.Grade IS NOT NULL AND
-		sc.Grade <> 'F' AND
+		sc.Grade <> ''F'' AND
 		sc.StudentID=@StudentID
 	IF @PassedHours IS NOT NULL 
 		RETURN @PassedHours;
 	RETURN 0;
 END;
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[CalculateSGPA](@StudentID INT,@AcademicYearID TINYINT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CalculateSGPA]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CalculateSGPA](@StudentID INT,@AcademicYearID TINYINT)
 RETURNS DECIMAL(5,4)
 AS
      BEGIN
@@ -521,13 +209,17 @@ AS
 			Order by AcademicYearID
 		 RETURN @GPA;
      END;
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[CalculateStudentLevel] (@StudentID INT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CalculateStudentLevel]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CalculateStudentLevel] (@StudentID INT)
 RETURNS TINYINT
 AS
 BEGIN
@@ -558,14 +250,17 @@ BEGIN
 	DEALLOCATE Level_Cursor;
 
 	RETURN @StudentLevel
-END;
+END;' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[CanRegisterThisCourse](@StudentProgram int,
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CanRegisterThisCourse]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CanRegisterThisCourse](@StudentProgram int,
 												@StudentID int,
 												@Level tinyint,
 												@Semester tinyint,
@@ -597,7 +292,7 @@ WHERE
 	[dbo].[CheckIfPassedCourse](@StudentID,c.ID) = 1
 
 --If this condition is met this means that student have passed all optional courses 
---so s/he can't register any optional courses from that semester
+--so s/he can''t register any optional courses from that semester
 IF(@Hours = @PassedHours OR ((@PassedHours + @CourseCredits) > @Hours))
 	SET @ReturnValue = 0;
 ELSE
@@ -605,20 +300,24 @@ ELSE
 
 RETURN @ReturnValue;
 END
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[CheckIfPassedCourse](@StudentID int,@CourseID int)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CheckIfPassedCourse]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CheckIfPassedCourse](@StudentID int,@CourseID int)
 RETURNS tinyint
 AS
 BEGIN 
 DECLARE @CountOfPassed tinyint,@IsPassed tinyint;
 
 SELECT @CountOfPassed = COUNT(sc.CourseID) FROM StudentCourses sc 
-WHERE (sc.Grade <> 'F') AND
+WHERE (sc.Grade <> ''F'') AND
 StudentID = @StudentID
 AND CourseID =@CourseID
 
@@ -633,32 +332,63 @@ ELSE
 
 RETURN @IsPassed;
 END
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[GetCurrentYearID]()
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CountRegistrationTimes]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[CountRegistrationTimes](@StudentID INT,@CourseID INT)
+RETURNS TINYINT
+AS
+BEGIN
+	DECLARE @RegCounter INT;
+	SELECT @RegCounter = COUNT(CourseID) 
+	FROM StudentCourses 
+	WHERE StudentID = @StudentID AND CourseID = @CourseID
+	
+	IF @RegCounter IS NULL
+		BEGIN
+			RETURN 0;
+		END
+	RETURN @RegCounter;
+END' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetCurrentYearID]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetCurrentYearID]()
 RETURNS SMALLINT
 AS
 BEGIN
 	DECLARE @ID SMALLINT;
 	SELECT @ID =MAX(ID) FROM AcademicYear;
 	RETURN @ID;
+END' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[GetNumberOfWarnings](@StudentID int)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetNumberOfWarnings]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetNumberOfWarnings](@StudentID int)
 RETURNS TINYINT
 AS
 BEGIN
 /*
-	This function calculates Regular semesters CGPA and checks if it's <2 or not to calaulate number of warnings
+	This function calculates Regular semesters CGPA and checks if it''s <2 or not to calaulate number of warnings
 */
 	DECLARE @SGPA as decimal(5,4),
 			@CGPA as decimal(5,4),
@@ -703,13 +433,17 @@ BEGIN
 	DEALLOCATE Student_Waring_Counter_Cursor;
 	RETURN @NumberOfWarnings;
 END
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[GetPassedPrequisteNumber](@StudentID int,@CourseID int)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetPassedPrequisteNumber]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetPassedPrequisteNumber](@StudentID int,@CourseID int)
 RETURNS int
 AS
 BEGIN
@@ -733,13 +467,17 @@ CLOSE Count_Passed_Prerequiste_Number;
 DEALLOCATE Count_Passed_Prerequiste_Number;
 RETURN @PassedCoursesNumber;
 END
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[GetPrequisteNumber](@StudentID int,@CourseID int)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetPrequisteNumber]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetPrequisteNumber](@StudentID int,@CourseID int)
 RETURNs INT
 AS
 BEGIN
@@ -771,13 +509,35 @@ BEGIN
 		END
 	RETURN @ReturnValue;
 END
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetStudentGradeInCourse]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetStudentGradeInCourse](@StudentID INT,@CourseID INT)
+RETURNS NVARCHAR(3)
+AS
+BEGIN
+	DECLARE @Grade NVARCHAR(3);
+	SELECT TOP(1) @Grade = Grade FROM StudentCourses WHERE StudentID = @StudentID AND CourseID = @CourseID
+	ORDER BY AcademicYearID DESC
+	RETURN @Grade;
+END' 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetStudentProgram]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'
 
 CREATE FUNCTION [dbo].[GetStudentProgram](@StudentID INT)
 RETURNS int
@@ -790,13 +550,17 @@ AS
 
 		 RETURN @ProgramID;
      END;
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[GetSumOfElectivePassedHours](@StudentProgramID INT,@StudentID INT,@CourseLevel TINYINT,@CourseSemester TINYINT,@CourseType TINYINT,@CourseCategory TINYINT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetSumOfElectivePassedHours]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[GetSumOfElectivePassedHours](@StudentProgramID INT,@StudentID INT,@CourseLevel TINYINT,@CourseSemester TINYINT,@CourseType TINYINT,@CourseCategory TINYINT)
 RETURNS TINYINT
 AS
 BEGIN
@@ -806,19 +570,22 @@ BEGIN
 	WHERE c.Level = @CourseLevel AND c.Semester = @CourseSemester AND c.ID IN (
 		SELECT sc.CourseID
 		FROM StudentCourses sc
-		WHERE sc.Grade IS NOT NULL AND sc.Grade <> 'F' AND StudentID = @StudentID
+		WHERE sc.Grade IS NOT NULL AND sc.Grade <> ''F'' AND StudentID = @StudentID
 	) AND pc.ProgramID = @StudentProgramID AND pc.Category = @CourseCategory AND pc.CourseType = @CourseType;
 	IF @HoursSum IS NULL
 		SET @HoursSum = 0;
 	RETURN @HoursSum;
+END' 
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[IsCourseIncluded](@StudentID int,@CourseID int)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IsCourseIncluded]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[IsCourseIncluded](@StudentID int,@CourseID int)
 RETURNS bit
 AS
 	BEGIN
@@ -830,13 +597,17 @@ AS
 			END
 		RETURN 0;
 	END
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[IsGraduatedStudent](@StudentID INT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IsGraduatedStudent]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[IsGraduatedStudent](@StudentID INT)
 RETURNS bit
 AS
 --This function retrives program total hours and compare it with student total passed hours and GPA must be >=2.0
@@ -859,13 +630,17 @@ AS
 			SET @IsGraduated = 0;
 		RETURN @IsGraduated;
      END;
+' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[IsStudentInSpecialProgram](@StudentID INT)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IsStudentInSpecialProgram]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[IsStudentInSpecialProgram](@StudentID INT)
 RETURNS bit
 AS
      BEGIN
@@ -891,19 +666,22 @@ AS
 		-- FROM ProgramRelations
 		-- WHERE ProgramID = @ProgramID;
 		-- --IF = 0 this mean it has no sub programs
-		-- --Which mean it's a final(Special) program
+		-- --Which mean it''s a final(Special) program
 		-- IF @SubProgramsCount = 0
 		--	RETURN 1;
 
 		--RETURN 0;
-     END;
+     END;' 
+END
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE FUNCTION [dbo].[RankStudent](@StudentID int)
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RankStudent]') AND type in (N'FN', N'IF', N'TF', N'FS', N'FT'))
+BEGIN
+execute dbo.sp_executesql @statement = N'CREATE FUNCTION [dbo].[RankStudent](@StudentID int)
 RETURNS SMALLINT
 AS
 	BEGIN
@@ -929,12 +707,16 @@ AS
 		WHERE Res.ID = @StudentID;
 		RETURN @ReturnValue;
 	END
+' 
+END
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AcademicYear]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[AcademicYear](
 	[ID] [smallint] IDENTITY(1,1) NOT NULL,
 	[AcademicYear] [nvarchar](max) NOT NULL,
@@ -944,12 +726,15 @@ CREATE TABLE [dbo].[AcademicYear](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CommonQuestion]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[CommonQuestion](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Question] [nvarchar](max) NOT NULL,
@@ -959,12 +744,15 @@ CREATE TABLE [dbo].[CommonQuestion](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Course]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[Course](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[CourseCode] [nvarchar](max) NOT NULL,
@@ -981,34 +769,43 @@ CREATE TABLE [dbo].[Course](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[CoursePrerequisites](
 	[ProgramID] [int] NOT NULL,
 	[CourseID] [int] NOT NULL,
 	[PrerequisiteCourseID] [int] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Date]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[Date](
 	[DateFor] [tinyint] NOT NULL,
 	[StartDate] [smalldatetime] NOT NULL,
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Doctor]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[Doctor](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[GUID] [varchar](max) NOT NULL,
@@ -1024,12 +821,15 @@ CREATE TABLE [dbo].[Doctor](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ElectiveCourseDistribution]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[ProgramID] [int] NOT NULL,
 	[Level] [tinyint] NOT NULL,
@@ -1038,12 +838,15 @@ CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[Category] [tinyint] NOT NULL,
 	[Hour] [tinyint] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Program]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[Program](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [nvarchar](max) NOT NULL,
@@ -1060,12 +863,15 @@ CREATE TABLE [dbo].[Program](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramCourses]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[ProgramCourses](
 	[ProgramID] [int] NOT NULL,
 	[CourseID] [int] NOT NULL,
@@ -1073,24 +879,30 @@ CREATE TABLE [dbo].[ProgramCourses](
 	[CourseType] [tinyint] NOT NULL,
 	[Category] [tinyint] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramDistribution]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[ProgramDistribution](
 	[ProgramID] [int] NOT NULL,
 	[Level] [tinyint] NOT NULL,
 	[Semester] [tinyint] NOT NULL,
 	[NumberOfHours] [tinyint] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[Student](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[GUID] [varchar](60) NOT NULL,
@@ -1125,12 +937,15 @@ CREATE TABLE [dbo].[Student](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[StudentCourses](
 	[StudentID] [int] NOT NULL,
 	[CourseID] [int] NOT NULL,
@@ -1148,34 +963,43 @@ CREATE TABLE [dbo].[StudentCourses](
 	[HasExecuse] [bit] NULL,
 	[IsEnhancementCourse] [bit] NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentDesires]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[StudentDesires](
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[DesireNumber] [tinyint] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentPrograms]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[StudentPrograms](
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYear] [smallint] NOT NULL
 ) ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SuperAdmin]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[SuperAdmin](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[GUID] [varchar](max) NOT NULL,
@@ -1187,17 +1011,21 @@ CREATE TABLE [dbo].[SuperAdmin](
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+END
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TeacherCourses]') AND type in (N'U'))
+BEGIN
 CREATE TABLE [dbo].[TeacherCourses](
 	[DoctorID] [int] NULL,
 	[CourseID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 ) ON [PRIMARY]
+END
 GO
 SET IDENTITY_INSERT [dbo].[AcademicYear] ON 
 GO
@@ -2339,7 +2167,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID]) VALUES (27, N'bd5d3e03-5f3c-423e-8338-126106db5b3d', N'احمد محمد شاكر', N'30101012145214', N'12345678912', CAST(N'2001-01-01' AS Date), N'Address', N'1', N'مصرى', N'30101012145214@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'152025', N'33333', 1, NULL, CAST(N'2023-02-10T16:15:00' AS SmallDateTime), 0, 0, NULL, 1, 5)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'125423', N'11111', 1, NULL, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, NULL, 1, 2)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'125423', N'11111', 1, NULL, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, NULL, 1, 5)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID]) VALUES (29, N'52d2752d-bdc6-470f-bb11-310932ed51e4', N'A', N'30101092101478', N'12345678912', CAST(N'2001-01-09' AS Date), N'Address', N'1', N'مصرى', N'30101092101478@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'124957', N'11201', 0, NULL, CAST(N'2023-02-10T19:59:00' AS SmallDateTime), 0, 0, NULL, 1, 5)
 GO
@@ -2375,7 +2203,7 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (8, 86, 47, N'A', 4, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (19, 2, NULL, NULL, NULL, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (5, 29, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (5, 1, 119, N'B', 3, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0)
 GO
@@ -3393,6 +3221,8 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (11, 86, 45, N'A', 4, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0)
 GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (30, 29, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0)
+GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (29, 1, 85, N'F', 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (29, 2, 45, N'A', 4, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0)
@@ -3539,6 +3369,10 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (29, 38, 132, N'A-', 3.67, 1, 1, 1, 2, 0, 19, 1, 0, 0, 1)
 GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (11, 29, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse]) VALUES (12, 29, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0)
+GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 5, 10)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 5, 11)
@@ -3607,154 +3441,243 @@ INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-03-14 1:51:01 PM ******/
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND name = N'K_GUID')
 CREATE UNIQUE NONCLUSTERED INDEX [K_GUID] ON [dbo].[Student]
 (
 	[GUID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Doctor_Type]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[Doctor] ADD  CONSTRAINT [DF_Doctor_Type]  DEFAULT ((1)) FOR [Type]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Program_TotalHours]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[Program] ADD  CONSTRAINT [DF_Program_TotalHours]  DEFAULT ((140)) FOR [TotalHours]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProgramCourses_PrerequisiteRelationID]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[ProgramCourses] ADD  CONSTRAINT [DF_ProgramCourses_PrerequisiteRelationID]  DEFAULT ((0)) FOR [PrerequisiteRelationID]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProgramCourses_Category]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[ProgramCourses] ADD  CONSTRAINT [DF_ProgramCourses_Category]  DEFAULT ((1)) FOR [Category]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Student_Gender]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[Student] ADD  CONSTRAINT [DF_Student_Gender]  DEFAULT ((1)) FOR [Gender]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Student_AvailableCredits]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[Student] ADD  CONSTRAINT [DF_Student_AvailableCredits]  DEFAULT ((12)) FOR [AvailableCredits]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Student_SemestersNumberInProgram]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[Student] ADD  CONSTRAINT [DF_Student_SemestersNumberInProgram]  DEFAULT ((0)) FOR [SemestersNumberInProgram]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Student_IsActive]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[Student] ADD  CONSTRAINT [DF_Student_IsActive]  DEFAULT ((1)) FOR [IsActive]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_StudentCourses_IsApproved]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[StudentCourses] ADD  CONSTRAINT [DF_StudentCourses_IsApproved]  DEFAULT ((1)) FOR [IsApproved]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_StudentCourses_IsIncluded]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[StudentCourses] ADD  CONSTRAINT [DF_StudentCourses_IsIncluded]  DEFAULT ((1)) FOR [IsIncluded]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_StudentCourses_TookFromCredits]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[StudentCourses] ADD  CONSTRAINT [DF_StudentCourses_TookFromCredits]  DEFAULT ((0)) FOR [TookFromCredits]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_StudentCourses_HasExecuse]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[StudentCourses] ADD  CONSTRAINT [DF_StudentCourses_HasExecuse]  DEFAULT ((0)) FOR [HasExecuse]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_StudentCourses_IsEnhancementCourse]') AND type = 'D')
+BEGIN
 ALTER TABLE [dbo].[StudentCourses] ADD  CONSTRAINT [DF_StudentCourses_IsEnhancementCourse]  DEFAULT ((0)) FOR [IsEnhancementCourse]
+END
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CoursePrerequisites_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]'))
 ALTER TABLE [dbo].[CoursePrerequisites]  WITH CHECK ADD  CONSTRAINT [FK_CoursePrerequisites_Course] FOREIGN KEY([CourseID])
 REFERENCES [dbo].[Course] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CoursePrerequisites_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]'))
 ALTER TABLE [dbo].[CoursePrerequisites] CHECK CONSTRAINT [FK_CoursePrerequisites_Course]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CoursePrerequisites_Course1]') AND parent_object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]'))
 ALTER TABLE [dbo].[CoursePrerequisites]  WITH CHECK ADD  CONSTRAINT [FK_CoursePrerequisites_Course1] FOREIGN KEY([PrerequisiteCourseID])
 REFERENCES [dbo].[Course] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CoursePrerequisites_Course1]') AND parent_object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]'))
 ALTER TABLE [dbo].[CoursePrerequisites] CHECK CONSTRAINT [FK_CoursePrerequisites_Course1]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CoursePrerequisites_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]'))
 ALTER TABLE [dbo].[CoursePrerequisites]  WITH CHECK ADD  CONSTRAINT [FK_CoursePrerequisites_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CoursePrerequisites_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]'))
 ALTER TABLE [dbo].[CoursePrerequisites] CHECK CONSTRAINT [FK_CoursePrerequisites_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Supervisor_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[Doctor]'))
 ALTER TABLE [dbo].[Doctor]  WITH CHECK ADD  CONSTRAINT [FK_Supervisor_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Supervisor_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[Doctor]'))
 ALTER TABLE [dbo].[Doctor] CHECK CONSTRAINT [FK_Supervisor_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_OptionalCourse_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[ElectiveCourseDistribution]'))
 ALTER TABLE [dbo].[ElectiveCourseDistribution]  WITH CHECK ADD  CONSTRAINT [FK_OptionalCourse_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_OptionalCourse_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[ElectiveCourseDistribution]'))
 ALTER TABLE [dbo].[ElectiveCourseDistribution] CHECK CONSTRAINT [FK_OptionalCourse_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Program_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[Program]'))
 ALTER TABLE [dbo].[Program]  WITH CHECK ADD  CONSTRAINT [FK_Program_Program] FOREIGN KEY([SuperProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Program_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[Program]'))
 ALTER TABLE [dbo].[Program] CHECK CONSTRAINT [FK_Program_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramCourses_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramCourses]'))
 ALTER TABLE [dbo].[ProgramCourses]  WITH CHECK ADD  CONSTRAINT [FK_ProgramCourses_Course] FOREIGN KEY([CourseID])
 REFERENCES [dbo].[Course] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramCourses_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramCourses]'))
 ALTER TABLE [dbo].[ProgramCourses] CHECK CONSTRAINT [FK_ProgramCourses_Course]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramCourses_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramCourses]'))
 ALTER TABLE [dbo].[ProgramCourses]  WITH CHECK ADD  CONSTRAINT [FK_ProgramCourses_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramCourses_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramCourses]'))
 ALTER TABLE [dbo].[ProgramCourses] CHECK CONSTRAINT [FK_ProgramCourses_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramDistribution_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramDistribution]'))
 ALTER TABLE [dbo].[ProgramDistribution]  WITH CHECK ADD  CONSTRAINT [FK_ProgramDistribution_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ProgramDistribution_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[ProgramDistribution]'))
 ALTER TABLE [dbo].[ProgramDistribution] CHECK CONSTRAINT [FK_ProgramDistribution_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Student_Doctor]') AND parent_object_id = OBJECT_ID(N'[dbo].[Student]'))
 ALTER TABLE [dbo].[Student]  WITH CHECK ADD  CONSTRAINT [FK_Student_Doctor] FOREIGN KEY([SupervisorID])
 REFERENCES [dbo].[Doctor] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Student_Doctor]') AND parent_object_id = OBJECT_ID(N'[dbo].[Student]'))
 ALTER TABLE [dbo].[Student] CHECK CONSTRAINT [FK_Student_Doctor]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Student_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[Student]'))
 ALTER TABLE [dbo].[Student]  WITH CHECK ADD  CONSTRAINT [FK_Student_Program] FOREIGN KEY([CurrentProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Student_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[Student]'))
 ALTER TABLE [dbo].[Student] CHECK CONSTRAINT [FK_Student_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentCourses_AcademicYear]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentCourses]'))
 ALTER TABLE [dbo].[StudentCourses]  WITH NOCHECK ADD  CONSTRAINT [FK_StudentCourses_AcademicYear] FOREIGN KEY([AcademicYearID])
 REFERENCES [dbo].[AcademicYear] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentCourses_AcademicYear]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentCourses]'))
 ALTER TABLE [dbo].[StudentCourses] CHECK CONSTRAINT [FK_StudentCourses_AcademicYear]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentCourses_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentCourses]'))
 ALTER TABLE [dbo].[StudentCourses]  WITH NOCHECK ADD  CONSTRAINT [FK_StudentCourses_Course] FOREIGN KEY([CourseID])
 REFERENCES [dbo].[Course] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentCourses_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentCourses]'))
 ALTER TABLE [dbo].[StudentCourses] CHECK CONSTRAINT [FK_StudentCourses_Course]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentCourses_Student]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentCourses]'))
 ALTER TABLE [dbo].[StudentCourses]  WITH NOCHECK ADD  CONSTRAINT [FK_StudentCourses_Student] FOREIGN KEY([StudentID])
 REFERENCES [dbo].[Student] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentCourses_Student]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentCourses]'))
 ALTER TABLE [dbo].[StudentCourses] CHECK CONSTRAINT [FK_StudentCourses_Student]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentDesires_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentDesires]'))
 ALTER TABLE [dbo].[StudentDesires]  WITH CHECK ADD  CONSTRAINT [FK_StudentDesires_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentDesires_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentDesires]'))
 ALTER TABLE [dbo].[StudentDesires] CHECK CONSTRAINT [FK_StudentDesires_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentDesires_Student]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentDesires]'))
 ALTER TABLE [dbo].[StudentDesires]  WITH CHECK ADD  CONSTRAINT [FK_StudentDesires_Student] FOREIGN KEY([StudentID])
 REFERENCES [dbo].[Student] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentDesires_Student]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentDesires]'))
 ALTER TABLE [dbo].[StudentDesires] CHECK CONSTRAINT [FK_StudentDesires_Student]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentPrograms_AcademicYear]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentPrograms]'))
 ALTER TABLE [dbo].[StudentPrograms]  WITH CHECK ADD  CONSTRAINT [FK_StudentPrograms_AcademicYear] FOREIGN KEY([AcademicYear])
 REFERENCES [dbo].[AcademicYear] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentPrograms_AcademicYear]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentPrograms]'))
 ALTER TABLE [dbo].[StudentPrograms] CHECK CONSTRAINT [FK_StudentPrograms_AcademicYear]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentPrograms_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentPrograms]'))
 ALTER TABLE [dbo].[StudentPrograms]  WITH CHECK ADD  CONSTRAINT [FK_StudentPrograms_Program] FOREIGN KEY([ProgramID])
 REFERENCES [dbo].[Program] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentPrograms_Program]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentPrograms]'))
 ALTER TABLE [dbo].[StudentPrograms] CHECK CONSTRAINT [FK_StudentPrograms_Program]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentPrograms_Student]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentPrograms]'))
 ALTER TABLE [dbo].[StudentPrograms]  WITH CHECK ADD  CONSTRAINT [FK_StudentPrograms_Student] FOREIGN KEY([StudentID])
 REFERENCES [dbo].[Student] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_StudentPrograms_Student]') AND parent_object_id = OBJECT_ID(N'[dbo].[StudentPrograms]'))
 ALTER TABLE [dbo].[StudentPrograms] CHECK CONSTRAINT [FK_StudentPrograms_Student]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_AcademicYear]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses]  WITH CHECK ADD  CONSTRAINT [FK_TeacherCourses_AcademicYear] FOREIGN KEY([AcademicYearID])
 REFERENCES [dbo].[AcademicYear] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_AcademicYear]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_AcademicYear]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses]  WITH CHECK ADD  CONSTRAINT [FK_TeacherCourses_Course] FOREIGN KEY([CourseID])
 REFERENCES [dbo].[Course] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_Course]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Course]
 GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_Supervisor]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses]  WITH CHECK ADD  CONSTRAINT [FK_TeacherCourses_Supervisor] FOREIGN KEY([DoctorID])
 REFERENCES [dbo].[Doctor] ([ID])
 GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_TeacherCourses_Supervisor]') AND parent_object_id = OBJECT_ID(N'[dbo].[TeacherCourses]'))
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [dbo].[AddProgram]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AddProgram]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[AddProgram] AS' 
+END
+GO
+ALTER PROC [dbo].[AddProgram]
 @Name NVARCHAR(MAX),
 @Semester TINYINT,
 @Percentage FLOAT,
@@ -3791,12 +3714,17 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[AddStudentCourses]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AddStudentCourses]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[AddStudentCourses] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[AddStudentCourses]
 @StudentID INT,
 @Query NVARCHAR(MAX)
 AS 
@@ -3807,13 +3735,18 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AddStudentDesires]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[AddStudentDesires] AS' 
+END
+GO
 
-CREATE PROCEDURE [dbo].[AddStudentDesires]
+ALTER PROCEDURE [dbo].[AddStudentDesires]
 @Desires StudentDesiresType READONLY,
 @StudentID INT
 AS 
@@ -3834,12 +3767,17 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[AddStudentsToPrograms]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AddStudentsToPrograms]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[AddStudentsToPrograms] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[AddStudentsToPrograms]
 @StudentProgram StudentsProgramsType READONLY
 AS 
 BEGIN
@@ -3863,12 +3801,17 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[CoursesActivation]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursesActivation]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[CoursesActivation] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[CoursesActivation]
 @IsActive BIT,
 @CourseLst NVARCHAR(MAX)
 AS
@@ -3879,12 +3822,17 @@ BEGIN
 	@SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetAllSubPrograms]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetAllSubPrograms]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetAllSubPrograms] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetAllSubPrograms]
 @ProgramID INT = NULL
 AS
 BEGIN
@@ -3909,12 +3857,17 @@ ELSE
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetAvailableCoursesToRegister]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetAvailableCoursesToRegister]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetAvailableCoursesToRegister] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetAvailableCoursesToRegister]
 @StudentID int
 AS
 BEGIN
@@ -3940,12 +3893,17 @@ DECLARE @StudentProgram int = [dbo].[GetStudentProgram](@StudentID);
 		AND (pc.CourseType = 1 OR [dbo].[CanRegisterThisCourse](@StudentProgram,@StudentID,c.Level,c.Semester,pc.CourseType,pc.Category,c.CreditHours) = 1)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetCourseDetails] 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetCourseDetails]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetCourseDetails] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetCourseDetails] 
 @CourseID INT
 AS
 BEGIN
@@ -3963,12 +3921,17 @@ BEGIN
 	WHERE pc.CourseID = @CourseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetCourses]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetCourses]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetCourses] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetCourses]
 @ProgramID INT = NULL,
 @CourseProgramID INT = NULL,
 @CourseCode NVARCHAR(MAX) = NULL,
@@ -4079,12 +4042,17 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetCoursesListExceptPassed]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetCoursesListExceptPassed]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetCoursesListExceptPassed] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetCoursesListExceptPassed]
 --Retrives list of courses that student can register
 @StudentID int
 AS
@@ -4101,12 +4069,17 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetElectiveCoursesDistribution]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetElectiveCoursesDistribution]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetElectiveCoursesDistribution] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetElectiveCoursesDistribution]
 @ProgramID INT,
 @StudentID INT
 AS
@@ -4116,12 +4089,17 @@ BEGIN
 	WHERE ec.ProgramID = @ProgramID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetFailedCoursesList]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetFailedCoursesList]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetFailedCoursesList] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetFailedCoursesList]
 --Retrives list of courses that student got F and haven't pass it yet
 @StudentID int
 AS
@@ -4132,24 +4110,34 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetPassedCoursesList]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetPassedCoursesList]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetPassedCoursesList] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetPassedCoursesList]
 @StudentID int
 AS
 BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetStudent]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetStudent]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetStudent] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetStudent]
 @SSN NVARCHAR(25) = NULL,
 @GUID NVARCHAR(MAX) = NULL
 AS
@@ -4167,12 +4155,17 @@ BEGIN
 	EXECUTE sp_executesql @SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetStudents]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetStudents]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetStudents] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetStudents]
 @ProgramID INT = NULL,
 @AcademicCode NVARCHAR(MAX) = NULL,
 @SeatNumber NVARCHAR(MAX) = NULL,
@@ -4332,12 +4325,17 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetSubPrograms]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GetSubPrograms]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetSubPrograms] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[GetSubPrograms]
 @ProgramID INT NULL
 AS
 BEGIN
@@ -4351,12 +4349,17 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[Login_Doctor]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Login_Doctor]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Login_Doctor] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Login_Doctor]
 @Email VARCHAR(MAX),
 @Password VARCHAR(MAX)
 AS
@@ -4364,12 +4367,17 @@ AS
 		SELECT * FROM Doctor WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[Login_Student]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Login_Student]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Login_Student] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Login_Student]
 @Email VARCHAR(MAX),
 @Password VARCHAR(MAX)
 AS
@@ -4377,12 +4385,17 @@ AS
 		SELECT * FROM Student WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[Login_SuperAdmin]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Login_SuperAdmin]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Login_SuperAdmin] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Login_SuperAdmin]
 @Email VARCHAR(MAX),
 @Password VARCHAR(MAX)
 AS
@@ -4390,26 +4403,17 @@ AS
 		SELECT * FROM SuperAdmin WHERE Email = @Email AND Password = @Password;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramsStatistics]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[ProgramsStatistics] 
-AS
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramSwitchingForStudent]') AND type in (N'P', N'PC'))
 BEGIN
-	SELECT CONCAT(p.ArabicName,' - ',p.Name) AS 'Key', COUNT(s.id) AS 'Value'
-	  FROM Student s join Program p ON s.CurrentProgramID = p.ID
-	  WHERE s.IsGraduated = 0
-	  GROUP BY p.Name,p.ArabicName
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[ProgramSwitchingForStudent] AS' 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-12 3:47:25 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[ProgramSwitchingForStudent]
+ALTER PROCEDURE [dbo].[ProgramSwitchingForStudent]
 @StudentID INT,
 @FromProgram INT,
 @ToProgram INT
@@ -4454,56 +4458,246 @@ AS
 			WHERE StudentID = @StudentID AND IsIncluded = 0;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[QueryExecuter]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[QueryExecuter]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[QueryExecuter] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[QueryExecuter]
 @Query NVARCHAR(MAX)
 AS 
 BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[StudentCoursesRegistration]
-@Query NVARCHAR(MAX),
-@StudentID INT,
-@CurrentAcademicYearID TINYINT
-AS 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Report_CourseGradesSheet]') AND type in (N'P', N'PC'))
 BEGIN
-	DECLARE @CourseID INT;
-	
-	DECLARE Delete_Courses_Cursor CURSOR FOR  
-		SELECT CourseID FROM [dbo].StudentCourses
-		WHERE [StudentID] = @StudentID AND AcademicYearID = @CurrentAcademicYearID;
-	OPEN Delete_Courses_Cursor;  
-	FETCH NEXT FROM Delete_Courses_Cursor INTO @CourseID;
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		DELETE FROM StudentCourses 
-		WHERE StudentID = @StudentID AND
-		AcademicYearID = @CurrentAcademicYearID AND
-		CourseID = @CourseID;
-		FETCH NEXT FROM Delete_Courses_Cursor INTO @CourseID;
-	END;  
-	CLOSE Delete_Courses_Cursor;  
-	DEALLOCATE Delete_Courses_Cursor;
-
-	EXECUTE sp_executesql @Query;
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Report_CourseGradesSheet] AS' 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentGradesStatistics]    Script Date: 2023-03-12 3:47:25 PM ******/
+ALTER PROCEDURE [dbo].[Report_CourseGradesSheet]
+@CourseID INT
+AS
+BEGIN
+	DECLARE @CurrentYearID TINYINT = [dbo].[GetCurrentYearID]();
+	SELECT CourseCode,CourseName,CreditHours FROM Course WHERE ID = @CourseID;
+	SELECT AcademicYear AS [Year], Semester FROM AcademicYear WHERE ID = @CurrentYearID;
+	SELECT s.AcademicCode,
+	s.Name,
+	s.Level,
+	p.Name AS [ProgramName],
+	sc.Mark
+	FROM Student s JOIN Program p ON p.ID = s.CurrentProgramID JOIN StudentCourses sc ON s.ID = sc.StudentID
+	WHERE sc.CourseID = @CourseID AND sc.AcademicYearID = @CurrentYearID AND s.IsActive = 1;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[StudentGradesStatistics]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Report_ExamCommitteeStudents]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Report_ExamCommitteeStudents] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Report_ExamCommitteeStudents]
+@CourseID INT,
+@ProgramID INT,
+@Level TINYINT
+AS
+BEGIN
+	
+	SELECT p.Name 
+	FROM Program p 
+	WHERE ID = @ProgramID;
+	
+	SELECT 
+	c.CourseName,
+	c.CourseCode 
+	FROM Course c
+	WHERE ID = @CourseID;
+
+	SELECT s.Name,
+	s.AcademicCode,
+	s.Level
+	FROM Student s JOIN StudentCourses sc ON sc.StudentID = s.ID 
+	WHERE s.CurrentProgramID = @ProgramID AND s.Level = @Level AND sc.CourseID = @CourseID AND sc.AcademicYearID = [dbo].[GetCurrentYearID]();
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Report_GetStruggledStudents]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Report_GetStruggledStudents] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Report_GetStruggledStudents]
+@ProgramID INT = NULL,
+@IsActive INT = NULL,
+@WarningsNumber INT = NULL
+AS
+BEGIN
+DECLARE @SelectStatement NVARCHAR(MAX)= N'',
+		@FromStatement NVARCHAR(MAX)= N'',
+		@WhereStatement NVARCHAR(MAX)= N'',
+		@SqlStatement NVARCHAR(MAX)= N'',
+		@RecursionStatement NVARCHAR(MAX) = N'';
+IF @ProgramID IS NOT NULL
+	BEGIN
+		SET @RecursionStatement = N'
+		WITH ParentChilds AS (
+			SELECT *
+			FROM Program
+			WHERE ID ='+CAST(@ProgramID AS VARCHAR(10)) +' UNION ALL
+			SELECT child.*
+			FROM Program child
+			JOIN ParentChilds pc
+			  ON pc.ID = child.superProgramID)';
+	END
+	SET @SelectStatement =@RecursionStatement + N'SELECT s.Name,
+	s.AcademicCode,
+	s.PhoneNumber,
+	s.AvailableCredits,
+	s.WarningsNumber,
+	s.CGPA,
+	s.Level,
+	s.PassedHours,
+	p.Name AS [ProgramName]';
+	SET @FromStatement =N' FROM Student s JOIN Program p ON p.ID = s.CurrentProgramID ';
+	SET @WhereStatement = N' WHERE 1 = 1 AND IsActive = '+CAST(ISNULL(@IsActive,1)AS nvarchar(1));
+	IF @WarningsNumber IS NOT NULL
+		BEGIN
+			SET @WhereStatement +=N' AND WarningsNumber >='+CAST(@WarningsNumber AS NVARCHAR(3));
+		END
+	IF @ProgramID IS NOT NULL
+		BEGIN
+			SET @WhereStatement += N' AND s.CurrentProgramID IN (SELECT id FROM ParentChilds)';
+		END
+		SET @SqlStatement = @SelectStatement + @FromStatement + @WhereStatement;
+	EXECUTE sp_executesql
+		@SqlStatement
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Report_StudentCoursesSummary]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Report_StudentCoursesSummary] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Report_StudentCoursesSummary]
+@StudentID INT
+AS
+BEGIN
+	SELECT s.AcademicCode,
+	s.Name,s.PhoneNumber,
+	s.Level,s.PassedHours,
+	p.Name AS [ProgramName],p.TotalHours,
+	(p.TotalHours - s.PassedHours) AS [RemaningHours]
+	FROM Student s JOIN Program p ON s.CurrentProgramID = p.ID WHERE s.ID = @StudentID;
+
+	SELECT pc.CourseType,
+	pc.Category,
+	c.Level,
+	c.Semester,
+	ISNULL((SELECT ecd.Hour 
+	FROM ElectiveCourseDistribution ecd 
+	WHERE ecd.ProgramID = [dbo].[GetStudentProgram](@StudentID) 
+	AND ecd.Level = c.Level AND ecd.Semester = c.Semester AND 
+	ecd.Category = pc.Category AND ecd.CourseType = pc.CourseType),c.CreditHours) AS [Hours],
+	c.CourseCode,
+	c.CourseName,
+	[dbo].[CheckIfPassedCourse](@StudentID,c.ID) AS [IsPassedCourse],
+	[dbo].[CountRegistrationTimes](@StudentID,c.ID) AS [RegistrationTimes],
+	[dbo].[GetStudentGradeInCourse](@StudentID,c.ID) AS [Grade]
+	FROM ProgramCourses pc
+	LEFT JOIN Course c ON pc.CourseID = c.ID
+	WHERE pc.ProgramID = [dbo].[GetStudentProgram](@StudentID)
+	ORDER BY pc.CourseType,c.Level,c.Semester;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Statistics_CourseGrades]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Statistics_CourseGrades] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Statistics_CourseGrades]
+@CourseID INT = NULL,
+@AcademicYearID INT = NULL
+AS
+BEGIN
+DECLARE @SelectStatement NVARCHAR(MAX) = N'',
+		@FromStatement NVARCHAR(MAX) = N'',
+		@WhereStatement NVARCHAR(MAX) = N'',
+		@SqlStatement NVARCHAR(MAX) = N'';
+	SET @SelectStatement = N'SELECT COUNT(*) AS [Value],Grade AS [Key] '; 
+	SET @FromStatement = N'FROM StudentCourses ';
+	SET @WhereStatement = N' WHERE CourseID = '+CAST(@CourseID AS VARCHAR(3));
+	IF @AcademicYearID IS NOT NULL
+		BEGIN
+			SET @WhereStatement += N' AND AcademicYearID = '+CAST(@AcademicYearID AS VARCHAR(3));
+		END
+	 
+	SET @WhereStatement+=N' GROUP BY Grade;';
+	
+	SET @SqlStatement = @SelectStatement + @FromStatement + @WhereStatement;
+	PRINT @SqlStatement;
+	EXECUTE sp_executesql 
+		@SqlStatement
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Statistics_Programs]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Statistics_Programs] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Statistics_Programs] 
+AS
+BEGIN
+	SELECT p.Name AS [Key], COUNT(s.id) AS [Value]
+	  FROM Student s join Program p ON s.CurrentProgramID = p.ID
+	  WHERE s.IsGraduated = 0
+	  GROUP BY p.Name,p.ArabicName
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Statistics_StudentGrades]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[Statistics_StudentGrades] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[Statistics_StudentGrades]
 @ProgramID INT = NULL,
 @IsGraduated BIT = 0,
 @IsActive BIT = 1
@@ -4551,12 +4745,50 @@ BEGIN
 	
 END
 GO
-/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[IncreaseNumberOfSemestersInProgramForStudent]
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCoursesRegistration]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[StudentCoursesRegistration] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[StudentCoursesRegistration]
+@Query NVARCHAR(MAX),
+@StudentID INT,
+@CurrentAcademicYearID TINYINT
+AS 
+BEGIN
+	DECLARE @CourseID INT;
+	
+	DECLARE Delete_Courses_Cursor CURSOR FOR  
+		SELECT CourseID FROM [dbo].StudentCourses
+		WHERE [StudentID] = @StudentID AND AcademicYearID = @CurrentAcademicYearID;
+	OPEN Delete_Courses_Cursor;  
+	FETCH NEXT FROM Delete_Courses_Cursor INTO @CourseID;
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		DELETE FROM StudentCourses 
+		WHERE StudentID = @StudentID AND
+		AcademicYearID = @CurrentAcademicYearID AND
+		CourseID = @CourseID;
+		FETCH NEXT FROM Delete_Courses_Cursor INTO @CourseID;
+	END;  
+	CLOSE Delete_Courses_Cursor;  
+	DEALLOCATE Delete_Courses_Cursor;
+
+	EXECUTE sp_executesql @Query;
+END
+GO
+/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-14 1:51:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[IncreaseNumberOfSemestersInProgramForStudent]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[IncreaseNumberOfSemestersInProgramForStudent]
 ON [dbo].[AcademicYear]
 AFTER INSERT
 AS
@@ -4572,15 +4804,17 @@ BEGIN
 		UPDATE Student SET SemestersNumberInProgram = SemestersNumberInProgram + 1 WHERE IsGraduated =0;
 	END
 END
+' 
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[SetActiveCoursesBySemester]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[SetActiveCoursesBySemester]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[SetActiveCoursesBySemester]
 ON [dbo].[AcademicYear]
 AFTER INSERT
 AS
@@ -4600,15 +4834,17 @@ BEGIN
 			UPDATE Course SET IsActive = 0;
 		END
 END
+' 
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[CalculateProgramTotalHours]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[CalculateProgramTotalHours]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[CalculateProgramTotalHours]
 ON [dbo].[ProgramDistribution]
 AFTER INSERT,UPDATE
 AS
@@ -4630,15 +4866,17 @@ SET TotalHours = @TotalHours
 WHERE ID = @ProgramID;
 
 END
+' 
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[CalculateProgramTotalHoursIfAnyDeleted]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[CalculateProgramTotalHoursIfAnyDeleted]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[CalculateProgramTotalHoursIfAnyDeleted]
 ON [dbo].[ProgramDistribution]
 AFTER DELETE
 AS
@@ -4663,15 +4901,17 @@ BEGIN
 		WHERE ID = @ProgramID;
 
 END
+' 
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [dbo].[RankUpdater]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[RankUpdater]    Script Date: 2023-03-14 1:51:01 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[RankUpdater]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[RankUpdater]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[RankUpdater]
     ON [dbo].[Student]
     AFTER UPDATE
 AS
@@ -4691,15 +4931,17 @@ DECLARE @StudentID INT;
 			UPDATE Student SET Rank = @NewVal WHERE ID = @StudentID;
 		END
 END;
+' 
 GO
 ALTER TABLE [dbo].[Student] ENABLE TRIGGER [RankUpdater]
 GO
-/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-03-14 1:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-/*
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[EntringStudentCourse]'))
+EXEC dbo.sp_executesql @statement = N'/*
 This trigger is used to calculate
 courseEntringNumber, avaiable credits for student, AffectCourseReEntring,
 Points, Grade depening on entered Mark
@@ -4762,7 +5004,7 @@ BEGIN
 		FROM StudentCourses 
 		WHERE StudentID=@StudentID AND CourseID=@CourseID AND @HasExecuse <> 1 AND AcademicYearID <> @AcademicYearID;
 	
-		--If it's not the first time to enter the course
+		--If it''s not the first time to enter the course
 		--it will take from student available credits
 		IF(@CourseEntringNo > 1)
 		BEGIN
@@ -4786,7 +5028,7 @@ BEGIN
 				END
 			END
 
-			-- if it's the 3rd time or more Grade will be D even there's available credits
+			-- if it''s the 3rd time or more Grade will be D even there''s available credits
 			IF(@CourseEntringNo >2)
 				BEGIN
 					SET @AffectCourseReEntring =1;
@@ -4795,7 +5037,7 @@ BEGIN
 				BEGIN
 					SET @AffectCourseReEntring =0;
 				END
-			--if it's enhancement chance, student will take full points
+			--if it''s enhancement chance, student will take full points
 			IF @IsEnhancementCourse = 1
 				BEGIN
 					SET @AffectCourseReEntring =0;
@@ -4803,7 +5045,7 @@ BEGIN
 
 			DECLARE @MarkPer float;
 			--Calculate Grade and Points
-			--In case it's the first time to enter a course or in 12 hours limit or enhancement chance
+			--In case it''s the first time to enter a course or in 12 hours limit or enhancement chance
 			IF @IsGpaIncluded = 1
 				BEGIN
 					IF(@Mark IS NOT NULL AND @CreditHours <> 0 AND @AffectCourseReEntring = 0  AND @WillTakeFullCredit = 1)
@@ -4811,72 +5053,72 @@ BEGIN
 						SET @MarkPer = (@Mark * 100.0) / (@CreditHours * 50.0);
 						IF @MarkPer >=90.0
 							BEGIN
-								SET @Grade = 'A';
+								SET @Grade = ''A'';
 								SET @Points =4.0;
 							END
 						ELSE IF @MarkPer >=85.0
 							BEGIN
-								SET @Grade = 'A-';
+								SET @Grade = ''A-'';
 								SET @Points =3.67;
 							END
 						ELSE IF @MarkPer >=80.0
 							BEGIN
-								SET @Grade = 'B+';
+								SET @Grade = ''B+'';
 								SET @Points =3.33;
 							END
 						ELSE IF @MarkPer >=75.0
 							BEGIN
-								SET @Grade = 'B';
+								SET @Grade = ''B'';
 								SET @Points =3.0;
 							END
 						ELSE IF @MarkPer >=70.0
 							BEGIN
-								SET @Grade = 'C+';
+								SET @Grade = ''C+'';
 								SET @Points =2.67;
 							END
 						ELSE IF @MarkPer >=65.0
 							BEGIN
-								SET @Grade = 'C';
+								SET @Grade = ''C'';
 								SET @Points =2.33;
 							END
 						ELSE IF @MarkPer >=60.0
 							BEGIN
-								SET @Grade = 'D';
+								SET @Grade = ''D'';
 								SET @Points =2.0;
 							END
 						ELSE
 							BEGIN
-								SET @Grade = 'F';
+								SET @Grade = ''F'';
 								SET @Points =0.0;
 							END
 					END
-				--in case it's not the first time or not in 12 hour limit
+				--in case it''s not the first time or not in 12 hour limit
 				ELSE IF(@Mark IS NOT NULL AND @CreditHours <> 0 AND (@AffectCourseReEntring = 1 OR @WillTakeFullCredit = 0))
 				BEGIN
 				SET @MarkPer = (@Mark * 100.0) / (@CreditHours * 50.0);
 					IF @MarkPer >=60.0
 						BEGIN
-							SET @Grade = 'D';
+							SET @Grade = ''D'';
 							SET @Points =2.0;
 						END
 					ELSE
 						BEGIN
-							SET @Grade = 'F';
+							SET @Grade = ''F'';
 							SET @Points =0.0;
 						END
 				END
-				-- in case it's Human rights Or Introduction to computer course
+				-- in case it''s Human rights Or Introduction to computer course
 				ELSE IF (@Mark IS NOT NULL AND @CreditHours = 0)
 				BEGIN
 					SET @MarkPer = (@Mark * 100) /50.0;
 					IF @MarkPer >=50.0
 						BEGIN
-							SET @Grade = 'P';
+							SET @Grade = ''P'';
 							SET @Points =0.0;
 						END
 					ELSE
 						BEGIN
-							SET @Grade = 'F';
+							SET @Grade = ''F'';
 							SET @Points =0.0;
 						END
 				END
@@ -4888,7 +5130,7 @@ BEGIN
 				SET @IsGpaIncluded = 0
 			END
 			--to execulde Research term (2019/2020 2nd term) Courses form beign calaulated in GPA
-			IF @Grade = 'P'
+			IF @Grade = ''P''
 			BEGIN
 				SET @IsGpaIncluded =0;
 				SET @Points =NULL;
@@ -4906,15 +5148,17 @@ BEGIN
 			IsEnhancementCourse =@IsEnhancementCourse
 			WHERE StudentID=@StudentID AND CourseID =@CourseID AND AcademicYearID = @AcademicYearID;
 END
+' 
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [EntringStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-03-14 1:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[GiveBackCredits]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[GiveBackCredits]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[GiveBackCredits]
 ON [dbo].[StudentCourses]
 AFTER DELETE
 AS
@@ -4950,15 +5194,17 @@ BEGIN
 		UPDATE Student SET AvailableCredits = AvailableCredits + @CreditHours WHERE ID = @StudentID;
 	END
 END
+' 
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [GiveBackCredits]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-03-14 1:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[UpdateStudentCourse]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[UpdateStudentCourse]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[UpdateStudentCourse]
 ON [dbo].[StudentCourses]
 AFTER UPDATE
 AS
@@ -5009,42 +5255,42 @@ BEGIN
 						SET @MarkPer = (@Mark * 100.0) / (@CreditHours * 50.0);
 						IF @MarkPer >=90.0
 						BEGIN
-							SET @Grade = 'A';
+							SET @Grade = ''A'';
 							SET @Points =4.0;
 						END
 						ELSE IF @MarkPer >=85.0
 						BEGIN
-							SET @Grade = 'A-';
+							SET @Grade = ''A-'';
 							SET @Points =3.67;
 						END
 						ELSE IF @MarkPer >=80.0
 						BEGIN
-							SET @Grade = 'B+';
+							SET @Grade = ''B+'';
 							SET @Points =3.33;
 						END
 						ELSE IF @MarkPer >=75.0
 						BEGIN
-							SET @Grade = 'B';
+							SET @Grade = ''B'';
 							SET @Points =3.0;
 						END
 						ELSE IF @MarkPer >=70.0
 						BEGIN
-							SET @Grade = 'C+';
+							SET @Grade = ''C+'';
 							SET @Points =2.67;
 						END
 						ELSE IF @MarkPer >=65.0
 						BEGIN
-							SET @Grade = 'C';
+							SET @Grade = ''C'';
 							SET @Points =2.33;
 						END
 						ELSE IF @MarkPer >=60.0
 						BEGIN
-							SET @Grade = 'D';
+							SET @Grade = ''D'';
 							SET @Points =2.0;
 						END
 						ELSE
 						BEGIN
-							SET @Grade = 'F';
+							SET @Grade = ''F'';
 							SET @Points =0.0;
 						END
 					END
@@ -5053,12 +5299,12 @@ BEGIN
 					SET @MarkPer = (@Mark * 100.0) / (@CreditHours * 50.0);
 						IF @MarkPer >=60.0
 							BEGIN
-								SET @Grade = 'D';
+								SET @Grade = ''D'';
 								SET @Points =2.0;
 							END
 						ELSE
 							BEGIN
-								SET @Grade = 'F';
+								SET @Grade = ''F'';
 								SET @Points =0.0;
 							END
 					END
@@ -5067,21 +5313,21 @@ BEGIN
 						SET @MarkPer = (@Mark * 100) /50.0;
 						IF @MarkPer >=50.0
 							BEGIN
-								SET @Grade = 'P';
+								SET @Grade = ''P'';
 								SET @Points =0.0;
 							END
 						ELSE
 							BEGIN
-								SET @Grade = 'F';
+								SET @Grade = ''F'';
 								SET @Points =0.0;
 							END
 					END
-					ELSE IF (@Mark IS NULL AND (@Grade IS NULL OR @Grade <> 'P'))
+					ELSE IF (@Mark IS NULL AND (@Grade IS NULL OR @Grade <> ''P''))
 						BEGIN
 							SET @Grade = NULL;
 							SET @Points = NULL;
 						END
-					IF @Grade = 'P'
+					IF @Grade = ''P''
 					BEGIN
 						SET @IsGpaIncluded =0;
 					END
@@ -5096,15 +5342,17 @@ BEGIN
 			TookFromCredits = @TookFromCredits
 			WHERE StudentID=@StudentID AND CourseID =@CourseID AND AcademicYearID = @AcademicYearID;
 END
+' 
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [UpdateStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-03-14 1:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[UpdateStudentCurrentProgram]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[UpdateStudentCurrentProgram]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[UpdateStudentCurrentProgram]
    ON [dbo].[StudentPrograms]
    AFTER INSERT,UPDATE
 AS 
@@ -5114,15 +5362,17 @@ AS
 		SELECT @StudentID = inserted.StudentID,@ProgramID = inserted.ProgramID FROM inserted;
 		UPDATE Student SET CurrentProgramID = @ProgramID WHERE ID = @StudentID;
 	END
+' 
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-12 3:47:25 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-14 1:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TRIGGER [dbo].[UpdateStudentCurrentProgramAfterDelete]
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[UpdateStudentCurrentProgramAfterDelete]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[UpdateStudentCurrentProgramAfterDelete]
    ON [dbo].[StudentPrograms]
    AFTER DELETE
 AS 
@@ -5132,6 +5382,7 @@ AS
 		SELECT @StudentID = deleted.StudentID FROM deleted;
 		UPDATE Student SET CurrentProgramID = [dbo].[GetStudentProgram](@StudentID) WHERE ID = @StudentID;
 	END
+' 
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgramAfterDelete]
 GO

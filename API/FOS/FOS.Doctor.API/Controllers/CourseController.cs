@@ -1,9 +1,7 @@
 ﻿using ClosedXML.Excel;
-using FOS.App.Doctors.DTOs;
-using FOS.App.Doctors.Mappers;
 using FOS.App.ExcelReader;
-using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using FOS.Doctors.API.Extenstions;
@@ -58,7 +56,6 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpGet("GetByID/{id}")]
-        [AllowAnonymous]
         public IActionResult GetByID(int id)
         {
             try
@@ -205,14 +202,12 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                var course = courseRepo.GetById(courseID);
-                if (course == null) return NotFound();
-                var academicYear = academicYearRepo.GetCurrentYear();
-                var studentsList = studentCoursesRepo.GetStudentsList(course.Id,academicYear.Id);
-                var stream = CourseGradesSheet.CreateSheet(studentsList, course,string.Concat(academicYear.AcademicYear1," - ",Helper.GetSemesterName(academicYear.Semester)));
+                var data = studentCoursesRepo.GetStudentsMarksList(courseID);
+                if (data.Course == null) return NotFound();
+                var stream = CourseGradesSheet.CreateSheet(data);
                 return File(stream,
                     "application/vnd.ms-excel",
-                    string.Concat(course.CourseCode, "_", course.CourseName, "_GradesSheet", ".xlsx")
+                    string.Concat(data.Course.CourseCode, "_", data.Course.CourseName, "_GradesSheet", ".xlsx")
                     );
             }
             catch (Exception ex)
@@ -270,6 +265,26 @@ namespace FOS.Doctors.API.Controllers
                         }
                     });
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+
+        [HttpPost("CreateCommitteePDF")]
+        public IActionResult CreateCommitteePDF(ExamCommitteeStudentsParamModel model)
+        {
+            try
+            {
+                var result = studentCoursesRepo.GetStudentsList(model);
+                if (result.Course == null) return NotFound();
+                var bytes = PdfCreator.CreateExamCommitteesPdf(result, model.Level);
+                return File(bytes,
+                    "application/pdf",
+                    string.Concat(result.Course.CourseCode, "_", result.Course.CourseName, "_Committees", ".pdf")
+                    );
             }
             catch (Exception ex)
             {

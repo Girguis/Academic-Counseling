@@ -2,6 +2,8 @@
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.DTOs;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
@@ -198,6 +200,32 @@ namespace FOS.App.Repositories
             student.IsActive = true;
             context.Entry(student).State = EntityState.Modified;
             return context.SaveChanges() > 0;
+        }
+
+        public StudentCoursesSummaryOutModel GetStudentCoursesSummary(int studentID)
+        {
+            SqlConnection con = new(connectionString);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            var result = con.QueryMultiple("Report_StudentCoursesSummary", parameters, commandType: CommandType.StoredProcedure);
+            var studentData = result.ReadFirstOrDefault<StudentDataReport>();
+            if(studentData == null) return null;
+            var coursesData = result.Read<CoursesDataReport>();
+            return new StudentCoursesSummaryOutModel { Student = studentData, Courses = coursesData };
+        }
+
+        public List<StruggledStudentsOutModel> GetStruggledStudents(StruggledStudentsParamModel model)
+        {
+            SqlConnection con = new(connectionString);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProgramID", model.ProgramID);
+            parameters.Add("@IsActive", model.IsActive);
+            parameters.Add("@WarningsNumber", model.WarningsNumber);
+            return con.Query<StruggledStudentsOutModel>
+                ("Report_GetStruggledStudents",
+                parameters
+                , commandType: CommandType.StoredProcedure)
+                ?.ToList();
         }
     }
 }

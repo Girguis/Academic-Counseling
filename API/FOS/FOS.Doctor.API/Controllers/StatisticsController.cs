@@ -1,5 +1,5 @@
 ﻿using FOS.Core.IRepositories;
-using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +24,7 @@ namespace FOS.Doctors.API.Controllers
         /// Get count of males and females
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GenderStatistics")]
+        [HttpPost("GenderStatistics")]
         public IActionResult GenderStatistics()
         {
             try
@@ -41,7 +41,7 @@ namespace FOS.Doctors.API.Controllers
         /// Get number of student in each program
         /// </summary>
         /// <returns></returns>
-        [HttpGet("ProgramStatistics")]
+        [HttpPost("ProgramStatistics")]
         public IActionResult ProgramStatistics()
         {
             try
@@ -60,6 +60,19 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 return Ok(statisticsRepo.GetStudentsGradesStatistics(model));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("CourseStatistics")]
+        public IActionResult CourseStatistics(CourseStatisticsParameterModel model)
+        {
+            try
+            {
+                return Ok(statisticsRepo.GetCourseStatistics(model));
             }
             catch (Exception ex)
             {

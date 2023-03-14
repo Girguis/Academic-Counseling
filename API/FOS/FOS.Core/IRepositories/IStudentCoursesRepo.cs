@@ -1,4 +1,6 @@
 ﻿using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 
 namespace FOS.Core.IRepositories
@@ -12,8 +14,9 @@ namespace FOS.Core.IRepositories
         bool RegisterCourses(int studentID, short academicYearID, List<int> courseIDs);
         bool UpdateStudentCourses(List<StudentCourse> studentCourses);
         bool UpdateStudentCourses(int studentID,AcademicRecordModels model);
-        public Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
-        List<StudentCourse> GetStudentsList(int courseID, short academicYearID);
+        Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
+        CourseGradesSheetOutModel GetStudentsMarksList(int courseID);
+        ExamCommitteeStudentsOutModel GetStudentsList(ExamCommitteeStudentsParamModel model);
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model);
     }
 }
