@@ -18,8 +18,10 @@ namespace FOS.DB.Models
         public short AcademicYearId { get; set; }
         public bool? WillTakeFullCredit { get; set; }
         public bool? TookFromCredits { get; set; }
-        public bool? HasExecuse { get; set; }
+        public bool HasExecuse { get; set; }
         public bool? IsEnhancementCourse { get; set; }
+        public bool HasWithdrawn { get; set; }
+        public bool TookFromEnhancementCredits { get; set; }
 
         public virtual AcademicYear AcademicYear { get; set; } = null!;
         public virtual Course Course { get; set; } = null!;

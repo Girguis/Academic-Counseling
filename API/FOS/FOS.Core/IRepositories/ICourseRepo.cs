@@ -1,4 +1,5 @@
-﻿using FOS.Core.SearchModels;
+﻿using FOS.Core.Models.ParametersModels;
+using FOS.Core.SearchModels;
 using FOS.DB.Models;
 
 namespace FOS.Core.IRepositories
@@ -14,6 +15,6 @@ namespace FOS.Core.IRepositories
         List<Course> GetAll();
         bool Activate(List<int> courseIDs);
         bool Deactivate(List<int> courseIDs);
-
+        bool AssignDoctorsToCourse(DoctorsToCourseParamModel model);
     }
 }

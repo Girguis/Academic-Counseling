@@ -3,6 +3,7 @@ using FOS.App.Comparers;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,11 @@ namespace FOS.App.Repositories
         private readonly IConfiguration configuration;
         private readonly string connectionString;
 
-        public StudentProgramRepo(FOSContext context,IConfiguration configuration)
+        public StudentProgramRepo(FOSContext context, IConfiguration configuration)
         {
             this.context = context;
             this.configuration = configuration;
-            connectionString= this.configuration["ConnectionStrings:FosDB"];
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
 
         public bool AddStudentProgram(StudentProgram studentProgram)
@@ -66,6 +67,14 @@ namespace FOS.App.Repositories
             return context.StudentPrograms.Where(x => x.StudentId == studentID).AsParallel();
         }
 
+        public List<DropDownModel> GetProgramsListForProgramTransfer(int programID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProgramID", programID);
+            SqlConnection con = new(connectionString);
+            return con.Query<DropDownModel>("GetProgramsListForProgramTransfer", parameters, commandType: CommandType.StoredProcedure)?.ToList();
+        }
+
         public Program GetStudentCurrentProgram(int studentID)
         {
             return context.StudentPrograms
@@ -83,6 +92,16 @@ namespace FOS.App.Repositories
                 .FirstOrDefault(x => x.StudentId == studentProgram.StudentId
                                 && x.ProgramId == studentProgram.ProgramId
                                 && x.AcademicYear == studentProgram.AcademicYear);
+        }
+
+        public bool ProgramTransferRequest(int studentID, ProgramTransferParamModel model)
+        {
+            return QueryHelper.Execute(connectionString, "SubmitStudentProgramTransferRequest", new List<SqlParameter>
+            {
+                new SqlParameter("@StudentID",studentID),
+                new SqlParameter("@ProgramID",model.ProgramID),
+                new SqlParameter("@ReasonForTransfer",model.ReasonForTransfer)
+            });
         }
     }
 }

@@ -2,14 +2,9 @@
 {
     public class ExamCommitteeStudentsOutModel
     {
-        public ProgramOutModel Program { get; set; }
         public CourseOutModel Course { get; set; }
         public List<StudentOutModel> Students { get; set; }
 
-    }
-    public class ProgramOutModel
-    {
-        public string Name { get; set; }
     }
     public class CourseOutModel
     {
@@ -22,5 +17,6 @@
         public string Name { get; set; }
         public string AcademicCode { get; set; }
         public string Level { get; set; }
+        public string ProgramName { get; set; }
     }
 }

@@ -168,5 +168,19 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
+        [HttpGet("GeCourseRequestTypeList")]
+        public IActionResult GeCourseRequestTypeList()
+        {
+            try
+            {
+                var lst = Helper.EnumToList<CourseRequestEnum>();
+                return Ok(lst);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.DB.Models;
 
 namespace FOS.Core.IRepositories
@@ -10,5 +11,9 @@ namespace FOS.Core.IRepositories
         StudentProgram GetStudentProgram(StudentProgram studentProgram);
         Program GetStudentCurrentProgram(int studentID);
         IEnumerable<StudentProgram> GetAllStudentPrograms(int studentID);
+
+        List<DropDownModel> GetProgramsListForProgramTransfer(int programID);
+        bool ProgramTransferRequest(int studentID, ProgramTransferParamModel model);
+
     }
 }

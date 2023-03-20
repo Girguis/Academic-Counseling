@@ -54,35 +54,40 @@ namespace FOS.App.Repositories
                     perctange = stdsCount;
                 studentsCountPerProgram.Add(program.Id, perctange);
             }
-            var students = studentsDesireslst.GroupBy(x => x.StudentId);
+            var studentsGroupedByProgram = studentsDesireslst.GroupBy(x => x.StudentCurrentProgramId);
             var currentAcademicYear = academicYearRepo.GetCurrentYear();
             List<StudentProgram> studentProgram = new();
-            //Loop through students
-            for (int i = 0; i < students.Count(); i++)
+            Parallel.For(0, studentsGroupedByProgram.Count(), index =>
             {
-                var desires = students.ElementAt(i);
-                //Loop through student desires
-                for (int j = 0; j < desires.Count(); j++)
+                var students = studentsGroupedByProgram.ElementAt(index)
+                                                .GroupBy(x => x.StudentId);
+                //Loop through students
+                for (int i = 0; i < students.Count(); i++)
                 {
-                    var desire = desires.ElementAt(j);
-                    //Check if program has avaiable seats
-                    //If yes then add student to the program
-                    studentsCountPerProgram.TryGetValue(desire.ProgramId, out int availablePlaces);
-                    if (availablePlaces > 0)
+                    var desires = students.ElementAt(i);
+                    //Loop through student desires
+                    for (int j = 0; j < desires.Count(); j++)
                     {
-                        studentProgram.Add(new StudentProgram
+                        var desire = desires.ElementAt(j);
+                        //Check if program has avaiable seats
+                        //If yes then add student to the program
+                        studentsCountPerProgram.TryGetValue(desire.ProgramId, out int availablePlaces);
+                        if (availablePlaces > 0)
                         {
-                            Student = desire.Student,
-                            Program = desire.Program,
-                            AcademicYear = currentAcademicYear.Id,
-                            ProgramId = desire.ProgramId,
-                            StudentId = desire.StudentId,
-                        });
-                        studentsCountPerProgram[desire.ProgramId] = availablePlaces - 1;
-                        break;
+                            studentProgram.Add(new StudentProgram
+                            {
+                                Student = desire.Student,
+                                Program = desire.Program,
+                                AcademicYear = currentAcademicYear.Id,
+                                ProgramId = desire.ProgramId,
+                                StudentId = desire.StudentId,
+                            });
+                            studentsCountPerProgram[desire.ProgramId] = availablePlaces - 1;
+                            break;
+                        }
                     }
                 }
-            }
+            });
             var res = AddStudentsToPrograms(studentProgram);
             if (!res)
                 return null;
@@ -124,7 +129,7 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="desires"></param>
         /// <returns></returns>
-        public bool AddDesires(int studentID, List<byte> desires)
+        public bool AddDesires(int? currentProgramID, int studentID, List<byte> desires)
         {
             var dt = new DataTable();
             dt.Columns.Add("ProgramID");
@@ -136,7 +141,8 @@ namespace FOS.App.Repositories
             return QueryHelper.Execute(connectionString, "AddStudentDesires", new List<SqlParameter>()
             {
                 QueryHelper.DataTableToSqlParameter(dt,"Desires","StudentDesiresType"),
-                new SqlParameter("@StudentID", studentID)
+                new SqlParameter("@StudentID", studentID),
+                new SqlParameter("@CurrentProgramID", currentProgramID)
             });
         }
         /// <summary>

@@ -32,7 +32,9 @@ namespace FOS.App.Repositories
                 AcademicYear1 = newYear
             };
             context.AcademicYears.Add(newAcademicYear);
-            return context.SaveChanges() > 0;
+            var added = context.SaveChanges() > 0;
+            context.Database.ExecuteSqlInterpolated($"DELETE FROM StudentDesires");
+            return added;
         }
         /// <summary>
         /// Method used to get current academic year details

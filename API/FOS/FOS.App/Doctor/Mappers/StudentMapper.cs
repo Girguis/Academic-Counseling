@@ -15,8 +15,8 @@ namespace FOS.App.Doctors.Mappers
             var config = new MapperConfiguration(c => c.CreateMap<DB.Models.Student, StudentsDTO>()
             .ForMember(x => x.ProgramID, o => o.MapFrom(z => z.CurrentProgramId))
             .ForMember(x => x.ProgramName, o => o.MapFrom(z => z.CurrentProgram.ArabicName))
-            .ForMember(x => x.SupervisorID, o => o.MapFrom(z => z.SupervisorID))
-            .ForMember(x => x.SupervisorName, o => o.MapFrom(z => z.Doctor.Name))
+            .ForMember(x => x.SupervisorID, o => o.MapFrom(z => z.SupervisorId))
+            .ForMember(x => x.SupervisorName, o => o.MapFrom(z => z.Supervisor.Name))
             );
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentsDTO>(student);

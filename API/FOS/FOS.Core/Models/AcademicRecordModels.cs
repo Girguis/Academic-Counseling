@@ -43,7 +43,7 @@ namespace FOS.Core.Models
                 AcademicYear = academicYearsLst.FirstOrDefault(y => y.Id == x.AcademicYearId)?.AcademicYear1,
                 Semester = academicYearsLst.FirstOrDefault(y => y.Id == x.AcademicYearId)?.Semester,
                 IsGpaIncluded = x.IsGpaincluded,
-                HasExecuse = x.HasExecuse.HasValue && x.HasExecuse.Value
+                HasExecuse = x.HasExecuse
             };
         }
     }

@@ -4,7 +4,9 @@ namespace FOS.Core.IRepositories
 {
     public interface IElectiveCourseDistributionRepo
     {
-        List<ElectiveCourseDistribution> GetOptionalCoursesDistibution(int programID);
-        List<ElectiveCourseDistribution> GetOptionalCoursesDistibution(int programID,int studentID);
+        List<ElectiveCourseDistribution> GetOptionalCoursesDistibution
+            (int studentID,
+            bool isForOverload = false,
+            bool isForEnhancement = false);
     }
 }

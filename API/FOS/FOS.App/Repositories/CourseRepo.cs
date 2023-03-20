@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
@@ -107,6 +108,21 @@ namespace FOS.App.Repositories
                 new SqlParameter("@CourseLst", courseLst)
             };
             return QueryHelper.Execute(connectionString, "CoursesActivation", parameters);
+        }
+
+        public bool AssignDoctorsToCourse(DoctorsToCourseParamModel model)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("DoctorGuid");
+            for (var i = 0; i < model.DoctorsGuid.Count; i++)
+            {
+                dt.Rows.Add(model.DoctorsGuid[i]);
+            }
+            return QueryHelper.Execute(connectionString, "AssignDoctorsToCourse", new List<SqlParameter>()
+            {
+                QueryHelper.DataTableToSqlParameter(dt,"Doctors","DoctorsGuidType"),
+                new SqlParameter("@CourseID", model.CourseId)
+            });
         }
     }
 }

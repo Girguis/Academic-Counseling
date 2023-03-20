@@ -23,10 +23,8 @@ namespace FOS.Doctors.API.Controllers
         private readonly ICourseRepo courseRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IAcademicYearRepo academicYearRepo;
-        private readonly ICoursePrerequisiteRepo coursePrerequisiteRepo;
 
         public CourseController(ILogger<CourseController> logger
-            , ICoursePrerequisiteRepo coursePrerequisiteRepo
             , ICourseRepo courseRepo
             , IStudentCoursesRepo studentCoursesRepo
             , IAcademicYearRepo academicYearRepo)
@@ -35,7 +33,6 @@ namespace FOS.Doctors.API.Controllers
             this.courseRepo = courseRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.academicYearRepo = academicYearRepo;
-            this.coursePrerequisiteRepo = coursePrerequisiteRepo;
         }
         [HttpPost("GetAll")]
         public IActionResult GetAll([FromBody] SearchCriteria criteria)
@@ -281,13 +278,38 @@ namespace FOS.Doctors.API.Controllers
             {
                 var result = studentCoursesRepo.GetStudentsList(model);
                 if (result.Course == null) return NotFound();
-                var bytes = PdfCreator.CreateExamCommitteesPdf(result, model.Level, Helper.GetExamTypeName(model.ExamType));
+                var bytes = PdfCreator.CreateExamCommitteesPdf(result,Helper.GetExamTypeName(model.ExamType));
                 return File(bytes,
                     "application/pdf",
                     string.Concat(result.Course.CourseCode, "_", result.Course.CourseName, "_Committees", ".pdf")
                     );
             }
             catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("AssignDoctorsToCourse")]
+        public IActionResult AssignDoctorsToCourse(DoctorsToCourseParamModel model)
+        {
+            try
+            {
+                if (model.DoctorsGuid == null || model.DoctorsGuid.Count < 1 || model.DoctorsGuid.Any(x => string.IsNullOrEmpty(x)))
+                    return BadRequest(new
+                    {
+                        Massage = "Invalid Doctors guid",
+                        Data = model
+                    });
+                bool assigned = courseRepo.AssignDoctorsToCourse(model);
+                if (!assigned) return BadRequest(new
+                {
+                    Massage = "Error occured while assigning doctors to course",
+                    Data = model
+                });
+                return Ok();
+            }
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

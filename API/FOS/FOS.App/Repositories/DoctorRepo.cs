@@ -40,7 +40,7 @@ namespace FOS.App.Repositories
         }        
         public bool Activate(string supervisorGUID)
         {
-            var supervisor = GetById(supervisorGUID);
+            var supervisor = GetById(supervisorGUID, false);
             if (supervisor == null) return false;
             supervisor.IsActive = true;
             return Update(supervisor);
@@ -57,11 +57,11 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public DB.Models.Doctor GetById(string GUID)
+        public DB.Models.Doctor GetById(string GUID,bool isActive = true)
         {
             return context.Doctors
                 .Include(x => x.Program)
-                .FirstOrDefault(x => x.Guid == GUID & x.IsActive == true);
+                .FirstOrDefault(x => x.Guid == GUID & x.IsActive == isActive);
         }
 
         public bool IsEmailReserved(string email)

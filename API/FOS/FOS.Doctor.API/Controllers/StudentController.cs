@@ -125,7 +125,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid,true,true);
                 if (student == null)
                     return NotFound(new { Massage = "Student not found" });
                 var studentCourses = studentRepo.GetAcademicDetails(guid);

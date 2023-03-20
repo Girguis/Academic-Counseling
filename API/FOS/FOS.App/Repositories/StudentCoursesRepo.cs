@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using FOS.App.Comparers;
 using FOS.App.Helpers;
+using FOS.App.Students.DTOs;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
@@ -190,13 +192,10 @@ namespace FOS.App.Repositories
         public ExamCommitteeStudentsOutModel GetStudentsList(ExamCommitteeStudentsParamModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@ProgramID", model.ProgramID);
             parameters.Add("@CourseID", model.CourseID);
-            parameters.Add("@Level", model.Level);
             SqlConnection con = new(connectionString);
             var result = con.QueryMultiple("Report_ExamCommitteeStudents", parameters, commandType: CommandType.StoredProcedure);
             ExamCommitteeStudentsOutModel outModel = new ExamCommitteeStudentsOutModel();
-            outModel.Program = result.ReadFirstOrDefault<ProgramOutModel>();
             outModel.Course = result.ReadFirstOrDefault<CourseOutModel>();
             outModel.Students = result.Read<StudentOutModel>().ToList();
             return outModel;
@@ -255,6 +254,97 @@ namespace FOS.App.Repositories
                 new SqlParameter("@Query", query)
             };
             return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
+        }
+
+        public (List<CourseRegistrationOutModel> toAdd, List<CourseRegistrationOutModel> toDelete, List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion) GetCoursesForAddAndDelete(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            SqlConnection con = new SqlConnection(connectionString);
+            var result = con.QueryMultiple("GetCoursesForAddAndDelete", parameters, commandType: CommandType.StoredProcedure);
+            var distribtion = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
+            var toAdd = result.Read<CourseRegistrationOutModel>().ToList();
+            var toDelete = result.Read<CourseRegistrationOutModel>().ToList();
+            return (toAdd, toDelete, distribtion);
+        }
+
+        public bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model)
+        {
+            var query = "DELETE FROM StudentCourseRequest" +
+                " WHERE StudentID = " + studentID + " AND" +
+                " RequestType IN(" + (int)CourseRequestEnum.CourseAdd +
+                "," + (int)CourseRequestEnum.CourseDelete + ");";
+            var guid = Guid.NewGuid().ToString();
+
+            for (int i = 0; i < model.ToAdd.Count; i++)
+                query += "INSERT INTO StudentCourseRequest(RequestID,RequestType,StudentID,CourseID)" +
+                    " VALUES('" + guid + "'," + (int)CourseRequestEnum.CourseAdd + "," +
+                    studentID + "," + model.ToAdd.ElementAt(i) + ");";
+
+            for (int i = 0; i < model.ToDelete.Count; i++)
+                query += "INSERT INTO StudentCourseRequest(RequestID,RequestType,StudentID,CourseID)" +
+                    " VALUES('" + guid + "'," + (int)CourseRequestEnum.CourseDelete + "," +
+                    studentID + "," + model.ToDelete.ElementAt(i) + ");";
+
+            return QueryHelper.Execute(connectionString, query);
+        }
+
+        public List<CourseRegistrationOutModel> GetCoursesForWithdraw(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            return QueryHelper.Execute<CourseRegistrationOutModel>(connectionString, "GetCoursesForDeletionOrWithdraw", parameters);
+        }
+        public (int RegisteredHours, List<CourseRegistrationOutModel> courses,
+            List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
+            GetCoursesForOverload(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            SqlConnection con = new SqlConnection(connectionString);
+            var result = con.QueryMultiple("GetCoursesForOverload", parameters, commandType: CommandType.StoredProcedure);
+            var hours = result.ReadFirstOrDefault<int>();
+            var courses = result.Read<CourseRegistrationOutModel>().ToList();
+            var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
+            return (hours, courses, distribution);
+        }
+
+        public bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model)
+        {
+            var query = "DELETE FROM StudentCourseRequest" +
+             " WHERE StudentID = " + studentID + " AND" +
+             " RequestType = " + requestType + ";";
+            var guid = Guid.NewGuid().ToString();
+            for (int i = 0; i < model.CoursesList.Count; i++)
+                query += "INSERT INTO StudentCourseRequest(RequestID,RequestType,StudentID,CourseID)" +
+                    " VALUES('" + guid + "'," + requestType + "," +
+                    studentID + "," + model.CoursesList.ElementAt(i) + ");";
+            return QueryHelper.Execute(connectionString, query);
+        }
+
+        public (List<CourseRegistrationOutModel> courses,
+            List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
+            GetCoursesForEnhancement(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@studentID", studentID);
+            SqlConnection con = new(connectionString);
+            var result = con.QueryMultiple("GetCoursesForEnhancement", parameters, commandType: CommandType.StoredProcedure);
+            var courses = result.Read<CourseRegistrationOutModel>().ToList();
+            var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
+            return (courses, distribution);
+        }
+        public (List<CourseRegistrationOutModel> courses,
+            List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
+            GetCoursesForGraduation(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@studentID", studentID);
+            SqlConnection con = new(connectionString);
+            var result = con.QueryMultiple("GetCoursesForGraduation", parameters, commandType: CommandType.StoredProcedure);
+            var courses = result.Read<CourseRegistrationOutModel>().ToList();
+            var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
+            return (courses, distribution);
         }
     }
 }

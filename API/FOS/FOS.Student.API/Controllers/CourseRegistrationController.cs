@@ -1,4 +1,5 @@
-﻿using FOS.App.Students.DTOs;
+﻿using FOS.App.Helpers;
+using FOS.App.Students.DTOs;
 using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
@@ -22,6 +23,7 @@ namespace FOS.Students.API.Controllers
         private readonly IDateRepo dateRepo;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IProgramDistributionRepo programDistributionRepo;
+        private readonly IConfiguration configuration;
 
         public CourseRegistrationController(ILogger<CourseRegistrationController> logger,
             IStudentRepo studentRepo,
@@ -29,7 +31,8 @@ namespace FOS.Students.API.Controllers
             IElectiveCourseDistributionRepo optionalCourseRepo,
             IDateRepo dateRepo,
             IAcademicYearRepo academicYearRepo,
-            IProgramDistributionRepo programDistributionRepo)
+            IProgramDistributionRepo programDistributionRepo,
+            IConfiguration configuration)
         {
             this.logger = logger;
             this.studentRepo = studentRepo;
@@ -38,6 +41,7 @@ namespace FOS.Students.API.Controllers
             this.dateRepo = dateRepo;
             this.academicYearRepo = academicYearRepo;
             this.programDistributionRepo = programDistributionRepo;
+            this.configuration = configuration;
         }
 
         [HttpGet("GetCoursesForRegistration")]
@@ -80,29 +84,8 @@ namespace FOS.Students.API.Controllers
                     selectedCourses.TryGetValue(coursesDTOs.ElementAt(i).Id, out StudentCourse res);
                     coursesDTOs.ElementAt(i).IsSelected = res != null;
                 }
-                List<byte> levels = coursesDTOs.Select(x => x.Level).Distinct().ToList();
-                List<byte> semesters = coursesDTOs.Select(x => x.Semester).Distinct().ToList();
-                int studentProgramID = student.CurrentProgramId ?? 1;
-                List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
-                                                    .GetOptionalCoursesDistibution(studentProgramID,student.Id)
-                                                    .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
-                                                    .ToList();
-                List<ElectiveCourseDTO> optionalCoursesDTO = new();
-                for (int i = 0; i < optionalCoursesDistribution.Count; i++)
-                    optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
-
-                var allowedHoursToRegister = 0;
-                int currentSemester = academicYearRepo.GetCurrentYear().Semester;
-                if (currentSemester == 3)
-                    allowedHoursToRegister = 6;
-                else
-                {
-                    if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
-                        allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(studentProgramID, student.Level.Value, student.PassedHours.Value, currentSemester);
-                    else
-                        allowedHoursToRegister = 12;
-                }
-
+                var optionalCoursesDTO = Helper.GetElectiveCoursesDistribution(optionalCourseRepo, coursesDTOs.Select(x => x.Level).Distinct(), coursesDTOs.Select(x => x.Semester).Distinct(), student.Id);
+                var allowedHoursToRegister = Helper.GetAllowedHoursToRegister(academicYearRepo, configuration, student, programDistributionRepo);
                 return Ok(new Response
                 {
                     isRegistrationAvailable = true,

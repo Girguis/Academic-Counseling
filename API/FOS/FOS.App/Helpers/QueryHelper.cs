@@ -32,6 +32,32 @@ namespace FOS.App.Helpers
             }
             return res > 0;
         }
+        public static bool Execute(string connectionString, string query)
+        {
+            var res = 0;
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+                cmd.CommandText = query;
+
+                cmd.CommandType = CommandType.Text;
+                SqlTransaction trans1 = con.BeginTransaction();
+                cmd.Transaction = trans1;
+                try
+                {
+                    res = cmd.ExecuteNonQuery();
+                    trans1.Commit();
+                }
+                catch
+                {
+                    trans1.Rollback();
+                }
+                con.Close();
+            }
+            return res > 0;
+        }
         public static SqlParameter DataTableToSqlParameter(DataTable dt, string parameterName, string tableTypeName)
         {
             SqlParameter parameter = new SqlParameter("@" + parameterName, dt);

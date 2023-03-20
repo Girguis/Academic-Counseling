@@ -7,6 +7,6 @@ namespace FOS.Core.IRepositories
         object BifurcateStudents();
         List<Program> GetAvailableProgram(string guid);
         List<StudentDesire> GetDesires(string guid);
-        bool AddDesires(int studentID, List<byte> desires);
+        bool AddDesires(int? currentProgramID, int studentID, List<byte> desires);
     }
 }

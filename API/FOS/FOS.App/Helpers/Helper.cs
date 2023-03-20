@@ -1,6 +1,11 @@
 ﻿using DocumentFormat.OpenXml;
+using FOS.App.Repositories;
+using FOS.App.Students.DTOs;
+using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -85,6 +90,36 @@ namespace FOS.App.Helpers
                 ID = x.Id,
                 Name = string.Concat(x.AcademicYear1, " - ", GetSemesterName(x.Semester))
             })?.ToList();
+        }
+        public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo,IConfiguration configuration,Student student,IProgramDistributionRepo programDistributionRepo)
+        {
+            int allowedHoursToRegister;
+            int currentSemester = academicYearRepo.GetCurrentYear().Semester;
+            if (currentSemester == 3)
+            {
+                bool parsed = int.TryParse(configuration["Summer:HoursToRegister"], out allowedHoursToRegister);
+                if (!parsed)
+                    allowedHoursToRegister = 6;
+            }
+            else
+            {
+                if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
+                    allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester);
+                else
+                    allowedHoursToRegister = 12;
+            }
+            return allowedHoursToRegister;
+        }
+        public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels,IEnumerable<byte> semesters,int studentID)
+        {
+            List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
+                                                    .GetOptionalCoursesDistibution(studentID)
+                                                    .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
+                                                    .ToList();
+            List<ElectiveCoursesDistribtionOutModel> optionalCoursesDTO = new();
+            for (int i = 0; i < optionalCoursesDistribution.Count; i++)
+                optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
+            return optionalCoursesDTO;
         }
     }
 

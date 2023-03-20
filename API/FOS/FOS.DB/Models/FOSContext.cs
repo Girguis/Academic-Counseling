@@ -32,8 +32,10 @@ namespace FOS.DB.Models
         public virtual DbSet<ProgramDistribution> ProgramDistributions { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<StudentCourse> StudentCourses { get; set; } = null!;
+        public virtual DbSet<StudentCourseRequest> StudentCourseRequests { get; set; } = null!;
         public virtual DbSet<StudentDesire> StudentDesires { get; set; } = null!;
         public virtual DbSet<StudentProgram> StudentPrograms { get; set; } = null!;
+        public virtual DbSet<StudentProgramTransferRequest> StudentProgramTransferRequests { get; set; } = null!;
         public virtual DbSet<SuperAdmin> SuperAdmins { get; set; } = null!;
         public virtual DbSet<TeacherCourse> TeacherCourses { get; set; } = null!;
 
@@ -41,7 +43,6 @@ namespace FOS.DB.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer(configuration["ConnectionStrings:FosDB"]);
             }
         }
@@ -131,7 +132,7 @@ namespace FOS.DB.Models
                     .WithMany(p => p.Doctors)
                     .HasForeignKey(d => d.ProgramId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Doctor_Program");
+                    .HasConstraintName("FK_Supervisor_Program");
             });
 
             modelBuilder.Entity<ElectiveCourseDistribution>(entity =>
@@ -220,6 +221,10 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.AvailableCredits).HasDefaultValueSql("((12))");
 
+                entity.Property(e => e.AvailableEnhancementCredits).HasDefaultValueSql("((8))");
+
+                entity.Property(e => e.AvailableWithdraws).HasDefaultValueSql("((8))");
+
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
                 entity.Property(e => e.CalculatedRank).HasComputedColumnSql("([dbo].[RankStudent]([ID]))", false);
@@ -269,7 +274,7 @@ namespace FOS.DB.Models
                     .IsUnicode(false)
                     .HasColumnName("SSN");
 
-                entity.Property(e => e.SupervisorID).HasColumnName("SupervisorID");
+                entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
 
                 entity.Property(e => e.WarningsNumber).HasComputedColumnSql("([dbo].[GetNumberOfWarnings]([ID]))", false);
 
@@ -278,9 +283,9 @@ namespace FOS.DB.Models
                     .HasForeignKey(d => d.CurrentProgramId)
                     .HasConstraintName("FK_Student_Program");
 
-                entity.HasOne(d => d.Doctor)
+                entity.HasOne(d => d.Supervisor)
                     .WithMany(p => p.Students)
-                    .HasForeignKey(d => d.SupervisorID)
+                    .HasForeignKey(d => d.SupervisorId)
                     .HasConstraintName("FK_Student_Doctor");
             });
 
@@ -293,8 +298,6 @@ namespace FOS.DB.Models
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
 
                 entity.Property(e => e.Grade).HasMaxLength(2);
-
-                entity.Property(e => e.HasExecuse).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.IsApproved)
                     .IsRequired()
@@ -333,11 +336,38 @@ namespace FOS.DB.Models
                     .HasConstraintName("FK_StudentCourses_Student");
             });
 
+            modelBuilder.Entity<StudentCourseRequest>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("StudentCourseRequest");
+
+                entity.Property(e => e.CourseId).HasColumnName("CourseID");
+
+                entity.Property(e => e.RequestId).HasColumnName("RequestID");
+
+                entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany()
+                    .HasForeignKey(d => d.CourseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StudentCourseRequest_Course");
+
+                entity.HasOne(d => d.Student)
+                    .WithMany()
+                    .HasForeignKey(d => d.StudentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StudentCourseRequest_Student");
+            });
+
             modelBuilder.Entity<StudentDesire>(entity =>
             {
                 entity.HasNoKey();
 
                 entity.Property(e => e.ProgramId).HasColumnName("ProgramID");
+
+                entity.Property(e => e.StudentCurrentProgramId).HasColumnName("StudentCurrentProgramID");
 
                 entity.Property(e => e.StudentId).HasColumnName("StudentID");
 
@@ -381,6 +411,29 @@ namespace FOS.DB.Models
                     .HasConstraintName("FK_StudentPrograms_Student");
             });
 
+            modelBuilder.Entity<StudentProgramTransferRequest>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("StudentProgramTransferRequest");
+
+                entity.Property(e => e.StudentId).HasColumnName("StudentID");
+
+                entity.Property(e => e.ToProgramId).HasColumnName("ToProgramID");
+
+                entity.HasOne(d => d.Student)
+                    .WithMany()
+                    .HasForeignKey(d => d.StudentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StudentProgramTransferRequest_Student");
+
+                entity.HasOne(d => d.ToProgram)
+                    .WithMany()
+                    .HasForeignKey(d => d.ToProgramId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StudentProgramTransferRequest_Program");
+            });
+
             modelBuilder.Entity<SuperAdmin>(entity =>
             {
                 entity.ToTable("SuperAdmin");
@@ -417,7 +470,7 @@ namespace FOS.DB.Models
                 entity.HasOne(d => d.Doctor)
                     .WithMany()
                     .HasForeignKey(d => d.DoctorId)
-                    .HasConstraintName("FK_TeacherCourses_Doctor");
+                    .HasConstraintName("FK_TeacherCourses_Supervisor");
             });
 
             OnModelCreatingPartial(modelBuilder);

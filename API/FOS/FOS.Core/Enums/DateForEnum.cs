@@ -11,6 +11,14 @@ namespace FOS.Core.Enums
         [Description("انسحاب من مقرر")]
         CourseWithdraw,
         [Description("حذف واضافة المقرارات")]
-        AddAndDeleteCourse
+        AddAndDeleteCourse,
+        [Description("زيادة عبء")]
+        Overload,
+        [Description("فتح مقرر دواعى تخرج")]
+        OpenCourseForGraduation,
+        [Description("تحسين")]
+        Enhancement,
+        [Description("تحويل مسار")]
+        ProgramTransfer
     }
 }

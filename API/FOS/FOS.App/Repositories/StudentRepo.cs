@@ -5,6 +5,7 @@ using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
+using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -102,8 +103,8 @@ namespace FOS.App.Repositories
                             student.CurrentProgram = p;
                             student.CurrentProgram.Name = programName;
                             DB.Models.Doctor d = new DB.Models.Doctor();
-                            student.Doctor = d;
-                            student.Doctor.Name = supervisorName;
+                            student.Supervisor = d;
+                            student.Supervisor.Name = supervisorName;
                             return student;
                         },
                         parameters,
@@ -136,8 +137,8 @@ namespace FOS.App.Repositories
                       (student, supervisorName) =>
                       {
                           DB.Models.Doctor d = new DB.Models.Doctor();
-                          student.Doctor = d;
-                          student.Doctor.Name = supervisorName;
+                          student.Supervisor = d;
+                          student.Supervisor.Name = supervisorName;
                           return student;
                       },
                       parameters,
@@ -285,6 +286,30 @@ namespace FOS.App.Repositories
                 parameters
                 , commandType: CommandType.StoredProcedure)
                 ?.ToList();
+        }
+
+        public List<AcademicYearsDTO> GetStudentAcademicYearsSummary(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            SqlConnection con = new SqlConnection(connectionString);
+            var result = con.Query<AcademicYearsDTO>("GetStudentAcademicYearsSummary", parameters, commandType: CommandType.StoredProcedure)?.ToList();
+            result?.Reverse();
+            return result;
+        }
+
+        public float GetLastRegularSemesterGPA(int studentID)
+        {
+            var fnRes = QueryHelper.ExecuteFunction(connectionString,
+                "GetLastRegularSemesterGpa",
+                new List<object>()
+            {
+                studentID
+            });
+            if(fnRes == null)
+                return 0.0f;
+            bool paresd = float.TryParse(fnRes.ToString(), out float result);
+            return paresd ? result : 0.0f;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FOS.App.Students.DTOs;
 using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
+using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
 using FOS.Students.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -47,16 +48,8 @@ namespace FOS.Students.API.Controllers
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return BadRequest(new { Massage = "Student Not Found" });
-
-                List<AcademicYear> academicYears = academicYearRepo.GetAll(student.Id);
-                List<AcademicYearsDTO> academicYearsDTO = new List<AcademicYearsDTO>();
-                for (int i = academicYears.Count - 1; i >= 0; i--)
-                {
-                    double? sgpa = academicYearRepo.GetAcademicYearGPA(student.Id, academicYears.ElementAt(i).Id);
-                    sgpa = sgpa != null ? Math.Round(sgpa.Value, 4) : sgpa;
-                    academicYearsDTO.Add(academicYears.ElementAt(i).ToDTO(sgpa));
-                }
-                return Ok(academicYearsDTO);
+                var data = studentRepo.GetStudentAcademicYearsSummary(student.Id);
+                return Ok(data);
             }
             catch (Exception ex)
             {

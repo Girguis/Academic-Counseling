@@ -125,15 +125,16 @@ namespace FOS.Students.API.Controllers
                         Data = null,
                         Massage = "Bifuraction is not availble"
                     });
-                if (studentRepo.Get(guid).IsInSpecialProgram.Value)
+                //Get student record from DB
+                DB.Models.Student student = studentRepo.Get(guid);
+                if (student.IsInSpecialProgram.HasValue?student.IsInSpecialProgram.Value:false)
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
                         Massage = "There's no more bifuraction for you"
                     });
-                //Get student record from DB
-                DB.Models.Student student = studentRepo.Get(guid);
+
                 if (student == null) return BadRequest(new Response
                 {
                     isBifurcationAvailable = true,
@@ -141,7 +142,7 @@ namespace FOS.Students.API.Controllers
                     Massage = "Student not found"
                 });
                 //checks if error occured while add/updating student desires
-                if (!bifurcationRepo.AddDesires(student.Id, desiresList))
+                if (!bifurcationRepo.AddDesires(student.CurrentProgramId, student.Id, desiresList))
                     return Ok(new Response
                     {
                         isBifurcationAvailable = true,

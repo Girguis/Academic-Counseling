@@ -1,28 +1,33 @@
-﻿using FOS.Core.IRepositories;
+﻿using Dapper;
+using FOS.App.Helpers;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FOS.App.Repositories
 {
     public class ElectiveCourseDistributionsRepo : IElectiveCourseDistributionRepo
     {
         private readonly FOSContext context;
-        public ElectiveCourseDistributionsRepo(FOSContext context)
+        private readonly IConfiguration configuration;
+        private readonly string connectionString;
+
+        public ElectiveCourseDistributionsRepo(FOSContext context,IConfiguration configuration)
         {
             this.context = context;
-
+            this.configuration = configuration;
+            connectionString = this.configuration["ConnectionStrings:FosDB"];
         }
-        public List<ElectiveCourseDistribution> GetOptionalCoursesDistibution(int programID)
+        public List<ElectiveCourseDistribution> GetOptionalCoursesDistibution(int studentID,
+            bool isForOverload = false,
+            bool isForEnhancement = false)
         {
-            return context.ElectiveCourseDistributions.Where(x => x.ProgramId == programID).ToList();
-        }
-
-        public List<ElectiveCourseDistribution> GetOptionalCoursesDistibution(int programID, int studentID)
-        {
-            SqlParameter programIDParam = new SqlParameter("@ProgramID", programID);
-            SqlParameter studentIDParam = new SqlParameter("@StudentID", studentID);
-            return context.ElectiveCourseDistributions.FromSqlRaw("exec [dbo].[GetElectiveCoursesDistribution] @ProgramID,@StudentID", programIDParam, studentIDParam).ToList();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            parameters.Add("@IsForOverload", isForOverload);
+            parameters.Add("@IsForEnhancement", isForEnhancement);
+            return QueryHelper.Execute<ElectiveCourseDistribution>(connectionString,
+                            "GetElectiveCoursesDistribution", parameters);
         }
 
         //public int GetSumOfPassedHours(int studentProgram,int studentID,int courseLevel,int courseSemester,int courseType,int courseCategory)

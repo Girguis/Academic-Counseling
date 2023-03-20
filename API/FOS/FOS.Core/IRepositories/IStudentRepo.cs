@@ -2,6 +2,7 @@
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
+using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
 
 namespace FOS.Core.IRepositories
@@ -23,5 +24,7 @@ namespace FOS.Core.IRepositories
         bool Activate(string guid);
         StudentCoursesSummaryOutModel GetStudentCoursesSummary(int studentID);
         List<StruggledStudentsOutModel> GetStruggledStudents(StruggledStudentsParamModel model);
+        List<AcademicYearsDTO> GetStudentAcademicYearsSummary(int studentID);
+        float GetLastRegularSemesterGPA(int studentID);
     }
 }
