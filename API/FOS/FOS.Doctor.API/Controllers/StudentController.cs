@@ -2,6 +2,7 @@
 using FOS.App.Doctors.Mappers;
 using FOS.App.ExcelReader;
 using FOS.App.Helpers;
+using FOS.App.PDFCreators;
 using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
@@ -125,7 +126,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                Student student = studentRepo.Get(guid,true,true);
+                Student student = studentRepo.Get(guid, true, true);
                 if (student == null)
                     return NotFound(new { Massage = "Student not found" });
                 var studentCourses = studentRepo.GetAcademicDetails(guid);
@@ -262,16 +263,20 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("StudentCoursesSummary/{guid}")]
+        [HttpGet("StudentCoursesSummary/{guid}")]
         public IActionResult StudentCoursesSummary(string guid)
         {
             try
             {
                 var student = studentRepo.Get(guid);
                 if (student == null) return NotFound();
-                var result = studentRepo.GetStudentCoursesSummary(student.Id);
-                if (result == null) return NotFound();
-                return Ok(result);
+                var summary = studentRepo.GetStudentCoursesSummary(student.Id);
+                if (summary == null || summary.Courses.Count() < 1) return NotFound();
+                var summaryTree = studentRepo.GetStudentCoursesSummaryTree(student.Id);
+                var stream = StudentCoursesSummaryReport.CreateCoursesSummarySheet(summary, summaryTree);
+                return File(stream,
+                    "application/vnd.ms-excel",
+                    student.Name + "_CoursesSummary.xlsx");
             }
             catch (Exception ex)
             {
@@ -279,6 +284,7 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
+
         [HttpPost("GetStruggledStudentsReport")]
         public IActionResult GetStruggledStudentsReport(StruggledStudentsParamModel model)
         {
@@ -287,8 +293,29 @@ namespace FOS.Doctors.API.Controllers
                 var students = studentRepo.GetStruggledStudents(model);
                 var stream = StruggledStudentsReport.Create(students);
                 return File(stream,
-                    "application/vnd.ms-excel", 
-                    "StruggledStudents_"+DateTime.UtcNow.AddHours(2).ToString()+".xlsx");
+                    "application/vnd.ms-excel",
+                    "StruggledStudents_" + DateTime.UtcNow.AddHours(2).ToString() + ".xlsx");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetAcademicReportPDF/{guid}")]
+        public IActionResult GetAcademicReportPDF(string guid)
+        {
+            try
+            {
+                Student student = studentRepo.Get(guid, true);
+                if (student == null)
+                    return NotFound(new { Massage = "Student not found" });
+                var res = studentRepo.GetAcademicDetailsForReport(student.Id);
+                var bytes = StudentAcademicReportPDF.CreateAcademicReport(student, res.academicYears, res.courses);
+                return File(bytes,
+                "application/pdf",
+                string.Concat(student.Name, "_AcademicReport.pdf")
+                );
             }
             catch (Exception ex)
             {

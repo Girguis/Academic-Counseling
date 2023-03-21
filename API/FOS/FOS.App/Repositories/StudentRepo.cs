@@ -311,5 +311,33 @@ namespace FOS.App.Repositories
             bool paresd = float.TryParse(fnRes.ToString(), out float result);
             return paresd ? result : 0.0f;
         }
+
+        public (List<AcademicYearsDTO> academicYears,
+            List<StudentCoursesGradesOutModel> courses) 
+            GetAcademicDetailsForReport(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            SqlConnection con = new(connectionString);
+            var result = con.QueryMultiple("Report_StudentAcademicReport",parameters,commandType: CommandType.StoredProcedure);
+            var courses = result.Read<StudentCoursesGradesOutModel>().ToList();
+            var academicYears = result.Read<AcademicYearsDTO>().ToList();
+            return (academicYears,courses);
+        }
+
+        public StudentCoursesSummaryTreeOutModel GetStudentCoursesSummaryTree(int studentID)
+        {
+            SqlConnection con = new(connectionString);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            var result = con.QueryMultiple("Report_StudentCoursesSummaryAsTree", parameters, commandType: CommandType.StoredProcedure);
+            var programCourses = result.Read<ProgramCoursesOutModel>();
+            var coursesData = result.Read<StudentCourseDetailsOutModel>();
+            return new StudentCoursesSummaryTreeOutModel()
+            {
+                ProgramCourses = programCourses,
+                StudentCourses = coursesData
+            };
+        }
     }
 }

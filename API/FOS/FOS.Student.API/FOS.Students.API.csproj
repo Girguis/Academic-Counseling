@@ -23,4 +23,19 @@
     <ProjectReference Include="..\FOS.Core\FOS.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Images\AinShamsUniv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\checked.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\facultyLogo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\unchecked.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

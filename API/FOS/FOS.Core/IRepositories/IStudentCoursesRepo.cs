@@ -9,9 +9,9 @@ namespace FOS.Core.IRepositories
     public interface IStudentCoursesRepo
     {
         IEnumerable<StudentCourse> GetAllCourses(int studentID);
-        List<StudentCourse> GetCoursesByAcademicYear(int studentID, short academicYearID);
-        List<StudentCourse> GetCurrentAcademicYearCourses(int studentID);
-        List<ProgramCourse> GetCoursesForRegistration(int studentID);
+        List<StudentCoursesOutModel> GetCoursesByAcademicYear(int studentID, short academicYearID);
+        List<StudentCoursesOutModel> GetCurrentAcademicYearCourses(int studentID);
+        List<CourseRegistrationOutModel> GetCoursesForRegistration(int studentID);
         (List<CourseRegistrationOutModel> toAdd,
             List<CourseRegistrationOutModel> toDelete,
             List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)

@@ -14,6 +14,9 @@ namespace FOS.Core.IRepositories
         Student Get(string GUID, bool includeProgram = false, bool includeSupervisor = false);
         (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
         List<StudentCourse> GetAcademicDetails(string GUID);
+        (List<AcademicYearsDTO> academicYears
+            ,List<StudentCoursesGradesOutModel> courses) 
+            GetAcademicDetailsForReport(int studentID);
         List<StudentProgram> GetPrograms(string GUID);
         StudentProgram GetCurrentProgram(string GUID);
         Student Login(string email, string hashedPassword);
@@ -23,6 +26,7 @@ namespace FOS.Core.IRepositories
         bool Deactivate(string guid);
         bool Activate(string guid);
         StudentCoursesSummaryOutModel GetStudentCoursesSummary(int studentID);
+        StudentCoursesSummaryTreeOutModel GetStudentCoursesSummaryTree(int studentID);
         List<StruggledStudentsOutModel> GetStruggledStudents(StruggledStudentsParamModel model);
         List<AcademicYearsDTO> GetStudentAcademicYearsSummary(int studentID);
         float GetLastRegularSemesterGPA(int studentID);

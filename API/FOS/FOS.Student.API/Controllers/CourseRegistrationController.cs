@@ -75,16 +75,14 @@ namespace FOS.Students.API.Controllers
                         Massage = "Course registration is not available"
                     });
 
-                List<ProgramCourse> courses = studentCoursesRepo.GetCoursesForRegistration(student.Id);
-                Dictionary<int, StudentCourse> selectedCourses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id).ToDictionary(x => x.CourseId, z => z);
-                List<CourseRegistrationDTO> coursesDTOs = new();
+                var courses = studentCoursesRepo.GetCoursesForRegistration(student.Id);
+                Dictionary<string, StudentCoursesOutModel> selectedCourses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id).ToDictionary(x => x.CourceCode, z => z);
                 for (int i = 0; i < courses.Count; i++)
                 {
-                    coursesDTOs.Add(courses.ElementAt(i).ToCourseRegisrationDTO());
-                    selectedCourses.TryGetValue(coursesDTOs.ElementAt(i).Id, out StudentCourse res);
-                    coursesDTOs.ElementAt(i).IsSelected = res != null;
+                    selectedCourses.TryGetValue(courses.ElementAt(i).CourseCode, out StudentCoursesOutModel res);
+                    courses.ElementAt(i).IsSelected = res != null;
                 }
-                var optionalCoursesDTO = Helper.GetElectiveCoursesDistribution(optionalCourseRepo, coursesDTOs.Select(x => x.Level).Distinct(), coursesDTOs.Select(x => x.Semester).Distinct(), student.Id);
+                var optionalCoursesDTO = Helper.GetElectiveCoursesDistribution(optionalCourseRepo, courses.Select(x => x.Level).Distinct(), courses.Select(x => x.Semester).Distinct(), student.Id);
                 var allowedHoursToRegister = Helper.GetAllowedHoursToRegister(academicYearRepo, configuration, student, programDistributionRepo);
                 return Ok(new Response
                 {
@@ -92,7 +90,7 @@ namespace FOS.Students.API.Controllers
                     Massage = "",
                     Data = new
                     {
-                        Courses = coursesDTOs,
+                        Courses = courses,
                         Distribution = optionalCoursesDTO,
                         AllowedHours = allowedHoursToRegister
                     }

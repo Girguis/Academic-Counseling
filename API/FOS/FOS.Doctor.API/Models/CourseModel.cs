@@ -1,7 +1,10 @@
-﻿namespace FOS.Doctors.API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FOS.Doctors.API.Models
 {
     public class CourseModel
     {
+        [RegularExpression(@"^([A-Z]){1,10}\s([\d]){3}$")]
         public string CourseCode { get; set; } = null!;
         public string CourseName { get; set; } = null!;
         public byte CreditHours { get; set; }

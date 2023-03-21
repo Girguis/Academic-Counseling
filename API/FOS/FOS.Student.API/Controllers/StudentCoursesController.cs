@@ -1,5 +1,5 @@
-﻿using FOS.App.Students.DTOs;
-using FOS.App.Students.Mappers;
+﻿using FOS.App.PDFCreators;
+using FOS.App.Students.DTOs;
 using FOS.Core.IRepositories;
 using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
@@ -63,7 +63,7 @@ namespace FOS.Students.API.Controllers
         /// <param name="academicYearID"></param>
         /// <returns>List of StudentCoursesDTO</returns>
         [HttpGet("GetAcademicYearDetails")]
-        [ProducesResponseType(200, Type = typeof(List<StudentCoursesDTO>))]
+        [ProducesResponseType(200, Type = typeof(List<StudentCoursesOutModel>))]
         public IActionResult GetAcademicYearDetails(short academicYearID)
         {
             try
@@ -76,12 +76,35 @@ namespace FOS.Students.API.Controllers
                 if (student == null)
                     return BadRequest(new { Massage = "Student Not Found" });
 
-                List<StudentCourse> cources = studentCoursesRepo.GetCoursesByAcademicYear(student.Id, academicYearID);
-                List<StudentCoursesDTO> courcesDTO = new List<StudentCoursesDTO>();
-                for (int i = 0; i < cources.Count; i++)
-                    courcesDTO.Add(cources.ElementAt(i).ToDTO());
-
-                return Ok(courcesDTO);
+                var cources = studentCoursesRepo.GetCoursesByAcademicYear(student.Id, academicYearID);
+                return Ok(cources);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("GetAcademicReportPDF")]
+        public IActionResult GetAcademicReportPDF()
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrEmpty(guid))
+                    return NotFound(new
+                    {
+                        Massage = "ID Not found"
+                    });
+                Student student = studentRepo.Get(guid, true);
+                if (student == null)
+                    return NotFound(new { Massage = "Student not found" });
+                var (academicYears, courses) = studentRepo.GetAcademicDetailsForReport(student.Id);
+                var bytes = StudentAcademicReportPDF.CreateAcademicReport(student, academicYears, courses);
+                return File(bytes,
+                "application/pdf",
+                string.Concat(student.Name, "_AcademicReport.pdf")
+                );
             }
             catch (Exception ex)
             {

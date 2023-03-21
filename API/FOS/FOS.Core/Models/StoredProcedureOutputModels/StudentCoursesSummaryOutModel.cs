@@ -24,6 +24,7 @@
         public int Level { get; set; }
         public int Semester { get; set; }
         public int Hours { get; set; }
+        public int CreditHours { get; set; }
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
         public bool IsPassedCourse { get; set; }

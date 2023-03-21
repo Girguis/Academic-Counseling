@@ -1,5 +1,4 @@
 ﻿using DocumentFormat.OpenXml;
-using FOS.App.Repositories;
 using FOS.App.Students.DTOs;
 using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
@@ -24,15 +23,6 @@ namespace FOS.App.Helpers
             else
                 return (byte)SemesterEnum.Summer;
         }
-        public static string GetSemesterName(int semesterNumber)
-        {
-            if ((byte)SemesterEnum.Fall == semesterNumber)
-                return Enum.GetName(SemesterEnum.Fall);
-            else if ((byte)SemesterEnum.Spring == semesterNumber)
-                return Enum.GetName(SemesterEnum.Spring);
-            else
-                return Enum.GetName(SemesterEnum.Summer);
-        }
         public static string HashPassowrd(string password)
         {
             var sha512 = SHA512.Create();
@@ -49,15 +39,6 @@ namespace FOS.App.Helpers
                 list.Add(new General { ID = (int)value, Name = GetEnumDescription(value) });
             }
             return list;
-        }
-        public static string GetExamTypeName(int type)
-        {
-            if ((int)ExamTypeEnum.Practical == type)
-                return "عملي ";
-            else if ((int)ExamTypeEnum.Oral == type)
-                return "شفوي";
-            else
-                return "أعمال فصلية";
         }
         public static string GetEnumDescription(object value)
         {
@@ -88,10 +69,10 @@ namespace FOS.App.Helpers
             return academicYears.Select(x => new General
             {
                 ID = x.Id,
-                Name = string.Concat(x.AcademicYear1, " - ", GetSemesterName(x.Semester))
+                Name = string.Concat(x.AcademicYear1, " - ", GetEnumDescription((SemesterEnum)x.Semester))
             })?.ToList();
         }
-        public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo,IConfiguration configuration,Student student,IProgramDistributionRepo programDistributionRepo)
+        public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo, IConfiguration configuration, Student student, IProgramDistributionRepo programDistributionRepo)
         {
             int allowedHoursToRegister;
             int currentSemester = academicYearRepo.GetCurrentYear().Semester;
@@ -110,7 +91,7 @@ namespace FOS.App.Helpers
             }
             return allowedHoursToRegister;
         }
-        public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels,IEnumerable<byte> semesters,int studentID)
+        public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels, IEnumerable<byte> semesters, int studentID)
         {
             List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
                                                     .GetOptionalCoursesDistibution(studentID)

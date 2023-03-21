@@ -27,6 +27,6 @@ namespace FOS.App.Students.DTOs
         public byte? Level { get; set; }
         public string academicYear { get; set; }
         public byte semester { get; set; }
-        public List<StudentCoursesDTO> Courses { get; set; }
+        public List<StudentCoursesOutModel> Courses { get; set; }
     }
 }
