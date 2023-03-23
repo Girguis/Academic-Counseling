@@ -112,7 +112,8 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new { Massage = "Student not found" });
 
                 var courses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id);
-                var mapedStudent = student.ToDTO(courses, academicYearRepo.GetCurrentYear(), student.CurrentProgram?.Name);
+                var mapedStudent = student.ToDTO(academicYearRepo.GetCurrentYear(), student.CurrentProgram?.Name);
+                mapedStudent.Courses= courses;
                 return Ok(new
                 {
                     Data = mapedStudent

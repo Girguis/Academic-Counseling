@@ -19,6 +19,7 @@
     }
     public class CoursesDataReport
     {
+        public int ID { get; set; }
         public int CourseType { get; set; }
         public int Category { get; set; }
         public int Level { get; set; }
@@ -29,6 +30,7 @@
         public string CourseName { get; set; }
         public bool IsPassedCourse { get; set; }
         public int RegistrationTimes { get; set; }
+        public string SuccessSemester { get; set; }
         public string Grade { get; set; }
     }
 }

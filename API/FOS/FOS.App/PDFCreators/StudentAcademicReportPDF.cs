@@ -48,7 +48,7 @@ namespace FOS.App.PDFCreators
                         for (int i = 0; i < academicYears.Count; i++)
                         {
                             var semesterCourses = groupedCourses.ElementAt(i);
-                            col.Item().Table(tbl =>
+                            col.Item().ShowEntire().Table(tbl =>
                             {
                                 tbl.ColumnsDefinition(def =>
                                 {

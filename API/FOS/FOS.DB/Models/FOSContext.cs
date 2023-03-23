@@ -344,7 +344,11 @@ namespace FOS.DB.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("CourseID");
 
+                entity.Property(e => e.CourseOperationId).HasColumnName("CourseOperationID");
+
                 entity.Property(e => e.RequestId).HasColumnName("RequestID");
+
+                entity.Property(e => e.RequestTypeId).HasColumnName("RequestTypeID");
 
                 entity.Property(e => e.StudentId).HasColumnName("StudentID");
 

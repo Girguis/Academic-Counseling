@@ -98,7 +98,7 @@ namespace FOS.App.Repositories
             if (doctor == null) return null;
             var param = new DynamicParameters();
             param.Add("@ProgramID", doctor.ProgramId);
-            return QueryHelper.Execute<Program>(connectionString, "GetAllSubPrograms", param);
+            return QueryExecuterHelper.Execute<Program>(connectionString, "GetAllSubPrograms", param);
         }
     }
 }

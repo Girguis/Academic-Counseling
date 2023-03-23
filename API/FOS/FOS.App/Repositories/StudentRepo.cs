@@ -300,7 +300,7 @@ namespace FOS.App.Repositories
 
         public float GetLastRegularSemesterGPA(int studentID)
         {
-            var fnRes = QueryHelper.ExecuteFunction(connectionString,
+            var fnRes = QueryExecuterHelper.ExecuteFunction(connectionString,
                 "GetLastRegularSemesterGpa",
                 new List<object>()
             {

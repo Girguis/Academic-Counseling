@@ -1,6 +1,6 @@
 ﻿using FOS.App.PDFCreators;
-using FOS.App.Students.DTOs;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
 using FOS.Students.API.Extensions;
@@ -85,7 +85,7 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("GetAcademicReportPDF")]
+        [HttpGet("GetAcademicReportPDF")]
         public IActionResult GetAcademicReportPDF()
         {
             try

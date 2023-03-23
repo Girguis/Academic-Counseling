@@ -24,7 +24,7 @@ namespace FOS.Doctors.API.Controllers
         /// Get count of males and females
         /// </summary>
         /// <returns></returns>
-        [HttpPost("GenderStatistics")]
+        [HttpGet("GenderStatistics")]
         public IActionResult GenderStatistics()
         {
             try
@@ -41,7 +41,7 @@ namespace FOS.Doctors.API.Controllers
         /// Get number of student in each program
         /// </summary>
         /// <returns></returns>
-        [HttpPost("ProgramStatistics")]
+        [HttpGet("ProgramStatistics")]
         public IActionResult ProgramStatistics()
         {
             try

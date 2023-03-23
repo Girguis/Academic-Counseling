@@ -30,6 +30,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<ICommonQuestionsRepo, CommonQuestionsRepo>();
             services.AddScoped<ISuperAdminRepo, SuperAdminRepo>();
             services.AddScoped<IStatisticsRepo, StatisticsRepo>();
+            services.AddScoped<ICourseRequestRepo, CourseRequestRepo>();
             return services;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using FOS.App.Students.DTOs;
+using FOS.Core.Enums;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
@@ -34,6 +35,6 @@ namespace FOS.Core.IRepositories
         ExamCommitteeStudentsOutModel GetStudentsList(ExamCommitteeStudentsParamModel model);
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model);
         bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model);
-        bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model);
+        bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model, int courseOp);
     }
 }

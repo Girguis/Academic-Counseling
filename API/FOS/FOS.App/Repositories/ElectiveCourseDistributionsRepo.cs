@@ -26,7 +26,7 @@ namespace FOS.App.Repositories
             parameters.Add("@StudentID", studentID);
             parameters.Add("@IsForOverload", isForOverload);
             parameters.Add("@IsForEnhancement", isForEnhancement);
-            return QueryHelper.Execute<ElectiveCourseDistribution>(connectionString,
+            return QueryExecuterHelper.Execute<ElectiveCourseDistribution>(connectionString,
                             "GetElectiveCoursesDistribution", parameters);
         }
 

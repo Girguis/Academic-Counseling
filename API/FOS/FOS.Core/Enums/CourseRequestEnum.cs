@@ -4,10 +4,8 @@ namespace FOS.Core.Enums
 {
     public enum CourseRequestEnum
     {
-        [Description("إضافة")]
-        CourseAdd = 1,
-        [Description("حذف")]
-        CourseDelete,
+        [Description("حذف وإضافة")]
+        AddtionDeletion = 1,
         [Description("انسحاب")]
         Withdraw,
         [Description("زيادة عبء")]
@@ -16,5 +14,12 @@ namespace FOS.Core.Enums
         OpenCourse,
         [Description("تحسين")]
         Enhancement
+    }
+    public enum CourseOperationEnum
+    {
+        [Description("حذف")]
+        Deletion,
+        [Description("إضافة")]
+        Addtion
     }
 }

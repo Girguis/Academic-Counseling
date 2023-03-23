@@ -58,7 +58,7 @@ namespace FOS.App.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
             parameters.Add("@AcademicYearID", academicYearID);
-            return QueryHelper.Execute<StudentCoursesOutModel>(connectionString, "GetStudentCoursesByAcademicYear", parameters);
+            return QueryExecuterHelper.Execute<StudentCoursesOutModel>(connectionString, "GetStudentCoursesByAcademicYear", parameters);
         }
         /// <summary>
         /// Method to get courses that student can register
@@ -69,7 +69,7 @@ namespace FOS.App.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            return QueryHelper.Execute<CourseRegistrationOutModel>(connectionString, "GetAvailableCoursesToRegister", parameters);
+            return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(connectionString, "GetAvailableCoursesToRegister", parameters);
         }
         public bool RegisterCourses(int studentID, short academicYearID, List<int> courses)
         {
@@ -85,7 +85,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@CurrentAcademicYearID", academicYearID)
             };
-            return QueryHelper.Execute(connectionString, "StudentCoursesRegistration", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "StudentCoursesRegistration", parameters);
         }
 
         public Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses)
@@ -161,7 +161,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@Query", query)
             };
-            return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "AddStudentCourses", parameters);
         }
         public CourseGradesSheetOutModel GetStudentsMarksList(int courseID)
         {
@@ -200,7 +200,7 @@ namespace FOS.App.Repositories
             {
                 new SqlParameter("@Query", query)
             };
-            return QueryHelper.Execute(connectionString, "QueryExecuter", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "QueryExecuter", parameters);
         }
         public bool UpdateStudentCourses(List<StudentCourse> studentCourses)
         {
@@ -240,10 +240,10 @@ namespace FOS.App.Repositories
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@Query", query)
             };
-            return QueryHelper.Execute(connectionString, "AddStudentCourses", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "AddStudentCourses", parameters);
         }
 
-        public (List<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel> toAdd, List<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel> toDelete, List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion) GetCoursesForAddAndDelete(int studentID)
+        public (List<CourseRegistrationOutModel> toAdd, List<CourseRegistrationOutModel> toDelete, List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion) GetCoursesForAddAndDelete(int studentID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
@@ -259,30 +259,29 @@ namespace FOS.App.Repositories
         {
             var query = "DELETE FROM StudentCourseRequest" +
                 " WHERE StudentID = " + studentID + " AND" +
-                " RequestType IN(" + (int)CourseRequestEnum.CourseAdd +
-                "," + (int)CourseRequestEnum.CourseDelete + ");";
+                " RequestTypeID = " + (int)CourseRequestEnum.AddtionDeletion +";";
             var guid = Guid.NewGuid().ToString();
 
             for (int i = 0; i < model.ToAdd.Count; i++)
-                query += "INSERT INTO StudentCourseRequest(RequestID,RequestType,StudentID,CourseID)" +
-                    " VALUES('" + guid + "'," + (int)CourseRequestEnum.CourseAdd + "," +
-                    studentID + "," + model.ToAdd.ElementAt(i) + ");";
+                query += "INSERT INTO StudentCourseRequest(RequestID,RequestTypeID,StudentID,CourseID,CourseOperationID)" +
+                    " VALUES('" + guid + "'," + (int)CourseRequestEnum.AddtionDeletion + "," +
+                    studentID + "," + model.ToAdd.ElementAt(i) + "," + (int)CourseOperationEnum.Addtion + ");";
 
             for (int i = 0; i < model.ToDelete.Count; i++)
-                query += "INSERT INTO StudentCourseRequest(RequestID,RequestType,StudentID,CourseID)" +
-                    " VALUES('" + guid + "'," + (int)CourseRequestEnum.CourseDelete + "," +
-                    studentID + "," + model.ToDelete.ElementAt(i) + ");";
+                query += "INSERT INTO StudentCourseRequest(RequestID,RequestTypeID,StudentID,CourseID,CourseOperationID)" +
+                    " VALUES('" + guid + "'," + (int)CourseRequestEnum.AddtionDeletion + "," +
+                    studentID + "," + model.ToDelete.ElementAt(i) + "," + (int)CourseOperationEnum.Deletion + ");";
 
-            return QueryHelper.Execute(connectionString, query);
+            return QueryExecuterHelper.Execute(connectionString, query);
         }
 
-        public List<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel> GetCoursesForWithdraw(int studentID)
+        public List<CourseRegistrationOutModel> GetCoursesForWithdraw(int studentID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            return QueryHelper.Execute<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel>(connectionString, "GetCoursesForDeletionOrWithdraw", parameters);
+            return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(connectionString, "GetCoursesForDeletionOrWithdraw", parameters);
         }
-        public (int RegisteredHours, List<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel> courses,
+        public (int RegisteredHours, List<CourseRegistrationOutModel> courses,
             List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
             GetCoursesForOverload(int studentID)
         {
@@ -296,20 +295,20 @@ namespace FOS.App.Repositories
             return (hours, courses, distribution);
         }
 
-        public bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model)
+        public bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model,int courseOp)
         {
             var query = "DELETE FROM StudentCourseRequest" +
              " WHERE StudentID = " + studentID + " AND" +
-             " RequestType = " + requestType + ";";
+             " RequestTypeID = " + requestType + ";";
             var guid = Guid.NewGuid().ToString();
             for (int i = 0; i < model.CoursesList.Count; i++)
-                query += "INSERT INTO StudentCourseRequest(RequestID,RequestType,StudentID,CourseID)" +
+                query += "INSERT INTO StudentCourseRequest(RequestID,RequestTypeID,StudentID,CourseID,CourseOperationID)" +
                     " VALUES('" + guid + "'," + requestType + "," +
-                    studentID + "," + model.CoursesList.ElementAt(i) + ");";
-            return QueryHelper.Execute(connectionString, query);
+                    studentID + "," + model.CoursesList.ElementAt(i) + "," + courseOp + ");";
+            return QueryExecuterHelper.Execute(connectionString, query);
         }
 
-        public (List<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel> courses,
+        public (List<CourseRegistrationOutModel> courses,
             List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
             GetCoursesForEnhancement(int studentID)
         {
@@ -321,7 +320,7 @@ namespace FOS.App.Repositories
             var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
             return (courses, distribution);
         }
-        public (List<Core.Models.StoredProcedureOutputModels.CourseRegistrationOutModel> courses,
+        public (List<CourseRegistrationOutModel> courses,
             List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
             GetCoursesForGraduation(int studentID)
         {

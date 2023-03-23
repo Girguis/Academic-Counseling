@@ -1,9 +1,7 @@
 ﻿using FOS.App.Helpers;
-using FOS.App.Students.DTOs;
-using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
-using FOS.DB.Models;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Students.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,7 +74,7 @@ namespace FOS.Students.API.Controllers
                     });
 
                 var courses = studentCoursesRepo.GetCoursesForRegistration(student.Id);
-                Dictionary<string, StudentCoursesOutModel> selectedCourses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id).ToDictionary(x => x.CourceCode, z => z);
+                Dictionary<string, StudentCoursesOutModel> selectedCourses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id).ToDictionary(x => x.CourseCode, z => z);
                 for (int i = 0; i < courses.Count; i++)
                 {
                     selectedCourses.TryGetValue(courses.ElementAt(i).CourseCode, out StudentCoursesOutModel res);

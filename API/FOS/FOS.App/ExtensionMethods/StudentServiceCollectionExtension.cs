@@ -26,6 +26,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<ILogger>(provider => provider.GetRequiredService<ILogger>());
             services.AddScoped<ICommonQuestionsRepo, CommonQuestionsRepo>();
             services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
+            services.AddScoped<ICourseRequestRepo, CourseRequestRepo>();
             return services;
         }
     }

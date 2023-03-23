@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using FOS.App.Helpers;
 using FOS.Core.Enums;
 using FOS.Core.Models.StoredProcedureOutputModels;
 
@@ -45,8 +46,7 @@ namespace FOS.App.ExcelReader
             ws.Cell("F5").Value = "تم اجتيازها";
             ws.Cell("G5").Value = "التقدير";
             ws.Cell("H5").Value = "عدد مرات التسجيل";
-            ws.Cell("I5").Value = "المستوى";
-            ws.Cell("J5").Value = "الفصل";
+            ws.Cell("I5").Value = "متى تم اجتيازها";
             var rowNo = 6;
             for (int i = 0; i < groupedCourses.Count(); i++)
             {
@@ -65,12 +65,17 @@ namespace FOS.App.ExcelReader
                     ws.Cell("F" + rowNo).Value = courses.ElementAt(j).IsPassedCourse ? "نعم" : "لا";
                     ws.Cell("G" + rowNo).Value = courses.ElementAt(j).Grade;
                     ws.Cell("H" + rowNo).Value = courses.ElementAt(j).RegistrationTimes;
-                    ws.Cell("I" + rowNo).Value = courses.ElementAt(j).Level;
-                    ws.Cell("J" + rowNo).Value = courses.ElementAt(j).Semester;
+                    if (courses.ElementAt(j).IsPassedCourse)
+                    {
+                        var passedInYear = summaryTree.StudentCourses.FirstOrDefault(x => x.CourseID == courses.ElementAt(j).ID && x.Grade.ToLower() != "f");
+                        ws.Cell("I" + rowNo).Value = passedInYear.AcademicYear + " - " + Helper.GetEnumDescription((SemesterEnum)passedInYear.Semester);
+                    }
+                    else
+                        ws.Cell("I" + rowNo).Value = "-------";
                     rowNo++;
                 }
             }
-            var range = ws.Range("A5", "J" + (model.Courses.Count() + 5));
+            var range = ws.Range("A5", "I" + (model.Courses.Count() + 5));
             ExcelCommon.CreateTable(ws, range, false);
             var ws2 = wb.AddWorksheet();
             CreateCoursesSummaryTreeSheet(ws2, summaryTree);
@@ -93,13 +98,14 @@ namespace FOS.App.ExcelReader
                 ws.Cell("B" + rowNo).Value = model.ProgramCourses.ElementAt(i).CourseName;
                 ws.Cell("C" + rowNo).Value = model.ProgramCourses.ElementAt(i).CreditHours;
                 var courses = model.StudentCourses.Where(x => x.CourseID == model.ProgramCourses.ElementAt(i).ID);
+                courses.ToList().Sort((x, y) => x.AcademicYearID - y.AcademicYearID);
                 if (!courses.Any())
                     rowNo++;
                 for (int j = 0; j < courses.Count(); j++)
                 {
                     ws.Cell("D"+rowNo).Value = courses.ElementAt(j).Mark;
                     ws.Cell("E"+rowNo).Value = courses.ElementAt(j).Grade;
-                    ws.Cell("F"+rowNo).Value = courses.ElementAt(j).AcademicYear +" - "+ Helpers.Helper.GetEnumDescription((SemesterEnum)courses.ElementAt(j).Semester);
+                    ws.Cell("F" + rowNo).Value = courses.ElementAt(j).AcademicYear + " - " + Helper.GetEnumDescription((SemesterEnum)courses.ElementAt(j).Semester);
                     rowNo++;
                 }
             }

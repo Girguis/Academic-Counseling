@@ -97,7 +97,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@IsActive", true),
                 new SqlParameter("@CourseLst", courseLst)
             };
-            return QueryHelper.Execute(connectionString, "CoursesActivation", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "CoursesActivation", parameters);
         }
         public bool Deactivate(List<int> courseIDs)
         {
@@ -107,7 +107,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@IsActive",false),
                 new SqlParameter("@CourseLst", courseLst)
             };
-            return QueryHelper.Execute(connectionString, "CoursesActivation", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "CoursesActivation", parameters);
         }
 
         public bool AssignDoctorsToCourse(DoctorsToCourseParamModel model)
@@ -118,9 +118,9 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(model.DoctorsGuid[i]);
             }
-            return QueryHelper.Execute(connectionString, "AssignDoctorsToCourse", new List<SqlParameter>()
+            return QueryExecuterHelper.Execute(connectionString, "AssignDoctorsToCourse", new List<SqlParameter>()
             {
-                QueryHelper.DataTableToSqlParameter(dt,"Doctors","DoctorsGuidType"),
+                QueryExecuterHelper.DataTableToSqlParameter(dt,"Doctors","DoctorsGuidType"),
                 new SqlParameter("@CourseID", model.CourseId)
             });
         }

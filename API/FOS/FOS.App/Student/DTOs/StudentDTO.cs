@@ -1,4 +1,4 @@
-﻿using FOS.DB.Models;
+﻿using FOS.Core.Models.StoredProcedureOutputModels;
 
 namespace FOS.App.Students.DTOs
 {

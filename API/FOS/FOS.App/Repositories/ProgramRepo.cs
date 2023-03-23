@@ -79,12 +79,12 @@ namespace FOS.App.Repositories
                 new SqlParameter("@TotalHours", model.programData.TotalHours),
                 new SqlParameter("@EnglishName", model.programData.EnglishName),
                 new SqlParameter("@ArabicName", model.programData.ArabicName),
-                QueryHelper.DataTableToSqlParameter(coursesLstDt,"CoursesList","ProgramCoursesType"),
-                QueryHelper.DataTableToSqlParameter(prerequisiteCoursesLstDt,"PrerequisiteCoursesList","PrerequisiteCoursesType"),
-                QueryHelper.DataTableToSqlParameter(programDistributionLstDt,"ProgramDistributionList","ProgramDistributionType"),
-                QueryHelper.DataTableToSqlParameter(electiveCourseDistributionLstDt,"ElectiveCourseDistributionList","ElectiveCourseDistributionType"),
+                QueryExecuterHelper.DataTableToSqlParameter(coursesLstDt,"CoursesList","ProgramCoursesType"),
+                QueryExecuterHelper.DataTableToSqlParameter(prerequisiteCoursesLstDt,"PrerequisiteCoursesList","PrerequisiteCoursesType"),
+                QueryExecuterHelper.DataTableToSqlParameter(programDistributionLstDt,"ProgramDistributionList","ProgramDistributionType"),
+                QueryExecuterHelper.DataTableToSqlParameter(electiveCourseDistributionLstDt,"ElectiveCourseDistributionList","ElectiveCourseDistributionType"),
             };
-            return QueryHelper.Execute(connectionString, "AddProgram", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "AddProgram", parameters);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@ProgramID", superProgID);
-            return QueryHelper.Execute<Program>(connectionString, "GetAllSubPrograms", parameter);
+            return QueryExecuterHelper.Execute<Program>(connectionString, "GetAllSubPrograms", parameter);
         }
         public List<Program> GetPrograms(out int totalCount, SearchCriteria criteria)
         {
@@ -124,7 +124,7 @@ namespace FOS.App.Repositories
             };
             if (model.SuperProgramId.HasValue)
                 parameters.Add(new SqlParameter("@SuperProgramId", model.SuperProgramId.Value));
-            return QueryHelper.Execute(connectionString, "UpdateProgramBasicData", parameters);
+            return QueryExecuterHelper.Execute(connectionString, "UpdateProgramBasicData", parameters);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace FOS.App.Students.Mappers
         /// to StudentDTO model
         /// </summary>
         public static StudentDTO ToDTO(this Student student,
-            List<StudentCoursesOutModel> courses,
+            //List<StudentCoursesOutModel> courses,
             AcademicYear academicYear,
             string programName)
         {
@@ -21,7 +21,7 @@ namespace FOS.App.Students.Mappers
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentDTO>(student);
             studentDto.Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank;
-            studentDto.Courses = courses;
+            //studentDto.Courses = courses;
             studentDto.academicYear = academicYear.AcademicYear1;
             studentDto.semester = academicYear.Semester;
             studentDto.ProgramName = programName;

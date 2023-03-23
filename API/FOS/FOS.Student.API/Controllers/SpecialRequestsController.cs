@@ -22,6 +22,7 @@ namespace FOS.Students.API.Controllers
         private readonly IConfiguration configuration;
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IStudentProgramRepo studentProgramRepo;
+        private readonly ICourseRequestRepo courseRequestRepo;
         private readonly ILogger<SpecialRequestsController> logger;
 
         public SpecialRequestsController(
@@ -32,6 +33,7 @@ namespace FOS.Students.API.Controllers
             IConfiguration configuration,
             IStudentCoursesRepo studentCoursesRepo,
             IStudentProgramRepo studentProgramRepo,
+            ICourseRequestRepo courseRequestRepo,
             ILogger<SpecialRequestsController> logger
             )
         {
@@ -42,7 +44,71 @@ namespace FOS.Students.API.Controllers
             this.configuration = configuration;
             this.studentCoursesRepo = studentCoursesRepo;
             this.studentProgramRepo = studentProgramRepo;
+            this.courseRequestRepo = courseRequestRepo;
             this.logger = logger;
+        }
+        [HttpGet("GetMyCoursesRequests")]
+        public IActionResult GetMyCoursesRequests()
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return NotFound(new
+                    {
+                        IsAvailable = false,
+                        Massage = "ID not found"
+                    });
+                var student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = "Student Not Found"
+                    });
+                var res = courseRequestRepo.GetRequests(new CourseRequestParamModel { StudentID = student.Id });
+                for (int i = 0; i < res.Count; i++)
+                {
+                    res.ElementAt(i).CourseOperation = res.ElementAt(i).CourseOperationID == true ? Helper.GetEnumDescription(CourseOperationEnum.Addtion) : Helper.GetEnumDescription(CourseOperationEnum.Deletion);
+                    res.ElementAt(i).RequestType = Helper.GetEnumDescription((CourseRequestEnum)res.ElementAt(i).RequestTypeID);
+                }
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpDelete("DeleteCourseRequest/{requestID}")]
+        public IActionResult DeleteCourseRequest(string requestID)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(requestID))
+                    return BadRequest(new { Massage = "RequestID can't be empty" });
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return NotFound(new
+                    {
+                        IsAvailable = false,
+                        Massage = "ID not found"
+                    });
+                var student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = "Student Not Found"
+                    });
+                bool isDeleted = courseRequestRepo.DeleteRequest(requestID, student.Id);
+                if (!isDeleted)
+                    return BadRequest(new { Massage = "Error occured while deleting request" });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
         }
         [HttpGet("AddAndDeleteCourses")]
         public IActionResult AddAndDeleteCourses()
@@ -232,7 +298,7 @@ namespace FOS.Students.API.Controllers
                         IsAvailable = false,
                         Massage = "Course withdraw is not available"
                     });
-                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Withdraw, student.Id, model);
+                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Withdraw, student.Id, model, (int)CourseOperationEnum.Deletion);
                 if (!res)
                     return BadRequest(new
                     {
@@ -276,7 +342,7 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = "Student Not Found"
                     });
-                bool parsed = float.TryParse(QueryHelper.ExecuteFunction(configuration["ConnectionStrings:FosDB"], "GetLastRegularSemesterGpa", new List<object>() { student.Id })?.ToString(), out float sgpa);
+                bool parsed = float.TryParse(QueryExecuterHelper.ExecuteFunction(configuration["ConnectionStrings:FosDB"], "GetLastRegularSemesterGpa", new List<object>() { student.Id })?.ToString(), out float sgpa);
                 if (!parsed)
                     sgpa = 0;
                 if (sgpa < 3)
@@ -345,7 +411,7 @@ namespace FOS.Students.API.Controllers
                         IsAvailable = false,
                         Massage = "Course overload is not available"
                     });
-                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.OverLoad, student.Id, model);
+                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.OverLoad, student.Id, model, (int)CourseOperationEnum.Addtion);
                 if (!res)
                     return BadRequest(new
                     {
@@ -449,7 +515,7 @@ namespace FOS.Students.API.Controllers
                         IsAvailable = false,
                         Massage = "Course enhancement is not available"
                     });
-                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Enhancement, student.Id, model);
+                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Enhancement, student.Id, model, (int)CourseOperationEnum.Addtion);
                 if (!res)
                     return BadRequest(new
                     {
@@ -552,7 +618,7 @@ namespace FOS.Students.API.Controllers
                         IsAvailable = false,
                         Massage = "Course opening for graduation is not available"
                     });
-                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.OpenCourse, student.Id, model);
+                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.OpenCourse, student.Id, model, (int)CourseOperationEnum.Addtion);
                 if (!res)
                     return BadRequest(new
                     {

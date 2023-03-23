@@ -119,9 +119,9 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(studentProgram[i].ProgramId, studentProgram[i].StudentId, studentProgram[i].AcademicYear);
             }
-            return QueryHelper.Execute(connectionString, "AddStudentsToPrograms", new List<SqlParameter>()
+            return QueryExecuterHelper.Execute(connectionString, "AddStudentsToPrograms", new List<SqlParameter>()
             {
-                QueryHelper.DataTableToSqlParameter(dt,"StudentProgram","StudentsProgramsType"),
+                QueryExecuterHelper.DataTableToSqlParameter(dt,"StudentProgram","StudentsProgramsType"),
             });
         }
         /// <summary>
@@ -138,9 +138,9 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(desires[i], i + 1);
             }
-            return QueryHelper.Execute(connectionString, "AddStudentDesires", new List<SqlParameter>()
+            return QueryExecuterHelper.Execute(connectionString, "AddStudentDesires", new List<SqlParameter>()
             {
-                QueryHelper.DataTableToSqlParameter(dt,"Desires","StudentDesiresType"),
+                QueryExecuterHelper.DataTableToSqlParameter(dt,"Desires","StudentDesiresType"),
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@CurrentProgramID", currentProgramID)
             });

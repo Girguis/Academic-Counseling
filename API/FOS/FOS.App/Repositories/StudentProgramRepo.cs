@@ -58,7 +58,7 @@ namespace FOS.App.Repositories
             for (var i = 0; i < toBeSavedLst.Count(); i++)
                 dt.Rows.Add(toBeSavedLst.ElementAt(i).ProgramId, toBeSavedLst.ElementAt(i).StudentId, toBeSavedLst.ElementAt(i).AcademicYear);
 
-            var studentProgramParam = QueryHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType");
+            var studentProgramParam = QueryExecuterHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType");
             return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentsToPrograms] @StudentProgram", studentProgramParam) > 0;
         }
 
@@ -96,7 +96,7 @@ namespace FOS.App.Repositories
 
         public bool ProgramTransferRequest(int studentID, ProgramTransferParamModel model)
         {
-            return QueryHelper.Execute(connectionString, "SubmitStudentProgramTransferRequest", new List<SqlParameter>
+            return QueryExecuterHelper.Execute(connectionString, "SubmitStudentProgramTransferRequest", new List<SqlParameter>
             {
                 new SqlParameter("@StudentID",studentID),
                 new SqlParameter("@ProgramID",model.ProgramID),

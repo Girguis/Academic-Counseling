@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
@@ -26,21 +27,21 @@ namespace FOS.App.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", model.CourseID);
             parameters.Add("@AcademicYearID", model.AcademicYearID);
-            return QueryHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_CourseGrades", parameters);
+            return QueryExecuterHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_CourseGrades", parameters);
         }
 
         public List<StatisticsOutModel> GetGendersStatistics()
         {
             return context.Students.GroupBy(x => x.Gender).Select(x => new StatisticsOutModel
             {
-                Key = x.Key,
+                Key = string.IsNullOrEmpty(x.Key) ? x.Key : Helper.GetEnumDescription((GenderEnum)int.Parse(x.Key)),
                 Value = x.Count()
             })?.ToList();
         }
 
         public List<StatisticsOutModel> GetProgramsStatistics()
         {
-            return QueryHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_Programs", null);
+            return QueryExecuterHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_Programs", null);
         }
 
         public List<StatisticsOutModel> GetStudentsGradesStatistics(StudentsGradesParatmeterModel model)
@@ -49,7 +50,7 @@ namespace FOS.App.Repositories
             parameters.Add("@ProgramID", model.ProgramID);
             parameters.Add("@IsActive", model.IsActive);
             parameters.Add("@IsGraduated", model.IsGraudated);
-            return QueryHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_StudentGrades", parameters);
+            return QueryExecuterHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_StudentGrades", parameters);
         }
     }
 }
