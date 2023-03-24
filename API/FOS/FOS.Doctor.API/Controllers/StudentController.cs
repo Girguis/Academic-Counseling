@@ -30,6 +30,8 @@ namespace FOS.Doctors.API.Controllers
         private readonly ICourseRepo courseRepo;
         private readonly IStudentProgramRepo studentProgramRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
+        private readonly ICourseRequestRepo courseRequestRepo;
+        private readonly IProgramTransferRequestRepo programTransferRequestRepo;
         private readonly IDoctorRepo doctorRepo;
 
         public StudentController(IStudentRepo studentRepo,
@@ -39,6 +41,8 @@ namespace FOS.Doctors.API.Controllers
             ICourseRepo courseRepo,
             IStudentProgramRepo studentProgramRepo,
             IStudentCoursesRepo studentCoursesRepo,
+            ICourseRequestRepo courseRequestRepo,
+            IProgramTransferRequestRepo programTransferRequestRepo,
             IDoctorRepo doctorRepo)
         {
             this.studentRepo = studentRepo;
@@ -48,6 +52,8 @@ namespace FOS.Doctors.API.Controllers
             this.courseRepo = courseRepo;
             this.studentProgramRepo = studentProgramRepo;
             this.studentCoursesRepo = studentCoursesRepo;
+            this.courseRequestRepo = courseRequestRepo;
+            this.programTransferRequestRepo = programTransferRequestRepo;
             this.doctorRepo = doctorRepo;
         }
         [HttpPost("Deactivate")]
@@ -103,6 +109,85 @@ namespace FOS.Doctors.API.Controllers
                     Data = result.students,
                     TotalCount = result.totalCount
                 });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetCoursesRequests/{guid}")]
+        public IActionResult GetCoursesRequests(string guid)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                var student = studentRepo.Get(guid);
+                if (student == null) return NotFound();
+                var requests = courseRequestRepo
+                    .GetRequests(new CourseRequestParamModel { StudentID = student.Id })
+                    .GroupBy(x => x.RequestID)
+                    .Select(x => new { RequestID = x.Key, RequestData = x });
+                return Ok(requests);
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("HandleCourseRequest")]
+        public IActionResult HandleCourseRequest(HandleCourseRequestParamModel model)
+        {
+            try
+            {
+                var handled = courseRequestRepo.HandleRequest(model.RequestID, model.IsApproved);
+                if (!handled) return BadRequest(new { Massage = "Error occured" });
+                return Ok(new
+                {
+                    Massage = "Done"
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("GetProgramTranferRequests")]
+        public IActionResult GetProgramTranferRequests(ProgramTransferSearchParamModel model)
+        {
+            try
+            {
+                return Ok(programTransferRequestRepo.GetRequests(model));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("HandleProgramTranferRequest")]
+        public IActionResult HandleProgramTranferRequest(ProgramTransferHandleParamModel model)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(model.guid))
+                    return NotFound(new
+                    {
+                        IsAvailable = false,
+                        Massage = "ID not found"
+                    });
+                var student = studentRepo.Get(model.guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = "Student Not Found"
+                    });
+                bool isDeleted = programTransferRequestRepo.HandleRequest(student.Id, model.IsApproved);
+                if (!isDeleted)
+                    return BadRequest(new { Massage = "Error occured while handling request" });
+                return Ok();
             }
             catch (Exception ex)
             {

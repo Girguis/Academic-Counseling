@@ -23,6 +23,7 @@ namespace FOS.Students.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IStudentProgramRepo studentProgramRepo;
         private readonly ICourseRequestRepo courseRequestRepo;
+        private readonly IProgramTransferRequestRepo programTransferRequestRepo;
         private readonly ILogger<SpecialRequestsController> logger;
 
         public SpecialRequestsController(
@@ -34,6 +35,7 @@ namespace FOS.Students.API.Controllers
             IStudentCoursesRepo studentCoursesRepo,
             IStudentProgramRepo studentProgramRepo,
             ICourseRequestRepo courseRequestRepo,
+            IProgramTransferRequestRepo programTransferRequestRepo,
             ILogger<SpecialRequestsController> logger
             )
         {
@@ -45,6 +47,7 @@ namespace FOS.Students.API.Controllers
             this.studentCoursesRepo = studentCoursesRepo;
             this.studentProgramRepo = studentProgramRepo;
             this.courseRequestRepo = courseRequestRepo;
+            this.programTransferRequestRepo = programTransferRequestRepo;
             this.logger = logger;
         }
         [HttpGet("GetMyCoursesRequests")]
@@ -66,11 +69,6 @@ namespace FOS.Students.API.Controllers
                         Massage = "Student Not Found"
                     });
                 var res = courseRequestRepo.GetRequests(new CourseRequestParamModel { StudentID = student.Id });
-                for (int i = 0; i < res.Count; i++)
-                {
-                    res.ElementAt(i).CourseOperation = res.ElementAt(i).CourseOperationID == true ? Helper.GetEnumDescription(CourseOperationEnum.Addtion) : Helper.GetEnumDescription(CourseOperationEnum.Deletion);
-                    res.ElementAt(i).RequestType = Helper.GetEnumDescription((CourseRequestEnum)res.ElementAt(i).RequestTypeID);
-                }
                 return Ok(res);
             }
             catch (Exception ex)
@@ -100,6 +98,62 @@ namespace FOS.Students.API.Controllers
                         Massage = "Student Not Found"
                     });
                 bool isDeleted = courseRequestRepo.DeleteRequest(requestID, student.Id);
+                if (!isDeleted)
+                    return BadRequest(new { Massage = "Error occured while deleting request" });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetMyProgramTransferRequest")]
+        public IActionResult GetMyProgramTransferRequest()
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return NotFound(new
+                    {
+                        IsAvailable = false,
+                        Massage = "ID not found"
+                    });
+                var student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = "Student Not Found"
+                    });
+                var res = programTransferRequestRepo.GetRequests(studentID: student.Id).FirstOrDefault();
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpDelete("DeleteProgramTransferRequest")]
+        public IActionResult DeleteProgramTransferRequest()
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return NotFound(new
+                    {
+                        IsAvailable = false,
+                        Massage = "ID not found"
+                    });
+                var student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = "Student Not Found"
+                    });
+                bool isDeleted = programTransferRequestRepo.DeleteRequest(student.Id);
                 if (!isDeleted)
                     return BadRequest(new { Massage = "Error occured while deleting request" });
                 return Ok();

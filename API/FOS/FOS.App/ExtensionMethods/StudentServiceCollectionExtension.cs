@@ -27,6 +27,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<ICommonQuestionsRepo, CommonQuestionsRepo>();
             services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
             services.AddScoped<ICourseRequestRepo, CourseRequestRepo>();
+            services.AddScoped<IProgramTransferRequestRepo, ProgramTransferRequestRepo>();
             return services;
         }
     }

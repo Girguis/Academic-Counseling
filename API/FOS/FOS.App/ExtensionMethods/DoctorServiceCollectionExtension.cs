@@ -31,6 +31,7 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<ISuperAdminRepo, SuperAdminRepo>();
             services.AddScoped<IStatisticsRepo, StatisticsRepo>();
             services.AddScoped<ICourseRequestRepo, CourseRequestRepo>();
+            services.AddScoped<IProgramTransferRequestRepo, ProgramTransferRequestRepo>();
             return services;
         }
     }
