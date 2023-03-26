@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using FOS.App.Comparers;
 using FOS.App.Helpers;
-using FOS.App.Students.DTOs;
+using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
@@ -9,25 +9,20 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class StudentCoursesRepo : IStudentCoursesRepo
     {
-        private readonly FOSContext context;
         private readonly IAcademicYearRepo academicYearRepo;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public StudentCoursesRepo(FOSContext context, IAcademicYearRepo academicYearRepo, IConfiguration configuration)
+        public StudentCoursesRepo(IAcademicYearRepo academicYearRepo,
+            IDbContext config)
         {
-            this.context = context;
             this.academicYearRepo = academicYearRepo;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
         /// <summary>
         /// Method to get all courses for a certain student
@@ -36,7 +31,16 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public IEnumerable<StudentCourse> GetAllCourses(int studentID)
         {
-            return context.StudentCourses.Where(x => x.StudentId == studentID).Include(x => x.Course).AsNoTracking().AsParallel();
+            using var con = config.CreateInstance();
+            return con.Query<StudentCourse, Course, StudentCourse>
+                ("GetAllStudentCourses",
+                (studentCourse, course) =>
+                {
+                    studentCourse.Course = course;
+                    return studentCourse;
+                },
+                splitOn: "ID",
+                commandType: CommandType.StoredProcedure);
         }
         /// <summary>
         /// Method to get all courses for a certain student for the current year
@@ -58,7 +62,7 @@ namespace FOS.App.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
             parameters.Add("@AcademicYearID", academicYearID);
-            return QueryExecuterHelper.Execute<StudentCoursesOutModel>(connectionString, "GetStudentCoursesByAcademicYear", parameters);
+            return QueryExecuterHelper.Execute<StudentCoursesOutModel>(config.CreateInstance(), "GetStudentCoursesByAcademicYear", parameters);
         }
         /// <summary>
         /// Method to get courses that student can register
@@ -69,7 +73,7 @@ namespace FOS.App.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(connectionString, "GetAvailableCoursesToRegister", parameters);
+            return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(config.CreateInstance(), "GetAvailableCoursesToRegister", parameters);
         }
         public bool RegisterCourses(int studentID, short academicYearID, List<int> courses)
         {
@@ -85,7 +89,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@CurrentAcademicYearID", academicYearID)
             };
-            return QueryExecuterHelper.Execute(connectionString, "StudentCoursesRegistration", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "StudentCoursesRegistration", parameters);
         }
 
         public Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses)
@@ -161,13 +165,13 @@ namespace FOS.App.Repositories
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@Query", query)
             };
-            return QueryExecuterHelper.Execute(connectionString, "AddStudentCourses", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentCourses", parameters);
         }
         public CourseGradesSheetOutModel GetStudentsMarksList(int courseID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", courseID);
-            SqlConnection con = new(connectionString);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_CourseGradesSheet", parameters, commandType: CommandType.StoredProcedure);
             CourseGradesSheetOutModel model = new CourseGradesSheetOutModel();
             model.Course = result.ReadFirstOrDefault<CourseOutModel>();
@@ -180,7 +184,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", model.CourseID);
-            SqlConnection con = new(connectionString);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_ExamCommitteeStudents", parameters, commandType: CommandType.StoredProcedure);
             ExamCommitteeStudentsOutModel outModel = new ExamCommitteeStudentsOutModel();
             outModel.Course = result.ReadFirstOrDefault<CourseOutModel>();
@@ -200,7 +204,7 @@ namespace FOS.App.Repositories
             {
                 new SqlParameter("@Query", query)
             };
-            return QueryExecuterHelper.Execute(connectionString, "QueryExecuter", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "QueryExecuter", parameters);
         }
         public bool UpdateStudentCourses(List<StudentCourse> studentCourses)
         {
@@ -240,14 +244,14 @@ namespace FOS.App.Repositories
                 new SqlParameter("@StudentID", studentID),
                 new SqlParameter("@Query", query)
             };
-            return QueryExecuterHelper.Execute(connectionString, "AddStudentCourses", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentCourses", parameters);
         }
 
         public (List<CourseRegistrationOutModel> toAdd, List<CourseRegistrationOutModel> toDelete, List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion) GetCoursesForAddAndDelete(int studentID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            SqlConnection con = new SqlConnection(connectionString);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("GetCoursesForAddAndDelete", parameters, commandType: CommandType.StoredProcedure);
             var distribtion = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
             var toAdd = result.Read<CourseRegistrationOutModel>().ToList();
@@ -259,7 +263,7 @@ namespace FOS.App.Repositories
         {
             var query = "DELETE FROM StudentCourseRequest" +
                 " WHERE StudentID = " + studentID + " AND" +
-                " RequestTypeID = " + (int)CourseRequestEnum.AddtionDeletion +";";
+                " RequestTypeID = " + (int)CourseRequestEnum.AddtionDeletion + ";";
             var guid = Guid.NewGuid().ToString();
 
             for (int i = 0; i < model.ToAdd.Count; i++)
@@ -272,14 +276,14 @@ namespace FOS.App.Repositories
                     " VALUES('" + guid + "'," + (int)CourseRequestEnum.AddtionDeletion + "," +
                     studentID + "," + model.ToDelete.ElementAt(i) + "," + (int)CourseOperationEnum.Deletion + ");";
 
-            return QueryExecuterHelper.Execute(connectionString, query);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), query);
         }
 
         public List<CourseRegistrationOutModel> GetCoursesForWithdraw(int studentID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(connectionString, "GetCoursesForDeletionOrWithdraw", parameters);
+            return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(config.CreateInstance(), "GetCoursesForDeletionOrWithdraw", parameters);
         }
         public (int RegisteredHours, List<CourseRegistrationOutModel> courses,
             List<ElectiveCoursesDistribtionOutModel> electiveCoursesDistribtion)
@@ -287,7 +291,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            SqlConnection con = new SqlConnection(connectionString);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("GetCoursesForOverload", parameters, commandType: CommandType.StoredProcedure);
             var hours = result.ReadFirstOrDefault<int>();
             var courses = result.Read<CourseRegistrationOutModel>().ToList();
@@ -295,7 +299,7 @@ namespace FOS.App.Repositories
             return (hours, courses, distribution);
         }
 
-        public bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model,int courseOp)
+        public bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model, int courseOp)
         {
             var query = "DELETE FROM StudentCourseRequest" +
              " WHERE StudentID = " + studentID + " AND" +
@@ -305,7 +309,7 @@ namespace FOS.App.Repositories
                 query += "INSERT INTO StudentCourseRequest(RequestID,RequestTypeID,StudentID,CourseID,CourseOperationID)" +
                     " VALUES('" + guid + "'," + requestType + "," +
                     studentID + "," + model.CoursesList.ElementAt(i) + "," + courseOp + ");";
-            return QueryExecuterHelper.Execute(connectionString, query);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), query);
         }
 
         public (List<CourseRegistrationOutModel> courses,
@@ -314,7 +318,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@studentID", studentID);
-            SqlConnection con = new(connectionString);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("GetCoursesForEnhancement", parameters, commandType: CommandType.StoredProcedure);
             var courses = result.Read<CourseRegistrationOutModel>().ToList();
             var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
@@ -326,7 +330,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@studentID", studentID);
-            SqlConnection con = new(connectionString);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("GetCoursesForGraduation", parameters, commandType: CommandType.StoredProcedure);
             var courses = result.Read<CourseRegistrationOutModel>().ToList();
             var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();

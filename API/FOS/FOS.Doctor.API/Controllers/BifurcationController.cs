@@ -1,4 +1,5 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.Core.Languages;
+using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,10 @@ namespace FOS.Doctors.API.Controllers
             {
                 var res = bifurcationRepo.BifurcateStudents();
                 if (res == null)
-                    return BadRequest();
+                    return BadRequest(new
+                    {
+                        Massage = Resource.ErrorOccured
+                    });
                 return Ok(new { Data = res });
             }
             catch (Exception ex)

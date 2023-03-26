@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Core.Enums
 {
     public enum GenderEnum
     {
-        [Description("ذكر")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Male))]
         Male = 1,
-        [Description("أنثى")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Female))]
         Female = 2
     }
 }

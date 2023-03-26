@@ -1,7 +1,7 @@
-﻿using FOS.App.Doctors.DTOs;
-using FOS.App.Doctors.Mappers;
-using FOS.App.Helpers;
+﻿using FOS.App.Helpers;
+using FOS.Core.Languages;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Doctors.API.Extenstions;
 using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -90,21 +90,22 @@ namespace FOS.Doctors.API.Controllers
         /// </summary>
         /// <returns>superadmin details</returns>
         [HttpGet("GetSuperAdminInfo")]
-        [ProducesResponseType(200, Type = typeof(SuperAdminDTO))]
+        [ProducesResponseType(200, Type = typeof(SuperAdminOutModel))]
         public IActionResult GetSuperAdminInfo()
         {
             try
             {
                 string? guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { Massage = "Id not found" });
+                    return BadRequest(new { Massage = Resource.InvalidID });
 
-                DB.Models.SuperAdmin superAdmin = superAdminRepo.Get(guid);
+                var superAdmin = superAdminRepo.Get(guid);
                 if (superAdmin == null)
-                    return NotFound(new { Massage = "superAdmin not found" });
-
-                SuperAdminDTO superAdminDTO = superAdmin.ToDTO();
-                return Ok(superAdminDTO);
+                    return NotFound(new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.SuperAdmin)
+                    });
+                return Ok(superAdmin);
             }
             catch (Exception ex)
             {
@@ -119,16 +120,17 @@ namespace FOS.Doctors.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrEmpty(guid))
-                    return BadRequest();
-
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidID
+                    });
                 var superAdmin = superAdminRepo.Get(guid);
                 if (superAdmin == null) return NotFound();
-                superAdmin.Password = Helper.HashPassowrd(model.Password);
-                var updated = superAdminRepo.Update(superAdmin);
+                var updated = superAdminRepo.ChangePassword(model.Password, guid);
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = "Error Happend while updating password",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 return Ok();

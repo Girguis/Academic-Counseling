@@ -1,16 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Core.Enums
 {
     public enum PrerequisiteCoursesRelationEnum
     {
-        [Description("بدون متطلب")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.NoPrerequisite))]
         NoPrerequisite,
-        [Description("متطلب واحد")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.OnePrerequisite))]
         OnePrerequisite,
-        [Description("أكثر من متطلب العلاقة بينهم(و)")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.AndRelationPrerequisites))]
         AndRelationPrerequisites,
-        [Description("أكثر من متطلب العلاقة بينهم(أو)")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.OrRelationPrerequisites))]
         OrRelationPrerequisites,
     }
 }

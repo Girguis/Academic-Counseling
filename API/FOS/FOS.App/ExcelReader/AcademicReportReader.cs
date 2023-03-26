@@ -3,6 +3,7 @@ using FOS.App.Helpers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.DB.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -10,12 +11,12 @@ namespace FOS.App.ExcelReader
 {
     public static class AcademicReportReader
     {
-        public static Tuple<string, string, string, List<StudentCourse>, List<StudentProgramModel>,int>
+        public static Tuple<string, string, string, List<StudentCourse>, List<StudentProgramModel>, int>
             Read
             (IFormFile file,
             IStudentRepo studentRepo,
             List<AcademicYear> academicYearsLst,
-            List<Program> programsLst,
+            List<ProgramBasicDataDTO> programsLst,
             List<Course> coursesLst)
         {
             MemoryStream ms = new MemoryStream();
@@ -116,7 +117,7 @@ namespace FOS.App.ExcelReader
                     studentCourses.Add(course);
                 }
             }
-            return Tuple.Create(name, ssn, seatNumber, studentCourses, studentPrograms,studentID);
+            return Tuple.Create(name, ssn, seatNumber, studentCourses, studentPrograms, studentID);
         }
     }
 }

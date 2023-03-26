@@ -1,4 +1,5 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.Core.Languages;
+using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
@@ -26,14 +27,14 @@ namespace FOS.Doctors.API.Controllers
             if (questions == null || questions.Count < 1)
                 return BadRequest(new
                 {
-                    Massage = "List can't be empty",
+                    Massage = Resource.EmptyList,
                     Data = questions
                 });
             var added = questionsRepo.AddQuestion(questions);
             if (!added)
                 return BadRequest(new
                 {
-                    Massage = "Error occured while adding questions",
+                    Massage = Resource.ErrorOccured,
                     Data = questions
                 });
             return Ok();
@@ -83,7 +84,7 @@ namespace FOS.Doctors.API.Controllers
                 var question = questionsRepo.GetQuestion(id);
                 if (question == null)
                     return NotFound();
-                var deleted = questionsRepo.DeleteQuestion(question);
+                var deleted = questionsRepo.DeleteQuestion(id);
                 if (!deleted)
                     return BadRequest(new
                     {

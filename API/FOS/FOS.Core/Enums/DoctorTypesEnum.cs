@@ -1,14 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Core.Enums
 {
     public enum DoctorTypesEnum
     {
-        [Description("مسئول برنامج")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.ProgramAdmin))]
         ProgramAdmin = 1,
-        [Description("مرشد أكاديمي")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Supervisor))]
         Supervisor = 2,
-        [Description("دكتور")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Doctor))]
         Doctor = 3
     }
 }

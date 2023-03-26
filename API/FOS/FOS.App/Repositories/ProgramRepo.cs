@@ -1,28 +1,22 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
-using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class ProgramRepo : IProgramRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public ProgramRepo(FOSContext context, IConfiguration configuration)
+        public ProgramRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
 
         public bool AddProgram(ProgramModel model)
@@ -84,7 +78,8 @@ namespace FOS.App.Repositories
                 QueryExecuterHelper.DataTableToSqlParameter(programDistributionLstDt,"ProgramDistributionList","ProgramDistributionType"),
                 QueryExecuterHelper.DataTableToSqlParameter(electiveCourseDistributionLstDt,"ElectiveCourseDistributionList","ElectiveCourseDistributionType"),
             };
-            return QueryExecuterHelper.Execute(connectionString, "AddProgram", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "AddProgram", parameters);
         }
 
         /// <summary>
@@ -92,20 +87,40 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Program GetProgram(int id)
+        public ProgramBasicDataDTO GetProgram(int id)
         {
-            return context.Programs.FirstOrDefault(x => x.Id == id);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ID", id);
+            return QueryExecuterHelper.Execute<ProgramBasicDataDTO>(config.CreateInstance(),
+                "GetProgramByID", parameters).FirstOrDefault();
         }
-        public List<Program> GetPrograms(int? superProgID = null)
+        public List<ProgramBasicDataDTO> GetPrograms(int? superProgID = null)
         {
             DynamicParameters parameter = new DynamicParameters();
             parameter.Add("@ProgramID", superProgID);
-            return QueryExecuterHelper.Execute<Program>(connectionString, "GetAllSubPrograms", parameter);
+            return QueryExecuterHelper.Execute<ProgramBasicDataDTO>(config.CreateInstance(),
+                "GetAllSubPrograms",
+                parameter);
         }
-        public List<Program> GetPrograms(out int totalCount, SearchCriteria criteria)
+        public List<ProgramBasicDataDTO> GetPrograms(out int totalCount, SearchCriteria criteria)
         {
-            DbSet<Program> programs = context.Programs;
-            return DataFilter<Program>.FilterData(programs, criteria, out totalCount);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Name", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "name")?.Value?.ToString());
+            parameters.Add("@Semester", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "semester")?.Value?.ToString());
+            parameters.Add("@Percentage", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "percentage")?.Value?.ToString());
+            parameters.Add("@IsRegular", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isregular")?.Value?.ToString());
+            parameters.Add("@IsGeneral", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isgeneral")?.Value?.ToString());
+            parameters.Add("@TotalHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "totalhours")?.Value?.ToString());
+            parameters.Add("@EnglishName", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "englishname")?.Value?.ToString());
+            parameters.Add("@ArabicName", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "arabicname")?.Value?.ToString());
+            parameters.Add("@SuperProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "superprogramid")?.Value?.ToString());
+            parameters.GetPageParameters(criteria, "sub.ID");
+            var programs = QueryExecuterHelper.Execute<ProgramBasicDataDTO>
+                (config.CreateInstance(),
+                "GetPrograms",
+                parameters);
+            totalCount = QueryExecuterHelper.GetTotalCountParamValue(parameters, programs);
+            return programs;
         }
 
         public bool UpdateProgramBasicData(ProgramBasicDataUpdateParamModel model)
@@ -124,7 +139,8 @@ namespace FOS.App.Repositories
             };
             if (model.SuperProgramId.HasValue)
                 parameters.Add(new SqlParameter("@SuperProgramId", model.SuperProgramId.Value));
-            return QueryExecuterHelper.Execute(connectionString, "UpdateProgramBasicData", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "UpdateProgramBasicData", parameters);
         }
     }
 }

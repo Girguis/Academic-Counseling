@@ -1,4 +1,5 @@
 ﻿using FOS.App.Helpers;
+using FOS.Core.Languages;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.StoredProcedureOutputModels;
@@ -53,7 +54,7 @@ namespace FOS.Students.API.Controllers
                     {
                         isRegistrationAvailable = false,
                         Data = null,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
 
                 DB.Models.Student student = studentRepo.Get(guid);
@@ -62,7 +63,7 @@ namespace FOS.Students.API.Controllers
                     {
                         isRegistrationAvailable = false,
                         Data = null,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
 
                 if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseRegistration))
@@ -70,7 +71,7 @@ namespace FOS.Students.API.Controllers
                     {
                         isRegistrationAvailable = false,
                         Data = null,
-                        Massage = "Course registration is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CouresRegistration)
                     });
 
                 var courses = studentCoursesRepo.GetCoursesForRegistration(student.Id);
@@ -113,14 +114,14 @@ namespace FOS.Students.API.Controllers
                     {
                         isRegistrationAvailable = regDate,
                         Data = null,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (courseIDs == null || courseIDs.Count == 0)
                     return Ok(new Response
                     {
                         isRegistrationAvailable = regDate,
                         Data = null,
-                        Massage = "List is empty"
+                        Massage = Resource.EmptyList
                     });
                 DB.Models.Student student = studentRepo.Get(guid);
                 if (student == null)
@@ -128,7 +129,7 @@ namespace FOS.Students.API.Controllers
                     {
                         isRegistrationAvailable = regDate,
                         Data = null,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
 
                 if (!regDate)
@@ -136,14 +137,14 @@ namespace FOS.Students.API.Controllers
                     {
                         isRegistrationAvailable = false,
                         Data = null,
-                        Massage = "Course registration is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CouresRegistration)
                     });
                 short academicYearID = academicYearRepo.GetCurrentYear().Id;
                 if (!studentCoursesRepo.RegisterCourses(student.Id, academicYearID, courseIDs.ToList()))
                     return Ok(new Response
                     {
                         isRegistrationAvailable = true,
-                        Massage = "Error Occured While Adding Courses",
+                        Massage = string.Format(Resource.NotAvailable, Resource.CouresRegistration),
                         Data = courseIDs
                     });
 

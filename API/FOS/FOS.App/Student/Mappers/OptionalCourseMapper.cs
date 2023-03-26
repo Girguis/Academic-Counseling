@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FOS.App.Students.DTOs;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 
 namespace FOS.App.Students.Mappers

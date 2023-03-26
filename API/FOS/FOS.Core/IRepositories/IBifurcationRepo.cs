@@ -1,12 +1,11 @@
-﻿using FOS.DB.Models;
+﻿using FOS.Core.Models.StoredProcedureOutputModels;
 
 namespace FOS.Core.IRepositories
 {
     public interface IBifurcationRepo
     {
         object BifurcateStudents();
-        List<Program> GetAvailableProgram(string guid);
-        List<StudentDesire> GetDesires(string guid);
+        List<DesireProgramsOutModel> GetDesires(int id);
         bool AddDesires(int? currentProgramID, int studentID, List<byte> desires);
     }
 }

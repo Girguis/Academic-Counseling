@@ -1,11 +1,11 @@
-﻿using FOS.DB.Models;
+﻿using FOS.Core.Models.StoredProcedureOutputModels;
 
 namespace FOS.Core.IRepositories
 {
     public interface ISuperAdminRepo
     {
-        public SuperAdmin Login(string email, string hashedPassword);
-        SuperAdmin Get(string GUID);
-        bool Update(SuperAdmin superAdmin);
+        public SuperAdminOutModel Login(string email, string hashedPassword);
+        SuperAdminOutModel Get(string GUID);
+        bool ChangePassword(string guid, string password);
     }
 }

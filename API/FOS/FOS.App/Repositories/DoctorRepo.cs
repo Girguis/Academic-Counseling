@@ -1,55 +1,75 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
-using FOS.DB.Models;
+using FOS.Core;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class DoctorRepo : IDoctorRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
-        public DoctorRepo(FOSContext context,IConfiguration configuration)
+        private readonly IDbContext config;
+        public DoctorRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
 
-        public DB.Models.Doctor Add(DB.Models.Doctor supervisor)
+        public bool Add(DoctorAddParamModel doctor)
         {
-            var c = context.Doctors.Add(supervisor);
-            var res = context.SaveChanges();
-            if (res > 0)
-                return c.Entity;
-            return null;
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddDoctor",
+                new List<SqlParameter>()
+            {
+                    new SqlParameter("@GUID",Guid.NewGuid().ToString()),
+                    new SqlParameter("@Name",doctor.Name),
+                    new SqlParameter("@Email",doctor.Email),
+                    new SqlParameter("@Password",Helper.HashPassowrd(doctor.Password)),
+                    new SqlParameter("@ProgramID",doctor.ProgramId),
+                    new SqlParameter("@Type",doctor.Type),
+                    new SqlParameter("@CreatedOn",DateTime.UtcNow.AddHours(2))
+            });
         }
 
-        public bool Deactivate(string supervisorGUID)
+        public bool Deactivate(string guid)
         {
-            var supervisor = GetById(supervisorGUID);
-            if (supervisor == null) return false;
-            supervisor.IsActive = false;
-            return Update(supervisor);
-        }        
-        public bool Activate(string supervisorGUID)
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "ToggleDoctorAccount",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@GUID",guid),
+                    new SqlParameter("@IsActive",false)
+                }
+                );
+        }
+        public bool Activate(string guid)
         {
-            var supervisor = GetById(supervisorGUID, false);
-            if (supervisor == null) return false;
-            supervisor.IsActive = true;
-            return Update(supervisor);
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                    "ToggleDoctorAccount",
+                    new List<SqlParameter>()
+                    {
+                        new SqlParameter("@GUID",guid),
+                        new SqlParameter("@IsActive",true)
+                    }
+                );
         }
 
-        public List<DB.Models.Doctor> GetAll(out int totalCount, SearchCriteria criteria = null)
+        public List<DoctorOutModel> GetAll(out int totalCount, SearchCriteria criteria = null)
         {
-            var Doctors = context.Doctors;
-            return DataFilter<DB.Models.Doctor>.FilterData((DbSet<DB.Models.Doctor>)Doctors, criteria, out totalCount, "Program");
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Name", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "name")?.Value?.ToString());
+            parameters.Add("@Email", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "email")?.Value?.ToString());
+            parameters.Add("@ProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "programid")?.Value?.ToString());
+            parameters.Add("@Type", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "type")?.Value?.ToString());
+            parameters.Add("@IsActive", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isactive")?.Value?.ToString());
+            parameters.GetPageParameters(criteria, "d.ID");
+            using var con = config.CreateInstance();
+            var doctors = con.Query<DoctorOutModel>("GetDoctors", parameters, commandType: CommandType.StoredProcedure)?.ToList();
+            try { totalCount = parameters.Get<int>("TotalCount"); }
+            catch { totalCount = doctors.Count; }
+            return doctors;
         }
 
         /// <summary>
@@ -57,16 +77,21 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public DB.Models.Doctor GetById(string GUID,bool isActive = true)
+        public DoctorOutModel GetById(string GUID, bool isActive = true)
         {
-            return context.Doctors
-                .Include(x => x.Program)
-                .FirstOrDefault(x => x.Guid == GUID & x.IsActive == isActive);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@GUID", GUID);
+            parameters.Add("@IsActive", isActive);
+            return QueryExecuterHelper.Execute<DoctorOutModel>(config.CreateInstance(),
+                "GetDoctorByGuid",
+                parameters).FirstOrDefault();
         }
 
         public bool IsEmailReserved(string email)
         {
-            return context.Doctors.Any(x => x.Email == email);
+            return (bool)QueryExecuterHelper.ExecuteFunction(config.CreateInstance(),
+                "IsDoctorEmailExist",
+                "'" + email + "'");
         }
 
         /// <summary>
@@ -76,29 +101,39 @@ namespace FOS.App.Repositories
         /// <param name="email"></param>
         /// <param name="hashedPassword"></param>
         /// <returns></returns>
-        public DB.Models.Doctor Login(string email, string hashedPassword)
+        public DoctorOutModel Login(string email, string hashedPassword)
         {
             DynamicParameters parameters = new();
             parameters.Add("@Email", email);
             parameters.Add("@Password", hashedPassword);
-            using SqlConnection con = new SqlConnection(connectionString);
-            return con.Query<DB.Models.Doctor>("Login_Doctor",
+            using var con = config.CreateInstance();
+            return con.Query<DoctorOutModel>("Login_Doctor",
                 param: parameters,
                 commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
-        public bool Update(DB.Models.Doctor supervisor)
+        public bool Update(string guid, DoctorUpdateParamModel doctor)
         {
-            if (supervisor == null) return false;
-            context.Entry(supervisor).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "UpdateDoctor",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@Guid",guid),
+                    new SqlParameter("@Name",doctor.Name),
+                    new SqlParameter("@Email",doctor.Email),
+                    new SqlParameter("@Type",doctor.Type),
+                    new SqlParameter("@ProgramID",doctor.ProgramId)
+                });
         }
-        public List<Program> GetDoctorPrograms(string guid)
+
+        public bool ChangePassword(string guid, string password)
         {
-            var doctor = GetById(guid);
-            if (doctor == null) return null;
-            var param = new DynamicParameters();
-            param.Add("@ProgramID", doctor.ProgramId);
-            return QueryExecuterHelper.Execute<Program>(connectionString, "GetAllSubPrograms", param);
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "ChangeDoctorPassword",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@guid",guid),
+                    new SqlParameter("@password",Helper.HashPassowrd(password))
+                });
         }
     }
 }

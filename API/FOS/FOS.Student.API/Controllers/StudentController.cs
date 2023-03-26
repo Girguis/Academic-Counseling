@@ -1,5 +1,6 @@
 ﻿using FOS.App.Doctors.Mappers;
 using FOS.App.Helpers;
+using FOS.Core.Languages;
 using FOS.App.Students.DTOs;
 using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
@@ -25,21 +26,18 @@ namespace FOS.Students.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly ILogger logger;
-        private readonly IStudentProgramRepo studentProgramRepo;
         private readonly IConfiguration _configuration;
         public StudentController(IStudentRepo studentRepo
             , IConfiguration configuration
             , IStudentCoursesRepo studentCoursesRepo
             , IAcademicYearRepo academicYearRepo
-            , ILogger<StudentController> logger
-            , IStudentProgramRepo studentProgramRepo)
+            , ILogger<StudentController> logger)
         {
             this.studentRepo = studentRepo;
             _configuration = configuration;
             this.studentCoursesRepo = studentCoursesRepo;
             this.academicYearRepo = academicYearRepo;
             this.logger = logger;
-            this.studentProgramRepo = studentProgramRepo;
         }
 
         [AllowAnonymous]
@@ -105,15 +103,17 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { Massage = "Id not found" });
+                    return BadRequest(new { Massage = Resource.InvalidID });
 
                 Student student = studentRepo.Get(guid, true, true);
                 if (student == null)
-                    return NotFound(new { Massage = "Student not found" });
+                    return NotFound(new {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
 
                 var courses = studentCoursesRepo.GetCurrentAcademicYearCourses(student.Id);
                 var mapedStudent = student.ToDTO(academicYearRepo.GetCurrentYear(), student.CurrentProgram?.Name);
-                mapedStudent.Courses= courses;
+                mapedStudent.Courses = courses;
                 return Ok(new
                 {
                     Data = mapedStudent
@@ -132,15 +132,21 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { Massage = "Id not found" });
+                    return BadRequest(new {
+                        Massage = Resource.InvalidID
+                    });
 
-                DB.Models.Student student = studentRepo.Get(guid);
+                Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return NotFound(new { Massage = "Student not found" });
+                    return NotFound(new {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
                 student.Password = Helper.HashPassowrd(model.Password);
                 var updated = studentRepo.Update(student);
                 if (!updated)
-                    return BadRequest(new { Massage = "Error occured while updating password" });
+                    return BadRequest(new {
+                        Massage = Resource.ErrorOccured
+                    });
                 return Ok();
             }
             catch (Exception ex)

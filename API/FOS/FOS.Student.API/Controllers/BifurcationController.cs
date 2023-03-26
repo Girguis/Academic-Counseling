@@ -1,5 +1,4 @@
-﻿using FOS.App.Students.DTOs;
-using FOS.App.Students.Mappers;
+﻿using FOS.Core.Languages;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Students.API.Extensions;
@@ -49,38 +48,33 @@ namespace FOS.Students.API.Controllers
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.Bifurcation))
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "Bifuraction is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.Bifuraction)
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return BadRequest(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (student.IsInSpecialProgram.Value)
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "There's no more bifuraction for you"
+                        Massage = Resource.NoMoreBifuraction
                     });
-                var desires = bifurcationRepo.GetDesires(guid);
-                List<DesireProgramsDTO> desiresLst;
-                if (desires == null || desires.Count < 1)
-                    desiresLst = bifurcationRepo.GetAvailableProgram(guid).ToDTO();
-                else
-                    desiresLst = desires.ToDTO();
+                var desires = bifurcationRepo.GetDesires(student.Id);
                 return Ok(new Response
                 {
                     isBifurcationAvailable = true,
-                    Data = desiresLst,
+                    Data = desires,
                     Massage = ""
                 });
             }
@@ -109,37 +103,37 @@ namespace FOS.Students.API.Controllers
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (desiresList.Count < 1 || desiresList == null)
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "Desires list are empty"
+                        Massage = Resource.EmptyList
                     });
                 if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.Bifurcation))
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "Bifuraction is not availble"
+                        Massage = string.Format(Resource.NotAvailable, Resource.Bifuraction)
                     });
                 //Get student record from DB
                 DB.Models.Student student = studentRepo.Get(guid);
-                if (student.IsInSpecialProgram.HasValue?student.IsInSpecialProgram.Value:false)
+                if (student.IsInSpecialProgram.HasValue && student.IsInSpecialProgram.Value)
                     return Ok(new Response
                     {
                         isBifurcationAvailable = false,
                         Data = null,
-                        Massage = "There's no more bifuraction for you"
+                        Massage = Resource.NoMoreBifuraction
                     });
 
                 if (student == null) return BadRequest(new Response
                 {
                     isBifurcationAvailable = true,
                     Data = null,
-                    Massage = "Student not found"
+                    Massage = string.Format(Resource.DoesntExist, Resource.Student)
                 });
                 //checks if error occured while add/updating student desires
                 if (!bifurcationRepo.AddDesires(student.CurrentProgramId, student.Id, desiresList))
@@ -147,7 +141,7 @@ namespace FOS.Students.API.Controllers
                     {
                         isBifurcationAvailable = true,
                         Data = desiresList,
-                        Massage = "Error occured while adding desires"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new Response
                 {

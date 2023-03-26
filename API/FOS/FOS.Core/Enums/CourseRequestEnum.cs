@@ -1,25 +1,25 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Core.Enums
 {
     public enum CourseRequestEnum
     {
-        [Description("حذف وإضافة")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseAddDelete))]
         AddtionDeletion = 1,
-        [Description("انسحاب")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseWithdraw))]
         Withdraw,
-        [Description("زيادة عبء")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseOverload))]
         OverLoad,
-        [Description("فتح مقرر فى غير موعده")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.GraduationCourse))]
         OpenCourse,
-        [Description("تحسين")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseEnhancement))]
         Enhancement
     }
     public enum CourseOperationEnum
     {
-        [Description("حذف")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Delete))]
         Deletion,
-        [Description("إضافة")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Add))]
         Addtion
     }
 }

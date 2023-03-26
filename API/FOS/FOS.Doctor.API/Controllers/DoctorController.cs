@@ -1,11 +1,11 @@
-﻿using FOS.App.Doctors.DTOs;
-using FOS.App.Doctors.Mappers;
-using FOS.App.Helpers;
+﻿using FOS.App.Helpers;
+using FOS.Core.Languages;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
 using FOS.Doctors.API.Extenstions;
-using FOS.Doctors.API.Mappers;
 using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,15 +21,15 @@ namespace FOS.Doctors.API.Controllers
     [Authorize]
     public class DoctorController : ControllerBase
     {
-        private readonly IDoctorRepo supervisorRepo;
+        private readonly IDoctorRepo doctorRepo;
         private readonly IConfiguration configuration;
         private readonly ILogger<DoctorController> logger;
 
-        public DoctorController(IDoctorRepo supervisorRepo,
+        public DoctorController(IDoctorRepo doctorRepo,
                                     IConfiguration configuration,
                                     ILogger<DoctorController> logger)
         {
-            this.supervisorRepo = supervisorRepo;
+            this.doctorRepo = doctorRepo;
             this.configuration = configuration;
             this.logger = logger;
         }
@@ -48,7 +48,7 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 string hashedPassword = Helper.HashPassowrd(loginModel.Password);
-                var supervisor = supervisorRepo.Login(loginModel.Email, hashedPassword);
+                var supervisor = doctorRepo.Login(loginModel.Email, hashedPassword);
                 if (supervisor != null)
                 {
                     var roleName = Enum.GetName((DoctorTypesEnum)supervisor.Type);
@@ -61,7 +61,7 @@ namespace FOS.Doctors.API.Controllers
                         {
                             new Claim("Guid", supervisor.Guid),
                             new Claim(ClaimTypes.Role,roleName??"Doctor"),
-                            new Claim("ProgramID",supervisor.ProgramId.ToString())
+                            new Claim("ProgramID",supervisor.ProgramID.ToString())
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,
@@ -93,21 +93,20 @@ namespace FOS.Doctors.API.Controllers
         /// </summary>
         /// <returns>Supervior details</returns>
         [HttpGet("GetInfo")]
-        [ProducesResponseType(200, Type = typeof(DoctorDTO))]
+        [ProducesResponseType(200, Type = typeof(DoctorOutModel))]
         public IActionResult GetInfo()
         {
             try
             {
                 string? guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { Massage = "Id not found" });
+                    return BadRequest(new { Massage = Resource.InvalidID });
 
-                DB.Models.Doctor supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null)
-                    return NotFound(new { Massage = "Doctor not found" });
+                var doctor = doctorRepo.GetById(guid);
+                if (doctor == null)
+                    return NotFound(new { Massage = Resource.InvalidID });
 
-                DoctorDTO supervisorDTO = supervisor.ToDTO();
-                return Ok(supervisorDTO);
+                return Ok(doctor);
             }
             catch (Exception ex)
             {
@@ -121,10 +120,9 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 if (string.IsNullOrWhiteSpace(guid)) return NotFound();
-                var supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null) return NotFound(new { Massage = "Doctor not found" });
-                DoctorDTO supervisorDTO = supervisor.ToDTO();
-                return Ok(supervisorDTO);
+                var doctor = doctorRepo.GetById(guid);
+                if (doctor == null) return NotFound();
+                return Ok(doctor);
             }
             catch (Exception ex)
             {
@@ -137,13 +135,10 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                var supervisors = supervisorRepo.GetAll(out int totalCount, criteria);
-                List<DoctorDTO> supervisorDTOs = new List<DoctorDTO>();
-                for (int i = 0; i < supervisors.Count; i++)
-                    supervisorDTOs.Add(supervisors.ElementAt(i).ToDTO());
+                var doctors = doctorRepo.GetAll(out int totalCount, criteria);
                 return Ok(new
                 {
-                    Data = supervisorDTOs,
+                    Data = doctors,
                     TotalCount = totalCount
                 });
             }
@@ -154,24 +149,22 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Add")]
-        public IActionResult Add(DoctorAddModel supervisor)
+        public IActionResult Add(DoctorAddParamModel doctor)
         {
             try
             {
-                if (supervisorRepo.IsEmailReserved(supervisor.Email))
+                if (doctorRepo.IsEmailReserved(doctor.Email))
                     return BadRequest(new
                     {
-                        Massage = "Email Already Used",
-                        Data = supervisor
+                        Massage = Resource.EmailExist,
+                        Data = doctor
                     });
-                supervisor.Password = Helper.HashPassowrd(supervisor.Password);
-                var mappedDoctor = supervisor.ToDBDoctorModel(true);
-                var res = supervisorRepo.Add(mappedDoctor);
-                if (res == null)
+                var res = doctorRepo.Add(doctor);
+                if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Adding Doctor",
-                        Data = supervisor
+                        Massage = Resource.ErrorOccured,
+                        Data = doctor
                     });
                 return Ok();
             }
@@ -186,33 +179,39 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(model.Guid)) return NotFound();
-                var res = supervisorRepo.Deactivate(model.Guid);
+                if (string.IsNullOrWhiteSpace(model.Guid)) return BadRequest(new
+                {
+                    Massage = Resource.InvalidID
+                });
+                var res = doctorRepo.Deactivate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Deactivating Doctor account",
+                        Massage = Resource.ErrorOccured,
                         Data = model.Guid
                     });
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
             }
         }
         [HttpPost("Activate")]
-        public IActionResult Activate([FromBody]GuidModel model)
+        public IActionResult Activate([FromBody] GuidModel model)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(model.Guid)) return NotFound();
-                var res = supervisorRepo.Activate(model.Guid);
+                if (string.IsNullOrWhiteSpace(model.Guid)) return BadRequest(new
+                {
+                    Massage = Resource.InvalidID
+                });
+                var res = doctorRepo.Activate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Activating Doctor account",
+                        Massage = Resource.ErrorOccured,
                         Data = model.Guid
                     });
                 return Ok();
@@ -224,28 +223,31 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPut("Update/{guid}")]
-        public IActionResult Update(string guid, DoctorUpdateModel supervisorModel)
+        public IActionResult Update(string guid, DoctorUpdateParamModel supervisorModel)
         {
             try
             {
-                var supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null) return NotFound(new { Massage = "Doctor not found" });
+                var supervisor = doctorRepo.GetById(guid);
+                if (supervisor == null) return NotFound(
+                    new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Doctor)
+                    });
 
-                if (supervisor.Email != supervisorModel.Email 
-                    && supervisorRepo.IsEmailReserved(supervisorModel.Email))
+                if (supervisor.Email != supervisorModel.Email
+                    && doctorRepo.IsEmailReserved(supervisorModel.Email))
                 {
                     return BadRequest(new
                     {
-                        Massage = "Email Already Used",
+                        Massage = Resource.EmailExist,
                         Data = supervisor
                     });
                 }
-                supervisor = supervisor.DoctorUpdater(supervisorModel);
-                var res = supervisorRepo.Update(supervisor);
+                var res = doctorRepo.Update(guid, supervisorModel);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Updating Doctor",
+                        Massage = Resource.ErrorOccured,
                         Data = supervisorModel
                     });
                 return Ok();
@@ -266,14 +268,17 @@ namespace FOS.Doctors.API.Controllers
             {
                 if (string.IsNullOrEmpty(guid))
                     guid = this.Guid();
-                var supervisor = supervisorRepo.GetById(guid);
-                if (supervisor == null) return NotFound();
-                supervisor.Password = Helper.HashPassowrd(model.Password);
-                var updated = supervisorRepo.Update(supervisor);
+                var supervisor = doctorRepo.GetById(guid);
+                if (supervisor == null) return NotFound(
+                    new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Doctor)
+                    });
+                var updated = doctorRepo.ChangePassword(guid, model.Password);
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = "Error Happend while updating password",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 return Ok();

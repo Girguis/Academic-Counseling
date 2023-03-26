@@ -1,4 +1,4 @@
-﻿namespace FOS.App.Students.DTOs
+﻿namespace FOS.Core.Models.StoredProcedureOutputModels
 {
     public class ElectiveCoursesDistribtionOutModel
     {

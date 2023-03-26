@@ -13,7 +13,7 @@ namespace FOS.App.ExtensionMethods
     {
         public static IServiceCollection LoadDoctorServices(this IServiceCollection services)
         {
-            services.AddDbContext<FOSContext>(ServiceLifetime.Scoped);
+            //services.AddDbContext<FOSContext>(ServiceLifetime.Scoped);
             services.AddScoped<ILogger>(provider => provider.GetRequiredService<ILogger>());
             services.AddScoped<IDoctorRepo, DoctorRepo>();
             services.AddScoped<IStudentRepo, StudentRepo>();
@@ -21,7 +21,6 @@ namespace FOS.App.ExtensionMethods
             services.AddScoped<IAcademicYearRepo, AcademicYearRepo>();
             services.AddScoped<IStudentProgramRepo, StudentProgramRepo>();
             services.AddScoped<IBifurcationRepo, BifurcationRepo>();
-            services.AddScoped<ICoursePrerequisiteRepo, CoursePrerequisiteRepo>();
             services.AddScoped<ICourseRepo, CourseRepo>();
             services.AddScoped<IDateRepo, DateRepo>();
             services.AddScoped<IProgramRepo, ProgramRepo>();

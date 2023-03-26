@@ -1,4 +1,6 @@
 ﻿using FOS.App.Helpers;
+using FOS.Core.Languages;
+using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
@@ -24,6 +26,7 @@ namespace FOS.Students.API.Controllers
         private readonly IStudentProgramRepo studentProgramRepo;
         private readonly ICourseRequestRepo courseRequestRepo;
         private readonly IProgramTransferRequestRepo programTransferRequestRepo;
+        private readonly IDbContext config;
         private readonly ILogger<SpecialRequestsController> logger;
 
         public SpecialRequestsController(
@@ -36,6 +39,7 @@ namespace FOS.Students.API.Controllers
             IStudentProgramRepo studentProgramRepo,
             ICourseRequestRepo courseRequestRepo,
             IProgramTransferRequestRepo programTransferRequestRepo,
+            IDbContext config,
             ILogger<SpecialRequestsController> logger
             )
         {
@@ -48,6 +52,7 @@ namespace FOS.Students.API.Controllers
             this.studentProgramRepo = studentProgramRepo;
             this.courseRequestRepo = courseRequestRepo;
             this.programTransferRequestRepo = programTransferRequestRepo;
+            this.config = config;
             this.logger = logger;
         }
         [HttpGet("GetMyCoursesRequests")]
@@ -60,13 +65,13 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var res = courseRequestRepo.GetRequests(new CourseRequestParamModel { StudentID = student.Id });
                 return Ok(res);
@@ -83,23 +88,23 @@ namespace FOS.Students.API.Controllers
             try
             {
                 if (string.IsNullOrWhiteSpace(requestID))
-                    return BadRequest(new { Massage = "RequestID can't be empty" });
+                    return BadRequest(new { Massage = Resource.IDCantBeEmpty });
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 bool isDeleted = courseRequestRepo.DeleteRequest(requestID, student.Id);
                 if (!isDeleted)
-                    return BadRequest(new { Massage = "Error occured while deleting request" });
+                    return BadRequest(new { Massage = Resource.ErrorOccured });
                 return Ok();
             }
             catch (Exception ex)
@@ -118,13 +123,13 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var res = programTransferRequestRepo.GetRequests(studentID: student.Id).FirstOrDefault();
                 return Ok(res);
@@ -145,17 +150,17 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 bool isDeleted = programTransferRequestRepo.DeleteRequest(student.Id);
                 if (!isDeleted)
-                    return BadRequest(new { Massage = "Error occured while deleting request" });
+                    return BadRequest(new { Massage = Resource.ErrorOccured });
                 return Ok();
             }
             catch (Exception ex)
@@ -174,7 +179,7 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (!dateRepo.IsInRegisrationInterval
                     ((int)DateForEnum.AddAndDeleteCourse)
@@ -182,13 +187,13 @@ namespace FOS.Students.API.Controllers
                     return Ok(new
                     {
                         IsAvailable = false,
-                        Massage = "Course add and delete is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseAddDelete)
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var res = studentCoursesRepo.GetCoursesForAddAndDelete(student.Id);
                 var allowedHoursToRegister = Helper.GetAllowedHoursToRegister(academicYearRepo, configuration, student, programDistributionRepo);
@@ -218,7 +223,7 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         isRegistrationAvailable = regDate,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (model.ToAdd == null &&
                     model.ToAdd.Count == 0 &&
@@ -227,27 +232,27 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Lists are empty"
+                        Massage = Resource.EmptyList
                     });
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!regDate)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course registration is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseAddDelete)
                     });
                 var res = studentCoursesRepo.RequestAddAndDelete(student.Id, model);
                 if (!res)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "Error occured while submiting your request"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new
                 {
@@ -270,7 +275,7 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         isAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (!dateRepo.IsInRegisrationInterval
                     ((int)DateForEnum.CourseWithdraw)
@@ -278,19 +283,19 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         isAvailable = false,
-                        Massage = "Course withdraw is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseWithdraw)
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (student.AvailableWithdraws < 1)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "You have used all of your withdraw chances"
+                        Massage = Resource.AllWithdrawUsed
                     });
                 var courses = studentCoursesRepo.GetCoursesForWithdraw(student.Id);
                 if (courses.Sum(x => x.CreditHours) - courses.Min(x => x.CreditHours) < 12
@@ -298,7 +303,7 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "You can't withdraw from any course"
+                        Massage = Resource.CantWithdraw
                     });
                 return Ok(new
                 {
@@ -324,44 +329,44 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (model.CoursesList == null || model.CoursesList.Count < 1)
                     return BadRequest(new
                     {
                         IsAvailable = regDate,
-                        Massage = "List is empty"
+                        Massage = Resource.EmptyList
                     });
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (student.AvailableWithdraws - model.CoursesList.Count < 0)
                     return BadRequest(new
                     {
                         IsAvailable = regDate,
-                        Massage = "You have only " + student.AvailableWithdraws
-                        + " chances and you requested for " + model.CoursesList.Count
+                        Massage = string.Format(Resource.NotEnoughWithdrawChances,
+                        student.AvailableWithdraws, model.CoursesList.Count)
                     });
                 if (!regDate)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course withdraw is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseWithdraw)
                     });
                 var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Withdraw, student.Id, model, (int)CourseOperationEnum.Deletion);
                 if (!res)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "Error occured while submiting your request"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new
                 {
-                    Massgse = "Done"
+                    Massgse = Resource.Done
                 });
             }
             catch (Exception ex)
@@ -380,7 +385,7 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (!dateRepo.IsInRegisrationInterval
                     ((int)DateForEnum.Overload)
@@ -388,22 +393,22 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course overload is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseOverload)
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-                bool parsed = float.TryParse(QueryExecuterHelper.ExecuteFunction(configuration["ConnectionStrings:FosDB"], "GetLastRegularSemesterGpa", new List<object>() { student.Id })?.ToString(), out float sgpa);
+                bool parsed = float.TryParse(QueryExecuterHelper.ExecuteFunction(config.CreateInstance(), "GetLastRegularSemesterGpa", student.Id.ToString())?.ToString(), out float sgpa);
                 if (!parsed)
                     sgpa = 0;
                 if (sgpa < 3)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Last regular SGPA must be >= 3.0"
+                        Massage = Resource.GpaAbove3
                     });
                 var result = studentCoursesRepo.GetCoursesForOverload(student.Id);
                 var courses = result.courses;
@@ -444,37 +449,37 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         isRegistrationAvailable = regDate,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (model.CoursesList == null || model.CoursesList.Count < 1)
                     return BadRequest(new
                     {
                         IsAvailable = regDate,
-                        Massage = "List is empty"
+                        Massage = Resource.EmptyList
                     });
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!regDate)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course overload is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseOverload)
                     });
                 var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.OverLoad, student.Id, model, (int)CourseOperationEnum.Addtion);
                 if (!res)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "Error occured while submiting your request"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new
                 {
-                    Massgse = "Done"
+                    Massgse = Resource.Done
                 });
             }
             catch (Exception ex)
@@ -493,13 +498,13 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 var student = studentRepo.Get(guid, true);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!student.Cgpa.HasValue
                     || !(student.Cgpa.Value < 2)
@@ -507,12 +512,12 @@ namespace FOS.Students.API.Controllers
                     || !(student.PassedHours >= student.CurrentProgram.TotalHours))
                     return BadRequest(new
                     {
-                        Massage = "you can't enroll in an enhancement course"
+                        Massage = Resource.CantEnrollEnhancementCourse
                     });
                 if (student.AvailableEnhancementCredits < 1)
                     return BadRequest(new
                     {
-                        Massage = "You don't have any available enhancement credits left"
+                        Massage = Resource.NoEnhancementCredit
                     });
                 if (!dateRepo.IsInRegisrationInterval
                     ((int)DateForEnum.Enhancement)
@@ -520,7 +525,7 @@ namespace FOS.Students.API.Controllers
                     return Ok(new
                     {
                         IsAvailable = false,
-                        Massage = "Course Enhancement is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseEnhancement)
                     });
                 var (courses, electiveCoursesDistribtion) =
                     studentCoursesRepo.GetCoursesForEnhancement(student.Id);
@@ -548,37 +553,37 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         isRegistrationAvailable = regDate,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (model.CoursesList == null || model.CoursesList.Count < 1)
                     return BadRequest(new
                     {
                         IsAvailable = regDate,
-                        Massage = "List is empty"
+                        Massage = Resource.EmptyList
                     });
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!regDate)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course enhancement is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseEnhancement)
                     });
                 var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Enhancement, student.Id, model, (int)CourseOperationEnum.Addtion);
                 if (!res)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "Error occured while submiting your request"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new
                 {
-                    Massgse = "Done"
+                    Massgse = Resource.Done
                 });
             }
             catch (Exception ex)
@@ -597,7 +602,7 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (!dateRepo.IsInRegisrationInterval
                     ((int)DateForEnum.OpenCourseForGraduation)
@@ -605,19 +610,19 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course opening for gradution is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.GraduationCourse)
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!student.Level.HasValue || (student.Level.HasValue && student.Level.Value != 4))
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Available for 4th level students only"
+                        Massage = Resource.For4thYearOnly
                     });
                 var result = studentCoursesRepo.GetCoursesForGraduation(student.Id);
                 return Ok(new
@@ -644,44 +649,44 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         isRegistrationAvailable = regDate,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (model.CoursesList == null || model.CoursesList.Count < 1)
                     return BadRequest(new
                     {
                         IsAvailable = regDate,
-                        Massage = "List is empty"
+                        Massage = Resource.EmptyList
                     });
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!student.Level.HasValue || (student.Level.HasValue && student.Level.Value != 4))
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Available for 4th level students only"
+                        Massage = Resource.For4thYearOnly
                     });
 
                 if (!regDate)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Course opening for graduation is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.GraduationCourse)
                     });
                 var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.OpenCourse, student.Id, model, (int)CourseOperationEnum.Addtion);
                 if (!res)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "Error occured while submiting your request"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new
                 {
-                    Massgse = "Done"
+                    Massgse = Resource.Done
                 });
             }
             catch (Exception ex)
@@ -701,7 +706,7 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 if (!dateRepo.IsInRegisrationInterval
                     ((int)DateForEnum.ProgramTransfer)
@@ -709,13 +714,13 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Program transfer is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.ProgramTransfer)
                     });
                 var student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var programs = studentProgramRepo.GetProgramsListForProgramTransfer(student.CurrentProgramId.Value);
                 return Ok(new
@@ -741,31 +746,31 @@ namespace FOS.Students.API.Controllers
                     return NotFound(new
                     {
                         isRegistrationAvailable = regDate,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 Student student = studentRepo.Get(guid);
                 if (student == null)
                     return NotFound(new
                     {
                         IsAvailable = regDate,
-                        Massage = "Student not found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 if (!regDate)
                     return BadRequest(new
                     {
                         IsAvailable = false,
-                        Massage = "Program Transfer is not available"
+                        Massage = string.Format(Resource.NotAvailable, Resource.ProgramTransfer)
                     });
                 var res = studentProgramRepo.ProgramTransferRequest(student.Id, model);
                 if (!res)
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = "Error occured while submiting your request"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok(new
                 {
-                    Massgse = "Done"
+                    Massgse = Resource.Done
                 });
             }
             catch (Exception ex)

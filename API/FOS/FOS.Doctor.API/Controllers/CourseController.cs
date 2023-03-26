@@ -1,16 +1,16 @@
 ﻿using ClosedXML.Excel;
 using FOS.App.ExcelReader;
 using FOS.App.Helpers;
+using FOS.Core.Languages;
+using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
-using FOS.DB.Models;
 using FOS.Doctors.API.Extenstions;
-using FOS.Doctors.API.Mappers;
-using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Doctors.API.Controllers
 {
@@ -24,16 +24,18 @@ namespace FOS.Doctors.API.Controllers
         private readonly ICourseRepo courseRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IAcademicYearRepo academicYearRepo;
+        private readonly IDbContext config;
 
         public CourseController(ILogger<CourseController> logger
             , ICourseRepo courseRepo
             , IStudentCoursesRepo studentCoursesRepo
-            , IAcademicYearRepo academicYearRepo)
+            , IAcademicYearRepo academicYearRepo, IDbContext config)
         {
             this.logger = logger;
             this.courseRepo = courseRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.academicYearRepo = academicYearRepo;
+            this.config = config;
         }
         [HttpPost("GetAll")]
         public IActionResult GetAll([FromBody] SearchCriteria criteria)
@@ -77,20 +79,23 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult AddCourse(HashSet<CourseModel> models)
+        public IActionResult AddCourse(AddCourseParamModel course)
         {
             try
             {
-                List<Course> courses = new();
-                for (int i = 0; i < models.Count; i++)
-                    courses.Add(models.ElementAt(i).ToDBCourseModel());
-
-                var savedCourses = courseRepo.Add(courses);
+                var exist = QueryExecuterHelper.ExecuteFunction(config.CreateInstance(), "IsCourseExist",
+                    "'" + course.CourseCode + "'");
+                if ((bool)exist == true)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.CourseAlreadyExist
+                    });
+                var savedCourses = courseRepo.Add(course);
                 if (!savedCourses)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured while adding course",
-                        Data = models
+                        Massage = Resource.ErrorOccured,
+                        Data = course
                     });
                 return Ok();
             }
@@ -109,11 +114,11 @@ namespace FOS.Doctors.API.Controllers
                 var course = courseRepo.GetById(id);
                 if (course == null)
                     return NotFound();
-                var res = courseRepo.Delete(course);
+                var res = courseRepo.Delete(id);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured while deleting course",
+                        Massage = Resource.ErrorOccured,
                         Data = id
                     });
                 return Ok();
@@ -125,15 +130,14 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPut("Update/{id}")]
-        public IActionResult UpdateCourse(int id, CourseModel courseModel)
+        public IActionResult UpdateCourse(int id, AddCourseParamModel courseModel)
         {
             try
             {
-                Course course = courseModel.ToDBCourseModel(id);
-                bool res = courseRepo.Update(course);
+                bool res = courseRepo.Update(id, courseModel);
                 if (!res) return BadRequest(new
                 {
-                    Massage = "Error Occured while updating course",
+                    Massage = Resource.ErrorOccured,
                     Data = courseModel
                 });
                 return Ok();
@@ -152,14 +156,14 @@ namespace FOS.Doctors.API.Controllers
                 if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs[0] == 0))
                     return BadRequest(new
                     {
-                        Massage = "List can't be empty",
+                        Massage = Resource.EmptyList,
                         Data = courseIDs
                     });
                 var activated = courseRepo.Activate(courseIDs);
                 if (!activated)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while activating courses",
+                        Massage = Resource.ErrorOccured,
                         Data = courseIDs
                     });
                 return Ok();
@@ -178,14 +182,14 @@ namespace FOS.Doctors.API.Controllers
                 if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs[0] == 0))
                     return BadRequest(new
                     {
-                        Massage = "List can't be empty",
+                        Massage = Resource.EmptyList,
                         Data = courseIDs
                     });
                 var activated = courseRepo.Deactivate(courseIDs);
                 if (!activated)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while deactivating courses",
+                        Massage = Resource.ErrorOccured,
                         Data = courseIDs
                     });
                 return Ok();
@@ -223,7 +227,7 @@ namespace FOS.Doctors.API.Controllers
                 if (file.Length < 0 || !file.FileName.EndsWith(".xlsx"))
                     return BadRequest(new
                     {
-                        Massage = "File is not valid",
+                        Massage = Resource.FileNotValid,
                         Data = new
                         {
                             CourseID = courseID,
@@ -241,9 +245,8 @@ namespace FOS.Doctors.API.Controllers
                 if (ws == null)
                     return BadRequest(new
                     {
-                        Massage = string.Concat("uploaded sheet is for ",
+                        Massage = string.Format(Resource.FileNotValid,
                                                 wb.Worksheet(1).Name,
-                                                " while requested course is for ",
                                                 course.CourseCode),
                         Data = new
                         {
@@ -256,7 +259,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while updating marks",
+                        Massage = Resource.ErrorOccured,
                         Data = new
                         {
                             CourseID = courseID,
@@ -280,7 +283,7 @@ namespace FOS.Doctors.API.Controllers
                 var result = studentCoursesRepo.GetStudentsList(model);
                 if (result.Course == null) return NotFound();
                 var bytes = ExamCommitteesReport.CreateExamCommitteesPdf(result,
-                    Helper.GetEnumDescription((ExamTypeEnum)model.ExamType));
+                    Helper.GetDisplayName((ExamTypeEnum)model.ExamType));
                 return File(bytes,
                     "application/pdf",
                     string.Concat(result.Course.CourseCode, "_", result.Course.CourseName, "_Committees", ".pdf")
@@ -300,18 +303,18 @@ namespace FOS.Doctors.API.Controllers
                 if (model.DoctorsGuid == null || model.DoctorsGuid.Count < 1 || model.DoctorsGuid.Any(x => string.IsNullOrEmpty(x)))
                     return BadRequest(new
                     {
-                        Massage = "Invalid Doctors guid",
+                        Massage = Resource.InvalidID,
                         Data = model
                     });
                 bool assigned = courseRepo.AssignDoctorsToCourse(model);
                 if (!assigned) return BadRequest(new
                 {
-                    Massage = "Error occured while assigning doctors to course",
+                    Massage = Resource.ErrorOccured,
                     Data = model
                 });
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

@@ -1,24 +1,24 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Core.Enums
 {
     public enum DateForEnum
     {
-        [Description("التشعيب")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Bifuraction))]
         Bifurcation,
-        [Description("تسجيل المقررات")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CouresRegistration))]
         CourseRegistration,
-        [Description("انسحاب من مقرر")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseWithdraw))]
         CourseWithdraw,
-        [Description("حذف واضافة المقرارات")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseAddDelete))]
         AddAndDeleteCourse,
-        [Description("زيادة عبء")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseOverload))]
         Overload,
-        [Description("فتح مقرر دواعى تخرج")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.GraduationCourse))]
         OpenCourseForGraduation,
-        [Description("تحسين")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseEnhancement))]
         Enhancement,
-        [Description("تحويل مسار")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.ProgramTransfer))]
         ProgramTransfer
     }
 }

@@ -3,6 +3,7 @@ using FOS.App.Helpers;
 using FOS.Core.Enums;
 using FOS.Core.Models;
 using FOS.Core.Models.StoredProcedureOutputModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace FOS.App.ExcelReader
 {
@@ -33,7 +34,7 @@ namespace FOS.App.ExcelReader
             ws.Range("E2:E" + (stdsCount + 1)).Style.Protection.SetLocked(false);
             ws.Range("E2:E" + stdsCount + 1).CreateDataValidation().WholeNumber.Between(0, model.Course.CreditHours * 50);
             ws.Range("G2", "N12").Merge();
-            ws.Cell("G2").Value = model.Course.CourseName + Environment.NewLine + model.Course.CourseCode + Environment.NewLine + string.Concat(model.YearModel.Year, " - ", Helper.GetEnumDescription((SemesterEnum)model.YearModel.Semester));
+            ws.Cell("G2").Value = model.Course.CourseName + Environment.NewLine + model.Course.CourseCode + Environment.NewLine + string.Concat(model.YearModel.Year, " - ", Helper.GetDisplayName((SemesterEnum)model.YearModel.Semester));
             ws.Cell("G2").Style.Font.FontSize = 26;
             ws.Cell("G2").Style.Font.FontName = "Calibri";
             ws.Cell("G2").Style.Font.SetBold();

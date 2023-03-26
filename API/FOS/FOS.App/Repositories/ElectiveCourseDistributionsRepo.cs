@@ -1,22 +1,18 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.DB.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace FOS.App.Repositories
 {
     public class ElectiveCourseDistributionsRepo : IElectiveCourseDistributionRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public ElectiveCourseDistributionsRepo(FOSContext context,IConfiguration configuration)
+        public ElectiveCourseDistributionsRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
         public List<ElectiveCourseDistribution> GetOptionalCoursesDistibution(int studentID,
             bool isForOverload = false,
@@ -26,7 +22,7 @@ namespace FOS.App.Repositories
             parameters.Add("@StudentID", studentID);
             parameters.Add("@IsForOverload", isForOverload);
             parameters.Add("@IsForEnhancement", isForEnhancement);
-            return QueryExecuterHelper.Execute<ElectiveCourseDistribution>(connectionString,
+            return QueryExecuterHelper.Execute<ElectiveCourseDistribution>(config.CreateInstance(),
                             "GetElectiveCoursesDistribution", parameters);
         }
 

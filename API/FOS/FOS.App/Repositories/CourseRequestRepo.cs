@@ -1,30 +1,29 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
-using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace FOS.App.Repositories
 {
     public class CourseRequestRepo : ICourseRequestRepo
     {
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public CourseRequestRepo(IConfiguration configuration)
+        public CourseRequestRepo(IDbContext config)
         {
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
         public bool DeleteRequest(string requestID, int? studentID = null)
         {
-            var query = "DELETE FROM StudentCourseRequest WHERE RequestID = '" + requestID+"'";
+            var query = "DELETE FROM StudentCourseRequest WHERE RequestID = '" + requestID + "'";
             if (studentID != null)
                 query += " AND StudentID = " + studentID;
             return QueryExecuterHelper
-                .Execute(connectionString, query);
+                .Execute(config.CreateInstance(), query);
         }
         public List<CourseRequestOutModel> GetRequests(CourseRequestParamModel model)
         {
@@ -34,13 +33,13 @@ namespace FOS.App.Repositories
             parameters.Add("@StudentID", model.StudentID);
             parameters.Add("@IsApproved", model.IsApproved);
             var res = QueryExecuterHelper.Execute<CourseRequestOutModel>
-                (connectionString,
+                (config.CreateInstance(),
                 "GetCoursesRequests",
                 parameters);
             for (int i = 0; i < res.Count; i++)
             {
-                res.ElementAt(i).CourseOperation = res.ElementAt(i).CourseOperationID ? Helper.GetEnumDescription(CourseOperationEnum.Addtion) : Helper.GetEnumDescription(CourseOperationEnum.Deletion);
-                res.ElementAt(i).RequestType = Helper.GetEnumDescription((CourseRequestEnum)res.ElementAt(i).RequestTypeID);
+                res.ElementAt(i).CourseOperation = res.ElementAt(i).CourseOperationID ? Helper.GetDisplayName(CourseOperationEnum.Addtion) : Helper.GetDisplayName(CourseOperationEnum.Deletion);
+                res.ElementAt(i).RequestType = Helper.GetDisplayName((CourseRequestEnum)res.ElementAt(i).RequestTypeID);
             }
             return res;
         }
@@ -52,7 +51,7 @@ namespace FOS.App.Repositories
             for (int i = 0; i < requestCourses.Count; i++)
                 query += "UPDATE StudentCourseRequest SET IsApproved = " + (isAccepted ? 1 : 0)
                 + " WHERE RequestID = '" + requestID + "' AND CourseID = " + requestCourses.ElementAt(i).CourseID + ";";
-            return QueryExecuterHelper.Execute(connectionString, query);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), query);
         }
     }
 }

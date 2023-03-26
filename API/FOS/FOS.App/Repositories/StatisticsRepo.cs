@@ -1,25 +1,21 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
-using FOS.DB.Models;
-using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace FOS.App.Repositories
 {
     public class StatisticsRepo : IStatisticsRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public StatisticsRepo(FOSContext context, IConfiguration configuration)
+        public StatisticsRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
 
         public List<StatisticsOutModel> GetCourseStatistics(CourseStatisticsParameterModel model)
@@ -27,21 +23,29 @@ namespace FOS.App.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", model.CourseID);
             parameters.Add("@AcademicYearID", model.AcademicYearID);
-            return QueryExecuterHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_CourseGrades", parameters);
+            return QueryExecuterHelper.Execute<StatisticsOutModel>(config.CreateInstance()
+                , "Statistics_CourseGrades", parameters);
         }
 
         public List<StatisticsOutModel> GetGendersStatistics()
         {
-            return context.Students.GroupBy(x => x.Gender).Select(x => new StatisticsOutModel
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Query", "SELECT COUNT(ID) AS [Value],Gender AS [Key]" +
+                " FROM Student GROUP BY Gender");
+            var data = QueryExecuterHelper.Execute<StatisticsOutModel>(config.CreateInstance(),
+                "QueryExecuter",
+                parameters);
+
+            return data.Select(x => new StatisticsOutModel
             {
-                Key = string.IsNullOrEmpty(x.Key) ? x.Key : Helper.GetEnumDescription((GenderEnum)int.Parse(x.Key)),
-                Value = x.Count()
+                Key = string.IsNullOrEmpty(x.Key.ToString()) ? x.Key : Helper.GetDisplayName((GenderEnum)int.Parse(x.Key.ToString())),
+                Value = x.Value
             })?.ToList();
         }
 
         public List<StatisticsOutModel> GetProgramsStatistics()
         {
-            return QueryExecuterHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_Programs", null);
+            return QueryExecuterHelper.Execute<StatisticsOutModel>(config.CreateInstance(), "Statistics_Programs", null);
         }
 
         public List<StatisticsOutModel> GetStudentsGradesStatistics(StudentsGradesParatmeterModel model)
@@ -50,7 +54,7 @@ namespace FOS.App.Repositories
             parameters.Add("@ProgramID", model.ProgramID);
             parameters.Add("@IsActive", model.IsActive);
             parameters.Add("@IsGraduated", model.IsGraudated);
-            return QueryExecuterHelper.Execute<StatisticsOutModel>(connectionString, "Statistics_StudentGrades", parameters);
+            return QueryExecuterHelper.Execute<StatisticsOutModel>(config.CreateInstance(), "Statistics_StudentGrades", parameters);
         }
     }
 }

@@ -2,6 +2,7 @@ using FOS.App.ExtensionMethods;
 using System.Text.Json.Serialization;
 using NLog;
 using NLog.Web;
+using Microsoft.Extensions.Options;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
@@ -11,6 +12,8 @@ builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOption
 builder.Services.AddEndpointsApiExplorer();
 //Services responsible for Versioning swageer
 builder.Services.LoadSwaggerVersioningServices("v1", "Doctor's API", 1, 0);
+builder.Configuration.LoadConfiguration();
+builder.Services.LocalizationConfigure();
 //Services responsible for using db connection
 builder.LoadDBServices();
 //Services responsible for loading dependency injection
@@ -33,6 +36,9 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
+
+app.UseRequestLocalization(app.Services.GetService<IOptions<RequestLocalizationOptions>>().Value);
+
 app.UseCors();
 app.UseStaticFiles();
 app.UseHttpsRedirection();

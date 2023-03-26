@@ -1,43 +1,49 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class CourseRepo : ICourseRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
-
-        public CourseRepo(FOSContext context, IConfiguration configuration)
+        private readonly IDbContext config;
+        public CourseRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
-        public bool Add(List<Course> courses)
+        public bool Add(AddCourseParamModel course)
         {
-            context.Courses.AddRange(courses);
-            return context.SaveChanges() > 0;
+            var dt = new DataTable();
+            dt.Columns.Add("CourseCode");
+            dt.Columns.Add("CourseName");
+            dt.Columns.Add("CreditHours");
+            dt.Columns.Add("LectureHours");
+            dt.Columns.Add("LabHours");
+            dt.Columns.Add("SectionHours");
+            dt.Columns.Add("IsActive");
+            dt.Columns.Add("Level");
+            dt.Columns.Add("Semester");
+            dt.Rows.Add(course.CourseCode, course.CourseName,
+                course.CreditHours, course.LectureHours,
+                course.LabHours, course.SectionHours,
+                course.IsActive, course.Level,
+                course.Semester);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddCourse",
+                new List<SqlParameter>()
+                {
+                    QueryExecuterHelper.DataTableToSqlParameter(dt,"Courses","CourseType")
+                });
         }
-        public bool Delete(Course course)
+        public bool Delete(int id)
         {
-            if (
-                context.StudentCourses.Any(x => x.CourseId == course.Id)
-                || context.ProgramCourses.Any(x => x.CourseId == course.Id)
-                || context.TeacherCourses.Any(x => x.CourseId == course.Id)
-                ) return false;
-
-            context.Courses.Remove(course);
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "DELETE FROM Course WHERE ID = " + id);
         }
         public List<Course> GetAll(out int totalCount, SearchCriteria criteria = null, int? doctorProgramID = null)
         {
@@ -58,7 +64,7 @@ namespace FOS.App.Repositories
             parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "c.id" : criteria.OrderByColumn);
             parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
             parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            using SqlConnection con = new SqlConnection(connectionString);
+            using var con = config.CreateInstance();
             var courses = con.Query<Course>("GetCourses", parameters, commandType: CommandType.StoredProcedure)?.ToList();
             try { totalCount = parameters.Get<int>("TotalCount"); }
             catch { totalCount = courses.Count; }
@@ -66,28 +72,45 @@ namespace FOS.App.Repositories
         }
         public List<Course> GetAll()
         {
-            return context.Courses.AsNoTracking().AsParallel().ToList();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Query", "SELECT * FROM Course");
+            return QueryExecuterHelper.Execute<Course>(config.CreateInstance(),
+                "QueryExecuter", parameters);
         }
         public Course GetById(int id)
         {
-            return context.Courses.FirstOrDefault(x => x.Id == id);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Query", "SELECT * FROM Course WHERE ID = " + id);
+            return QueryExecuterHelper.Execute<Course>(config.CreateInstance(),
+                "QueryExecuter", parameters).FirstOrDefault();
         }
         public (Course course, IEnumerable<string> doctors, IEnumerable<string> programs) GetCourseDetails(int id)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", id);
-            SqlConnection con = new SqlConnection(connectionString);
+            using var con = config.CreateInstance();
             var res = con.QueryMultiple("GetCourseDetails", parameters, commandType: System.Data.CommandType.StoredProcedure);
             var firstRes = res.ReadFirstOrDefault<Course>();
             var secondRes = res.Read<string>();
             var thirdResult = res.Read<string>();
             return (firstRes, secondRes, thirdResult);
         }
-        public bool Update(Course course)
+        public bool Update(int id, AddCourseParamModel course)
         {
-            if (course == null) return false;
-            context.Entry(course).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "UpdateCourse",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@ID",id),
+                    new SqlParameter("@CourseCode",course.CourseCode),
+                    new SqlParameter("@CourseName",course.CourseName),
+                    new SqlParameter("@CreditHours",course.CreditHours),
+                    new SqlParameter("@LectureHours",course.LectureHours),
+                    new SqlParameter("@LabHours", course.LabHours),
+                    new SqlParameter("@SectionHours",course.SectionHours),
+                    new SqlParameter("@IsActive", course.IsActive),
+                    new SqlParameter("@Level", course.Level),
+                    new SqlParameter("@Semester", course.Semester)
+                });
         }
         public bool Activate(List<int> courseIDs)
         {
@@ -97,7 +120,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@IsActive", true),
                 new SqlParameter("@CourseLst", courseLst)
             };
-            return QueryExecuterHelper.Execute(connectionString, "CoursesActivation", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "CoursesActivation", parameters);
         }
         public bool Deactivate(List<int> courseIDs)
         {
@@ -107,7 +130,7 @@ namespace FOS.App.Repositories
                 new SqlParameter("@IsActive",false),
                 new SqlParameter("@CourseLst", courseLst)
             };
-            return QueryExecuterHelper.Execute(connectionString, "CoursesActivation", parameters);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "CoursesActivation", parameters);
         }
 
         public bool AssignDoctorsToCourse(DoctorsToCourseParamModel model)
@@ -115,10 +138,8 @@ namespace FOS.App.Repositories
             var dt = new DataTable();
             dt.Columns.Add("DoctorGuid");
             for (var i = 0; i < model.DoctorsGuid.Count; i++)
-            {
                 dt.Rows.Add(model.DoctorsGuid[i]);
-            }
-            return QueryExecuterHelper.Execute(connectionString, "AssignDoctorsToCourse", new List<SqlParameter>()
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AssignDoctorsToCourse", new List<SqlParameter>()
             {
                 QueryExecuterHelper.DataTableToSqlParameter(dt,"Doctors","DoctorsGuidType"),
                 new SqlParameter("@CourseID", model.CourseId)

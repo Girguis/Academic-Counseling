@@ -1,33 +1,46 @@
 ﻿using Dapper;
+using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
-using FOS.DB.Models;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class SuperAdminRepo : ISuperAdminRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public SuperAdminRepo(FOSContext context, IConfiguration configuration)
+        public SuperAdminRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
+
+        public bool ChangePassword(string guid, string password)
+        {
+            return QueryExecuterHelper.Execute
+                (config.CreateInstance(),
+                "UpdateSuperAdminPassword",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@Guid", guid),
+                    new SqlParameter("@Password", Helper.HashPassowrd(password))
+                });
+        }
+
         /// <summary>
         /// Method to get supervisor details
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public SuperAdmin Get(string GUID)
+        public SuperAdminOutModel Get(string GUID)
         {
-            return context.SuperAdmins
-                .FirstOrDefault(x => x.Guid == GUID);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Guid", GUID);
+            return QueryExecuterHelper.Execute<SuperAdminOutModel>
+                (config.CreateInstance(),
+                "GetSuperAdmin",
+                parameters).FirstOrDefault();
         }
         /// <summary>
         /// Method to check the credentials, if it's valid then it will return the supervisor 
@@ -36,23 +49,14 @@ namespace FOS.App.Repositories
         /// <param name="email"></param>
         /// <param name="hashedPassword"></param>
         /// <returns></returns>
-        public SuperAdmin Login(string email, string hashedPassword)
+        public SuperAdminOutModel Login(string email, string hashedPassword)
         {
             DynamicParameters parameters = new();
             parameters.Add("@Email", email);
             parameters.Add("@Password", hashedPassword);
-            using SqlConnection con = new SqlConnection(connectionString);
-            return con.Query<SuperAdmin>("Login_SuperAdmin",
-                param: parameters,
-                commandType: CommandType.StoredProcedure)?.FirstOrDefault();
-        }
-
-        public bool Update(SuperAdmin superAdmin)
-        {
-            if (superAdmin == null)
-                return false;
-            context.Entry(superAdmin).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute<SuperAdminOutModel>(config.CreateInstance(),
+                "Login_SuperAdmin",
+                parameters)?.FirstOrDefault();
         }
     }
 }

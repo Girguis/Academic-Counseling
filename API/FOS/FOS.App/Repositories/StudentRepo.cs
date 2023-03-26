@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
@@ -8,76 +9,55 @@ using FOS.Core.SearchModels;
 using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class StudentRepo : IStudentRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
-        public StudentRepo(FOSContext context, IConfiguration configuration)
+        private readonly IDbContext config;
+        public StudentRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
         /// <summary>
         /// Method to get the academic details for a certian student
         /// </summary>
         /// <param name="GUID"></param>
         /// <returns></returns>
-        public List<StudentCourse> GetAcademicDetails(string GUID)
+        public StudentAcademicReportDTO GetAcademicDetails(Student student)
         {
-            return context.StudentCourses
-                .Where(x => x.Student.Guid == GUID)
-                .Include(x => x.AcademicYear)
-                .Include(x => x.Course)
-                .ToList();
-        }
-        /// <summary>
-        /// Method to get all students from the database
-        /// </summary>
-        /// <param name="totalCount"></param>
-        /// <param name="criteria"></param>
-        /// <returns></returns>
-        public List<Student> GetAll(out int totalCount, SearchCriteria criteria = null, bool includeProgram = true)
-        {
-            DbSet<Student> students = context.Students;
-            return DataFilter<Student>.FilterData(students, criteria, out totalCount, includeProgram == true ? "CurrentProgram" : "");
-        }
-        /// <summary>
-        /// Method to get student program history
-        /// </summary>
-        /// <param name="GUID"></param>
-        /// <returns></returns>
-        public List<StudentProgram> GetPrograms(string GUID)
-        {
-            return context.StudentPrograms
-                .Where(x => x.Student.Guid == GUID)
-                .Include(x => x.Program)
-                .ToList();
-        }
-
-        /// <summary>
-        /// Method to get student who have 1 or more warning
-        /// </summary>
-        /// <param name="totalCount"></param>
-        /// <param name="criteria"></param>
-        /// <returns></returns>
-        public List<Student> GetStudentsWithWarnings(out int totalCount, SearchCriteria criteria = null)
-        {
-            criteria.Filters ??= new List<SearchBaseModel>();
-            criteria.Filters.Add(new SearchBaseModel()
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", student.Id);
+            parameters.Add("@ForDoctorView", 1);
+            using var con = config.CreateInstance();
+            var result = con.QueryMultiple("Report_StudentAcademicReport", parameters, commandType: CommandType.StoredProcedure);
+            var courses = result.Read<StudentCoursesDTO>().ToList();
+            var academicYears = result.Read<AcademicYearDTO>().ToList();
+            for (int i = 0; i < academicYears.Count; i++)
             {
-                Key = "WarningsNumber",
-                Operator = ">",
-                Value = 0
-            });
-            return GetAll(out totalCount, criteria)?.ToList();
+                var currentYearCourses = courses.Where(x => x.AcademicYearID == academicYears.ElementAt(i).ID).ToList();
+                academicYears.ElementAt(i).Courses = currentYearCourses;
+                academicYears.ElementAt(i).SemesterHours = currentYearCourses.Sum(x => x.CreditHours);
+                academicYears.ElementAt(i).PassedSemesterHours = currentYearCourses.Where(x => x.Grade.ToLower() != "f" && x.Grade != null).Sum(x => x.CreditHours);
+                academicYears.ElementAt(i).CHours += academicYears.ElementAt(i).PassedSemesterHours;
+            }
+            return new StudentAcademicReportDTO()
+            {
+                Name = student.Name,
+                AcademicYearsDetails = academicYears,
+                AvailableCredits = student.AvailableCredits,
+                Cgpa = student.Cgpa,
+                Level = student.Level,
+                PassedHours = student.PassedHours,
+                PhoneNumber = student.PhoneNumber,
+                ProgramName = student.CurrentProgram.Name,
+                Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank,
+                SeatNumber = student.SeatNumber,
+                SSN = student.Ssn,
+                SupervisorName = student.Supervisor.Name,
+                WarningsNumber = student.WarningsNumber,
+            };
         }
         /// <summary>
         /// Method used to retrive student record from Student table by GUID
@@ -86,12 +66,12 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public Student Get(string GUID, bool includeProgram = false, bool includeSupervisor = false)
         {
-            SqlConnection con = new SqlConnection(connectionString);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@GUID", GUID);
             parameters.Add("@IncludeProgram", includeProgram);
             parameters.Add("@IncludeSupervisor", includeSupervisor);
             string splitOn = string.Empty;
+            using var con = config.CreateInstance();
             if (includeProgram && includeSupervisor)
             {
                 splitOn = "ProgramName,SupervisorName";
@@ -173,34 +153,15 @@ namespace FOS.App.Repositories
             parameters.Add("@PhoneNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "phonenumber")?.Value?.ToString());
             parameters.Add("@Address", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "address")?.Value?.ToString());
             parameters.Add("@IncludeRegistrationDetails", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "includeregistrationdetails")?.Value?.ToString());
-            parameters.Add("@PageNumber", criteria.PageNumber <= 0 ? 1 : criteria.PageNumber);
-            parameters.Add("@PageSize", criteria.PageSize <= 0 ? 20 : criteria.PageSize);
-            parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? "s.id" : criteria.OrderByColumn);
-            parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
-            parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-            using SqlConnection con = new SqlConnection(connectionString);
+            parameters.GetPageParameters(criteria, "s.id");
+            using var con = config.CreateInstance();
             var students = con.Query<StudentsDTO>
                 ("GetStudents",
                 param: parameters,
                 commandType: CommandType.StoredProcedure
                 )?.ToList();
-            int totalCount;
-            try { totalCount = parameters.Get<int>("TotalCount"); }
-            catch { totalCount = students.Count; }
+            int totalCount = QueryExecuterHelper.GetTotalCountParamValue(parameters, students);
             return (totalCount, students);
-        }
-        /// <summary>
-        /// Method used to get student current program
-        /// </summary>
-        /// <param name="GUID"></param>
-        /// <returns></returns>
-        public StudentProgram GetCurrentProgram(string GUID)
-        {
-            return context.StudentPrograms
-                .Where(x => x.Student.Guid == GUID)
-                .OrderBy(x => x.AcademicYear)
-                .Include(x => x.Program)
-                .LastOrDefault();
         }
         /// <summary>
         /// Method used to get student with provided E-mail and password
@@ -214,14 +175,14 @@ namespace FOS.App.Repositories
             DynamicParameters parameters = new();
             parameters.Add("@Email", email);
             parameters.Add("@Password", hashedPassword);
-            using SqlConnection con = new SqlConnection(connectionString);
+            using var con = config.CreateInstance();
             return con.Query<Student>("Login_Student",
                 param: parameters,
                 commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }
         public Student GetBySSN(string ssn)
         {
-            SqlConnection con = new SqlConnection(connectionString);
+            using var con = config.CreateInstance();
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@SSN", ssn);
             return con.Query<Student>("GetStudent", parameters, commandType: CommandType.StoredProcedure)?.FirstOrDefault();
@@ -231,42 +192,71 @@ namespace FOS.App.Repositories
             var std = GetBySSN(student.Ssn);
             if (std != null)
                 return std;
-
-            var res = context.Students.Add(student);
-            if (context.SaveChanges() > 0)
-                return res.Entity;
-            return null;
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@GUID", student.Guid);
+            parameters.Add("@Name", student.Name);
+            parameters.Add("@SSN", student.Ssn);
+            parameters.Add("@PhoneNumber", student.PhoneNumber);
+            parameters.Add("@BirthDate", student.BirthDate);
+            parameters.Add("@Address", student.Address);
+            parameters.Add("@Gender", student.Gender);
+            parameters.Add("@Nationality", student.Nationality);
+            parameters.Add("@Email", student.Email);
+            parameters.Add("@Password", student.Password);
+            parameters.Add("@AcademicCode", student.AcademicCode);
+            parameters.Add("@SeatNumber", student.SeatNumber);
+            parameters.Add("@SupervisorID", student.SupervisorId);
+            parameters.Add("@CreatedOn", student.CreatedOn);
+            parameters.Add("@CurrentProgramID", student.CurrentProgramId);
+            return QueryExecuterHelper.Execute<Student>(config.CreateInstance(),
+                "AddStudent", parameters).FirstOrDefault();
         }
 
         public bool Update(Student student)
         {
             if (student == null) return false;
-            context.Entry(student).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "UpdateStudent",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@ID",student.Id),
+                    new SqlParameter("@Name",student.Name),
+                    new SqlParameter("@SSN",student.Ssn),
+                    new SqlParameter("@PhoneNumber",student.PhoneNumber),
+                    new SqlParameter("@BirthDate",student.BirthDate),
+                    new SqlParameter("@Address",student.Address),
+                    new SqlParameter("@Gender",student.Gender),
+                    new SqlParameter("@Nationality",student.Nationality),
+                    new SqlParameter("@Email",student.Email),
+                    new SqlParameter("@Password", student.Password),
+                    new SqlParameter("@SeatNumber",student.SeatNumber),
+                    new SqlParameter("@SupervisorID", student.SupervisorId),
+                    new SqlParameter("@IsCrossStudent", student.IsCrossStudent),
+                    new SqlParameter("@CurrentProgramID",student.CurrentProgramId)
+                });
         }
-
         public bool Deactivate(string guid)
         {
             var student = Get(guid);
             if (student == null) return false;
-            student.IsActive = false;
-            context.Entry(student).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper
+                .Execute(config.CreateInstance(),
+                "UPDATE Student SET IsActive = 0 WHERE ID =" + student.Id);
         }
         public bool Activate(string guid)
         {
             var student = Get(guid);
             if (student == null) return false;
-            student.IsActive = true;
-            context.Entry(student).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper
+                .Execute(config.CreateInstance(),
+                "UPDATE Student SET IsActive = 1 WHERE ID =" + student.Id);
         }
 
         public StudentCoursesSummaryOutModel GetStudentCoursesSummary(int studentID)
         {
-            SqlConnection con = new(connectionString);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_StudentCoursesSummary", parameters, commandType: CommandType.StoredProcedure);
             var studentData = result.ReadFirstOrDefault<StudentDataReport>();
             if (studentData == null) return null;
@@ -276,11 +266,11 @@ namespace FOS.App.Repositories
 
         public List<StruggledStudentsOutModel> GetStruggledStudents(StruggledStudentsParamModel model)
         {
-            SqlConnection con = new(connectionString);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@ProgramID", model.ProgramID);
             parameters.Add("@IsActive", model.IsActive);
             parameters.Add("@WarningsNumber", model.WarningsNumber);
+            using var con = config.CreateInstance();
             return con.Query<StruggledStudentsOutModel>
                 ("Report_GetStruggledStudents",
                 parameters
@@ -292,44 +282,44 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            SqlConnection con = new SqlConnection(connectionString);
-            var result = con.Query<AcademicYearsDTO>("GetStudentAcademicYearsSummary", parameters, commandType: CommandType.StoredProcedure)?.ToList();
+            using var con = config.CreateInstance();
+            var result = QueryExecuterHelper.Execute<AcademicYearsDTO>(con,
+                "GetStudentAcademicYearsSummary",
+                parameters);
             result?.Reverse();
             return result;
         }
 
         public float GetLastRegularSemesterGPA(int studentID)
         {
-            var fnRes = QueryExecuterHelper.ExecuteFunction(connectionString,
+            var fnRes = QueryExecuterHelper.ExecuteFunction
+                (config.CreateInstance(),
                 "GetLastRegularSemesterGpa",
-                new List<object>()
-            {
-                studentID
-            });
-            if(fnRes == null)
+                studentID.ToString());
+            if (fnRes == null)
                 return 0.0f;
             bool paresd = float.TryParse(fnRes.ToString(), out float result);
             return paresd ? result : 0.0f;
         }
 
         public (List<AcademicYearsDTO> academicYears,
-            List<StudentCoursesGradesOutModel> courses) 
+            List<StudentCoursesGradesOutModel> courses)
             GetAcademicDetailsForReport(int studentID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
-            SqlConnection con = new(connectionString);
-            var result = con.QueryMultiple("Report_StudentAcademicReport",parameters,commandType: CommandType.StoredProcedure);
+            using var con = config.CreateInstance();
+            var result = con.QueryMultiple("Report_StudentAcademicReport", parameters, commandType: CommandType.StoredProcedure);
             var courses = result.Read<StudentCoursesGradesOutModel>().ToList();
             var academicYears = result.Read<AcademicYearsDTO>().ToList();
-            return (academicYears,courses);
+            return (academicYears, courses);
         }
 
         public StudentCoursesSummaryTreeOutModel GetStudentCoursesSummaryTree(int studentID)
         {
-            SqlConnection con = new(connectionString);
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
+            using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_StudentCoursesSummaryAsTree", parameters, commandType: CommandType.StoredProcedure);
             var programCourses = result.Read<ProgramCoursesOutModel>();
             var coursesData = result.Read<StudentCourseDetailsOutModel>();
@@ -338,6 +328,14 @@ namespace FOS.App.Repositories
                 ProgramCourses = programCourses,
                 StudentCourses = coursesData
             };
+        }
+
+        public bool ChangePassword(int id, string password)
+        {
+            var query = "UPDATE Student SET Password = '"
+                + Helper.HashPassowrd(password)
+                + "' WHERE ID = " + id;
+            return QueryExecuterHelper.Execute(config.CreateInstance(), query);
         }
     }
 }

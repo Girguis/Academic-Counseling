@@ -1,11 +1,10 @@
-﻿using FOS.App.Doctors.DTOs;
-using FOS.App.Doctors.Mappers;
+﻿using FirebaseAdmin.Messaging;
 using FOS.App.ExcelReader;
-using FOS.App.Helpers;
+using FOS.Core.Languages;
 using FOS.App.PDFCreators;
-using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
+using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
@@ -32,7 +31,6 @@ namespace FOS.Doctors.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly ICourseRequestRepo courseRequestRepo;
         private readonly IProgramTransferRequestRepo programTransferRequestRepo;
-        private readonly IDoctorRepo doctorRepo;
 
         public StudentController(IStudentRepo studentRepo,
             ILogger<StudentController> logger,
@@ -42,8 +40,7 @@ namespace FOS.Doctors.API.Controllers
             IStudentProgramRepo studentProgramRepo,
             IStudentCoursesRepo studentCoursesRepo,
             ICourseRequestRepo courseRequestRepo,
-            IProgramTransferRequestRepo programTransferRequestRepo,
-            IDoctorRepo doctorRepo)
+            IProgramTransferRequestRepo programTransferRequestRepo)
         {
             this.studentRepo = studentRepo;
             this.logger = logger;
@@ -54,19 +51,21 @@ namespace FOS.Doctors.API.Controllers
             this.studentCoursesRepo = studentCoursesRepo;
             this.courseRequestRepo = courseRequestRepo;
             this.programTransferRequestRepo = programTransferRequestRepo;
-            this.doctorRepo = doctorRepo;
         }
         [HttpPost("Deactivate")]
         public IActionResult Deactivate([FromBody] GuidModel model)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(model.Guid)) return NoContent();
+                if (string.IsNullOrWhiteSpace(model.Guid)) return BadRequest(new
+                {
+                    Massage =Resource.InvalidID
+                });
                 var res = studentRepo.Deactivate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Deactivating student account",
+                        Massage = Resource.ErrorOccured,
                         Data = model.Guid
                     });
                 return Ok();
@@ -82,12 +81,15 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(model.Guid)) return NoContent();
+                if (string.IsNullOrWhiteSpace(model.Guid)) return BadRequest(new
+                {
+                    Massage = Resource.InvalidID
+                });
                 var res = studentRepo.Activate(model.Guid);
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured While Deactivating student account",
+                        Massage = Resource.ErrorOccured,
                         Data = model.Guid
                     });
                 return Ok();
@@ -121,7 +123,10 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(guid)) return NoContent();
+                if (string.IsNullOrWhiteSpace(guid)) return BadRequest(new
+                {
+                    Massage = Resource.InvalidID
+                });
                 var student = studentRepo.Get(guid);
                 if (student == null) return NotFound();
                 var requests = courseRequestRepo
@@ -130,7 +135,7 @@ namespace FOS.Doctors.API.Controllers
                     .Select(x => new { RequestID = x.Key, RequestData = x });
                 return Ok(requests);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -142,11 +147,11 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var handled = courseRequestRepo.HandleRequest(model.RequestID, model.IsApproved);
-                if (!handled) return BadRequest(new { Massage = "Error occured" });
-                return Ok(new
+                if (!handled) return BadRequest(new
                 {
-                    Massage = "Done"
+                    Massage = Resource.ErrorOccured
                 });
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -176,17 +181,20 @@ namespace FOS.Doctors.API.Controllers
                     return NotFound(new
                     {
                         IsAvailable = false,
-                        Massage = "ID not found"
+                        Massage = Resource.InvalidID
                     });
                 var student = studentRepo.Get(model.guid);
                 if (student == null)
                     return NotFound(new
                     {
-                        Massage = "Student Not Found"
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 bool isDeleted = programTransferRequestRepo.HandleRequest(student.Id, model.IsApproved);
                 if (!isDeleted)
-                    return BadRequest(new { Massage = "Error occured while handling request" });
+                    return BadRequest(new
+                    {
+                        Massage = Resource.ErrorOccured
+                    });
                 return Ok();
             }
             catch (Exception ex)
@@ -213,32 +221,11 @@ namespace FOS.Doctors.API.Controllers
             {
                 Student student = studentRepo.Get(guid, true, true);
                 if (student == null)
-                    return NotFound(new { Massage = "Student not found" });
-                var studentCourses = studentRepo.GetAcademicDetails(guid);
-                var studentPrograms = studentRepo.GetPrograms(guid);
-                var academicYears = studentCourses.Select(x => x.AcademicYear).Distinct().OrderBy(x => x.Id).ToList();
-                List<AcademicYearDTO> academicYearsDTO = new List<AcademicYearDTO>();
-                for (int i = 0; i < academicYears.Count; i++)
-                {
-                    var academicYear = academicYears.ElementAt(i);
-                    var courses = studentCourses.Where(x => x.AcademicYearId == academicYear.Id).ToList().ToDTO(academicYear.Id);
-                    decimal? cGpa = i == 0 ? 0 : academicYearsDTO.ElementAt(i - 1).CGPA;
-                    int? cHours = i == 0 ? 0 : academicYearsDTO.ElementAt(i - 1).CHours;
-                    string? programName;
-                    var prog = studentPrograms.FirstOrDefault(x => x.AcademicYear == academicYear.Id);
-                    if (prog == null)
-                        programName = academicYearsDTO.LastOrDefault()?.ProgramName;
-                    else
-                        programName = studentPrograms.FirstOrDefault(p => p.ProgramId == prog.ProgramId)?.Program?.Name;
-                    var acaDTO = academicYear
-                        .ToDTO(programName, courses, cGpa, cHours, i == academicYears.Count - 1);
-                    academicYearsDTO.Add(acaDTO);
-                }
-                academicYearsDTO.Reverse();
-                StudentAcademicReportDTO? studentReport =
-                            student?.ToDTO(academicYearsDTO);
-                studentReport = studentReport == null ? new StudentAcademicReportDTO() : studentReport;
-                return Ok(studentReport);
+                    return NotFound(new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
+                return Ok(studentRepo.GetAcademicDetails(student));
             }
             catch (Exception ex)
             {
@@ -253,7 +240,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 if (file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
                 {
-                    return BadRequest(new { Massage = "Invalid file" });
+                    return BadRequest(new { Massage = Resource.FileNotValid});
                 }
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
@@ -303,7 +290,7 @@ namespace FOS.Doctors.API.Controllers
                 {
                     return BadRequest(new
                     {
-                        Massage = "Error happend while adding programs for student",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 }
@@ -311,7 +298,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!addCourses)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while updating courses data",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 return Ok(new
@@ -331,13 +318,16 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var student = studentRepo.Get(guid);
-                if (student == null) return NotFound();
-                student.Password = Helper.HashPassowrd(model.Password);
-                var updated = studentRepo.Update(student);
+                if (student == null) return NotFound(
+                    new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
+                var updated = studentRepo.ChangePassword(student.Id, model.Password);
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = "Error Happend while updating password",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 return Ok();
@@ -354,7 +344,11 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var student = studentRepo.Get(guid);
-                if (student == null) return NotFound();
+                if (student == null) return NotFound(
+                    new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
                 var summary = studentRepo.GetStudentCoursesSummary(student.Id);
                 if (summary == null || summary.Courses.Count() < 1) return NotFound();
                 var summaryTree = studentRepo.GetStudentCoursesSummaryTree(student.Id);
@@ -394,7 +388,10 @@ namespace FOS.Doctors.API.Controllers
             {
                 Student student = studentRepo.Get(guid, true);
                 if (student == null)
-                    return NotFound(new { Massage = "Student not found" });
+                    return NotFound(
+                    new{
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
                 var res = studentRepo.GetAcademicDetailsForReport(student.Id);
                 var bytes = StudentAcademicReportPDF.CreateAcademicReport(student, res.academicYears, res.courses);
                 return File(bytes,

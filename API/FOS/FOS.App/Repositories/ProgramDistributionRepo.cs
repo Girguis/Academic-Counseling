@@ -1,4 +1,7 @@
-﻿using FOS.Core.IRepositories;
+﻿using Dapper;
+using FOS.App.Helpers;
+using FOS.Core;
+using FOS.Core.IRepositories;
 using FOS.DB.Models;
 using Microsoft.Extensions.Configuration;
 
@@ -6,17 +9,23 @@ namespace FOS.App.Repositories
 {
     public class ProgramDistributionRepo : IProgramDistributionRepo
     {
-        private readonly FOSContext context;
         private readonly IConfiguration configuration;
+        private readonly IDbContext config;
 
-        public ProgramDistributionRepo(FOSContext context,IConfiguration configuration)
+        public ProgramDistributionRepo(IConfiguration configuration, IDbContext config)
         {
-            this.context = context;
             this.configuration = configuration;
+            this.config = config;
         }
         public int GetAllowedHoursToRegister(int programID, int studentLevel, int passedHours, int currentSemester)
         {
-            IQueryable<ProgramDistribution> programDistributions = context.ProgramDistributions.Where(x => x.ProgramId == programID);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Query", "SELECT * FROM ProgramDistribution WHERE ProgramID=" + programID);
+            var programDistributions =
+                QueryExecuterHelper.Execute<ProgramDistribution>
+                        (config.CreateInstance(),
+                        "QueryExecuter",
+                        parameters);
             if (studentLevel == programDistributions.Max(x => x.Level))
             {
                 var obj = programDistributions

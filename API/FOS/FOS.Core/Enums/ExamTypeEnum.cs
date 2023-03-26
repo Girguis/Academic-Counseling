@@ -1,14 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FOS.Core.Enums
 {
     public enum ExamTypeEnum
     {
-        [Description("عملي")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Practical))]
         Practical = 1,
-        [Description("شفوي")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Oral))]
         Oral = 2,
-        [Description("أعمال فصلية")]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.YearWork))]
         YearWork = 3
     }
 }

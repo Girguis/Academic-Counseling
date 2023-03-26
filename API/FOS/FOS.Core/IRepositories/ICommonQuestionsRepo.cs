@@ -11,6 +11,6 @@ namespace FOS.Core.IRepositories
         List<CommonQuestion> GetQuestions();
         bool AddQuestion(List<QuestionModel> questions);
         bool UpdateQuestion(CommonQuestion question);
-        bool DeleteQuestion(CommonQuestion question);
+        bool DeleteQuestion(int questionID);
     }
 }

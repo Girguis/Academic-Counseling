@@ -1,11 +1,11 @@
-﻿using DocumentFormat.OpenXml;
-using FOS.App.Students.DTOs;
-using FOS.App.Students.Mappers;
+﻿using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Extensions.Configuration;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -36,77 +36,87 @@ namespace FOS.App.Helpers
             List<General> list = new();
             foreach (var value in values)
             {
-                list.Add(new General { ID = (int)value, Name = GetEnumDescription(value) });
+                list.Add(new General { ID = (int)value, Name = GetDisplayName((TEnum)value) });
             }
             return list;
         }
-        public static string GetEnumDescription(object value)
+        public static string GetDisplayName(Enum value)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-            if (attributes != null && attributes.Any())
-                return attributes.First().Description;
-            return value.ToString();
+            return GetEnumAttributes<DisplayAttribute>(value).GetName();
         }
-        public static List<General> ProgramsToList(List<Program> programs)
+        public static TAttribute GetEnumAttributes<TAttribute>(Enum value)
+            where TAttribute : Attribute
         {
-            return programs.Select(x => new General
-            {
-                ID = x.Id,
-                Name = string.Concat(x.Name)
-            }).ToList();
+             return value.GetType()
+                        .GetMember(value.ToString())
+                        .First()
+                        .GetCustomAttribute<TAttribute>();
+            //    FieldInfo fi = value.GetType().GetField(value.ToString());
+            //    DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+            //    if (attributes != null && attributes.Any())
+            //        return attributes.First().Description;
+            //    return value.ToString();
+            //}
         }
-        public static List<General> CoursesToList(List<Course> courses)
-        {
-            return courses.Select(x => new General
+            public static List<General> ProgramsToList(List<ProgramBasicDataDTO> programs)
             {
-                ID = x.Id,
-                Name = string.Concat(x.CourseCode, "-", x.CourseName)
-            }).ToList();
-        }
-        public static List<General> AcademicYearsToList(List<AcademicYear> academicYears)
-        {
-            return academicYears.Select(x => new General
-            {
-                ID = x.Id,
-                Name = string.Concat(x.AcademicYear1, " - ", GetEnumDescription((SemesterEnum)x.Semester))
-            })?.ToList();
-        }
-        public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo, IConfiguration configuration, Student student, IProgramDistributionRepo programDistributionRepo)
-        {
-            int allowedHoursToRegister;
-            int currentSemester = academicYearRepo.GetCurrentYear().Semester;
-            if (currentSemester == 3)
-            {
-                bool parsed = int.TryParse(configuration["Summer:HoursToRegister"], out allowedHoursToRegister);
-                if (!parsed)
-                    allowedHoursToRegister = 6;
+                return programs.Select(x => new General
+                {
+                    ID = x.Id,
+                    Name = x.Name
+                }).ToList();
             }
-            else
+            public static List<General> CoursesToList(List<Course> courses)
             {
-                if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
-                    allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester);
+                return courses.Select(x => new General
+                {
+                    ID = x.Id,
+                    Name = string.Concat(x.CourseCode, "-", x.CourseName)
+                }).ToList();
+            }
+            public static List<General> AcademicYearsToList(List<AcademicYear> academicYears)
+            {
+                return academicYears.Select(x => new General
+                {
+                    ID = x.Id,
+                    Name = string.Concat(x.AcademicYear1, " - ", GetDisplayName((SemesterEnum)x.Semester))
+                })?.ToList();
+            }
+            public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo, IConfiguration configuration, Student student, IProgramDistributionRepo programDistributionRepo)
+            {
+                int allowedHoursToRegister;
+                int currentSemester = academicYearRepo.GetCurrentYear().Semester;
+                if (currentSemester == 3)
+                {
+                    bool parsed = int.TryParse(configuration["Summer:HoursToRegister"], out allowedHoursToRegister);
+                    if (!parsed)
+                        allowedHoursToRegister = 6;
+                }
                 else
-                    allowedHoursToRegister = 12;
+                {
+                    if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
+                        allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester);
+                    else
+                        allowedHoursToRegister = 12;
+                }
+                return allowedHoursToRegister;
             }
-            return allowedHoursToRegister;
+            public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels, IEnumerable<byte> semesters, int studentID)
+            {
+                List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
+                                                        .GetOptionalCoursesDistibution(studentID)
+                                                        .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
+                                                        .ToList();
+                List<ElectiveCoursesDistribtionOutModel> optionalCoursesDTO = new();
+                for (int i = 0; i < optionalCoursesDistribution.Count; i++)
+                    optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
+                return optionalCoursesDTO;
+            }
         }
-        public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels, IEnumerable<byte> semesters, int studentID)
-        {
-            List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
-                                                    .GetOptionalCoursesDistibution(studentID)
-                                                    .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
-                                                    .ToList();
-            List<ElectiveCoursesDistribtionOutModel> optionalCoursesDTO = new();
-            for (int i = 0; i < optionalCoursesDistribution.Count; i++)
-                optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
-            return optionalCoursesDTO;
-        }
-    }
 
-    public class General
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public class General
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+        }
     }
-}

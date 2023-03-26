@@ -1,34 +1,27 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FOS.App.Repositories
 {
     public class ProgramTransferRequestRepo : IProgramTransferRequestRepo
     {
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public ProgramTransferRequestRepo(IConfiguration configuration)
+        public ProgramTransferRequestRepo(IDbContext config)
         {
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
         public bool DeleteRequest(int studentID)
         {
-            return QueryExecuterHelper.Execute(connectionString,
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "DELETE FROM StudentProgramTransferRequest WHERE StudentID = " + studentID + ";");
         }
 
-        public List<ProgramTransferRequestOutModel> GetRequests(ProgramTransferSearchParamModel model = null,int? studentID = null)
+        public List<ProgramTransferRequestOutModel> GetRequests(ProgramTransferSearchParamModel model = null, int? studentID = null)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
@@ -37,14 +30,15 @@ namespace FOS.App.Repositories
                 parameters.Add("@ToProgramID", model.ToProgramID);
                 parameters.Add("@IsApproved", model.IsApproved);
             }
-            return QueryExecuterHelper.Execute<ProgramTransferRequestOutModel>(connectionString,
+            return QueryExecuterHelper.Execute<ProgramTransferRequestOutModel>
+                (config.CreateInstance(),
                 "GetProgramTransferRequests"
                 , parameters);
         }
 
         public bool HandleRequest(int studentID, bool isApproved)
         {
-            return QueryExecuterHelper.Execute(connectionString,
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "UPDATE StudentProgramTransferRequest SET IsApproved = " + (isApproved ? 1 : 0)
                 + " WHERE StudentID = " + studentID + ";");
         }

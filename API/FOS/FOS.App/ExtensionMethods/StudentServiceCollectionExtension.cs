@@ -14,7 +14,7 @@ namespace FOS.App.ExtensionMethods
         public static IServiceCollection LoadStudentServices(this IServiceCollection services)
         {
 
-            services.AddDbContext<FOSContext>(ServiceLifetime.Scoped);
+            //services.AddDbContext<FOSContext>(ServiceLifetime.Scoped);
             services.AddScoped<IStudentRepo, StudentRepo>();
             services.AddScoped<IStudentCoursesRepo, StudentCoursesRepo>();
             services.AddScoped<IAcademicYearRepo, AcademicYearRepo>();

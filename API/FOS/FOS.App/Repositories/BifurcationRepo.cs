@@ -1,47 +1,38 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
-using FOS.DB.Models;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class BifurcationRepo : IBifurcationRepo
     {
-        private readonly FOSContext context;
         private readonly IAcademicYearRepo academicYearRepo;
-        private readonly IStudentRepo studentRepo;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public BifurcationRepo(FOSContext context, IAcademicYearRepo academicYearRepo, IStudentRepo studentRepo, IConfiguration configuration)
+        public BifurcationRepo(IAcademicYearRepo academicYearRepo, IDbContext config)
         {
-            this.context = context;
             this.academicYearRepo = academicYearRepo;
-            this.studentRepo = studentRepo;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
+            this.config = config;
         }
         public object BifurcateStudents()
         {
             //Get all data from desires table
-            var studentsDesireslst = context.StudentDesires
-                .Include(x => x.Student)
-                .Include(x => x.Program)
-                .OrderByDescending(g => g.Student.Cgpa)
-                .ThenBy(x => x.DesireNumber)
-                .ToList();
-            var programs = studentsDesireslst.Select(x => x.Program).Distinct();
+            var studentsDesireslst = QueryExecuterHelper.Execute<StudentDesiresOutModel>
+                (config.CreateInstance(), "GetAllStudentsDesires", null);
+            var programs = studentsDesireslst
+                .Select(x => new { ID = x.ProgramID, Percentage = x.ProgramPercentage })
+                .Distinct();
             //Create Dictionary to calculate number of student per program
             IDictionary<int, int> studentsCountPerProgram = new Dictionary<int, int>();
             for (var i = 0; i < programs.Count(); i++)
             {
                 var program = programs.ElementAt(i);
                 //Get totalcount of student in program i.e.(Math)
-                var stdsCount = studentsDesireslst.Where(x => x.ProgramId == program.Id).Count();
+                var stdsCount = studentsDesireslst.Where(x => x.ProgramID == program.ID).Count();
                 int perctange;
                 //If greater than 1, this means programs accepts exact number of students and not a percentage
                 if (program.Percentage > 1)
@@ -52,15 +43,15 @@ namespace FOS.App.Repositories
                 //Accepts all students
                 else
                     perctange = stdsCount;
-                studentsCountPerProgram.Add(program.Id, perctange);
+                studentsCountPerProgram.Add(program.ID, perctange);
             }
-            var studentsGroupedByProgram = studentsDesireslst.GroupBy(x => x.StudentCurrentProgramId);
+            var studentsGroupedByProgram = studentsDesireslst.GroupBy(x => x.StudentCurrentProgramID);
             var currentAcademicYear = academicYearRepo.GetCurrentYear();
-            List<StudentProgram> studentProgram = new();
+            List<StudentProgramInsertParamModel> studentProgram = new();
             Parallel.For(0, studentsGroupedByProgram.Count(), index =>
             {
-                var students = studentsGroupedByProgram.ElementAt(index)
-                                                .GroupBy(x => x.StudentId);
+                var students = studentsGroupedByProgram.ElementAt(index)//.ElementAt(index)
+                                                .GroupBy(x => x.StudentID);
                 //Loop through students
                 for (int i = 0; i < students.Count(); i++)
                 {
@@ -71,18 +62,18 @@ namespace FOS.App.Repositories
                         var desire = desires.ElementAt(j);
                         //Check if program has avaiable seats
                         //If yes then add student to the program
-                        studentsCountPerProgram.TryGetValue(desire.ProgramId, out int availablePlaces);
+                        studentsCountPerProgram.TryGetValue(desire.ProgramID, out int availablePlaces);
                         if (availablePlaces > 0)
                         {
-                            studentProgram.Add(new StudentProgram
+                            studentProgram.Add(new StudentProgramInsertParamModel
                             {
-                                Student = desire.Student,
-                                Program = desire.Program,
                                 AcademicYear = currentAcademicYear.Id,
-                                ProgramId = desire.ProgramId,
-                                StudentId = desire.StudentId,
+                                ProgramId = desire.ProgramID,
+                                StudentId = desire.StudentID,
+                                CGPA = desire.CGPA,
+                                ProgramName = desire.ProgramName
                             });
-                            studentsCountPerProgram[desire.ProgramId] = availablePlaces - 1;
+                            studentsCountPerProgram[desire.ProgramID] = availablePlaces - 1;
                             break;
                         }
                     }
@@ -92,22 +83,22 @@ namespace FOS.App.Repositories
             if (!res)
                 return null;
             //Summary for each program to get min GPA and accepted students count
-            var programsLst = studentProgram.GroupBy(x => x.Program);
+            var programsLst = studentProgram.GroupBy(x => x.ProgramId);
             List<object> programMinGPA = new();
             for (int i = 0; i < programsLst.Count(); i++)
             {
                 var currentProgram = programsLst.ElementAt(i);
                 programMinGPA.Add(new
                 {
-                    ProgramName = currentProgram.Key.Name,
+                    ProgramName = currentProgram.ElementAt(0)?.ProgramName,
                     StudentCount = currentProgram.Count(),
-                    MinGPA = currentProgram.OrderBy(x => x.Student.Cgpa).FirstOrDefault().Student.Cgpa,
-                    AvaiableSeats = studentsCountPerProgram[currentProgram.Key.Id]
+                    MinGPA = currentProgram.OrderBy(x => x.CGPA).FirstOrDefault().CGPA,
+                    AvaiableSeats = studentsCountPerProgram[currentProgram.Key]
                 });
             }
             return programMinGPA;
         }
-        public bool AddStudentsToPrograms(List<StudentProgram> studentProgram)
+        public bool AddStudentsToPrograms(List<StudentProgramInsertParamModel> studentProgram)
         {
             if (studentProgram == null || studentProgram.Count < 1)
                 return false;
@@ -119,7 +110,7 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(studentProgram[i].ProgramId, studentProgram[i].StudentId, studentProgram[i].AcademicYear);
             }
-            return QueryExecuterHelper.Execute(connectionString, "AddStudentsToPrograms", new List<SqlParameter>()
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentsToPrograms", new List<SqlParameter>()
             {
                 QueryExecuterHelper.DataTableToSqlParameter(dt,"StudentProgram","StudentsProgramsType"),
             });
@@ -138,7 +129,7 @@ namespace FOS.App.Repositories
             {
                 dt.Rows.Add(desires[i], i + 1);
             }
-            return QueryExecuterHelper.Execute(connectionString, "AddStudentDesires", new List<SqlParameter>()
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentDesires", new List<SqlParameter>()
             {
                 QueryExecuterHelper.DataTableToSqlParameter(dt,"Desires","StudentDesiresType"),
                 new SqlParameter("@StudentID", studentID),
@@ -146,40 +137,35 @@ namespace FOS.App.Repositories
             });
         }
         /// <summary>
-        /// Method to get programs that student can choose from
-        /// i.e i'm a first year CS student and we are in the second term
-        /// this function will send me 2 programs CS pure and CS/Math
-        /// </summary>
-        /// <param name="guid"></param>
-        /// <returns></returns>
-        public List<Program> GetAvailableProgram(string guid)
-        {
-            DB.Models.Student student = studentRepo.Get(guid);
-            int? progID = student.CurrentProgramId;
-            var parmeters = new DynamicParameters();
-            parmeters.Add("@ProgramID", progID);
-            using var con = new SqlConnection(connectionString);
-            return con.Query<Program>(
-                "GetSubPrograms",
-                parmeters,
-                commandType: CommandType.StoredProcedure
-                ).Where(x =>
-                x.Semester == student.SemestersNumberInProgram &
-                x.Semester % 2 == academicYearRepo.GetCurrentYear().Semester % 2)
-                .ToList();
-        }
-        /// <summary>
         /// Method to get student desires from database
         /// </summary>
         /// <param name="guid"></param>
         /// <returns></returns>
-        public List<StudentDesire> GetDesires(string guid)
+        public List<DesireProgramsOutModel> GetDesires(int id)
         {
-            IQueryable<StudentDesire> desires = context.StudentDesires.Where(x => x.Student.Guid == guid).Include(x => x.Program);
-            if (!desires.Any())
-                return null;
-            return desires.ToList();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ID", id);
+            return QueryExecuterHelper.Execute<DesireProgramsOutModel>
+                (config.CreateInstance(),
+                 "GetStudentDesires",
+                 parameters);
         }
-
+        public class StudentProgramInsertParamModel
+        {
+            public int ProgramId { get; set; }
+            public int StudentId { get; set; }
+            public int AcademicYear { get; set; }
+            public float CGPA { get; set; }
+            public string ProgramName { get; set; }
+        }
+        private class StudentDesiresOutModel
+        {
+            public int ProgramID { get; set; }
+            public string ProgramName { get; set; }
+            public float ProgramPercentage { get; set; }
+            public int StudentCurrentProgramID { get; set; }
+            public int StudentID { get; set; }
+            public float CGPA { get; set; }
+        }
     }
 }

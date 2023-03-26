@@ -1,63 +1,84 @@
-﻿using FOS.App.Helpers;
+﻿using Dapper;
+using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using FOS.DB.Models;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class CommonQuestionsRepo : ICommonQuestionsRepo
     {
-        private readonly FOSContext context;
+        private readonly IDbContext config;
 
-        public CommonQuestionsRepo(FOSContext context)
+        public CommonQuestionsRepo(IDbContext config)
         {
-            this.context = context;
+            this.config = config;
         }
         public bool AddQuestion(List<QuestionModel> questions)
         {
-            List<CommonQuestion> commonQuestions = new List<CommonQuestion>();
+            var dt = new DataTable();
+            dt.Columns.Add("Question");
+            dt.Columns.Add("Answer");
             for (int i = 0; i < questions.Count; i++)
+                dt.Rows.Add(questions[i].Question, questions[i].Answer);
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddCommonQuestions", new List<SqlParameter>
             {
-                commonQuestions.Add(new CommonQuestion()
-                {
-                    Answer = questions[i].Answer,
-                    Question = questions[i].Question
-                });
-            }
-            context.CommonQuestions.AddRange(commonQuestions);
-            return context.SaveChanges() > 0;
+                QueryExecuterHelper.DataTableToSqlParameter(dt, "Questions", "CommonQuestionsType")
+            });
         }
 
-        public bool DeleteQuestion(CommonQuestion question)
+        public bool DeleteQuestion(int questionID)
         {
-            if (question == null)
-                return false;
-            context.CommonQuestions.Remove(question);
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "DELETE FROM CommonQuestion WHERE ID = " + questionID);
         }
 
         public CommonQuestion GetQuestion(int id)
         {
-            return context.CommonQuestions.FirstOrDefault(x => x.Id == id);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Query", "SELECT * FROM CommonQuestion WHERE ID = " + id);
+            return QueryExecuterHelper.Execute<CommonQuestion>(config.CreateInstance(),
+                "QueryExecuter",
+                parameters).FirstOrDefault();
         }
 
         public List<CommonQuestion> GetQuestions(out int totalCount, SearchCriteria criteria)
         {
-            DbSet<CommonQuestion> commonQuestions = context.CommonQuestions;
-            return DataFilter<CommonQuestion>.FilterData(commonQuestions, criteria, out totalCount);
+            DynamicParameters parameters = new();
+            parameters.Add("@Question", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "question")?.Value?.ToString());
+            parameters.Add("@Answer", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "answer")?.Value?.ToString());
+            QueryExecuterHelper.GetPageParameters(parameters, criteria, "ID");
+            using var con = config.CreateInstance();
+            var questions = con.Query<CommonQuestion>
+                            ("GetCommonQuestions",
+                            param: parameters,
+                            commandType: CommandType.StoredProcedure
+                            )?.ToList();
+            totalCount = QueryExecuterHelper.GetTotalCountParamValue(parameters, questions);
+            return questions;
         }
         public List<CommonQuestion> GetQuestions()
         {
-            return context.CommonQuestions?.ToList();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Query", "SELECT * FROM CommonQuestion");
+            return QueryExecuterHelper.Execute<CommonQuestion>(config.CreateInstance(),
+                "[QueryExecuter]",
+                parameters);
         }
 
         public bool UpdateQuestion(CommonQuestion question)
         {
-            if (question == null) return false;
-            context.Entry(question).State = EntityState.Modified;
-            return context.SaveChanges() > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "UpdateCommonQuestion",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("@ID", question.Id),
+                    new SqlParameter("@Answer", question.Answer),
+                    new SqlParameter("@Question", question.Question)
+                });
         }
     }
 }

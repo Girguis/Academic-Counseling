@@ -1,6 +1,4 @@
-﻿using FOS.App.Students.DTOs;
-using FOS.Core.Enums;
-using FOS.Core.Models;
+﻿using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;

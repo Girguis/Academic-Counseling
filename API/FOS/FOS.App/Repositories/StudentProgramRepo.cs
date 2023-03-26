@@ -1,38 +1,23 @@
 ﻿using Dapper;
 using FOS.App.Comparers;
 using FOS.App.Helpers;
+using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
 {
     public class StudentProgramRepo : IStudentProgramRepo
     {
-        private readonly FOSContext context;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
+        private readonly IDbContext config;
 
-        public StudentProgramRepo(FOSContext context, IConfiguration configuration)
+        public StudentProgramRepo(IDbContext config)
         {
-            this.context = context;
-            this.configuration = configuration;
-            connectionString = this.configuration["ConnectionStrings:FosDB"];
-        }
-
-        public bool AddStudentProgram(StudentProgram studentProgram)
-        {
-            if (GetStudentProgram(studentProgram) == null)
-            {
-                context.StudentPrograms.Add(studentProgram);
-                return context.SaveChanges() > 0;
-            }
-            return true;
+            this.config = config;
         }
 
         public bool AddStudentPrograms(List<StudentProgramModel> model)
@@ -58,45 +43,32 @@ namespace FOS.App.Repositories
             for (var i = 0; i < toBeSavedLst.Count(); i++)
                 dt.Rows.Add(toBeSavedLst.ElementAt(i).ProgramId, toBeSavedLst.ElementAt(i).StudentId, toBeSavedLst.ElementAt(i).AcademicYear);
 
-            var studentProgramParam = QueryExecuterHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType");
-            return context.Database.ExecuteSqlRaw("EXEC [dbo].[AddStudentsToPrograms] @StudentProgram", studentProgramParam) > 0;
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentsToPrograms",
+                new List<SqlParameter>()
+                {
+                    new SqlParameter("StudentProgram",QueryExecuterHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType"))
+                });
         }
 
         public IEnumerable<StudentProgram> GetAllStudentPrograms(int studentID)
         {
-            return context.StudentPrograms.Where(x => x.StudentId == studentID).AsParallel();
+            using var con = config.CreateInstance();
+            return con.Query<StudentProgram>("SELECT * FROM StudentPrograms WHERE StudentID = " + studentID);
         }
 
         public List<DropDownModel> GetProgramsListForProgramTransfer(int programID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@ProgramID", programID);
-            SqlConnection con = new(connectionString);
-            return con.Query<DropDownModel>("GetProgramsListForProgramTransfer", parameters, commandType: CommandType.StoredProcedure)?.ToList();
+            return QueryExecuterHelper.Execute<DropDownModel>(config.CreateInstance(),
+                "GetProgramsListForProgramTransfer",
+                parameters);
         }
-
-        public Program GetStudentCurrentProgram(int studentID)
-        {
-            return context.StudentPrograms
-                .Where(x => x.StudentId == studentID)
-                .Include(x => x.Program)
-                .AsNoTracking()
-                .AsParallel()
-                .MaxBy(x => x.AcademicYear)
-                .Program;
-        }
-
-        public StudentProgram GetStudentProgram(StudentProgram studentProgram)
-        {
-            return context.StudentPrograms
-                .FirstOrDefault(x => x.StudentId == studentProgram.StudentId
-                                && x.ProgramId == studentProgram.ProgramId
-                                && x.AcademicYear == studentProgram.AcademicYear);
-        }
-
         public bool ProgramTransferRequest(int studentID, ProgramTransferParamModel model)
         {
-            return QueryExecuterHelper.Execute(connectionString, "SubmitStudentProgramTransferRequest", new List<SqlParameter>
+            return QueryExecuterHelper.Execute(config.CreateInstance()
+                , "SubmitStudentProgramTransferRequest",
+                new List<SqlParameter>
             {
                 new SqlParameter("@StudentID",studentID),
                 new SqlParameter("@ProgramID",model.ProgramID),

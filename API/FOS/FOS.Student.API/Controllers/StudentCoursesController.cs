@@ -1,4 +1,5 @@
-﻿using FOS.App.PDFCreators;
+﻿using FOS.Core.Languages;
+using FOS.App.PDFCreators;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.StudentDTOs;
@@ -15,17 +16,14 @@ namespace FOS.Students.API.Controllers
     [Authorize]
     public class StudentCoursesController : ControllerBase
     {
-        private readonly IAcademicYearRepo academicYearRepo;
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IStudentRepo studentRepo;
         private readonly ILogger logger;
 
-        public StudentCoursesController(IAcademicYearRepo academicYearRepo,
-                                        IStudentCoursesRepo studentCoursesRepo,
+        public StudentCoursesController(IStudentCoursesRepo studentCoursesRepo,
                                         IStudentRepo studentRepo,
                                         ILogger<StudentCoursesController> logger)
         {
-            this.academicYearRepo = academicYearRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.studentRepo = studentRepo;
             this.logger = logger;
@@ -43,11 +41,17 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrEmpty(guid))
-                    return BadRequest(new { Massage = "Invalid Student ID" });
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidID
+                    });
 
                 Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return BadRequest(new { Massage = "Student Not Found" });
+                    return NotFound(new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
                 var data = studentRepo.GetStudentAcademicYearsSummary(student.Id);
                 return Ok(data);
             }
@@ -70,11 +74,17 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrEmpty(guid))
-                    return BadRequest(new { Massage = "Invalid Student ID" });
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidID
+                    });
 
                 Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return BadRequest(new { Massage = "Student Not Found" });
+                    return NotFound(new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
 
                 var cources = studentCoursesRepo.GetCoursesByAcademicYear(student.Id, academicYearID);
                 return Ok(cources);
@@ -92,13 +102,13 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrEmpty(guid))
-                    return NotFound(new
+                    return BadRequest(new
                     {
-                        Massage = "ID Not found"
+                        Massage = Resource.InvalidID
                     });
                 Student student = studentRepo.Get(guid, true);
                 if (student == null)
-                    return NotFound(new { Massage = "Student not found" });
+                    return NotFound(new { Massage = string.Format(Resource.DoesntExist, Resource.Student) });
                 var (academicYears, courses) = studentRepo.GetAcademicDetailsForReport(student.Id);
                 var bytes = StudentAcademicReportPDF.CreateAcademicReport(student, academicYears, courses);
                 return File(bytes,

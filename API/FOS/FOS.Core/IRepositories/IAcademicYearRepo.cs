@@ -7,7 +7,5 @@ namespace FOS.Core.IRepositories
         bool StartNewYear();
         AcademicYear GetCurrentYear();
         List<AcademicYear> GetAcademicYearsList();
-        List<AcademicYear> GetAll(int studentID);
-        double? GetAcademicYearGPA(int studentID, short academicYear);
     }
 }

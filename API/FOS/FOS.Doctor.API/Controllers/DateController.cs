@@ -1,5 +1,6 @@
 ﻿using FOS.App.Doctors.DTOs;
 using FOS.App.Doctors.Mappers;
+using FOS.Core.Languages;
 using FOS.Core.IRepositories;
 using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +60,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Update/{id}")]
-        public IActionResult Update(int id, [FromBody]DateModel model)
+        public IActionResult Update(int id, [FromBody] DateModel model)
         {
             try
             {
@@ -69,11 +70,14 @@ namespace FOS.Doctors.API.Controllers
                 if (date == null) return NotFound();
 
                 if (model.StartDate > model.EndDate || model.StartDate == model.EndDate)
-                    return BadRequest(new { Massage = "Start date can't be greater or equal to end date" });
+                    return BadRequest(new { Massage = Resource.InvalidDateinterval });
 
                 var res = dateRepo.UpdateDate(id, model.StartDate.Value, model.EndDate.Value);
                 if (!res)
-                    return BadRequest();
+                    return BadRequest(new
+                    {
+                        Massage = Resource.ErrorOccured
+                    });
                 return Ok();
             }
             catch (Exception ex)

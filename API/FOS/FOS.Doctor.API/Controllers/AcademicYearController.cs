@@ -1,4 +1,5 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.Core.Languages;
+using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error Occured while starting a new academic year"
+                        Massage = Resource.ErrorOccured
                     });
                 return Ok();
             }

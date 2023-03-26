@@ -1,7 +1,5 @@
-﻿using FOS.DB.Models;
+﻿using FOS.Core;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FOS.App.ExtensionMethods
@@ -13,7 +11,8 @@ namespace FOS.App.ExtensionMethods
     {
         public static WebApplicationBuilder LoadDBServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddDbContext<FOSContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("FosDB")));
+            builder.Services.AddTransient<IDbContext, Core.DbContext>();
+            //builder.Services.AddDbContext<FOSContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("FosDB")));
             return builder;
         }
     }

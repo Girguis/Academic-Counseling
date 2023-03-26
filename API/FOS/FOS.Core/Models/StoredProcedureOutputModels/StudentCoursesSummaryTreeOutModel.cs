@@ -15,7 +15,7 @@
     public class StudentCourseDetailsOutModel
     {
         public int CourseID { get; set; }
-        public int Mark { get; set; }
+        public int? Mark { get; set; }
         public string Grade { get; set; }
         public int AcademicYearID { get; set; }
         public string AcademicYear { get; set; }

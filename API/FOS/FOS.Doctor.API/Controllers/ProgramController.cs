@@ -1,9 +1,8 @@
-﻿using FOS.App.Doctor.Mappers;
+﻿using FOS.Core.Languages;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
-using FOS.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace FOS.Doctors.API.Controllers
@@ -17,7 +16,7 @@ namespace FOS.Doctors.API.Controllers
         private readonly ILogger<ProgramController> logger;
         private readonly IProgramRepo programRepo;
 
-        public ProgramController(ILogger<ProgramController> logger,IProgramRepo programRepo)
+        public ProgramController(ILogger<ProgramController> logger, IProgramRepo programRepo)
         {
             this.logger = logger;
             this.programRepo = programRepo;
@@ -32,7 +31,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while adding program",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 return Ok();
@@ -49,9 +48,9 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var program = programRepo.GetProgram(id);
-                if(program == null)
+                if (program == null)
                     return NotFound();
-                return Ok(program.ToProgramBasicDTO());
+                return Ok(program);
             }
             catch (Exception ex)
             {
@@ -61,15 +60,15 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpPost("GetAll")]
-        public IActionResult GetAll([FromBody]SearchCriteria criteria)
+        public IActionResult GetAll([FromBody] SearchCriteria criteria)
         {
             try
             {
                 var res = programRepo.GetPrograms(out int totalCount, criteria);
                 return Ok(new
                 {
-                    TotalCount= totalCount,
-                    Data = res.ToProgramBasicDTO()
+                    TotalCount = totalCount,
+                    Data = res
                 });
             }
             catch (Exception ex)
@@ -88,12 +87,12 @@ namespace FOS.Doctors.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while updating program",
+                        Massage = Resource.ErrorOccured,
                         Data = model
                     });
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

@@ -1,4 +1,5 @@
-﻿using FOS.Core.IRepositories;
+﻿using FOS.Core.Languages;
+using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,10 @@ namespace FOS.Doctors.API.Controllers
             {
                 var filePath = databaseRepo.Backup();
                 if (filePath == null)
-                    return BadRequest();
+                    return BadRequest(new
+                    {
+                        Massage = Resource.ErrorOccured
+                    });
                 MemoryStream ms = new MemoryStream();
                 using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                     file.CopyTo(ms);
@@ -43,29 +47,30 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Restore")]
-        public IActionResult Restore(IFormFile dbFile) 
+        public IActionResult Restore(IFormFile dbFile)
         {
             try
             {
                 if (dbFile.Length < 1)
-                    return BadRequest(new { Massage = "Invalid file" });
+                    return BadRequest(new { Massage = Resource.FileNotValid });
 
                 string uploads = Path.Combine(Directory.GetCurrentDirectory(), "DbRestoreFiles");
-                if(!Directory.Exists(uploads))
+                if (!Directory.Exists(uploads))
                     Directory.CreateDirectory(uploads);
                 string filePath = Path.Combine(uploads, dbFile.FileName);
                 using Stream fileStream = new FileStream(filePath, FileMode.Create);
                 dbFile.CopyTo(fileStream);
                 fileStream.Close();
+                filePath = filePath.Replace("\\", "/");
                 bool restored = databaseRepo.Restore(filePath);
                 if (!restored)
-                    return BadRequest(new { Massage = "Error occured while restoring database" });
+                    return BadRequest(new { Massage = Resource.ErrorOccured });
                 return Ok(new
                 {
-                    Massage = "Restored"
+                    Massage = Resource.Restored
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

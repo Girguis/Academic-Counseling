@@ -6,6 +6,7 @@ using FOS.DB.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 
 namespace FOS.App.PDFCreators
 {
@@ -62,7 +63,7 @@ namespace FOS.App.PDFCreators
                                 });
                                 tbl.Header(header =>
                                 {
-                                    var text = Helper.GetEnumDescription((SemesterEnum)academicYears.ElementAt(i).Semester)+" - "+ PDFCommonFunctions.Reverse(academicYears.ElementAt(i).AcademicYear)+" - "+ academicYears.ElementAt(i).ProgramName;
+                                    var text = Helper.GetDisplayName((SemesterEnum)academicYears.ElementAt(i).Semester)+" - "+ PDFCommonFunctions.Reverse(academicYears.ElementAt(i).AcademicYear)+" - "+ academicYears.ElementAt(i).ProgramName;
                                     header.Cell().ColumnSpan(7).Background(Colors.Grey.Lighten1).CellNoBorder().Text(text).SetFontSize(16); 
                                     header.Cell().Row(2).Column(1).Background(Colors.Grey.Lighten3).CellWithBorder().Text("كود").SetFontSize(16);
                                     header.Cell().Row(2).Column(2).Background(Colors.Grey.Lighten3).CellWithBorder().Text("اسم المقرر").SetFontSize(16);

@@ -1,61 +1,56 @@
 ﻿using Dapper;
+using FOS.Core.SearchModels;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace FOS.App.Helpers
 {
-    public class QueryExecuterHelper
+    public static class QueryExecuterHelper
     {
-        public static bool Execute(string connectionString, string storedProcedureName, List<SqlParameter> parameters)
+        public static bool Execute(SqlConnection con, string storedProcedureName, List<SqlParameter> parameters)
         {
             var res = 0;
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("[dbo].[" + storedProcedureName + "]", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                for (int i = 0; i < parameters.Count; i++)
-                    cmd.Parameters.Add(parameters.ElementAt(i));
+            con.Open();
+            SqlCommand cmd = new SqlCommand("[dbo].[" + storedProcedureName + "]", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            for (int i = 0; i < parameters.Count; i++)
+                cmd.Parameters.Add(parameters.ElementAt(i));
 
-                SqlTransaction trans1 = con.BeginTransaction();
-                cmd.Transaction = trans1;
-                try
-                {
-                    res = cmd.ExecuteNonQuery();
-                    trans1.Commit();
-                }
-                catch
-                {
-                    trans1.Rollback();
-                }
-                con.Close();
+            SqlTransaction trans1 = con.BeginTransaction();
+            cmd.Transaction = trans1;
+            try
+            {
+                res = cmd.ExecuteNonQuery();
+                trans1.Commit();
             }
+            catch
+            {
+                trans1.Rollback();
+            }
+            con.Close();
             return res > 0;
         }
-        public static bool Execute(string connectionString, string query)
+        public static bool Execute(SqlConnection con, string query)
         {
             var res = 0;
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = con;
-                cmd.CommandText = query;
+            con.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = query;
 
-                cmd.CommandType = CommandType.Text;
-                SqlTransaction trans1 = con.BeginTransaction();
-                cmd.Transaction = trans1;
-                try
-                {
-                    res = cmd.ExecuteNonQuery();
-                    trans1.Commit();
-                }
-                catch
-                {
-                    trans1.Rollback();
-                }
-                con.Close();
+            cmd.CommandType = CommandType.Text;
+            SqlTransaction trans1 = con.BeginTransaction();
+            cmd.Transaction = trans1;
+            try
+            {
+                res = cmd.ExecuteNonQuery();
+                trans1.Commit();
             }
+            catch
+            {
+                trans1.Rollback();
+            }
+            con.Close();
             return res > 0;
         }
         public static SqlParameter DataTableToSqlParameter(DataTable dt, string parameterName, string tableTypeName)
@@ -65,39 +60,48 @@ namespace FOS.App.Helpers
             parameter.SqlDbType = SqlDbType.Structured;
             return parameter;
         }
-        public static object ExecuteFunction(string connectionString, string functionName, List<object> parameters)
+        public static object ExecuteFunction(SqlConnection con, string functionName,string parameters)
         {
             object res;
-            using (SqlConnection con = new SqlConnection(connectionString))
+            con.Open();
+            var query = "SELECT [dbo].[" + functionName + "](" + parameters + ")";
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.CommandType = CommandType.Text;
+            try
             {
-                con.Open();
-                var query = "SELECT [dbo].[" + functionName + "](" + string.Join(",", parameters) + ")";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.CommandType = CommandType.Text;
-                try
-                {
-                    res = cmd.ExecuteScalar();
-                }
-                catch (Exception)
-                {
-                    res = null;
-                }
-                con.Close();
+                res = cmd.ExecuteScalar();
             }
+            catch (Exception)
+            {
+                res = null;
+            }
+            con.Close();
             return res;
         }
-        public static List<T> Execute<T>(string connectionString, string storedProcedureName, DynamicParameters parameters)
+        public static List<T> Execute<T>(SqlConnection con, string storedProcedureName, DynamicParameters parameters = null)
         {
-            using SqlConnection con = new SqlConnection(connectionString);
-            if(parameters == null)
+            if (parameters == null)
                 return con.Query<T>(storedProcedureName, commandType: CommandType.StoredProcedure)?.ToList();
             return con.Query<T>(storedProcedureName, param: parameters, commandType: CommandType.StoredProcedure)?.ToList();
         }
-        public static bool ExecuteQuery(string connectionString,string query)
+        public static bool ExecuteQuery(string connectionString, string query)
         {
             using SqlConnection con = new SqlConnection(connectionString);
             var res = con.Query(query, commandType: CommandType.Text);
             return true;
+        }
+        public static void GetPageParameters(this DynamicParameters parameters, SearchCriteria criteria, string defaultOrderCol)
+        {
+            parameters.Add("@PageNumber", criteria.PageNumber <= 0 ? 1 : criteria.PageNumber);
+            parameters.Add("@PageSize", criteria.PageSize <= 0 ? 20 : criteria.PageSize);
+            parameters.Add("@OrderBy", (string.IsNullOrEmpty(criteria.OrderByColumn) || criteria.OrderByColumn.ToLower() == "string") ? defaultOrderCol : criteria.OrderByColumn);
+            parameters.Add("@OrderDirection", criteria.Ascending ? "ASC" : "DESC");
+            parameters.Add("@TotalCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+        }
+        public static int GetTotalCountParamValue<T>(DynamicParameters parameters, List<T> data) where T : class
+        {
+            try { return parameters.Get<int>("TotalCount"); }
+            catch { return data.Count; }
         }
     }
 }

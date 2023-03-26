@@ -1,175 +1,247 @@
 USE [FOS]
 GO
-/****** Object:  Trigger [StudentProgramHandleTransferRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [StudentProgramHandleTransferRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[StudentProgramHandleTransferRequest]
 GO
-/****** Object:  Trigger [UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[UpdateStudentCurrentProgramAfterDelete]
 GO
-/****** Object:  Trigger [UpdateStudentCurrentProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [UpdateStudentCurrentProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [UpdateStudentCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [UpdateStudentCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[UpdateStudentCourse]
 GO
-/****** Object:  Trigger [GiveBackCredits]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [GiveBackCredits]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[GiveBackCredits]
 GO
-/****** Object:  Trigger [EntringStudentCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [EntringStudentCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[EntringStudentCourse]
 GO
-/****** Object:  Trigger [HandleRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [HandleRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[HandleRequest]
 GO
-/****** Object:  Trigger [SupervisorRemovalForGraduates]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [SupervisorRemovalForGraduates]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[SupervisorRemovalForGraduates]
 GO
-/****** Object:  Trigger [RankUpdater]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [RankUpdater]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[RankUpdater]
 GO
-/****** Object:  Trigger [CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [CalculateProgramTotalHours]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [CalculateProgramTotalHours]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [SetActiveCoursesBySemester]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [SetActiveCoursesBySemester]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TRIGGER [dbo].[IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[UpdateSuperAdminPassword]
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[UpdateStudent]
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[UpdateProgramBasicData]
 GO
-/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[UpdateDoctor]
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[UpdateCourse]
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[UpdateCommonQuestion]
+GO
+/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[ToggleDoctorAccount]
+GO
+/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[SubmitStudentProgramTransferRequest]
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[StudentCoursesRegistration]
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Statistics_StudentGrades]
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Statistics_Programs]
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Statistics_CourseGrades]
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[StartNewAcademicYear]
+GO
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Report_StudentCoursesSummaryAsTree]
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Report_StudentCoursesSummary]
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Report_StudentAcademicReport]
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Report_GetStruggledStudents]
 GO
-/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Report_ExamCommitteeStudents]
 GO
-/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Report_CourseGradesSheet]
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[QueryExecuter]
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[ProgramSwitchingForStudent]
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Login_SuperAdmin]
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Login_Student]
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[Login_Doctor]
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetSuperAdmin]
+GO
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetSubPrograms]
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetStudents]
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetStudentDesires]
+GO
+/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetStudentCoursesByAcademicYear]
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetStudentAcademicYearsSummary]
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetStudent]
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetProgramTransferRequests]
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetProgramsListForProgramTransfer]
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetPrograms]
+GO
+/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetProgramByID]
+GO
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetPassedCoursesList]
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetFailedCoursesList]
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetElectiveCoursesDistribution]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetDoctors]
+GO
+/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetDoctorByGuid]
+GO
+/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetDates]
+GO
+/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesRequests]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesListExceptPassed]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesForOverload]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesForGraduation]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesForEnhancement]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesForDeletionOrWithdraw]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCoursesForAddAndDelete]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCourses]
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetCourseDetails]
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetCommonQuestions]
+GO
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetAvailableCoursesToRegister]
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[GetAllSubPrograms]
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetAllStudentsDesires]
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetAllStudentCourses]
+GO
+/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[GetAcademicYears]
+GO
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[CoursesActivation]
 GO
-/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[ChangeDoctorPassword]
+GO
+/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[BackUpDatabase]
+GO
+/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[AssignDoctorsToCourse]
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[AddStudentsToPrograms]
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[AddStudentDesires]
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[AddStudentCourses]
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[AddStudent]
+GO
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP PROCEDURE [dbo].[AddProgram]
+GO
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[AddDoctor]
+GO
+/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[AddCourse]
+GO
+/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP PROCEDURE [dbo].[AddCommonQuestions]
 GO
 ALTER TABLE [dbo].[TeacherCourses] DROP CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
@@ -257,174 +329,186 @@ ALTER TABLE [dbo].[Program] DROP CONSTRAINT [DF_Program_TotalHours]
 GO
 ALTER TABLE [dbo].[Doctor] DROP CONSTRAINT [DF_Doctor_Type]
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP INDEX [K_GUID] ON [dbo].[Student]
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TeacherCourses]') AND type in (N'U'))
 DROP TABLE [dbo].[TeacherCourses]
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SuperAdmin]') AND type in (N'U'))
 DROP TABLE [dbo].[SuperAdmin]
 GO
-/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentProgramTransferRequest]') AND type in (N'U'))
 DROP TABLE [dbo].[StudentProgramTransferRequest]
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentPrograms]') AND type in (N'U'))
 DROP TABLE [dbo].[StudentPrograms]
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentDesires]') AND type in (N'U'))
 DROP TABLE [dbo].[StudentDesires]
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourses]') AND type in (N'U'))
 DROP TABLE [dbo].[StudentCourses]
 GO
-/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourseRequest]') AND type in (N'U'))
 DROP TABLE [dbo].[StudentCourseRequest]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Student]') AND type in (N'U'))
 DROP TABLE [dbo].[Student]
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramDistribution]') AND type in (N'U'))
 DROP TABLE [dbo].[ProgramDistribution]
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProgramCourses]') AND type in (N'U'))
 DROP TABLE [dbo].[ProgramCourses]
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Program]') AND type in (N'U'))
 DROP TABLE [dbo].[Program]
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ElectiveCourseDistribution]') AND type in (N'U'))
 DROP TABLE [dbo].[ElectiveCourseDistribution]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Doctor]') AND type in (N'U'))
 DROP TABLE [dbo].[Doctor]
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Date]') AND type in (N'U'))
 DROP TABLE [dbo].[Date]
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursePrerequisites]') AND type in (N'U'))
 DROP TABLE [dbo].[CoursePrerequisites]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Course]') AND type in (N'U'))
 DROP TABLE [dbo].[Course]
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CommonQuestion]') AND type in (N'U'))
 DROP TABLE [dbo].[CommonQuestion]
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AcademicYear]') AND type in (N'U'))
 DROP TABLE [dbo].[AcademicYear]
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[RankStudent]
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[IsStudentInSpecialProgram]
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[IsGraduatedStudent]
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP FUNCTION [dbo].[IsDoctorEmailExist]
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[IsCourseIncluded]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP FUNCTION [dbo].[IsCourseExist]
+GO
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetSumOfElectivePassedHours]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetStudentProgramNameAtAcademicYear]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetStudentProgram]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetStudentGradeInCourse]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetPrequisteNumber]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetPassedPrequisteNumber]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetNumberOfWarnings]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetLastRegularSemesterGpa]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetDoctorIDFromGuid]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[GetCurrentYearID]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CountRegistrationTimes]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CheckIfPassedCourse]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CanRegisterThisCourse]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CalculateStudentLevel]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CalculateSGPA]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CalculatePassedHours]
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP FUNCTION [dbo].[CalculateCGPA]
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[StudentsProgramsType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[StudentRegistrationCoursesType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[StudentDesiresType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[ProgramDistributionType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[ProgramCoursesType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[PrerequisiteCoursesType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[ElectiveCourseDistributionType]
 GO
-/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP TYPE [dbo].[DoctorsGuidType]
+GO
+/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP TYPE [dbo].[CourseType]
+GO
+/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-03-26 3:36:18 PM ******/
+DROP TYPE [dbo].[CommonQuestionsType]
 GO
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-03-26 3:36:18 PM ******/
 DROP DATABASE [FOS]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE DATABASE [FOS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -504,12 +588,31 @@ ALTER DATABASE [FOS] SET QUERY_STORE = OFF
 GO
 USE [FOS]
 GO
-/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-03-26 3:36:18 PM ******/
+CREATE TYPE [dbo].[CommonQuestionsType] AS TABLE(
+	[Question] [nvarchar](max) NULL,
+	[Answer] [nvarchar](max) NULL
+)
+GO
+/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-03-26 3:36:18 PM ******/
+CREATE TYPE [dbo].[CourseType] AS TABLE(
+	[CourseCode] [nvarchar](max) NULL,
+	[CourseName] [nvarchar](max) NULL,
+	[CreditHours] [tinyint] NULL,
+	[LectureHours] [tinyint] NULL,
+	[LabHours] [tinyint] NULL,
+	[SectionHours] [tinyint] NULL,
+	[IsActive] [bit] NULL,
+	[Level] [tinyint] NULL,
+	[Semester] [tinyint] NULL
+)
+GO
+/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[DoctorsGuidType] AS TABLE(
 	[DoctorGuid] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
@@ -518,13 +621,13 @@ CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Hour] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[PrerequisiteCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteCourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteRelationID] [tinyint] NULL,
@@ -532,32 +635,32 @@ CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[Category] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[ProgramDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
 	[NumberOfHours] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
 	[ProgramID] [int] NULL,
 	[DesireNumber] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[StudentRegistrationCoursesType] AS TABLE(
 	[CourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE TYPE [dbo].[StudentsProgramsType] AS TABLE(
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -579,7 +682,7 @@ AS
 		 RETURN @CGPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -603,7 +706,7 @@ BEGIN
 	RETURN 0;
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -626,7 +729,7 @@ AS
 		 RETURN @GPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -664,7 +767,7 @@ BEGIN
 	RETURN @StudentLevel
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -710,7 +813,7 @@ ELSE
 RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -738,7 +841,7 @@ ELSE
 RETURN @IsPassed;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -759,7 +862,7 @@ BEGIN
 	RETURN @RegCounter;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -773,7 +876,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -792,7 +895,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -823,7 +926,7 @@ BEGIN
 	RETURN [dbo].[CalculateSGPA](@StudentID,@AcademicYearID);
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -879,7 +982,7 @@ BEGIN
 	RETURN @NumberOfWarnings;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -909,7 +1012,7 @@ DEALLOCATE Count_Passed_Prerequiste_Number;
 RETURN @PassedCoursesNumber;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -947,7 +1050,7 @@ BEGIN
 	RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -962,7 +1065,7 @@ BEGIN
 	RETURN @Grade;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -981,7 +1084,7 @@ AS
 		 RETURN @ProgramID;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -999,7 +1102,7 @@ BEGIN
 	RETURN @ProgName;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1045,7 +1148,24 @@ BEGIN
 	RETURN @HoursSum;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[IsCourseExist](@CourseCode NVARCHAR(MAX))
+RETURNS BIT
+AS
+BEGIN
+	IF EXISTS ( SELECT 1 FROM Course WHERE CourseCode = @CourseCode)
+		BEGIN
+			RETURN 1;
+		END
+	
+	RETURN 0;
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1063,7 +1183,24 @@ AS
 		RETURN 0;
 	END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[IsDoctorEmailExist](@Email NVARCHAR(MAX))
+RETURNS BIT
+AS
+BEGIN
+IF EXISTS ( SELECT 1 FROM Doctor WHERE Email = @Email)
+		BEGIN
+			RETURN 1;
+		END
+	
+	RETURN 0;
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1092,7 +1229,7 @@ AS
 		RETURN @IsGraduated;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1130,7 +1267,7 @@ AS
 		--RETURN 0;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1162,7 +1299,7 @@ AS
 		RETURN @ReturnValue;
 	END
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1177,7 +1314,7 @@ CREATE TABLE [dbo].[AcademicYear](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1192,7 +1329,7 @@ CREATE TABLE [dbo].[CommonQuestion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1214,7 +1351,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1225,7 +1362,7 @@ CREATE TABLE [dbo].[CoursePrerequisites](
 	[PrerequisiteCourseID] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1236,7 +1373,7 @@ CREATE TABLE [dbo].[Date](
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1257,7 +1394,7 @@ CREATE TABLE [dbo].[Doctor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1271,7 +1408,7 @@ CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[Hour] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1293,7 +1430,7 @@ CREATE TABLE [dbo].[Program](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1306,7 +1443,7 @@ CREATE TABLE [dbo].[ProgramCourses](
 	[Category] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1318,7 +1455,7 @@ CREATE TABLE [dbo].[ProgramDistribution](
 	[NumberOfHours] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1360,7 +1497,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1374,7 +1511,7 @@ CREATE TABLE [dbo].[StudentCourseRequest](
 	[CourseOperationID] [bit] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1399,7 +1536,7 @@ CREATE TABLE [dbo].[StudentCourses](
 	[TookFromEnhancementCredits] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1411,7 +1548,7 @@ CREATE TABLE [dbo].[StudentDesires](
 	[StudentCurrentProgramID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1422,7 +1559,7 @@ CREATE TABLE [dbo].[StudentPrograms](
 	[AcademicYear] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1434,7 +1571,7 @@ CREATE TABLE [dbo].[StudentProgramTransferRequest](
 	[IsApproved] [bit] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1451,7 +1588,7 @@ CREATE TABLE [dbo].[SuperAdmin](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1932,7 +2069,7 @@ INSERT [dbo].[CoursePrerequisites] ([ProgramID], [CourseID], [PrerequisiteCourse
 GO
 INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (0, CAST(N'2023-02-10T15:57:00' AS SmallDateTime), CAST(N'2023-03-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (1, CAST(N'2022-12-01T00:00:00' AS SmallDateTime), CAST(N'2023-03-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (1, CAST(N'2023-03-26T12:47:00' AS SmallDateTime), CAST(N'2023-04-30T12:47:00' AS SmallDateTime))
 GO
 INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (2, CAST(N'2023-02-10T00:00:00' AS SmallDateTime), CAST(N'2023-04-15T00:00:00' AS SmallDateTime))
 GO
@@ -1950,7 +2087,7 @@ SET IDENTITY_INSERT [dbo].[Doctor] ON
 GO
 INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (2, N'A95A4304-E215-46A3-A3C9-3D01F90F0868', N'CS supervisor', N'cssuper@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 5, 1)
 GO
-INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (3, N'A95A4304-E215-46A3-A3C9-3D01F90F543', N'Math Admin', N'Amath@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 0, CAST(N'2022-03-09T00:00:00' AS SmallDateTime), 1, 1)
+INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (3, N'A95A4304-E215-46A3-A3C9-3D01F90F543', N'Math Admin', N'Amath@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-03-09T00:00:00' AS SmallDateTime), 1, 1)
 GO
 SET IDENTITY_INSERT [dbo].[Doctor] OFF
 GO
@@ -2596,7 +2733,7 @@ SET IDENTITY_INSERT [dbo].[Student] ON
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190691', N'190691', 9, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, 3, 1, 5, 8, 8)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'113407A1FFA2461A74B42B7078589B87EB6B66EEAEF67778FFF0A3DE3DD09A460B2D17BFBA9AB924CBB3060E97B684DC4DBCE353462B0C1464F9EC55324580EC', N'190114', N'190114', 12, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, 1, 1, 5, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'113407A1FFA2461A74B42B7078589B87EB6B66EEAEF67778FFF0A3DE3DD09A460B2D17BFBA9AB924CBB3060E97B684DC4DBCE353462B0C1464F9EC55324580EC', N'190114', N'190114', 12, NULL, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, 1, 1, 1, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'جوفانى نادى ذكرى', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190552', N'190552', 8, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, NULL, 1, 5, 8, 8)
 GO
@@ -2619,6 +2756,8 @@ GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'147201', N'332011', 2, NULL, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, NULL, 1, 7, 8, 8)
 GO
 SET IDENTITY_INSERT [dbo].[Student] OFF
+GO
+INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'8787', 1, 8, 72, 1, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (5, 28, 119, N'B', 3, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
@@ -2732,85 +2871,85 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (5, 16, 72, N'C+', 2.67, 1, 1, 1, 1, 0, 18, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 1, 108, N'C+', 2.67, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 1, 108, N'C+', 2.67, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 2, 45, N'A', 4, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 2, 45, N'A', 4, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 50, 35, N'P', 0, 1, 0, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 50, 35, N'P', 0, 1, 0, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 52, 141, N'C+', 2.67, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 52, 141, N'C+', 2.67, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 83, 149, N'C+', 2.67, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 83, 149, N'C+', 2.67, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 84, 45, N'A', 4, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 84, 45, N'A', 4, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 87, 122, N'B+', 3.33, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 87, 122, N'B+', 3.33, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 3, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 3, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 4, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 4, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 5, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 5, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 46, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 46, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 51, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 51, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 53, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 53, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 54, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 54, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 6, 102, N'C', 2.33, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 6, 102, N'C', 2.33, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 8, 68, N'C', 2.33, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 8, 68, N'C', 2.33, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 10, 149, N'A', 4, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 10, 149, N'A', 4, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 12, 150, N'B', 3, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 12, 150, N'B', 3, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 47, 88, N'A-', 3.67, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 47, 88, N'A-', 3.67, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 57, 95, N'D', 2, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 57, 95, N'D', 2, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 7, 133, N'A-', 3.67, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 7, 133, N'A-', 3.67, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 9, 119, N'B', 3, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 9, 119, N'B', 3, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 11, 131, N'A-', 3.67, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 11, 131, N'A-', 3.67, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 13, 141, N'A', 4, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 13, 141, N'A', 4, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 14, 76, N'B', 3, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 14, 76, N'B', 3, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 56, 139, N'A', 4, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 56, 139, N'A', 4, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 15, 144, N'A', 4, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 15, 144, N'A', 4, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 17, 71, N'C+', 2.67, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 17, 71, N'C+', 2.67, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 19, 106, N'C+', 2.67, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 19, 106, N'C+', 2.67, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 21, 119, N'B', 3, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 21, 119, N'B', 3, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 23, 72, N'C+', 2.67, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 23, 72, N'C+', 2.67, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 72, 71, N'F', 0, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 72, 71, N'F', 0, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 85, 48, N'A', 4, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 85, 48, N'A', 4, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 18, 92, N'D', 2, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 18, 92, N'D', 2, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 20, 117, N'B', 3, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 20, 117, N'B', 3, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 22, 111, N'C+', 2.67, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 22, 111, N'C+', 2.67, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 24, 91, N'A', 4, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 24, 91, N'A', 4, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 27, 90, N'A', 4, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 27, 90, N'A', 4, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 48, 50, N'A', 4, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 48, 50, N'A', 4, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 31, 127, N'B+', 3.33, 1, 1, 1, 1, 0, 18, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 31, 127, N'B+', 3.33, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 1, NULL, N'F', 0, 1, 1, 1, 1, 0, 10, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2846,19 +2985,19 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 47, NULL, N'B', 3, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 55, NULL, NULL, NULL, 1, 1, 0, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 55, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 57, NULL, N'F', 0, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 59, NULL, N'F', 0, 1, 1, 0, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 59, NULL, N'F', 0, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 7, NULL, N'F', 0, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 114, NULL, N'C+', 2.67, 1, 1, 0, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 114, NULL, N'C+', 2.67, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 56, NULL, N'A', 4, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 58, NULL, N'B', 3, 1, 1, 0, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 58, NULL, N'B', 3, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 6, NULL, N'C', 2.33, 1, 1, 1, 2, 0, 15, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2868,11 +3007,11 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 23, NULL, N'F', 0, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 115, NULL, N'D', 2, 1, 1, 0, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 115, NULL, N'D', 2, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 63, NULL, N'F', 0, 1, 1, 0, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 63, NULL, N'F', 0, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 67, NULL, N'D', 2, 1, 1, 0, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 67, NULL, N'D', 2, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 85, NULL, N'B+', 3.33, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2884,7 +3023,7 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 48, NULL, N'A', 4, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 64, NULL, N'C+', 2.67, 1, 1, 0, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 64, NULL, N'C+', 2.67, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 22, NULL, N'C+', 2.67, 1, 1, 1, 1, 0, 18, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2916,7 +3055,7 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 54, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 88, NULL, N'P', 0, 1, 0, 0, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 88, NULL, N'P', 0, 1, 0, 1, 1, 0, 11, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 1, NULL, N'C', 2.33, 1, 1, 1, 2, 0, 12, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2928,23 +3067,23 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 47, NULL, N'A', 4, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 89, NULL, N'F', 0, 1, 1, 0, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 89, NULL, N'F', 0, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 91, NULL, N'B+', 3.33, 1, 1, 0, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 91, NULL, N'B+', 3.33, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 93, NULL, N'C+', 2.67, 1, 1, 0, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 93, NULL, N'C+', 2.67, 1, 1, 1, 1, 0, 13, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 7, NULL, N'B', 3, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 13, NULL, N'A-', 3.67, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 114, NULL, N'A', 4, 1, 1, 0, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 114, NULL, N'A', 4, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 90, NULL, N'F', 0, 1, 1, 0, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 90, NULL, N'F', 0, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 92, NULL, N'B+', 3.33, 1, 1, 0, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 92, NULL, N'B+', 3.33, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 95, NULL, N'F', 0, 1, 1, 0, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 95, NULL, N'F', 0, 1, 1, 1, 1, 0, 14, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 19, NULL, N'D', 2, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2954,9 +3093,9 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 85, NULL, N'B', 3, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 89, NULL, N'F', 0, 1, 1, 0, 2, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 89, NULL, N'F', 0, 1, 1, 1, 2, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 99, NULL, N'F', 0, 1, 1, 0, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 99, NULL, N'F', 0, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 28, NULL, N'C', 2.33, 1, 1, 1, 1, 0, 16, 1, NULL, 0, 0, 0, 0)
 GO
@@ -2966,9 +3105,9 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 48, NULL, N'A', 4, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 98, NULL, N'D', 2, 1, 1, 0, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 98, NULL, N'D', 2, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 103, NULL, N'C+', 2.67, 1, 1, 0, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 103, NULL, N'C+', 2.67, 1, 1, 1, 1, 0, 17, 1, NULL, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 22, NULL, N'B', 3, 1, 1, 1, 1, 0, 18, 1, NULL, 0, 0, 0, 0)
 GO
@@ -3496,7 +3635,7 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 54, NULL, N'P', NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 88, NULL, N'P', NULL, 1, 0, 0, 1, 0, 11, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 88, NULL, N'P', NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 1, 94, N'D', 2, 1, 1, 1, 2, 0, 12, 1, 1, 0, 0, 0, 0)
 GO
@@ -3508,19 +3647,19 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 47, 74, N'C+', 2.67, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 89, 80, N'F', 0, 1, 1, 0, 1, 0, 13, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 89, 80, N'F', 0, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 91, 128, N'A-', 3.67, 1, 1, 0, 1, 0, 13, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 91, 128, N'A-', 3.67, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 93, 128, N'A-', 3.67, 1, 1, 0, 1, 0, 13, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 93, 128, N'A-', 3.67, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 114, 126, N'B+', 3.33, 1, 1, 0, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 114, 126, N'B+', 3.33, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 90, 95, N'D', 2, 1, 1, 0, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 90, 95, N'D', 2, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 92, 112, N'C+', 2.67, 1, 1, 0, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 92, 112, N'C+', 2.67, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 95, 101, N'C', 2.33, 1, 1, 0, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 95, 101, N'C', 2.33, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 6, 106, N'C+', 2.67, 1, 1, 1, 2, 0, 15, 1, 1, 0, 0, 0, 0)
 GO
@@ -3530,9 +3669,9 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 85, 33, N'C', 2.33, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 97, 104, N'C', 2.33, 1, 1, 0, 1, 0, 16, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 97, 104, N'C', 2.33, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 99, 82, N'F', 0, 1, 1, 0, 1, 0, 16, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 99, 82, N'F', 0, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 13, 109, N'C+', 2.67, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
@@ -3540,9 +3679,9 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 48, 49, N'A', 4, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 98, 122, N'B+', 3.33, 1, 1, 0, 1, 0, 17, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 98, 122, N'B+', 3.33, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 103, 88, N'A-', 3.67, 1, 1, 0, 1, 0, 17, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 103, 88, N'A-', 3.67, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 16, 63, N'D', 2, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
 GO
@@ -3556,11 +3695,11 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 86, 37, N'C+', 2.67, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 101, 111, N'C+', 2.67, 1, 1, 0, 1, 0, 19, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 101, 111, N'C+', 2.67, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 105, 168, N'B+', 3.33, 1, 1, 0, 1, 0, 19, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 105, 168, N'B+', 3.33, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 109, 99, N'A', 4, 1, 1, 0, 1, 0, 19, 1, 0, 0, 0, 0, 0)
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (30, 109, 99, N'A', 4, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Grade], [points], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExecuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (11, 1, 90, N'D', 2, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
@@ -3886,7 +4025,7 @@ INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 19, 20)
 GO
-INSERT [dbo].[StudentProgramTransferRequest] ([StudentID], [ToProgramID], [ReasonForTransfer], [IsApproved]) VALUES (19, 5, N'string', 1)
+INSERT [dbo].[StudentProgramTransferRequest] ([StudentID], [ToProgramID], [ReasonForTransfer], [IsApproved]) VALUES (8, 5, N'string', 0)
 GO
 INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES (2, 1, 20)
 GO
@@ -3896,7 +4035,7 @@ INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-03-26 3:36:18 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [K_GUID] ON [dbo].[Student]
 (
 	[GUID] ASC
@@ -4066,7 +4205,66 @@ REFERENCES [dbo].[Doctor] ([ID])
 GO
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AddCommonQuestions]
+@Questions CommonQuestionsType READONLY
+AS
+BEGIN
+	INSERT INTO CommonQuestion(Question,Answer) 
+		SELECT Question,Answer
+		FROM @Questions;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AddCourse]
+@Courses CourseType READONLY
+AS
+BEGIN
+INSERT INTO [dbo].[Course]
+           ([CourseCode],[CourseName],[CreditHours]
+           ,[LectureHours],[LabHours],[SectionHours]
+           ,[IsActive],[Level],[Semester])
+
+           SELECT CourseCode,CourseName,CreditHours
+           ,LectureHours,LabHours,SectionHours
+           ,IsActive,Level,Semester
+		   FROM @Courses
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AddDoctor]
+@GUID NVARCHAR(MAX),
+@Name NVARCHAR(MAX),
+@Email NVARCHAR(MAX),
+@Password NVARCHAR(MAX),
+@ProgramId INT,
+@Type TINYINT,
+@CreatedOn SMALLDATETIME
+AS
+BEGIN
+	INSERT INTO [dbo].[Doctor]
+           ([GUID],[Name],[Email]
+           ,[Password],[IsActive],[CreatedOn]
+           ,[ProgramID],[Type])
+     VALUES
+           (@GUID,@Name,@Email,
+           @Password,1,@CreatedOn,
+           @ProgramID,@Type);
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4108,7 +4306,44 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AddStudent]
+@GUID varchar(60),
+@Name nvarchar(max),
+@SSN varchar(20),
+@PhoneNumber varchar(12),
+@BirthDate date,
+@Address nvarchar(max),
+@Gender char(1),
+@Nationality nvarchar(max),
+@Email nvarchar(max),
+@Password nvarchar(max),
+@AcademicCode varchar(10),
+@SeatNumber varchar(10),
+@SupervisorID int = NULL,
+@CreatedOn smalldatetime,
+@CurrentProgramID int = NULL
+AS
+BEGIN
+INSERT INTO [dbo].[Student]
+           ([GUID],[Name],[SSN],[PhoneNumber]
+			,[BirthDate],[Address],[Gender],[Nationality]
+			,[Email],[Password],[AcademicCode],[SeatNumber],[SupervisorID]
+			,[CreatedOn],[CurrentProgramID])
+     VALUES
+           (@GUID, @Name, @SSN, @PhoneNumber, 
+		   @BirthDate, @Address, @Gender, @Nationality, 
+		   @Email, @Password, @AcademicCode, @SeatNumber, @SupervisorID,
+		   @CreatedOn,@CurrentProgramID);
+		DECLARE @Id INT = SCOPE_IDENTITY();
+		SELECT * FROM Student WHERE ID = @Id;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4124,7 +4359,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4152,7 +4387,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4181,7 +4416,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4207,7 +4442,37 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[BackUpDatabase]
+@DbName NVARCHAR(MAX),
+@Path NVARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @Sql NVARCHAR(MAX);
+	SET @Sql = N'BACKUP DATABASE '+ @DbName+' TO DISK = '''+@Path+'''';
+	PRINT @Sql;
+	EXECUTE sp_executesql @Sql;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ChangeDoctorPassword]
+@Guid NVARCHAR(MAX),
+@Password NVARCHAR(MAX)
+AS
+BEGIN
+	UPDATE Doctor SET Password = @Password
+	WHERE GUID = @Guid;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4223,7 +4488,60 @@ BEGIN
 	@SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetAcademicYears]
+@GetCurrentYear BIT = 0
+AS
+BEGIN
+	DECLARE @Query NVARCHAR(MAX);
+	SET @Query = N'SELECT ID,AcademicYear AS [AcademicYear1],Semester FROM AcademicYear ';
+	IF @GetCurrentYear = 1
+	BEGIN
+		SET @Query+=N' WHERE ID = [dbo].[GetCurrentYearID]()';
+	END
+	EXECUTE sp_executesql @Query;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetAllStudentCourses]
+@StudentID INT
+AS
+BEGIN
+	SELECT sc.*,c.*
+	FROM StudentCourses sc JOIN Course c ON c.ID = sc.CourseID
+	JOIN AcademicYear ay ON ay.ID = sc.AcademicYearID
+	WHERE StudentID = @StudentID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetAllStudentsDesires]
+AS
+BEGIN
+	SELECT 
+		p.id AS [ProgramID],
+		p.Name AS [ProgramName],
+		p.Percentage AS [ProgramPercentage],
+		sd.StudentCurrentProgramID,
+		sd.StudentID,
+		s.CGPA
+	FROM StudentDesires sd JOIN Program p ON p.ID = sd.ProgramID
+	JOIN Student s ON s.ID = sd.StudentID
+	ORDER BY s.CGPA DESC,sd.DesireNumber ASC;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4253,7 +4571,7 @@ ELSE
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4296,7 +4614,54 @@ DECLARE @StudentProgram  int = [dbo].[GetStudentProgram]('+CAST(@StudentID AS NV
 	EXECUTE sp_executesql @Statement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetCommonQuestions]
+@ID INT = NULL,
+@Question NVARCHAR(MAX) = NULL,
+@Answer NVARCHAR(MAX) = NULL,
+@PageNumber INT = 1,
+@PageSize INT = 20,
+@OrderBy NVARCHAR(MAX) = N'ID',
+@OrderDirection NVARCHAR(MAX) = 'DESC',
+@TotalCount INT OUTPUT
+AS
+BEGIN
+	DECLARE @SqlSt nvarchar(max)=N'',
+	@SelectSt nvarchar(max) =N'',
+	@FromSt nvarchar(max)=N'',
+	@WhereSt nvarchar(max)=N'',
+	@ParamsDefinition nvarchar(max)=N'',
+	@OrderByStatement nvarchar(MAX)=N''
+
+	SET @SelectSt = N'SELECT * ';
+	SET @FromSt = N' FROM CommonQuestion ';
+	SET @WhereSt = N' WHERE 1=1 ';
+	IF @Question IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND Question LIKE N''%'+@Question+'%''';
+		END
+	IF @Answer IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND Answer LIKE N''%'+@Answer+'%''';
+		END
+	SET @OrderByStatement =N' ORDER BY '+@OrderBy+' '+@OrderDirection
+	+' OFFSET ' + CAST((@PageSize*(@PageNumber-1)) AS VARCHAR(5)) +' ROWS'
+	+' FETCH NEXT ' + CAST(@PageSize AS VARCHAR(5)) + ' ROWS ONLY; ' ;
+	SET @SqlSt =
+	@SelectSt + @FromSt + @WhereSt + @OrderByStatement
+	SET @SqlSt += ' SELECT @TotalCountParam = COUNT(ID) ' + @FromSt + @WhereSt;
+	SET @ParamsDefinition = N'@TotalCountParam INT OUTPUT';
+	EXECUTE sp_executesql 
+	@SqlSt,
+	@ParamsDefinition,
+	@TotalCountParam = @TotalCount output
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4319,7 +4684,7 @@ BEGIN
 	WHERE pc.CourseID = @CourseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4435,7 +4800,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4450,7 +4815,7 @@ BEGIN
 	EXEC [dbo].[GetCoursesForDeletionOrWithdraw] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4468,7 +4833,7 @@ DECLARE @StudentProgram INT = [dbo].[GetStudentProgram](@StudentID);
 		sc.AcademicYearID =[dbo].[GetCurrentYearID]();	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4485,7 +4850,7 @@ BEGIN
 		EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,1 ;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4528,7 +4893,7 @@ DECLARE @CurrentSemester TINYINT;
 	EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4543,7 +4908,7 @@ EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,1
 EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4565,7 +4930,7 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4614,7 +4979,119 @@ DECLARE @SelectStatement NVARCHAR(MAX), @FromStatement NVARCHAR(MAX), @WhereStat
 EXECUTE sp_executesql @SqlStatement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetDates]
+@DateFor INT = NULL
+AS
+BEGIN
+	DECLARE @SqlSt NVARCHAR(MAX);
+	SET @SqlSt = N'SELECT * FROM Date ';
+	IF @DateFor IS NOT NULL
+	BEGIN
+		SET @SqlSt +=N'
+		WHERE DateFor ='+CAST(@DateFor AS NVARCHAR(MAX));
+	END
+	EXECUTE sp_executesql @SqlSt;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetDoctorByGuid]
+@GUID NVARCHAR(MAX),
+@IsActive BIT = 1
+AS
+BEGIN
+SELECT Guid,
+		d.Name,
+		Email,
+		p.Name AS[ProgramName],
+		d.IsActive,
+		d.Type,
+		p.id AS [ProgramID]
+		FROM Doctor d JOIN Program p ON p.ID = d.ProgramID
+		WHERE GUID = @GUID AND IsActive = @IsActive;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetDoctors]
+@Name NVARCHAR(MAX) = NULL,
+@Email NVARCHAR(MAX)= NULL,
+@ProgramID INT= NULL,
+@Type TINYINT = NULL,
+@IsActive BIT = NULL,
+@PageNumber INT = 1,
+@PageSize INT = 20,
+@OrderBy NVARCHAR(MAX) = N'd.ID',
+@OrderDirection NVARCHAR(MAX) = 'DESC',
+@TotalCount INT OUTPUT
+AS
+BEGIN
+	DECLARE @SqlSt nvarchar(max)=N'',
+	@SelectSt nvarchar(max) =N'',
+	@FromSt nvarchar(max)=N'',
+	@WhereSt nvarchar(max)=N'',
+	@ParamsDefinition nvarchar(max)=N'',
+	@OrderByStatement nvarchar(MAX)=N''
+
+	SET @SelectSt = N'SELECT Guid,
+		d.Name,
+		Email,
+		p.Name AS[ProgramName],
+		d.IsActive,
+		d.Type,
+		p.id AS [ProgramID]'
+	SET @FromSt = N'
+		FROM Doctor d JOIN Program p ON p.ID = d.ProgramID
+		';
+	SET @WhereSt = N' WHERE 1=1 ';
+	IF @Name IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND d.Name LIKE N''%'+@Name+'%''';
+		END
+	IF @Email IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND d.Email LIKE N''%'+@Email+'%''';
+		END
+	IF @ProgramID IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND p.id ='+CAST(@ProgramID AS NVARCHAR(MAX));
+		END
+	IF @Type IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND d.Type ='+CAST(@Type AS NVARCHAR(MAX));
+		END
+	IF @IsActive IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND d.IsActive ='+CAST(@IsActive AS NVARCHAR(MAX));
+		END
+
+	
+	SET @OrderByStatement =N' ORDER BY '+@OrderBy+' '+@OrderDirection
+	+' OFFSET ' + CAST((@PageSize*(@PageNumber-1)) AS VARCHAR(5)) +' ROWS'
+	+' FETCH NEXT ' + CAST(@PageSize AS VARCHAR(5)) + ' ROWS ONLY; ' ;
+	SET @SqlSt =
+	@SelectSt + @FromSt + @WhereSt + @OrderByStatement
+	SET @SqlSt += ' SELECT @TotalCountParam = COUNT(*) ' + @FromSt + @WhereSt;
+	SET @ParamsDefinition = N'@TotalCountParam INT OUTPUT';
+	PRINT @SqlSt;
+	EXECUTE sp_executesql 
+	@SqlSt,
+	@ParamsDefinition,
+	@TotalCountParam = @TotalCount output
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4650,7 +5127,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4666,7 +5143,7 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4678,7 +5155,124 @@ BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetProgramByID]
+@ID INT
+AS
+BEGIN
+	SELECT sub.ID,
+	sub.Name,
+	sub.Semester,
+	sub.Percentage,
+	sub.IsRegular,
+	sub.IsGeneral,
+	sub.TotalHours,
+	sub.EnglishName,
+	sub.ArabicName,
+	sub.SuperProgramID,
+	sup.Name AS [SuperProgramName]
+	FROM Program sub LEFT JOIN Program sup on sup.ID = sub.SuperProgramID
+	WHERE sub.ID = @ID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetPrograms]
+@Name NVARCHAR(MAX) = NULL,
+@Semester TINYINT = NULL,
+@Percentage FLOAT = NULL,
+@IsRegular BIT = NULL,
+@IsGeneral BIT = NULL,
+@TotalHours TINYINT = NULL,
+@EnglishName NVARCHAR(MAX) = NULL,
+@ArabicName NVARCHAR(MAX) = NULL,
+@SuperProgramID INT = NULL,
+@PageNumber INT = 1,
+@PageSize INT = 20,
+@OrderBy NVARCHAR(MAX) = N'sub.ID',
+@OrderDirection NVARCHAR(MAX) = 'DESC',
+@TotalCount INT OUTPUT
+AS
+BEGIN
+	DECLARE @SqlSt nvarchar(max)=N'',
+	@SelectSt nvarchar(max) =N'',
+	@FromSt nvarchar(max)=N'',
+	@WhereSt nvarchar(max)=N'',
+	@ParamsDefinition nvarchar(max)=N'',
+	@OrderByStatement nvarchar(MAX)=N''
+	SET @SelectSt = N'SELECT sub.ID,
+	sub.Name,
+	sub.Semester,
+	sub.Percentage,
+	sub.IsRegular,
+	sub.IsGeneral,
+	sub.TotalHours,
+	sub.EnglishName,
+	sub.ArabicName,
+	sub.SuperProgramID,
+	sup.Name AS [SuperProgramName]';
+	SET @FromSt = N'
+	FROM Program sub LEFT JOIN Program sup on sup.ID = sub.SuperProgramID';
+	SET @WhereSt = N' 
+	WHERE 1=1 ';
+	IF @Name IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.Name LIKE N''%'+@Name+'%''';
+	END
+	IF @EnglishName IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.EnglishName LIKE N''%'+@EnglishName+'%''';
+	END
+	IF @ArabicName IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.ArabicName LIKE N''%'+@ArabicName+'%''';
+	END
+	IF @SuperProgramID IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.SuperProgramID ='+CAST(@SuperProgramID AS NVARCHAR(MAX));
+	END
+	IF @Semester IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.Semester ='+CAST(@Semester AS NVARCHAR(MAX));
+	END
+	IF @Percentage IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.Percentage ='+CAST(@Percentage AS NVARCHAR(MAX));
+	END
+	IF @IsRegular IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.IsRegular ='+CAST(@IsRegular AS NVARCHAR(MAX));
+	END
+	IF @IsGeneral IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.IsGeneral ='+CAST(@IsGeneral AS NVARCHAR(MAX));
+	END
+	IF @TotalHours IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND sub.TotalHours ='+CAST(@TotalHours AS NVARCHAR(MAX));
+	END
+	SET @OrderByStatement =N' ORDER BY '+@OrderBy+' '+@OrderDirection
++' OFFSET ' + CAST((@PageSize*(@PageNumber-1)) AS VARCHAR(5)) +' ROWS'
++' FETCH NEXT ' + CAST(@PageSize AS VARCHAR(5)) + ' ROWS ONLY; ' ;
+
+	SET @SqlSt =
+	@SelectSt + @FromSt + @WhereSt + @OrderByStatement
+	SET @SqlSt += ' SELECT @TotalCountParam = COUNT(*) ' + @FromSt + @WhereSt;
+	SET @ParamsDefinition = N'@TotalCountParam INT OUTPUT';
+	EXECUTE sp_executesql 
+	@SqlSt,
+	@ParamsDefinition,
+	@TotalCountParam = @TotalCount output
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4705,7 +5299,7 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4747,7 +5341,7 @@ DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),@WhereSt NVARCHAR(MAX),@Sq
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4778,18 +5372,19 @@ BEGIN
 	IF @IncludeProgram = 1
 		BEGIN
 			SET @SelectStatement += N',p.Name AS [ProgramName]';
-			SET @FROMStatement +=N' JOIN Program p ON p.id = s.CurrentProgramID ';
+			SET @FROMStatement +=N' LEFT JOIN Program p ON p.id = s.CurrentProgramID ';
 		END
 	IF @IncludeSupervisor = 1
 		BEGIN
 			SET @SelectStatement += N',d.Name AS [SupervisorName]';
-			SET @FROMStatement +=N' JOIN Doctor d ON d.id = s.SupervisorID ';
+			SET @FROMStatement +=N' LEFT JOIN Doctor d ON d.id = s.SupervisorID ';
 		END
 		SET @SqlStatment = @SelectStatement + @FROMStatement + @WhereStatement;
+		PRINT @SqlStatment;
 	EXECUTE sp_executesql @SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4822,7 +5417,7 @@ BEGIN
 			ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4852,7 +5447,53 @@ SELECT
   WHERE sc.StudentID = @StudentID AND sc.AcademicYearID = @AcademicYearID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetStudentDesires]
+@ID INT
+AS
+BEGIN
+	IF EXISTS ( SELECT 1 FROM StudentDesires WHERE StudentID = @ID)
+	BEGIN
+		SELECT 
+		sd.ProgramID,sd.DesireNumber,p.Name AS [ProgramName]
+		FROM StudentDesires sd JOIN Program p ON p.ID = sd.ProgramID
+		WHERE StudentID = @ID;
+	END
+	ELSE
+	BEGIN
+		DECLARE @StudentProgramID INT, @SemesterCount TINYINT,@CurrentSemester TINYINT;
+		SET @StudentProgramID = [dbo].[GetStudentProgram](@ID);
+		SELECT @SemesterCount =s.SemestersNumberInProgram FROM Student s WHERE ID = @ID;
+		SELECT @CurrentSemester = Semester FROM AcademicYear WHERE ID = [dbo].[GetCurrentYearID]();
+
+		IF @StudentProgramID IS NULL
+		BEGIN
+			SELECT p.Name AS [ProgramName],
+			p.ID AS [ProgramID],
+			ROW_NUMBER() OVER(ORDER BY p.id DESC) AS [DesireNumber]
+			FROM Program p
+			WHERE SuperProgramID IS NULL AND 
+			p.Semester = @SemesterCount AND
+			p.Semester % 2 = @CurrentSemester % 2;
+		END
+	ELSE
+		BEGIN
+		 	SELECT p.Name AS [ProgramName],
+			p.ID AS [ProgramID],
+			ROW_NUMBER() OVER(ORDER BY p.id DESC) AS [DesireNumber]
+			FROM Program p
+			WHERE SuperProgramID = @StudentProgramID AND 
+			p.Semester = @SemesterCount AND
+			p.Semester % 2 = @CurrentSemester % 2;
+		END
+	END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5032,7 +5673,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5051,7 +5692,20 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetSuperAdmin]
+@Guid NVARCHAR(MAX)
+AS
+BEGIN
+	SELECT s.Email,s.Name,s.GUID 
+	FROM SuperAdmin s WHERE GUID = @Guid
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5064,7 +5718,7 @@ AS
 		SELECT * FROM Doctor WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5077,7 +5731,7 @@ AS
 		SELECT * FROM Student WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5090,7 +5744,7 @@ AS
 		SELECT * FROM SuperAdmin WHERE Email = @Email AND Password = @Password;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5107,7 +5761,13 @@ AS
 		WHERE CourseID NOT IN(
 			SELECT pc.CourseID FROM ProgramCourses pc
 			WHERE pc.ProgramID = @ToProgram
-			);
+			) AND StudentID = @StudentID;
+		UPDATE StudentCourses
+		SET IsIncluded = 1
+		WHERE CourseID IN(
+			SELECT pc.CourseID FROM ProgramCourses pc
+			WHERE pc.ProgramID = @ToProgram
+			) AND StudentID = @StudentID;
 
 		DECLARE @CurrentAcademicYearProgCount BIT;
 		DECLARE @CurrentAcademicYear SMALLINT = (SELECT MAX(ID) FROM AcademicYear);
@@ -5140,7 +5800,7 @@ AS
 			WHERE StudentID = @StudentID AND IsIncluded = 0;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5152,7 +5812,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5173,7 +5833,7 @@ BEGIN
 	WHERE sc.CourseID = @CourseID AND sc.AcademicYearID = @CurrentYearID AND s.IsActive = 1;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5197,7 +5857,7 @@ BEGIN
 	sc.AcademicYearID = [dbo].[GetCurrentYearID]();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5249,24 +5909,37 @@ IF @ProgramID IS NOT NULL
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[Report_StudentAcademicReport]
-@StudentID INT
+@StudentID INT,
+@ForDoctorView BIT = 0
 AS
 BEGIN
-	SELECT c.ID,c.CourseCode,c.CourseName,c.CreditHours,sc.Mark,sc.Grade,sc.Points,sc.IsGPAIncluded,sc.AcademicYearID,sc.CourseEntringNumber,sc.CourseEntringNumber
+	SELECT c.ID,
+	c.CourseCode,
+	c.CourseName,
+	c.CreditHours,
+	sc.Mark,
+	sc.Grade,
+	sc.Points,
+	sc.IsGPAIncluded,
+	sc.AcademicYearID,
+	sc.CourseEntringNumber,
+	sc.AffectReEntringCourses,
+	sc.HasExecuse,
+	sc.IsEnhancementCourse
 	FROM StudentCourses sc JOIN Course c ON c.ID = sc.CourseID
-	WHERE StudentID = @StudentID AND sc.Grade IS NOT NULL
+	WHERE StudentID = @StudentID AND (@ForDoctorView = 1 OR sc.Grade IS NOT NULL)
 	ORDER BY sc.AcademicYearID
 
 	EXEC [dbo].[GetStudentAcademicYearsSummary] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5304,7 +5977,7 @@ BEGIN
 	ORDER BY c.Level,c.Semester,pc.CourseType,pc.Category;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5330,7 +6003,26 @@ BEGIN
 		WHERE StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[StartNewAcademicYear]
+@AcademicYear NVARCHAR(MAX),
+@Semester TINYINT
+AS
+BEGIN
+INSERT INTO [dbo].[AcademicYear]
+           ([AcademicYear],[Semester])
+     VALUES
+           (@AcademicYear,@Semester)
+DELETE FROM StudentDesires;
+DELETE FROM StudentCourseRequest;
+DELETE FROM StudentProgramTransferRequest;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5360,7 +6052,7 @@ DECLARE @SelectStatement NVARCHAR(MAX) = N'',
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5374,7 +6066,7 @@ BEGIN
 	  GROUP BY p.Name,p.ArabicName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5427,7 +6119,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5459,7 +6151,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5477,7 +6169,90 @@ BEGIN
 	VALUES(@StudentID,@ProgramID,@ReasonForTransfer)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ToggleDoctorAccount]
+@GUID NVARCHAR(MAX),
+@IsActive BIT
+AS
+BEGIN
+	UPDATE Doctor SET IsActive = @IsActive WHERE GUID = ''+@GUID+'';
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateCommonQuestion]
+@ID INT,
+@Question NVARCHAR(MAX),
+@Answer NVARCHAR(MAX)
+AS
+BEGIN
+	UPDATE CommonQuestion
+		SET Answer = @Answer,
+			Question = @Question
+	WHERE ID = @ID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateCourse]
+@ID INT,
+@CourseCode nvarchar(max),
+@CourseName nvarchar(max),
+@CreditHours tinyint,
+@LectureHours tinyint,
+@LabHours tinyint,
+@SectionHours tinyint,
+@IsActive bit,
+@Level tinyint,
+@Semester tinyint
+AS
+BEGIN
+	UPDATE [dbo].[Course]
+	   SET [CourseCode]  = @CourseCode
+		  ,[CourseName]  = @CourseName
+		  ,[CreditHours] = @CreditHours
+		  ,[LectureHours] = @LectureHours
+		  ,[LabHours] = @LabHours
+		  ,[SectionHours] = @SectionHours
+		  ,[IsActive] = @IsActive
+		  ,[Level] = @Level
+		  ,[Semester] = @Semester
+	 WHERE ID = @ID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateDoctor]
+@Guid NVARCHAR(MAX),
+@Name NVARCHAR(MAX),
+@Email NVARCHAR(MAX),
+@ProgramID INT,
+@Type TINYINT
+AS
+BEGIN
+	UPDATE [dbo].[Doctor]
+	   SET 
+		  [Name] = @Name
+		  ,[Email] = @Email
+		  ,[ProgramID] = @ProgramID
+		  ,[Type] = @Type
+	 WHERE [GUID] = @Guid;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5508,7 +6283,60 @@ UPDATE [dbo].[Program]
  WHERE ID = @ID
 END
 GO
-/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateStudent]
+@ID INT,
+@Name nvarchar(max),
+@SSN varchar(20),
+@PhoneNumber varchar(12),
+@BirthDate date,
+@Address nvarchar(max),
+@Gender char(1),
+@Nationality nvarchar(max),
+@Email nvarchar(max),
+@Password nvarchar(max),
+@SeatNumber varchar(10),
+@SupervisorID int,
+@IsCrossStudent bit,
+@CurrentProgramID int
+AS
+BEGIN
+UPDATE [dbo].[Student]
+   SET [Name] = @Name
+      ,[SSN] =  @SSN
+      ,[PhoneNumber] =@PhoneNumber
+      ,[BirthDate] = @BirthDate 
+      ,[Address] =  @Address
+      ,[Gender] =  @Gender
+      ,[Nationality] =  @Nationality
+      ,[Email] =  @Email
+      ,[Password] =  @Password
+      ,[SeatNumber] =  @SeatNumber
+      ,[SupervisorID] =  @SupervisorID
+      ,[IsCrossStudent] =  @IsCrossStudent
+      ,[CurrentProgramID] =  @CurrentProgramID
+ WHERE ID = @ID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-03-26 3:36:18 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateSuperAdminPassword]
+@Guid NVARCHAR(MAX),
+@Password NVARCHAR(MAX)
+AS
+BEGIN
+	UPDATE SuperAdmin SET Password = @Password
+	WHERE GUID = @Guid;
+END
+GO
+/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5532,7 +6360,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-03-24 11:20:58 PM ******/
+/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5560,7 +6388,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5590,7 +6418,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5623,7 +6451,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [dbo].[RankUpdater]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[RankUpdater]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5651,7 +6479,7 @@ END;
 GO
 ALTER TABLE [dbo].[Student] ENABLE TRIGGER [RankUpdater]
 GO
-/****** Object:  Trigger [dbo].[SupervisorRemovalForGraduates]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[SupervisorRemovalForGraduates]    Script Date: 2023-03-26 3:36:18 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5672,7 +6500,7 @@ SET NOCOUNT ON;
 GO
 ALTER TABLE [dbo].[Student] ENABLE TRIGGER [SupervisorRemovalForGraduates]
 GO
-/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5717,7 +6545,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourseRequest] ENABLE TRIGGER [HandleRequest]
 GO
-/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5942,7 +6770,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [EntringStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5992,7 +6820,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [GiveBackCredits]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6138,7 +6966,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [UpdateStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6156,7 +6984,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6174,7 +7002,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgramAfterDelete]
 GO
-/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-03-24 11:20:59 PM ******/
+/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-03-26 3:36:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
