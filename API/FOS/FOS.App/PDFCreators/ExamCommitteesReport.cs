@@ -1,4 +1,6 @@
-﻿using FOS.App.PDFCreators;
+﻿using FOS.App.Helpers;
+using FOS.App.PDFCreators;
+using FOS.Core.Enums;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -9,6 +11,7 @@ public static class ExamCommitteesReport
     public static byte[] CreateExamCommitteesPdf(ExamCommitteeStudentsOutModel model, string examType)
     {
         string borderColor = "#000";
+        bool isFinalExam = examType == Helper.GetDescription(ExamTypeEnum.Final);
         var groupedStudentsLst = model.Students.GroupBy(x => new { x.ProgramName, x.Level });
         var document = Document.Create(container =>
         {
@@ -34,8 +37,8 @@ public static class ExamCommitteesReport
                             });
                             tbl.Cell().Row(1).Column(1).CellNoBorder().Text("تاريخ الامتحان").SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(1).Column(2).CellNoBorder().Text("....................................").SetFontSize(lineHeight: 1.5f);
-                            tbl.Cell().Row(1).Column(3).CellNoBorder().Text("نوع الامتحان").SetFontSize(lineHeight: 1.5f);
-                            tbl.Cell().Row(1).Column(4).CellNoBorder().Text(examType).SetFontSize(lineHeight: 1.5f);
+                            tbl.Cell().Row(1).Column(3).CellNoBorder().Text(isFinalExam ? "رقم اللجنة" : "نوع الامتحان").SetFontSize(lineHeight: 1.5f);
+                            tbl.Cell().Row(1).Column(4).CellNoBorder().Text(isFinalExam ? "..................." : string.Concat(examType, " ")).SetFontSize(lineHeight: 1.5f);
 
                             tbl.Cell().Row(2).Column(1).CellNoBorder().Text("البرنامج").SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(2).Column(2).CellNoBorder().Text(string.Concat(students.Key.ProgramName, " ")).SetFontSize(lineHeight: 1.5f);
@@ -45,7 +48,7 @@ public static class ExamCommitteesReport
                             tbl.Cell().Row(3).Column(1).CellNoBorder().Text("كود المقرر").SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(3).Column(2).CellNoBorder().Text(model.Course.CourseCode).SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(3).Column(3).CellNoBorder().Text("اسم المقرر").SetFontSize(lineHeight: 1.5f);
-                            tbl.Cell().Row(3).Column(4).CellNoBorder().Text(model.Course.CourseName).SetFontSize(lineHeight: 1.5f);
+                            tbl.Cell().Row(3).Column(4).CellNoBorder().Text(string.Concat(model.Course.CourseName, " ")).SetFontSize(lineHeight: 1.5f);
 
                         });
                         col.Item().LineHorizontal(1).LineColor(Colors.Black);
@@ -80,7 +83,7 @@ public static class ExamCommitteesReport
                         });
                         col.Item().ShowIf(studentsCount < 1).AlignCenter().AlignMiddle().Text("لا يوجد طلاب").SetFontSize(18).SemiBold();
                         col.Item().LineHorizontal(1).LineColor(Colors.Black);
-                        col.Item().Table(tbl =>
+                        col.Item().ShowEntire().Table(tbl =>
                         {
                             tbl.ColumnsDefinition(def =>
                             {
@@ -95,22 +98,24 @@ public static class ExamCommitteesReport
                             tbl.Cell().Row(2).Column(1).CellNoBorder().Text("....................").SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(2).Column(2).CellNoBorder().Text("....................").SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(2).Column(3).CellNoBorder().Text("....................").SetFontSize(lineHeight: 1.5f);
+                            if (isFinalExam)
+                            {
+                                tbl.Cell().Row(3).Column(1).CellNoBorder().Text("اسم الملاحظ").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(3).Column(2).CellNoBorder().Text("المراجع").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(3).Column(3).CellNoBorder().Text("مدير شئون التعليم والطلاب").SetFontSize(lineHeight: 1.5f);
 
-                            //tbl.Cell().Row(3).Column(1).CellNoBoder(minWidth:6).Text("اسم الملاحظ").SetFontSize(lineHeight: 1.5f);
-                            //tbl.Cell().Row(3).Column(2).CellNoBoder(minWidth:6).Text("المراجع").SetFontSize(lineHeight: 1.5f);
-                            //tbl.Cell().Row(3).Column(3).CellNoBoder(minWidth:6).Text("مدير شئون التعليم والطلاب").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(4).Column(1).CellNoBorder().Text("....................").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(4).Column(2).CellNoBorder().Text("....................").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(4).Column(3).CellNoBorder().Text("....................").SetFontSize(lineHeight: 1.5f);
 
-                            //tbl.Cell().Row(4).Column(1).CellNoBoder(minWidth:6).Text("....................").SetFontSize(lineHeight:1.5f);
-                            //tbl.Cell().Row(4).Column(2).CellNoBoder(minWidth:6).Text("....................").SetFontSize(lineHeight:1.5f);
-                            //tbl.Cell().Row(4).Column(3).CellNoBoder(minWidth:6).Text("....................").SetFontSize(lineHeight:1.5f);
+                                tbl.Cell().Row(5).Column(1).CellNoBorder().Text("اعضاء الكنترول").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(5).Column(2).CellNoBorder().Text("رئيس الكنترول").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(5).Column(3).CellNoBorder().Text("أ.د/ رئيس القسم").SetFontSize(lineHeight: 1.5f);
 
-                            //tbl.Cell().Row(5).Column(1).CellNoBoder(minWidth:6).Text("اعضاء الكنترول").SetFontSize(lineHeight:1.5f);
-                            //tbl.Cell().Row(5).Column(2).CellNoBoder(minWidth:6).Text("رئيس الكنترول").SetFontSize(lineHeight:1.5f);
-                            //tbl.Cell().Row(5).Column(3).CellNoBoder(minWidth:6).Text("أ.د/ رئيس القسم").SetFontSize(lineHeight:1.5f);
-
-                            //tbl.Cell().Row(6).Column(1).CellNoBoder(minWidth:6).Text("...................").SetFontSize(lineHeight:1.5f);
-                            //tbl.Cell().Row(6).Column(2).CellNoBoder(minWidth:6).Text("...................").SetFontSize(lineHeight:1.5f);
-                            //tbl.Cell().Row(6).Column(3).CellNoBoder(minWidth:6).Text("...................").SetFontSize(lineHeight:1.5f);
+                                tbl.Cell().Row(6).Column(1).CellNoBorder().Text("...................").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(6).Column(2).CellNoBorder().Text("...................").SetFontSize(lineHeight: 1.5f);
+                                tbl.Cell().Row(6).Column(3).CellNoBorder().Text("...................").SetFontSize(lineHeight: 1.5f);
+                            }
                         });
                     });
                     page.GetFooter();

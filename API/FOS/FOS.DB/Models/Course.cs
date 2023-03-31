@@ -15,5 +15,9 @@ namespace FOS.DB.Models
         public bool IsActive { get; set; }
         public byte Level { get; set; }
         public byte Semester { get; set; }
+        public int Final { get; set; }
+        public int YearWork { get; set; }
+        public int Oral { get; set; }
+        public int Practical { get; set; }
     }
 }

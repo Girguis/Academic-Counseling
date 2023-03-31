@@ -1,9 +1,9 @@
 ﻿using FOS.App.Doctors.Mappers;
 using FOS.App.Helpers;
-using FOS.Core.Languages;
 using FOS.App.Students.DTOs;
 using FOS.App.Students.Mappers;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.DB.Models;
 using FOS.Students.API.Extensions;
 using FOS.Students.API.Models;
@@ -107,7 +107,8 @@ namespace FOS.Students.API.Controllers
 
                 Student student = studentRepo.Get(guid, true, true);
                 if (student == null)
-                    return NotFound(new {
+                    return NotFound(new
+                    {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
 
@@ -132,19 +133,22 @@ namespace FOS.Students.API.Controllers
             {
                 string guid = this.Guid();
                 if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new {
+                    return BadRequest(new
+                    {
                         Massage = Resource.InvalidID
                     });
 
                 Student student = studentRepo.Get(guid);
                 if (student == null)
-                    return NotFound(new {
+                    return NotFound(new
+                    {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 student.Password = Helper.HashPassowrd(model.Password);
                 var updated = studentRepo.Update(student);
                 if (!updated)
-                    return BadRequest(new {
+                    return BadRequest(new
+                    {
                         Massage = Resource.ErrorOccured
                     });
                 return Ok();

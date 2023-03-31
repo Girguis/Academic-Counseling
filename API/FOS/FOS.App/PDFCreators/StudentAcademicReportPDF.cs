@@ -59,19 +59,21 @@ namespace FOS.App.PDFCreators
                                     def.ConstantColumn(1.5f, Unit.Centimetre);
                                     def.ConstantColumn(1.5f, Unit.Centimetre);
                                     def.ConstantColumn(1.5f, Unit.Centimetre);
+                                    def.ConstantColumn(1.5f, Unit.Centimetre);
                                     def.ConstantColumn(0.5f, Unit.Centimetre);
                                 });
                                 tbl.Header(header =>
                                 {
-                                    var text = Helper.GetDisplayName((SemesterEnum)academicYears.ElementAt(i).Semester)+" - "+ PDFCommonFunctions.Reverse(academicYears.ElementAt(i).AcademicYear)+" - "+ academicYears.ElementAt(i).ProgramName;
-                                    header.Cell().ColumnSpan(7).Background(Colors.Grey.Lighten1).CellNoBorder().Text(text).SetFontSize(16); 
+                                    var text = Helper.GetDescription((SemesterEnum)academicYears.ElementAt(i).Semester)+" - "+ PDFCommonFunctions.Reverse(academicYears.ElementAt(i).AcademicYear)+" - "+ academicYears.ElementAt(i).ProgramName;
+                                    header.Cell().ColumnSpan(8).Background(Colors.Grey.Lighten1).CellNoBorder().Text(text).SetFontSize(16); 
                                     header.Cell().Row(2).Column(1).Background(Colors.Grey.Lighten3).CellWithBorder().Text("كود").SetFontSize(16);
                                     header.Cell().Row(2).Column(2).Background(Colors.Grey.Lighten3).CellWithBorder().Text("اسم المقرر").SetFontSize(16);
                                     header.Cell().Row(2).Column(3).Background(Colors.Grey.Lighten3).CellWithBorder().Text("التقدير").SetFontSize(16);
-                                    header.Cell().Row(2).Column(4).Background(Colors.Grey.Lighten3).CellWithBorder().Text("م.د.").SetFontSize(16);
-                                    header.Cell().Row(2).Column(5).Background(Colors.Grey.Lighten3).CellWithBorder().Text("س.م.").SetFontSize(16);
-                                    header.Cell().Row(2).Column(6).Background(Colors.Grey.Lighten3).CellWithBorder().Text("م.ن.").SetFontSize(16);
-                                    header.Cell().Row(2).Column(7).Background(Colors.Grey.Lighten3).CellWithBorder().Text("ع").SetFontSize(16);
+                                    header.Cell().Row(2).Column(4).Background(Colors.Grey.Lighten3).CellWithBorder().Text("أ.ف.").SetFontSize(16);
+                                    header.Cell().Row(2).Column(5).Background(Colors.Grey.Lighten3).CellWithBorder().Text("د.ن.").SetFontSize(16);
+                                    header.Cell().Row(2).Column(6).Background(Colors.Grey.Lighten3).CellWithBorder().Text("س.م.").SetFontSize(16);
+                                    header.Cell().Row(2).Column(7).Background(Colors.Grey.Lighten3).CellWithBorder().Text("م.ن.").SetFontSize(16);
+                                    header.Cell().Row(2).Column(8).Background(Colors.Grey.Lighten3).CellWithBorder().Text("ع").SetFontSize(16);
                                 });
                                 int semesterPassed = 0;
                                 for (int j = 0; j < semesterCourses.Count(); j++)
@@ -83,25 +85,29 @@ namespace FOS.App.PDFCreators
                                         totalPassed += course.CreditHours;
                                         semesterPassed += course.CreditHours;
                                     }
+                                    int? termMarks = null;
+                                    if (course.Oral.HasValue) { termMarks ??= 0; termMarks += course.Oral.Value; }
+                                    if (course.YearWork.HasValue) { termMarks ??= 0; termMarks += course.YearWork.Value; }
+                                    if (course.Practical.HasValue) { termMarks ??= 0; termMarks += course.Practical.Value; }
                                     tbl.Cell().Row(rowNo).Column(1).CellWithBorder().Text(course.CourseCode).SetFontSize();
-                                    tbl.Cell().Row(rowNo).Column(2).CellWithBorder().Text(string.Concat(course.CourseName," ")).SetFontSize();
+                                    tbl.Cell().Row(rowNo).Column(2).CellWithBorder().Text(string.Concat(course.IsGpaIncluded?"":"*",course.CourseName," ")).SetFontSize();
                                     tbl.Cell().Row(rowNo).Column(3).CellWithBorder().Text(course.Grade).SetFontSize();
-                                    tbl.Cell().Row(rowNo).Column(4).CellWithBorder().Text(course.Mark.GetValueOrDefault().ToString()).SetFontSize();
-                                    tbl.Cell().Row(rowNo).Column(5).CellWithBorder().Text(course.CreditHours.ToString()).SetFontSize();
-                                    tbl.Cell().Row(rowNo).Column(6).CellWithBorder().Text(course.Points.GetValueOrDefault().ToString()).SetFontSize();
-                                    //tbl.Cell().Row(rowNo).Column(7).CellWithBorder().ShowIf(course.CourseEntringNumber == 1).Image(PDFCommonFunctions.GetUnCheckedBox());
-                                    tbl.Cell().Row(rowNo).Column(7).CellWithBorder().ShowIf(course.CourseEntringNumber > 1).Image(PDFCommonFunctions.GetCheckedBox());
+                                    tbl.Cell().Row(rowNo).Column(4).CellWithBorder().Text(termMarks == null ? "" : termMarks.ToString()).SetFontSize();
+                                    tbl.Cell().Row(rowNo).Column(5).CellWithBorder().Text(course.Final.HasValue ? course.Final.Value.ToString() : "").SetFontSize();
+                                    tbl.Cell().Row(rowNo).Column(6).CellWithBorder().Text(course.CreditHours.ToString()).SetFontSize();
+                                    tbl.Cell().Row(rowNo).Column(7).CellWithBorder().Text(course.Points.GetValueOrDefault().ToString()).SetFontSize();
+                                    tbl.Cell().Row(rowNo).Column(8).CellWithBorder().ShowIf(course.CourseEntringNumber > 1).Image(PDFCommonFunctions.GetCheckedBox());
                                 }
                                 tbl.Footer(footer =>
                                 {
                                     footer.Cell().ColumnSpan(1).Background(Colors.Grey.Lighten3).CellNoBorder().Text("عدد ساعات الترم المجتازة").SetFontSize(16);
                                     footer.Cell().ColumnSpan(1).Background(Colors.Grey.Lighten3).CellNoBorder().Text("عدد الساعات الكلية المجتازة").SetFontSize(16);
-                                    footer.Cell().ColumnSpan(2).Background(Colors.Grey.Lighten3).CellNoBorder().Text("المعدل الفصلى").SetFontSize(16);
+                                    footer.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten3).CellNoBorder().Text("المعدل الفصلى").SetFontSize(16);
                                     footer.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten3).CellNoBorder().Text("المعدل التراكمى").SetFontSize(16);
-                                    footer.Cell().ColumnSpan(1).Background(Colors.Grey.Lighten3).CellNoBorder().Text(semesterPassed).SetFontSize();
-                                    footer.Cell().ColumnSpan(1).Background(Colors.Grey.Lighten3).CellNoBorder().Text(totalPassed).SetFontSize();
-                                    footer.Cell().ColumnSpan(2).Background(Colors.Grey.Lighten3).CellNoBorder().Text(academicYears.ElementAt(i).SGPA).SetFontSize();
-                                    footer.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten3).CellNoBorder().Text(academicYears.ElementAt(i).CGPA).SetFontSize();
+                                    footer.Cell().ColumnSpan(1).Background(Colors.Grey.Lighten3).CellNoBorder().Text(semesterPassed.ToString()).SetFontSize();
+                                    footer.Cell().ColumnSpan(1).Background(Colors.Grey.Lighten3).CellNoBorder().Text(totalPassed.ToString()).SetFontSize();
+                                    footer.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten3).CellNoBorder().Text(academicYears.ElementAt(i).SGPA?.ToString()).SetFontSize();
+                                    footer.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten3).CellNoBorder().Text(academicYears.ElementAt(i).CGPA?.ToString()).SetFontSize();
                                 });
 
                                 col.Item().LineHorizontal(1).LineColor(Colors.Black);
@@ -109,7 +115,7 @@ namespace FOS.App.PDFCreators
                             col.Spacing(0.5f, Unit.Centimetre);
                         }
                     });
-                    page.GetFooter();
+                    page.GetFooter("أ.ف.:درجات أعمال السنة, د.ن.: درجة الامتحان النهائى, س.م.: عدد الساعات المعتمدة, م.ن.: معدل النقاط,*: لا تدخل فى حساب المعدل التراكمى");
                 });
             });
             return document.GeneratePdf();

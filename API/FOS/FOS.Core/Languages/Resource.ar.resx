@@ -270,4 +270,13 @@
   <data name="Summer" xml:space="preserve">
     <value>فصل الصيف</value>
   </data>
+  <data name="CourseDoesntHaveThisMarkType" xml:space="preserve">
+    <value>هذا المقرر لا يحتوى على درجات ل {0}</value>
+  </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>البيانات التى تم ادخالها غير صحيحه</value>
+  </data>
+  <data name="YouCantRegister" xml:space="preserve">
+    <value>لا يمكنك التسجيل فى هذه المقررات</value>
+  </data>
 </root>

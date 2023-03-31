@@ -131,7 +131,6 @@ namespace FOS.Students.API.Controllers
                         Data = null,
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-
                 if (!regDate)
                     return Ok(new Response
                     {
@@ -144,14 +143,14 @@ namespace FOS.Students.API.Controllers
                     return Ok(new Response
                     {
                         isRegistrationAvailable = true,
-                        Massage = string.Format(Resource.NotAvailable, Resource.CouresRegistration),
+                        Massage = Resource.ErrorOccured,
                         Data = courseIDs
                     });
 
                 return Ok(new Response
                 {
                     isRegistrationAvailable = true,
-                    Massage = "Done"
+                    Massage = Resource.Done
                 });
             }
             catch (Exception ex)

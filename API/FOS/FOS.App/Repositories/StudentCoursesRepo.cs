@@ -31,6 +31,8 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public IEnumerable<StudentCourse> GetAllCourses(int studentID)
         {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
             using var con = config.CreateInstance();
             return con.Query<StudentCourse, Course, StudentCourse>
                 ("GetAllStudentCourses",
@@ -40,6 +42,7 @@ namespace FOS.App.Repositories
                     return studentCourse;
                 },
                 splitOn: "ID",
+                param: parameters,
                 commandType: CommandType.StoredProcedure);
         }
         /// <summary>
@@ -137,9 +140,9 @@ namespace FOS.App.Repositories
             for (int i = 0; i < model.ToBeInserted.Count(); i++)
             {
                 var course = model.ToBeInserted.ElementAt(i);
-                if (course.HasExecuse == true)
+                if (course.HasExcuse == true)
                 {
-                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,HasExecuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5});",
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,HasExcuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5});",
                         studentID, course.CourseID, course.AcademicYearID, 1, 1, 0);
                 }
                 else if (course.IsGpaIncluded == false && course.Mark == null)
@@ -167,20 +170,21 @@ namespace FOS.App.Repositories
             };
             return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentCourses", parameters);
         }
-        public CourseGradesSheetOutModel GetStudentsMarksList(int courseID)
+        public CourseGradesSheetOutModel GetStudentsMarksList(StudentsExamParamModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@CourseID", courseID);
+            parameters.Add("@CourseID", model.CourseID);
+            parameters.Add("@MarkTypeID", model.ExamType);
             using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_CourseGradesSheet", parameters, commandType: CommandType.StoredProcedure);
-            CourseGradesSheetOutModel model = new CourseGradesSheetOutModel();
-            model.Course = result.ReadFirstOrDefault<CourseOutModel>();
-            if (model.Course == null) return null;
-            model.YearModel = result.ReadFirstOrDefault<AcademicYearOutModel>();
-            model.Students = result.Read<StudentMarkOutModel>().ToList();
-            return model;
+            CourseGradesSheetOutModel outModel = new CourseGradesSheetOutModel();
+            outModel.Course = result.ReadFirstOrDefault<CourseOutModel>();
+            if (outModel.Course == null) return null;
+            outModel.YearModel = result.ReadFirstOrDefault<AcademicYearOutModel>();
+            outModel.Students = result.Read<StudentMarkOutModel>().ToList();
+            return outModel;
         }
-        public ExamCommitteeStudentsOutModel GetStudentsList(ExamCommitteeStudentsParamModel model)
+        public ExamCommitteeStudentsOutModel GetStudentsList(StudentsExamParamModel model)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", model.CourseID);
@@ -192,11 +196,12 @@ namespace FOS.App.Repositories
             return outModel;
         }
 
-        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model)
+        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, int examType)
         {
+            string examName = Enum.GetName((ExamTypeEnum)examType);
             string query = "";
             for (int i = 0; i < model.Count; i++)
-                query += string.Concat("UPDATE StudentCourses SET Mark = ", model.ElementAt(i).Mark.HasValue ? model.ElementAt(i).Mark.Value : "NULL",
+                query += string.Concat("UPDATE StudentCourses SET ", examName, " = ", model.ElementAt(i).Mark.HasValue ? model.ElementAt(i).Mark.Value : "NULL",
                     " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
                     " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
 
@@ -218,9 +223,9 @@ namespace FOS.App.Repositories
             for (int i = 0; i < toBeSavedLst.Count(); i++)
             {
                 var course = toBeSavedLst.ElementAt(i);
-                if (course.HasExecuse == true)
+                if (course.HasExcuse == true)
                 {
-                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,HasExecuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5});",
+                    query += string.Format("INSERT INTO StudentCourses(StudentID,CourseID,AcademicYearID,IsApproved,HasExcuse,IsGpaIncluded) VALUES({0},{1},{2},{3},{4},{5});",
                         course.StudentId, course.CourseId, course.AcademicYearId, 1, 1, 0);
                 }
                 else if (course.IsGpaincluded == false && course.Mark == null)

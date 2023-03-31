@@ -56,18 +56,26 @@ namespace FOS.App.PDFCreators
         {
             return "Calibri";
         }
-        public static void GetFooter(this PageDescriptor page)
+        public static void GetFooter(this PageDescriptor page,string text = "")
         {
             page.Footer()
                 .ContentFromRightToLeft()
                 .AlignRight()
                 .AlignMiddle()
-                .Text(x =>
+                .Column(col =>
                 {
-                    x.Span("صفحة ").FontFamily(GetFont());
-                    x.CurrentPageNumber();
-                    x.Span("/");
-                    x.TotalPages();
+                    col.Item().Text(x =>
+                    {
+                        x.Span("صفحة ").FontFamily(GetFont());
+                        x.CurrentPageNumber();
+                        x.Span("/");
+                        x.TotalPages();
+                    });
+                    col.Item().Text(x =>
+                    {
+                        x.Span(text).FontFamily(GetFont()).FontSize(11f);
+                        x.AlignLeft();
+                    });
                 });
         }
         public static void GetHeader(this PageDescriptor page,string title)

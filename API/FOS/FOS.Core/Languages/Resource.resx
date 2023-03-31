@@ -270,4 +270,13 @@
   <data name="Summer" xml:space="preserve">
     <value>Summer</value>
   </data>
+  <data name="CourseDoesntHaveThisMarkType" xml:space="preserve">
+    <value>The Course You Have Requested Sheet For Doesn't Have a {0} Marks</value>
+  </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>Entered Data Is Invalid</value>
+  </data>
+  <data name="YouCantRegister" xml:space="preserve">
+    <value>You Can't Register To These Courses</value>
+  </data>
 </root>

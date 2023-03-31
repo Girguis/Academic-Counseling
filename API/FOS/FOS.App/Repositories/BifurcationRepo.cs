@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using FOS.App.ExcelReader;
 using FOS.App.Helpers;
 using FOS.Core;
 using FOS.Core.IRepositories;
@@ -18,7 +19,7 @@ namespace FOS.App.Repositories
             this.academicYearRepo = academicYearRepo;
             this.config = config;
         }
-        public object BifurcateStudents()
+        public Stream BifurcateStudents()
         {
             //Get all data from desires table
             var studentsDesireslst = QueryExecuterHelper.Execute<StudentDesiresOutModel>
@@ -84,19 +85,7 @@ namespace FOS.App.Repositories
                 return null;
             //Summary for each program to get min GPA and accepted students count
             var programsLst = studentProgram.GroupBy(x => x.ProgramId);
-            List<object> programMinGPA = new();
-            for (int i = 0; i < programsLst.Count(); i++)
-            {
-                var currentProgram = programsLst.ElementAt(i);
-                programMinGPA.Add(new
-                {
-                    ProgramName = currentProgram.ElementAt(0)?.ProgramName,
-                    StudentCount = currentProgram.Count(),
-                    MinGPA = currentProgram.OrderBy(x => x.CGPA).FirstOrDefault().CGPA,
-                    AvaiableSeats = studentsCountPerProgram[currentProgram.Key]
-                });
-            }
-            return programMinGPA;
+            return StudentBirfucationSummary.Create(programsLst, studentsCountPerProgram);
         }
         public bool AddStudentsToPrograms(List<StudentProgramInsertParamModel> studentProgram)
         {

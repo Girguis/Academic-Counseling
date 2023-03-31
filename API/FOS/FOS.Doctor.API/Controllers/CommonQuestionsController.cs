@@ -22,20 +22,14 @@ namespace FOS.Doctors.API.Controllers
             this.questionsRepo = questionsRepo;
         }
         [HttpPost("Add")]
-        public IActionResult Add(List<QuestionModel> questions)
+        public IActionResult Add(QuestionModel question)
         {
-            if (questions == null || questions.Count < 1)
-                return BadRequest(new
-                {
-                    Massage = Resource.EmptyList,
-                    Data = questions
-                });
-            var added = questionsRepo.AddQuestion(questions);
+            var added = questionsRepo.AddQuestion(question);
             if (!added)
                 return BadRequest(new
                 {
                     Massage = Resource.ErrorOccured,
-                    Data = questions
+                    Data = question
                 });
             return Ok();
         }

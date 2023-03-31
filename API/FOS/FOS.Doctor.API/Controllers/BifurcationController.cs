@@ -20,18 +20,20 @@ namespace FOS.Doctors.API.Controllers
             this.bifurcationRepo = bifurcationRepo;
             this.logger = logger;
         }
-        [HttpPost("BifurcateStudents")]
+        [HttpGet("BifurcateStudents")]
         public IActionResult GetBifurcationResult()
         {
             try
             {
-                var res = bifurcationRepo.BifurcateStudents();
-                if (res == null)
+                var stream = bifurcationRepo.BifurcateStudents();
+                if (stream == null)
                     return BadRequest(new
                     {
                         Massage = Resource.ErrorOccured
                     });
-                return Ok(new { Data = res });
+                return File(stream,
+                    "application/vnd.ms-excel",
+                    "BirfucationResult" + DateTime.UtcNow.AddHours(2).ToString() + ".xlsx");
             }
             catch (Exception ex)
             {

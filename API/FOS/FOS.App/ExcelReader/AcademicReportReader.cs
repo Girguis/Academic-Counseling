@@ -63,7 +63,9 @@ namespace FOS.App.ExcelReader
                             {
                                 StudentId = -1,
                                 ProgramId = currentProgramID,
-                                AcademicYear = currentYearID
+                                AcademicYear = currentYearID,
+                                AcademicYearName = academicYearsLst.FirstOrDefault(x => x.Id == currentYearID)?.AcademicYear1,
+                                ProgramName = programsLst.FirstOrDefault(x => x.Id == currentProgramID)?.Name
                             });
                         i += 4;
                     }
@@ -87,13 +89,13 @@ namespace FOS.App.ExcelReader
                     course.CourseId = courseObj.Id;
                     if (ws.Cell("O" + i).IsEmpty())
                     {
-                        course.HasExecuse = true;
+                        course.HasExcuse = true;
                         course.Mark = null;
                         course.IsGpaincluded = false;
                     }
                     else
                     {
-                        course.HasExecuse = false;
+                        course.HasExcuse = false;
                         if (ws.Cell("S" + i).Value.ToString().Contains("-**"))
                         {
                             course.IsGpaincluded = false;

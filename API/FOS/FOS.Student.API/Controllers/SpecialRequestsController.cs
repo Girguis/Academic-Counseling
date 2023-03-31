@@ -1,9 +1,10 @@
 ﻿using FOS.App.Helpers;
-using FOS.Core.Languages;
 using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using FOS.Students.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -56,6 +57,7 @@ namespace FOS.Students.API.Controllers
             this.logger = logger;
         }
         [HttpGet("GetMyCoursesRequests")]
+        [ProducesResponseType(200, Type = typeof(List<CourseRequestOutModel>))]
         public IActionResult GetMyCoursesRequests()
         {
             try
@@ -114,6 +116,7 @@ namespace FOS.Students.API.Controllers
             }
         }
         [HttpGet("GetMyProgramTransferRequest")]
+        [ProducesResponseType(200, Type = typeof(List<ProgramTransferRequestOutModel>))]
         public IActionResult GetMyProgramTransferRequest()
         {
             try
@@ -256,7 +259,7 @@ namespace FOS.Students.API.Controllers
                     });
                 return Ok(new
                 {
-                    Massgse = "Done"
+                    Massgse = Resource.Done
                 });
             }
             catch (Exception ex)
@@ -412,18 +415,7 @@ namespace FOS.Students.API.Controllers
                     });
                 var result = studentCoursesRepo.GetCoursesForOverload(student.Id);
                 var courses = result.courses;
-                courses.RemoveAll(x =>
-                    result.electiveCoursesDistribtion.Any(z =>
-                    z.Level == x.Level && z.CourseType == x.CourseType &&
-                    z.Semester == x.Semester && z.Category == x.Category && z.Hour == 0
-                    )
-                    ||
-                    (x.CreditHours - result.electiveCoursesDistribtion.FirstOrDefault(z =>
-                        z.Level == x.Level && z.CourseType == x.CourseType &&
-                        z.Semester == x.Semester && z.Category == x.Category).Hour < 0
-                    )
-                );
-                result.electiveCoursesDistribtion.RemoveAll(x => x.Hour == 0);
+                result.electiveCoursesDistribtion?.RemoveAll(x => x.Hour == 0);
                 return Ok(new
                 {
                     IsAvailable = true,

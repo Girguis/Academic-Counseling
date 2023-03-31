@@ -15,8 +15,10 @@ namespace FOS.Core.Models
     public class StudentProgramModel
     {
         public int ProgramId { get; set; }
+        public string ProgramName { get; set; }
         public int StudentId { get; set; }
         public short AcademicYear { get; set; }
+        public string AcademicYearName { get; set; }
     }
     public class StudentCoursesModel
     {
@@ -29,7 +31,7 @@ namespace FOS.Core.Models
         public string AcademicYear { get; set; }
         public byte? Semester { get; set; }
         public bool IsGpaIncluded { get; set; }
-        public bool? HasExecuse { get; set; }
+        public bool? HasExcuse { get; set; }
         public static StudentCoursesModel ToViewModel(StudentCourse x, List<AcademicYear> academicYearsLst)
         {
             return new StudentCoursesModel
@@ -43,7 +45,7 @@ namespace FOS.Core.Models
                 AcademicYear = academicYearsLst.FirstOrDefault(y => y.Id == x.AcademicYearId)?.AcademicYear1,
                 Semester = academicYearsLst.FirstOrDefault(y => y.Id == x.AcademicYearId)?.Semester,
                 IsGpaIncluded = x.IsGpaincluded,
-                HasExecuse = x.HasExecuse
+                HasExcuse = x.HasExcuse
             };
         }
     }
@@ -58,7 +60,7 @@ namespace FOS.Core.Models
         public string AcademicYear { get; set; }
         public byte? Semester { get; set; }
         public bool IsGpaIncluded { get; set; }
-        public bool? HasExecuse { get; set; }
+        public bool? HasExcuse { get; set; }
         public static StudentCoursesUpdateModel ToViewModel(StudentCourse x, List<StudentCourse> courses, List<AcademicYear> academicYearsLst)
         {
             return new StudentCoursesUpdateModel
@@ -72,7 +74,7 @@ namespace FOS.Core.Models
                 AcademicYear = academicYearsLst.FirstOrDefault(y => y.Id == x.AcademicYearId)?.AcademicYear1,
                 Semester = academicYearsLst.FirstOrDefault(y => y.Id == x.AcademicYearId)?.Semester,
                 IsGpaIncluded = x.IsGpaincluded,
-                HasExecuse = x.HasExecuse
+                HasExcuse = x.HasExcuse
             };
         }
     }

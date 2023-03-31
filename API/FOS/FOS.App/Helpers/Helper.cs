@@ -5,6 +5,7 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -14,6 +15,30 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
+        public static bool IsValidCourseData(AddCourseParamModel course)
+        {
+            int totalMarks = course.Practical + course.Final + course.Oral + course.YearWork;
+            if (course.LectureHours + ((course.LabHours + course.SectionHours) / 2) != course.CreditHours)
+                return false;
+            if (course.CreditHours == 0)
+                return totalMarks == 50;
+            else
+                return course.CreditHours * 50 == totalMarks;
+        }
+        public static bool HasThisTypeOfExam(int examType, Course course)
+        {
+            return (examType == (int)ExamTypeEnum.Final && course.Final != 0)
+                    || (examType == (int)ExamTypeEnum.YearWork && course.YearWork != 0)
+                    || (examType == (int)ExamTypeEnum.Oral && course.Oral != 0)
+                    || (examType == (int)ExamTypeEnum.Practical && course.Practical != 0);
+        }
+        public static bool HasThisTypeOfExam(int examType, CourseOutModel course)
+        {
+            return (examType == (int)ExamTypeEnum.Final && course.Final != 0)
+                    || (examType == (int)ExamTypeEnum.YearWork && course.YearWork != 0)
+                    || (examType == (int)ExamTypeEnum.Oral && course.Oral != 0)
+                    || (examType == (int)ExamTypeEnum.Practical && course.Practical != 0);
+        }
         public static byte GetSemesterNumber(string semesterStr)
         {
             if (semesterStr.Contains("الخريف"))
@@ -44,13 +69,17 @@ namespace FOS.App.Helpers
         {
             return GetEnumAttributes<DisplayAttribute>(value).GetName();
         }
+        public static string GetDescription(Enum value)
+        {
+            return GetEnumAttributes<DescriptionAttribute>(value).Description;
+        }
         public static TAttribute GetEnumAttributes<TAttribute>(Enum value)
             where TAttribute : Attribute
         {
-             return value.GetType()
-                        .GetMember(value.ToString())
-                        .First()
-                        .GetCustomAttribute<TAttribute>();
+            return value.GetType()
+                       .GetMember(value.ToString())
+                       .First()
+                       .GetCustomAttribute<TAttribute>();
             //    FieldInfo fi = value.GetType().GetField(value.ToString());
             //    DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
             //    if (attributes != null && attributes.Any())
@@ -58,65 +87,65 @@ namespace FOS.App.Helpers
             //    return value.ToString();
             //}
         }
-            public static List<General> ProgramsToList(List<ProgramBasicDataDTO> programs)
-            {
-                return programs.Select(x => new General
-                {
-                    ID = x.Id,
-                    Name = x.Name
-                }).ToList();
-            }
-            public static List<General> CoursesToList(List<Course> courses)
-            {
-                return courses.Select(x => new General
-                {
-                    ID = x.Id,
-                    Name = string.Concat(x.CourseCode, "-", x.CourseName)
-                }).ToList();
-            }
-            public static List<General> AcademicYearsToList(List<AcademicYear> academicYears)
-            {
-                return academicYears.Select(x => new General
-                {
-                    ID = x.Id,
-                    Name = string.Concat(x.AcademicYear1, " - ", GetDisplayName((SemesterEnum)x.Semester))
-                })?.ToList();
-            }
-            public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo, IConfiguration configuration, Student student, IProgramDistributionRepo programDistributionRepo)
-            {
-                int allowedHoursToRegister;
-                int currentSemester = academicYearRepo.GetCurrentYear().Semester;
-                if (currentSemester == 3)
-                {
-                    bool parsed = int.TryParse(configuration["Summer:HoursToRegister"], out allowedHoursToRegister);
-                    if (!parsed)
-                        allowedHoursToRegister = 6;
-                }
-                else
-                {
-                    if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
-                        allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester);
-                    else
-                        allowedHoursToRegister = 12;
-                }
-                return allowedHoursToRegister;
-            }
-            public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels, IEnumerable<byte> semesters, int studentID)
-            {
-                List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
-                                                        .GetOptionalCoursesDistibution(studentID)
-                                                        .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
-                                                        .ToList();
-                List<ElectiveCoursesDistribtionOutModel> optionalCoursesDTO = new();
-                for (int i = 0; i < optionalCoursesDistribution.Count; i++)
-                    optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
-                return optionalCoursesDTO;
-            }
-        }
-
-        public class General
+        public static List<General> ProgramsToList(List<ProgramBasicDataDTO> programs)
         {
-            public int ID { get; set; }
-            public string Name { get; set; }
+            return programs.Select(x => new General
+            {
+                ID = x.Id,
+                Name = x.Name
+            }).ToList();
+        }
+        public static List<General> CoursesToList(List<Course> courses)
+        {
+            return courses.Select(x => new General
+            {
+                ID = x.Id,
+                Name = string.Concat(x.CourseCode, "-", x.CourseName)
+            }).ToList();
+        }
+        public static List<General> AcademicYearsToList(List<AcademicYear> academicYears)
+        {
+            return academicYears.Select(x => new General
+            {
+                ID = x.Id,
+                Name = string.Concat(x.AcademicYear1, " - ", GetDisplayName((SemesterEnum)x.Semester))
+            })?.ToList();
+        }
+        public static int GetAllowedHoursToRegister(IAcademicYearRepo academicYearRepo, IConfiguration configuration, Student student, IProgramDistributionRepo programDistributionRepo)
+        {
+            int allowedHoursToRegister;
+            int currentSemester = academicYearRepo.GetCurrentYear().Semester;
+            if (currentSemester == 3)
+            {
+                bool parsed = int.TryParse(configuration["Summer:HoursToRegister"], out allowedHoursToRegister);
+                if (!parsed)
+                    allowedHoursToRegister = 6;
+            }
+            else
+            {
+                if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
+                    allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester);
+                else
+                    allowedHoursToRegister = 12;
+            }
+            return allowedHoursToRegister;
+        }
+        public static List<ElectiveCoursesDistribtionOutModel> GetElectiveCoursesDistribution(IElectiveCourseDistributionRepo optionalCourseRepo, IEnumerable<byte> levels, IEnumerable<byte> semesters, int studentID)
+        {
+            List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
+                                                    .GetOptionalCoursesDistibution(studentID)
+                                                    .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
+                                                    .ToList();
+            List<ElectiveCoursesDistribtionOutModel> optionalCoursesDTO = new();
+            for (int i = 0; i < optionalCoursesDistribution.Count; i++)
+                optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
+            return optionalCoursesDTO;
         }
     }
+
+    public class General
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
+}

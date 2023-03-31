@@ -46,7 +46,7 @@
         public bool IsIncluded { get; set; }
         public byte? CourseEntringNumber { get; set; }
         public bool? AffectReEntringCourses { get; set; }
-        public bool? HasExecuse { get; set; }
+        public bool? HasExcuse { get; set; }
         public bool? IsEnhancementCourse { get; set; }
     }
 }

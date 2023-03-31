@@ -18,13 +18,12 @@ namespace FOS.App.Repositories
         {
             this.config = config;
         }
-        public bool AddQuestion(List<QuestionModel> questions)
+        public bool AddQuestion(QuestionModel question)
         {
             var dt = new DataTable();
             dt.Columns.Add("Question");
             dt.Columns.Add("Answer");
-            for (int i = 0; i < questions.Count; i++)
-                dt.Rows.Add(questions[i].Question, questions[i].Answer);
+                dt.Rows.Add(question.Question, question.Answer);
             return QueryExecuterHelper.Execute(config.CreateInstance(), "AddCommonQuestions", new List<SqlParameter>
             {
                 QueryExecuterHelper.DataTableToSqlParameter(dt, "Questions", "CommonQuestionsType")

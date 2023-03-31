@@ -2,6 +2,8 @@
 using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FOS.Core.Enums;
+using FOS.App.Helpers;
 
 namespace FOS.Doctors.API.Controllers
 {
@@ -33,6 +35,30 @@ namespace FOS.Doctors.API.Controllers
                 return Ok();
             }
             catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetCurrentAcademicYear")]
+        public IActionResult GetCurrentAcademicYear()
+        {
+            try
+            {
+                var academicYear = academicYearRepo.GetCurrentYear();
+                if (academicYear == null)
+                    return Ok(
+                        new
+                        {
+                            AcademicYear = "No Years Exits"
+                        });
+                return Ok(new
+                    {
+                        AcademicYear = 
+                        string.Concat(academicYear.AcademicYear1, " - ", Helper.GetDisplayName((SemesterEnum)academicYear.Semester))
+                    });
+            }
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

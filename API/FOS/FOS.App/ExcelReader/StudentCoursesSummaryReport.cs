@@ -59,7 +59,7 @@ namespace FOS.App.ExcelReader
                         courses.ElementAt(j).CourseType != 2 &&
                         !(courses.ElementAt(j).CourseType == 3 && courses.ElementAt(j).Level == 4))
                         ws.Cell("A" + rowNo).Value = courses.ElementAt(j).Hours;
-                    ws.Cell("B" + rowNo).Value = Helpers.Helper.GetDisplayName((CourseTypeEnum)courses.ElementAt(j).CourseType);
+                    ws.Cell("B" + rowNo).Value = Helper.GetDescription((CourseTypeEnum)courses.ElementAt(j).CourseType);
                     ws.Cell("C" + rowNo).Value = courses.ElementAt(j).CourseCode;
                     ws.Cell("D" + rowNo).Value = courses.ElementAt(j).CourseName;
                     ws.Cell("E" + rowNo).Value = courses.ElementAt(j).CreditHours;
@@ -69,7 +69,7 @@ namespace FOS.App.ExcelReader
                     if (courses.ElementAt(j).IsPassedCourse)
                     {
                         var passedInYear = summaryTree.StudentCourses.FirstOrDefault(x => x.CourseID == courses.ElementAt(j).ID && x.Grade.ToLower() != "f");
-                        ws.Cell("I" + rowNo).Value = passedInYear.AcademicYear + " - " + Helper.GetDisplayName((SemesterEnum)passedInYear.Semester);
+                        ws.Cell("I" + rowNo).Value = passedInYear.AcademicYear + " - " + Helper.GetDescription((SemesterEnum)passedInYear.Semester);
                     }
                     else
                         ws.Cell("I" + rowNo).Value = "-------";
@@ -106,7 +106,7 @@ namespace FOS.App.ExcelReader
                 {
                     ws.Cell("D"+rowNo).Value = courses.ElementAt(j).Mark;
                     ws.Cell("E"+rowNo).Value = courses.ElementAt(j).Grade;
-                    ws.Cell("F" + rowNo).Value = courses.ElementAt(j).AcademicYear + " - " + Helper.GetDisplayName((SemesterEnum)courses.ElementAt(j).Semester);
+                    ws.Cell("F" + rowNo).Value = courses.ElementAt(j).AcademicYear + " - " + Helper.GetDescription((SemesterEnum)courses.ElementAt(j).Semester);
                     rowNo++;
                 }
             }

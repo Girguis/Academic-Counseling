@@ -21,7 +21,7 @@ namespace FOS.App.ExcelReader
                     XLSheetProtectionElements.SelectUnlockedCells
                     | XLSheetProtectionElements.AutoFilter
                     | XLSheetProtectionElements.SelectLockedCells
-                    //| XLSheetProtectionElements.Sort
+                    | XLSheetProtectionElements.Sort
                     );
             }
             ws.Columns().AdjustToContents();

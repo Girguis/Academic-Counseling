@@ -4,7 +4,7 @@ namespace FOS.Core.IRepositories
 {
     public interface IBifurcationRepo
     {
-        object BifurcateStudents();
+        Stream BifurcateStudents();
         List<DesireProgramsOutModel> GetDesires(int id);
         bool AddDesires(int? currentProgramID, int studentID, List<byte> desires);
     }

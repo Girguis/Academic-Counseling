@@ -142,6 +142,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Course You Have Requested Sheet For Doesn&apos;t Have a {0} Marks.
+        /// </summary>
+        public static string CourseDoesntHaveThisMarkType {
+            get {
+                return ResourceManager.GetString("CourseDoesntHaveThisMarkType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Course Enhancement.
         /// </summary>
         public static string CourseEnhancement {
@@ -300,6 +309,15 @@ namespace FOS.Core.Languages {
         public static string IDCantBeEmpty {
             get {
                 return ResourceManager.GetString("IDCantBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entered Data Is Invalid.
+        /// </summary>
+        public static string InvalidData {
+            get {
+                return ResourceManager.GetString("InvalidData", resourceCulture);
             }
         }
         
@@ -516,6 +534,15 @@ namespace FOS.Core.Languages {
         public static string YearWork {
             get {
                 return ResourceManager.GetString("YearWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You Can&apos;t Register To These Courses.
+        /// </summary>
+        public static string YouCantRegister {
+            get {
+                return ResourceManager.GetString("YouCantRegister", resourceCulture);
             }
         }
     }

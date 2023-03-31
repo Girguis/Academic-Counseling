@@ -45,7 +45,7 @@ namespace FOS.App.Repositories
             return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "DELETE FROM Course WHERE ID = " + id);
         }
-        public List<Course> GetAll(out int totalCount, SearchCriteria criteria = null, int? doctorProgramID = null)
+        public List<Course> GetAll(out int totalCount, string doctorID, SearchCriteria criteria = null, int? doctorProgramID = null)
         {
             DynamicParameters parameters = new();
             parameters.Add("@ProgramID", doctorProgramID);
@@ -55,6 +55,8 @@ namespace FOS.App.Repositories
             parameters.Add("@CreditHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "credithours")?.Value?.ToString());
             parameters.Add("@LectureHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "lecturehours")?.Value?.ToString());
             parameters.Add("@LabHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "labhours")?.Value?.ToString());
+            if (!string.IsNullOrEmpty(doctorID))
+                parameters.Add("@DoctorID", doctorID);
             parameters.Add("@SectionHours", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "sectionhours")?.Value?.ToString());
             parameters.Add("@IsActive", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isactive")?.Value?.ToString());
             parameters.Add("@Level", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "level")?.Value?.ToString());
@@ -144,6 +146,18 @@ namespace FOS.App.Repositories
                 QueryExecuterHelper.DataTableToSqlParameter(dt,"Doctors","DoctorsGuidType"),
                 new SqlParameter("@CourseID", model.CourseId)
             });
+        }
+
+        public bool IsCourseExist(string courseCode)
+        {
+            return (bool)QueryExecuterHelper
+                .ExecuteFunction(config.CreateInstance(), "IsCourseExist",
+                 "'" + courseCode + "'");
+        }
+
+        public bool ConfirmExamsResult()
+        {
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "ConfirmMarks", new List<SqlParameter>());
         }
     }
 }

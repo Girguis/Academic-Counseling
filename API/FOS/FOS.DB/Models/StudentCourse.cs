@@ -8,6 +8,10 @@ namespace FOS.DB.Models
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public byte? Mark { get; set; }
+        public int? Final { get; set; }
+        public int? YearWork { get; set; }
+        public int? Oral { get; set; }
+        public int? Practical { get; set; }
         public string? Grade { get; set; }
         public double? Points { get; set; }
         public bool? IsApproved { get; set; }
@@ -18,7 +22,7 @@ namespace FOS.DB.Models
         public short AcademicYearId { get; set; }
         public bool? WillTakeFullCredit { get; set; }
         public bool? TookFromCredits { get; set; }
-        public bool HasExecuse { get; set; }
+        public bool HasExcuse { get; set; }
         public bool? IsEnhancementCourse { get; set; }
         public bool HasWithdrawn { get; set; }
         public bool TookFromEnhancementCredits { get; set; }
