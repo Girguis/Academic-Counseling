@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE DATABASE [FOS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -80,13 +80,13 @@ ALTER DATABASE [FOS] SET QUERY_STORE = OFF
 GO
 USE [FOS]
 GO
-/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[CommonQuestionsType] AS TABLE(
 	[Question] [nvarchar](max) NULL,
 	[Answer] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[CourseCode] [nvarchar](max) NULL,
 	[CourseName] [nvarchar](max) NULL,
@@ -99,12 +99,12 @@ CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[Semester] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[DoctorsGuidType] AS TABLE(
 	[DoctorGuid] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
@@ -113,13 +113,13 @@ CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Hour] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[PrerequisiteCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteCourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteRelationID] [tinyint] NULL,
@@ -127,32 +127,32 @@ CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[Category] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[ProgramDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
 	[NumberOfHours] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
 	[ProgramID] [int] NULL,
 	[DesireNumber] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[StudentRegistrationCoursesType] AS TABLE(
 	[CourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE TYPE [dbo].[StudentsProgramsType] AS TABLE(
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -174,7 +174,7 @@ AS
 		 RETURN @CGPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -198,7 +198,7 @@ BEGIN
 	RETURN 0;
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -221,7 +221,7 @@ AS
 		 RETURN @GPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -259,7 +259,7 @@ BEGIN
 	RETURN @StudentLevel
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -305,7 +305,7 @@ ELSE
 RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -333,7 +333,7 @@ ELSE
 RETURN @IsPassed;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -354,7 +354,7 @@ BEGIN
 	RETURN @RegCounter;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -368,7 +368,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -387,7 +387,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -418,7 +418,7 @@ BEGIN
 	RETURN [dbo].[CalculateSGPA](@StudentID,@AcademicYearID);
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -474,7 +474,7 @@ BEGIN
 	RETURN @NumberOfWarnings;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -504,7 +504,7 @@ DEALLOCATE Count_Passed_Prerequiste_Number;
 RETURN @PassedCoursesNumber;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -542,7 +542,7 @@ BEGIN
 	RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -557,7 +557,7 @@ BEGIN
 	RETURN @Grade;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -576,7 +576,7 @@ AS
 		 RETURN @ProgramID;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -594,7 +594,7 @@ BEGIN
 	RETURN @ProgName;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -640,7 +640,7 @@ BEGIN
 	RETURN @HoursSum;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -657,7 +657,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -675,7 +675,7 @@ AS
 		RETURN 0;
 	END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -692,7 +692,7 @@ IF EXISTS ( SELECT 1 FROM Doctor WHERE Email = @Email)
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -721,7 +721,7 @@ AS
 		RETURN @IsGraduated;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -759,7 +759,7 @@ AS
 		--RETURN 0;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -791,7 +791,7 @@ AS
 		RETURN @ReturnValue;
 	END
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -806,7 +806,7 @@ CREATE TABLE [dbo].[AcademicYear](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -821,7 +821,7 @@ CREATE TABLE [dbo].[CommonQuestion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -847,7 +847,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -858,7 +858,7 @@ CREATE TABLE [dbo].[CoursePrerequisites](
 	[PrerequisiteCourseID] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -869,7 +869,7 @@ CREATE TABLE [dbo].[Date](
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -890,7 +890,7 @@ CREATE TABLE [dbo].[Doctor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -904,7 +904,7 @@ CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[Hour] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -926,7 +926,7 @@ CREATE TABLE [dbo].[Program](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -939,7 +939,7 @@ CREATE TABLE [dbo].[ProgramCourses](
 	[Category] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -951,7 +951,7 @@ CREATE TABLE [dbo].[ProgramDistribution](
 	[NumberOfHours] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -993,7 +993,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1007,7 +1007,7 @@ CREATE TABLE [dbo].[StudentCourseRequest](
 	[CourseOperationID] [bit] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1036,7 +1036,7 @@ CREATE TABLE [dbo].[StudentCourses](
 	[TookFromEnhancementCredits] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1048,7 +1048,7 @@ CREATE TABLE [dbo].[StudentDesires](
 	[StudentCurrentProgramID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1059,7 +1059,7 @@ CREATE TABLE [dbo].[StudentPrograms](
 	[AcademicYear] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1071,7 +1071,7 @@ CREATE TABLE [dbo].[StudentProgramTransferRequest](
 	[IsApproved] [bit] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1088,7 +1088,7 @@ CREATE TABLE [dbo].[SuperAdmin](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1587,9 +1587,9 @@ INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (7, CAST(N'2023-0
 GO
 SET IDENTITY_INSERT [dbo].[Doctor] ON 
 GO
-INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (2, N'A95A4304-E215-46A3-A3C9-3D01F90F0868', N'CS supervisor', N'cssuper@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 5, 1)
+INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (2, N'A95A4304-E215-46A3-A3C9-3D01F90F0868', N'CS supervisor', N'cssuper@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 5, 2)
 GO
-INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (3, N'A95A4304-E215-46A3-A3C9-3D01F90F543', N'Math Admin', N'Amath@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-03-09T00:00:00' AS SmallDateTime), 1, 1)
+INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (3, N'A95A4304-E215-46A3-A3C9-3D01F90F543', N'Math Admin', N'Amath@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-03-09T00:00:00' AS SmallDateTime), 1, 2)
 GO
 SET IDENTITY_INSERT [dbo].[Doctor] OFF
 GO
@@ -2233,29 +2233,29 @@ INSERT [dbo].[ProgramDistribution] ([ProgramID], [Level], [Semester], [NumberOfH
 GO
 SET IDENTITY_INSERT [dbo].[Student] ON 
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190691', N'190691', 9, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, 3, 1, 5, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190691', N'190691', 9, 3, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, 3, 1, 5, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'113407A1FFA2461A74B42B7078589B87EB6B66EEAEF67778FFF0A3DE3DD09A460B2D17BFBA9AB924CBB3060E97B684DC4DBCE353462B0C1464F9EC55324580EC', N'190114', N'190114', 12, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, 1, 1, 5, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'جوفانى نادى ذكرى', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190552', N'190552', 8, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, NULL, 1, 5, 8, 8)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'يوسف طارق مسعود', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190823', N'190823', 9, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, 3, 1, 5, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'يوسف طارق مسعود', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190823', N'190823', 9, 3, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, 3, 1, 5, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (13, N'FFEDC23A-8946-423D-AAFB-34D19EC18C64', N'ملك محمد عبدالحميد', N'30106190104688', N'01023883386', CAST(N'2001-06-19' AS Date), N'الزاوية', N'2', N'مصرى', N'30106190104688@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190787', N'190787', 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, 1, 1, 6, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (14, N'D0CCA8BC-0736-4298-98D6-994E01EF3EDE', N'جنه محمود حميده', N'30010282102447', N'01141733612', CAST(N'2000-10-28' AS Date), N'الهرم', N'2', N'مصرى', N'30010282102447@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'190111', N'190111', 2, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, 1, 1, 7, 8, 8)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'محمود سالم فاروق', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'150123', N'150123', 0, 2, CAST(N'2022-11-29T00:00:00' AS SmallDateTime), 0, 13, 5, 1, 5, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'محمود سالم فاروق', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'150123', N'150123', 0, 3, CAST(N'2022-11-29T00:00:00' AS SmallDateTime), 0, 13, 5, 1, 5, 8, 8)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (19, N'44B6F0C0-550C-4501-982E-5ABFB287BE3B', N'طالب مستوى اول', N'22222214562145', N'01000000014', CAST(N'2005-05-05' AS Date), N'القاهرة', N'1', N'مصرى', N'22222214562145@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'140140', N'140140', 12, 2, CAST(N'2022-12-06T00:00:00' AS SmallDateTime), 0, 2, NULL, 1, 1, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (19, N'44B6F0C0-550C-4501-982E-5ABFB287BE3B', N'طالب مستوى اول', N'22222214562145', N'01000000014', CAST(N'2005-05-05' AS Date), N'القاهرة', N'1', N'مصرى', N'22222214562145@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'140140', N'140140', 12, 2, CAST(N'2022-12-06T00:00:00' AS SmallDateTime), 0, 2, NULL, 1, 5, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (27, N'bd5d3e03-5f3c-423e-8338-126106db5b3d', N'احمد محمد شاكر', N'30101012145214', N'12345678912', CAST(N'2001-01-01' AS Date), N'Address', N'1', N'مصرى', N'30101012145214@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'152025', N'33333', 1, 2, CAST(N'2023-02-10T16:15:00' AS SmallDateTime), 0, 0, NULL, 1, 5, 8, 8)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'125423', N'11111', 1, 2, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, NULL, 1, 5, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'125423', N'11111', 1, 3, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, NULL, 1, 5, 8, 8)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (29, N'52d2752d-bdc6-470f-bb11-310932ed51e4', N'A', N'30101092101478', N'12345678912', CAST(N'2001-01-09' AS Date), N'Address', N'1', N'مصرى', N'30101092101478@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'124957', N'11201', 0, NULL, CAST(N'2023-02-10T19:59:00' AS SmallDateTime), 0, 0, NULL, 1, 5, 8, 8)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'147201', N'332011', 2, 2, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, NULL, 1, 7, 8, 8)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', N'147201', N'332011', 2, 3, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, NULL, 1, 7, 8, 8)
 GO
 SET IDENTITY_INSERT [dbo].[Student] OFF
 GO
@@ -3531,7 +3531,15 @@ INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 27, 2)
 GO
+INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 19, 20)
+GO
 INSERT [dbo].[StudentProgramTransferRequest] ([StudentID], [ToProgramID], [ReasonForTransfer], [IsApproved]) VALUES (8, 5, N'string', 0)
+GO
+SET IDENTITY_INSERT [dbo].[SuperAdmin] ON 
+GO
+INSERT [dbo].[SuperAdmin] ([ID], [GUID], [Name], [Email], [Password]) VALUES (1, N'4417AB2E-C97A-47B7-A182-D0C2B4DFB23B', N'SuperAdmin', N'sadmin@sci.asu.edu.eg', N'3044DC634EC7C8E55AE10689D41810177E40E4CFCD645A7748DEC4E7C32C20EE14C9D4515EB0E93682816B536522F3119D0C0E68E98915556BE0AA18558F061E')
+GO
+SET IDENTITY_INSERT [dbo].[SuperAdmin] OFF
 GO
 INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES (2, 1, 20)
 GO
@@ -3541,7 +3549,7 @@ INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-04-03 10:39:06 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [K_GUID] ON [dbo].[Student]
 (
 	[GUID] ASC
@@ -3719,7 +3727,7 @@ REFERENCES [dbo].[Doctor] ([ID])
 GO
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3733,7 +3741,7 @@ BEGIN
 		FROM @Questions;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3753,7 +3761,7 @@ INSERT INTO [dbo].[Course]
 		   FROM @Courses
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3778,7 +3786,7 @@ BEGIN
            @ProgramID,@Type);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3820,7 +3828,7 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3857,7 +3865,7 @@ INSERT INTO [dbo].[Student]
 		SELECT * FROM Student WHERE ID = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3873,7 +3881,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3901,7 +3909,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3930,7 +3938,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3956,7 +3964,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3972,7 +3980,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3986,7 +3994,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4020,7 +4028,7 @@ DECLARE MarkUpdateConfirmalCursor CURSOR FOR
 	DEALLOCATE MarkUpdateConfirmalCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4036,7 +4044,7 @@ BEGIN
 	@SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4054,7 +4062,22 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-04-03 10:39:06 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetAllCoursesRegistration]
+AS
+BEGIN
+SELECT s.SSN,c.CourseCode
+  FROM [StudentCourses] sc JOIN Student s ON s.ID = sc.StudentID 
+		JOIN Course c ON c.ID = sc.CourseID
+  WHERE AcademicYearID = [dbo].[GetCurrentYearID]();
+  END
+ 
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4069,7 +4092,7 @@ BEGIN
 	WHERE StudentID = @StudentID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4089,7 +4112,7 @@ BEGIN
 	ORDER BY s.CGPA DESC,sd.DesireNumber ASC;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4119,13 +4142,14 @@ ELSE
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetAvailableCoursesToRegister]
 @StudentID INT,
+@Levels TINYINT = 1,
 @IsCourseAddtionOrOverload BIT = 0
 AS
 BEGIN
@@ -4139,7 +4163,7 @@ DECLARE @StudentProgram  int = [dbo].[GetStudentProgram]('+CAST(@StudentID AS NV
 		AND pc.ProgramID = CAST(@StudentProgram AS NVARCHAR(MAX))
 		AND c.ID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> ''F'' AND StudentID ='+CAST(@StudentID AS NVARCHAR(MAX))+')
 		AND [dbo].GetPrequisteNumber('+CAST(@StudentID AS NVARCHAR(MAX))+',c.ID) = (SELECT COUNT(cp.CourseID) FROM CoursePrerequisites cp WHERE cp.CourseID =  c.id AND cp.ProgramID = CAST(@StudentProgram AS NVARCHAR(MAX)))
-		AND (c.[Level] = @StudentLevel OR c.[Level] = @StudentLevel + 1 OR c.[Level] < @StudentLevel)
+		AND (c.[Level] BETWEEN @StudentLevel AND  @StudentLevel + '+CAST(@Levels AS nvarchar(MAX))+' OR c.[Level] < @StudentLevel)
 		AND c.IsActive = 1
 		AND (pc.CourseType = 1 OR [dbo].[CanRegisterThisCourse](@StudentProgram,'+CAST(@StudentID AS NVARCHAR(MAX))+',c.Level,c.Semester,pc.CourseType,pc.Category,c.CreditHours) = 1)
 	UNION
@@ -4162,7 +4186,7 @@ DECLARE @StudentProgram  int = [dbo].[GetStudentProgram]('+CAST(@StudentID AS NV
 	EXECUTE sp_executesql @Statement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4209,7 +4233,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4232,7 +4256,7 @@ BEGIN
 	WHERE pc.CourseID = @CourseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4354,22 +4378,23 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetCoursesForAddAndDelete]
-@StudentID INT
+@StudentID INT,
+@Levels TINYINT = 1
 AS
 BEGIN
 	DECLARE @ProgramID INT = [dbo].[GetStudentProgram](@StudentID);
 	EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,1
-	EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,1
+	EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,@Levels,1
 	EXEC [dbo].[GetCoursesForDeletionOrWithdraw] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4387,7 +4412,7 @@ DECLARE @StudentProgram INT = [dbo].[GetStudentProgram](@StudentID);
 		sc.AcademicYearID =[dbo].[GetCurrentYearID]();	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4404,7 +4429,7 @@ BEGIN
 		EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,1 ;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4447,22 +4472,23 @@ DECLARE @CurrentSemester TINYINT;
 	EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetCoursesForOverload]
-@StudentID INT
+@StudentID INT,
+@Levels TINYINT = 1
 AS
 BEGIN
 SELECT SUM(c.creditHours) AS [RegisteredHours] FROM Course c JOIN StudentCourses sc ON sc.CourseID = c.ID
 WHERE sc.StudentID = @StudentID AND sc.AcademicYearID = [dbo].[GetCurrentYearID]();
-EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,1
+EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,@Levels,1
 EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4484,7 +4510,7 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4533,7 +4559,7 @@ DECLARE @SelectStatement NVARCHAR(MAX), @FromStatement NVARCHAR(MAX), @WhereStat
 EXECUTE sp_executesql @SqlStatement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4552,7 +4578,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlSt;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4573,7 +4599,7 @@ SELECT Guid,
 		WHERE GUID = @GUID AND IsActive = @IsActive;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4645,7 +4671,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4681,7 +4707,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4697,7 +4723,7 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4709,7 +4735,7 @@ BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4733,7 +4759,7 @@ BEGIN
 	WHERE sub.ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4826,7 +4852,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4853,7 +4879,7 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4895,7 +4921,7 @@ DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),@WhereSt NVARCHAR(MAX),@Sq
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4938,7 +4964,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4971,7 +4997,7 @@ BEGIN
 			ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5009,7 +5035,7 @@ SELECT
   WHERE sc.StudentID = @StudentID AND sc.AcademicYearID = @AcademicYearID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5055,7 +5081,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5235,7 +5261,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5254,7 +5280,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5267,7 +5293,7 @@ BEGIN
 	FROM SuperAdmin s WHERE GUID = @Guid
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5280,7 +5306,7 @@ AS
 		SELECT * FROM Doctor WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5293,7 +5319,7 @@ AS
 		SELECT * FROM Student WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5306,7 +5332,7 @@ AS
 		SELECT * FROM SuperAdmin WHERE Email = @Email AND Password = @Password;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5362,7 +5388,7 @@ AS
 			WHERE StudentID = @StudentID AND IsIncluded = 0;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5374,7 +5400,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5417,7 +5443,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5445,7 +5471,7 @@ BEGIN
 	sc.AcademicYearID = [dbo].[GetCurrentYearID]();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5497,7 +5523,7 @@ IF @ProgramID IS NOT NULL
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5531,7 +5557,7 @@ BEGIN
 	EXEC [dbo].[GetStudentAcademicYearsSummary] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5569,7 +5595,7 @@ BEGIN
 	ORDER BY c.Level,c.Semester,pc.CourseType,pc.Category;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5595,7 +5621,7 @@ BEGIN
 		WHERE StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5614,7 +5640,7 @@ DELETE FROM StudentCourseRequest;
 DELETE FROM StudentProgramTransferRequest;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5644,7 +5670,7 @@ DECLARE @SelectStatement NVARCHAR(MAX) = N'',
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5658,7 +5684,7 @@ BEGIN
 	  GROUP BY p.Name,p.ArabicName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5711,7 +5737,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5743,7 +5769,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5761,7 +5787,7 @@ BEGIN
 	VALUES(@StudentID,@ProgramID,@ReasonForTransfer)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5774,7 +5800,7 @@ BEGIN
 	UPDATE Doctor SET IsActive = @IsActive WHERE GUID = ''+@GUID+'';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5791,7 +5817,7 @@ BEGIN
 	WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5822,7 +5848,7 @@ BEGIN
 	 WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5844,7 +5870,7 @@ BEGIN
 	 WHERE [GUID] = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5875,7 +5901,7 @@ UPDATE [dbo].[Program]
  WHERE ID = @ID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5914,7 +5940,7 @@ UPDATE [dbo].[Student]
  WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5928,7 +5954,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-03-31 10:44:14 PM ******/
+/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5952,7 +5978,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5980,7 +6006,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6010,7 +6036,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6043,7 +6069,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [dbo].[RankUpdater]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[RankUpdater]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6071,7 +6097,7 @@ END;
 GO
 ALTER TABLE [dbo].[Student] ENABLE TRIGGER [RankUpdater]
 GO
-/****** Object:  Trigger [dbo].[SupervisorRemovalForGraduates]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[SupervisorRemovalForGraduates]    Script Date: 2023-04-03 10:39:06 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6092,7 +6118,7 @@ SET NOCOUNT ON;
 GO
 ALTER TABLE [dbo].[Student] ENABLE TRIGGER [SupervisorRemovalForGraduates]
 GO
-/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6137,7 +6163,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourseRequest] ENABLE TRIGGER [HandleRequest]
 GO
-/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6362,7 +6388,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [EntringStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6412,7 +6438,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [GiveBackCredits]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6558,7 +6584,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [UpdateStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6576,7 +6602,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -6594,7 +6620,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgramAfterDelete]
 GO
-/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-03-31 10:44:15 PM ******/
+/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-04-03 10:39:07 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

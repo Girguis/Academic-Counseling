@@ -9,6 +9,7 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 
 namespace FOS.App.Repositories
@@ -17,12 +18,15 @@ namespace FOS.App.Repositories
     {
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IDbContext config;
+        private readonly IConfiguration configuration;
 
         public StudentCoursesRepo(IAcademicYearRepo academicYearRepo,
-            IDbContext config)
+            IDbContext config,
+            IConfiguration configuration)
         {
             this.academicYearRepo = academicYearRepo;
             this.config = config;
+            this.configuration = configuration;
         }
         /// <summary>
         /// Method to get all courses for a certain student
@@ -76,6 +80,7 @@ namespace FOS.App.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
+            parameters.Add("@Levels", GetLevelFromAppsettings());
             return QueryExecuterHelper.Execute<CourseRegistrationOutModel>(config.CreateInstance(), "GetAvailableCoursesToRegister", parameters);
         }
         public bool RegisterCourses(int studentID, short academicYearID, List<int> courses)
@@ -256,6 +261,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
+            parameters.Add("@Levels", GetLevelFromAppsettings());
             using var con = config.CreateInstance();
             var result = con.QueryMultiple("GetCoursesForAddAndDelete", parameters, commandType: CommandType.StoredProcedure);
             var distribtion = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
@@ -296,6 +302,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
+            parameters.Add("@Levels", GetLevelFromAppsettings());
             using var con = config.CreateInstance();
             var result = con.QueryMultiple("GetCoursesForOverload", parameters, commandType: CommandType.StoredProcedure);
             var hours = result.ReadFirstOrDefault<int>();
@@ -351,6 +358,13 @@ namespace FOS.App.Repositories
                     SSN = y.Key,
                     Courses = y.Select(x => x.CourseCode).ToList(),
                 }).ToList();
+        }
+        private int GetLevelFromAppsettings()
+        {
+            bool parsed = int.TryParse(configuration["LevelsRangeForCourseRegistraion"], out int levels);
+            if (!parsed)
+                levels = 1;
+            return levels;
         }
     }
 }

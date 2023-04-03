@@ -134,5 +134,27 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
+        [HttpPost("AllowedLevelsForCourseRegistration/{levels}")]
+        public IActionResult AllowedLevelsForCourseRegistration(int levels)
+        {
+            try
+            {
+                if (levels < 0)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidData
+                    });
+                Helper.UpdateAppSettings(levels: levels);
+                return Ok(new
+                {
+                    Massage = string.Format(Resource.OldToNewValue, configuration["LevelsRangeForCourseRegistraion"], levels)
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 }
