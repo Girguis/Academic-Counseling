@@ -415,7 +415,6 @@ namespace FOS.Students.API.Controllers
                     });
                 var result = studentCoursesRepo.GetCoursesForOverload(student.Id);
                 var courses = result.courses;
-                result.electiveCoursesDistribtion?.RemoveAll(x => x.Hour == 0);
                 return Ok(new
                 {
                     IsAvailable = true,

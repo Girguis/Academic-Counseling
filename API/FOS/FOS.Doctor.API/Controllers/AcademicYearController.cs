@@ -10,7 +10,7 @@ namespace FOS.Doctors.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     public class AcademicYearController : ControllerBase
     {
         private readonly IAcademicYearRepo academicYearRepo;

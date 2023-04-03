@@ -11,7 +11,7 @@ namespace FOS.Doctors.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     public class DateController : ControllerBase
     {
         private readonly IDateRepo dateRepo;

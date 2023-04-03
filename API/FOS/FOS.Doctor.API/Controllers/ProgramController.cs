@@ -10,7 +10,7 @@ namespace FOS.Doctors.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
     public class ProgramController : Controller
     {
         private readonly ILogger<ProgramController> logger;
@@ -23,6 +23,7 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpPost("Add")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult Add([FromBody] ProgramModel model)
         {
             try

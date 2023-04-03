@@ -6,7 +6,6 @@ using FOS.Core.IRepositories;
 using FOS.Core.Languages;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
-using FOS.DB.Models;
 using FOS.Doctors.API.Extenstions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +37,7 @@ namespace FOS.Doctors.API.Controllers
             this.doctorRepo = doctorRepo;
         }
         [HttpPost("GetAll")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetAll([FromBody] SearchCriteria criteria)
         {
             try
@@ -113,6 +113,7 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpDelete("Delete/{id}")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult DeleteCourse(int id)
         {
             try
@@ -168,6 +169,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Activate")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Activate([FromBody] List<int> courseIDs)
         {
             try
@@ -194,6 +196,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Deactivate")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Deactivate([FromBody] List<int> courseIDs)
         {
             try
@@ -220,7 +223,6 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpGet("CreateGradesSheet")]
-        [AllowAnonymous]
         public IActionResult CreateGradesExcel(StudentsExamParamModel model)
         {
             try
@@ -228,7 +230,7 @@ namespace FOS.Doctors.API.Controllers
                 var course = courseRepo.GetById(model.CourseID);
                 if (course == null)
                     return NotFound();
-                if (!Helper.HasThisTypeOfExam(model.ExamType,course))
+                if (!Helper.HasThisTypeOfExam(model.ExamType, course))
                     return BadRequest(new
                     {
                         Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)model.ExamType))
@@ -361,11 +363,12 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("AssignDoctorsToCourse")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult AssignDoctorsToCourse(DoctorsToCourseParamModel model)
         {
             try
             {
-                if (model.DoctorsGuid == null || 
+                if (model.DoctorsGuid == null ||
                     model.DoctorsGuid.Count < 1 ||
                     model.DoctorsGuid.Any(x => string.IsNullOrEmpty(x)))
                     return BadRequest(new
@@ -388,6 +391,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("ConfirmExamsResult")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult ConfirmExamsResult()
         {
             try

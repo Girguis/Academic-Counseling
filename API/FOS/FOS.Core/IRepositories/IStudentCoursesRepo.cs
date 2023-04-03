@@ -34,5 +34,6 @@ namespace FOS.Core.IRepositories
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, int examType);
         bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model);
         bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model, int courseOp);
+        List<GetAllCoursesRegistrationModel> GetAllRegistrations();
     }
 }

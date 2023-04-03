@@ -53,6 +53,7 @@ namespace FOS.Doctors.API.Controllers
             this.programTransferRequestRepo = programTransferRequestRepo;
         }
         [HttpPost("Deactivate")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Deactivate([FromBody] GuidModel model)
         {
             try
@@ -77,6 +78,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Activate")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Activate([FromBody] GuidModel model)
         {
             try
@@ -160,6 +162,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("GetProgramTranferRequests")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetProgramTranferRequests(ProgramTransferSearchParamModel model)
         {
             try
@@ -173,6 +176,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("HandleProgramTranferRequest")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult HandleProgramTranferRequest(ProgramTransferHandleParamModel model)
         {
             try
@@ -365,6 +369,7 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpPost("GetStruggledStudentsReport")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetStruggledStudentsReport(StruggledStudentsParamModel model)
         {
             try

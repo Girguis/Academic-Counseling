@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
@@ -134,6 +135,51 @@ namespace FOS.App.Repositories
                     new SqlParameter("@guid",guid),
                     new SqlParameter("@password",Helper.HashPassowrd(password))
                 });
+        }
+
+        public bool AssignSupervisorsToStudentsRandomly()
+        {
+            using var con = config.CreateInstance();
+            var programs = con.Query<int>("SELECT ID FROM Program WHERE SuperProgramID IS NULL", commandType: CommandType.Text);
+            string baseQuery = "UPDATE Student SET SupervisorID = {0} WHERE ID IN ({1}); ";
+            List<string> queries = new();
+            Parallel.For(0, programs.Count(), i =>
+            {
+                string query = "";
+                using var con2 = config.CreateInstance();
+                var subProgramsList = con2.Query<int>("WITH ParentChilds AS (SELECT ID FROM Program WHERE ID = " + programs.ElementAt(i).ToString() + " UNION ALL SELECT child.ID FROM Program child JOIN ParentChilds pc  ON pc.ID = child.superProgramID) SELECT *FROM ParentChilds;", commandType: CommandType.Text);
+                var subPrograms = string.Join(",", subProgramsList);
+                var students = con2.Query<int>("SELECT ID FROM Student WHERE IsGraduated = 0 AND CurrentProgramID IN (" + subPrograms + ") ORDER BY NEWID()", commandType: CommandType.Text);
+                var doctors = con2.Query<int>("SELECT ID FROM Doctor WHERE Type = " + ((int)DoctorTypesEnum.Supervisor).ToString() + " AND ProgramID IN (" + subPrograms + ") ORDER BY NEWID()", commandType: CommandType.Text);
+                con2.Close();
+                var stdsCount = students.Count();
+                var docsCount = doctors.Count();
+                if (stdsCount > 0 && docsCount > 0)
+                {
+                    int index = 0;
+                    int studentsCountPerDoctor = stdsCount / docsCount;
+                    for (; index < docsCount; index++)
+                        query += string.Format(baseQuery,
+                            doctors.ElementAt(index),
+                            string.Join(",", students.Skip(studentsCountPerDoctor * index).Take(studentsCountPerDoctor)));
+                    var reminder = stdsCount % docsCount;
+                    int j = 0, counter = 0;
+                    while (reminder != 0)
+                    {
+                        query += string.Format(baseQuery,
+                            doctors.ElementAt(j),
+                            string.Join(",", students.Skip(counter + (index - 1)).Take(1)));
+                        counter++;
+                        j = j++ % docsCount;
+                        reminder--;
+                    }
+                    queries.Add(query);
+                }
+            });
+            string queryToBeExecuted = string.Join(" ", queries);
+            if (string.IsNullOrEmpty(queryToBeExecuted))
+                return false;
+            return QueryExecuterHelper.Execute(config.CreateInstance(), queryToBeExecuted);
         }
     }
 }

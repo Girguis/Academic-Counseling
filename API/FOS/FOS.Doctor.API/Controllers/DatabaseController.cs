@@ -8,7 +8,7 @@ namespace FOS.Doctors.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     public class DatabaseController : ControllerBase
     {
         private readonly IDatabaseRepo databaseRepo;

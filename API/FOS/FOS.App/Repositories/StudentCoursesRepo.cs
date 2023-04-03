@@ -341,5 +341,16 @@ namespace FOS.App.Repositories
             var distribution = result.Read<ElectiveCoursesDistribtionOutModel>().ToList();
             return (courses, distribution);
         }
+
+        public List<GetAllCoursesRegistrationModel> GetAllRegistrations()
+        {
+            using var con = config.CreateInstance();
+            return con.Query<GetAllCoursesRegistrationOutModel>("GetAllCoursesRegistration",
+                commandType: CommandType.StoredProcedure).GroupBy(x => x.SSN).Select(y => new GetAllCoursesRegistrationModel
+                {
+                    SSN = y.Key,
+                    Courses = y.Select(x => x.CourseCode).ToList(),
+                }).ToList();
+        }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using FOS.App.Helpers;
-using FOS.Core.Languages;
 using FOS.Core.IRepositories;
 using FOS.Core.Models.StoredProcedureOutputModels;
-using FOS.Doctors.API.Extenstions;
-using FOS.Doctors.API.Models;
+using FOS.Students.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FOS.Doctors.API.Controllers
+namespace FOS.Students.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,25 +18,20 @@ namespace FOS.Doctors.API.Controllers
     public class SuperAdminController : ControllerBase
     {
         private readonly ISuperAdminRepo superAdminRepo;
-        private readonly IConfiguration configuration;
+        private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly ILogger<SuperAdminController> logger;
+        private readonly IConfiguration configuration;
 
         public SuperAdminController(ISuperAdminRepo superAdminRepo,
-                                    IConfiguration configuration,
-                                    ILogger<SuperAdminController> logger)
+            IStudentCoursesRepo studentCoursesRepo,
+            ILogger<SuperAdminController> logger,
+            IConfiguration configuration)
         {
             this.superAdminRepo = superAdminRepo;
-            this.configuration = configuration;
+            this.studentCoursesRepo = studentCoursesRepo;
             this.logger = logger;
+            this.configuration = configuration;
         }
-        /// <summary>
-        /// Take object of LoginModel which have E-mail and password as data memebers
-        /// Hashing password then send it to superAdminRepo.Login and wait for the result
-        /// if superAdmin is not null this means E-mail and password are correct and we will generate a new access token and send it the the client
-        /// if it's null this mean either E-mail or password or both are incorrect
-        /// </summary>
-        /// <param name="loginModel"></param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("SuperAdminLogin")]
         public IActionResult Login([FromBody] LoginModel loginModel)
@@ -71,7 +64,6 @@ namespace FOS.Doctors.API.Controllers
                     var stringToken = tokenHandler.WriteToken(token);
                     return Ok(new
                     {
-                        Massage = "success",
                         Token = stringToken
                     });
                 }
@@ -83,57 +75,13 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        /// <summary>
-        /// Get informations of logged in superAdmin by GUID
-        /// GUID if retrived from access token, which is sent from the client-side in the header
-        /// Retrives superAdmin by GUID and map it to superAdminDTO model
-        /// </summary>
-        /// <returns>superadmin details</returns>
-        [HttpGet("GetSuperAdminInfo")]
-        [ProducesResponseType(200, Type = typeof(SuperAdminOutModel))]
-        public IActionResult GetSuperAdminInfo()
+        [HttpPost("GetAllRegistrations")]
+        [ProducesResponseType(200, Type = typeof(GetAllCoursesRegistrationModel))]
+        public IActionResult GetAllRegistrations()
         {
             try
             {
-                string? guid = this.Guid();
-                if (string.IsNullOrWhiteSpace(guid))
-                    return BadRequest(new { Massage = Resource.InvalidID });
-
-                var superAdmin = superAdminRepo.Get(guid);
-                if (superAdmin == null)
-                    return NotFound(new
-                    {
-                        Massage = string.Format(Resource.DoesntExist, Resource.SuperAdmin)
-                    });
-                return Ok(superAdmin);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
-        [HttpPost("ChangePassword")]
-        public IActionResult ChangePassword(ChangePasswordModel model)
-        {
-            try
-            {
-                string guid = this.Guid();
-                if (string.IsNullOrEmpty(guid))
-                    return BadRequest(new
-                    {
-                        Massage = Resource.InvalidID
-                    });
-                var superAdmin = superAdminRepo.Get(guid);
-                if (superAdmin == null) return NotFound();
-                var updated = superAdminRepo.ChangePassword(guid, model.Password);
-                if (!updated)
-                    return BadRequest(new
-                    {
-                        Massage = Resource.ErrorOccured,
-                        Data = model
-                    });
-                return Ok();
+                return Ok(studentCoursesRepo.GetAllRegistrations());
             }
             catch (Exception ex)
             {

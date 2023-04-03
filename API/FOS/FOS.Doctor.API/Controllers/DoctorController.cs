@@ -115,6 +115,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpGet("GetByID/{guid}")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetByID(string guid)
         {
             try
@@ -131,6 +132,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("GetAll")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetAll(SearchCriteria criteria)
         {
             try
@@ -149,6 +151,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Add")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Add(DoctorAddParamModel doctor)
         {
             try
@@ -175,6 +178,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Deactivate")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Deactivate([FromBody] GuidModel model)
         {
             try
@@ -199,6 +203,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("Activate")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Activate([FromBody] GuidModel model)
         {
             try
@@ -223,6 +228,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPut("Update/{guid}")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Update(string guid, DoctorUpdateParamModel supervisorModel)
         {
             try
@@ -284,6 +290,22 @@ namespace FOS.Doctors.API.Controllers
                 return Ok();
             }
             catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("AssignSupervisorsToStudentsRandomly")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult AssignSupervisorsToStudentsRandomly()
+        {
+            try
+            {
+                if (!doctorRepo.AssignSupervisorsToStudentsRandomly())
+                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                return Ok();
+            }
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

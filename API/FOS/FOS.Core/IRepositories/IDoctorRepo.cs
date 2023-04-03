@@ -15,5 +15,6 @@ namespace FOS.Core.IRepositories
         public bool Deactivate(string supervisorGUID);
         public bool Activate(string supervisorGUID);
         public bool IsEmailReserved(string email);
+        public bool AssignSupervisorsToStudentsRandomly();
     }
 }
