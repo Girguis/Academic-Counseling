@@ -1,5 +1,6 @@
 ﻿using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Students.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -82,6 +83,50 @@ namespace FOS.Students.API.Controllers
             try
             {
                 return Ok(studentCoursesRepo.GetAllRegistrations());
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ModifySummerHours/{hours}")]
+        public IActionResult ModifySummerHours(int hours)
+        {
+            try
+            {
+                if (hours < 0)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidData
+                    });
+                Helper.UpdateAppSettings(summerRegisterHours: hours);
+                return Ok(new
+                {
+                    Massage = string.Format(Resource.OldToNewValue, configuration["Summer:HoursToRegister"], hours)
+                });
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ModifyHoursToSkip/{hours}")]
+        public IActionResult ModifyHoursToSkip(int hours)
+        {
+            try
+            {
+                if (hours < 0)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidData
+                    });
+                Helper.UpdateAppSettings(hoursToSkip: hours);
+                return Ok(new
+                {
+                    Massage = string.Format(Resource.OldToNewValue, configuration["HoursToSkip"], hours)
+                });
             }
             catch (Exception ex)
             {

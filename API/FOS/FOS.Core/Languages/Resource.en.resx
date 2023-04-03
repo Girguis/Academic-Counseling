@@ -279,4 +279,7 @@
   <data name="YouCantRegister" xml:space="preserve">
     <value>You Can't Register To These Courses</value>
   </data>
+  <data name="OldToNewValue" xml:space="preserve">
+    <value>Old Value Is : {0} New Value Is {1}</value>
+  </data>
 </root>

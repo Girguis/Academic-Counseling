@@ -5,8 +5,11 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -15,6 +18,25 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
+        public static void UpdateAppSettings(int? hoursToSkip = null, int? summerRegisterHours = null)
+        {
+            var appSettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            var json = File.ReadAllText(appSettingsPath);
+
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.Converters.Add(new ExpandoObjectConverter());
+            jsonSettings.Converters.Add(new StringEnumConverter());
+
+            dynamic config = JsonConvert.DeserializeObject<ExpandoObject>(json, jsonSettings);
+            if (hoursToSkip != null)
+                config.HoursToSkip = hoursToSkip.Value;
+            if (summerRegisterHours != null)
+                config.Summer.HoursToRegister = summerRegisterHours.Value;
+
+            var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
+
+            File.WriteAllText(appSettingsPath, newJson);
+        }
         public static bool IsValidCourseData(AddCourseParamModel course)
         {
             int totalMarks = course.Practical + course.Final + course.Oral + course.YearWork;

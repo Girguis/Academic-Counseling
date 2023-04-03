@@ -403,6 +403,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Old Value Is : {0} New Value Is {1}.
+        /// </summary>
+        public static string OldToNewValue {
+            get {
+                return ResourceManager.GetString("OldToNewValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Has 1 Prerequisite Only.
         /// </summary>
         public static string OnePrerequisite {

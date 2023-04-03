@@ -279,4 +279,7 @@
   <data name="YouCantRegister" xml:space="preserve">
     <value>لا يمكنك التسجيل فى هذه المقررات</value>
   </data>
+  <data name="OldToNewValue" xml:space="preserve">
+    <value>القيمة القديمة : {0} القيمة الجديدة : {1}</value>
+  </data>
 </root>
