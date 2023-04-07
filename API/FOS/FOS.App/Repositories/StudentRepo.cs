@@ -337,5 +337,13 @@ namespace FOS.App.Repositories
                 + "' WHERE ID = " + id;
             return QueryExecuterHelper.Execute(config.CreateInstance(), query);
         }
+
+        public bool CanOpenCourseForGraduation(int studentID, byte passedHours, int programID,int hoursToSkip)
+        {
+            return (bool)QueryExecuterHelper.ExecuteFunction(config.CreateInstance(),
+                "CanOpenCourseForGraduation",
+                string.Concat(studentID, ",", passedHours, ",", programID, ",", hoursToSkip)
+                );
+        }
     }
 }

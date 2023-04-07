@@ -156,5 +156,27 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
+        [HttpPost("ModifyHoursForOpeningCourseForGraduation/{hours}")]
+        public IActionResult ModifyHoursForOpeningCourseForGraduation(int hours)
+        {
+            try
+            {
+                if (hours < 0)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidData
+                    });
+                Helper.UpdateAppSettings(OpeningGraduationCourseHours: hours);
+                return Ok(new
+                {
+                    Massage = string.Format(Resource.OldToNewValue, configuration["HoursForCourseOpeningForGraduation"], hours)
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 }

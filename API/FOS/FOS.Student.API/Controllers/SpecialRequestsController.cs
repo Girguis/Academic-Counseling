@@ -609,7 +609,9 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-                if (!student.Level.HasValue || (student.Level.HasValue && student.Level.Value != 4))
+                bool converted = int.TryParse(configuration["HoursForCourseOpeningForGraduation"], out int hours);
+                if (!converted) hours = 4;
+                if (!studentRepo.CanOpenCourseForGraduation(student.Id, student.PassedHours ?? byte.MinValue, student.CurrentProgramId ?? 0, hours))
                     return BadRequest(new
                     {
                         IsAvailable = false,

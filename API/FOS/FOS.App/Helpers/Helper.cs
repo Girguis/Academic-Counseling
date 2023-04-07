@@ -18,7 +18,7 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
-        public static void UpdateAppSettings(int? hoursToSkip = null, int? summerRegisterHours = null,int? levels = null)
+        public static void UpdateAppSettings(int? hoursToSkip = null, int? summerRegisterHours = null,int? levels = null,int? OpeningGraduationCourseHours = null)
         {
             var appSettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
             var json = File.ReadAllText(appSettingsPath);
@@ -34,6 +34,8 @@ namespace FOS.App.Helpers
                 config.Summer.HoursToRegister = summerRegisterHours.Value;
             if (levels != null)
                 config.LevelsRangeForCourseRegistraion = levels.Value;
+            if (OpeningGraduationCourseHours != null)
+                config.HoursForCourseOpeningForGraduation = OpeningGraduationCourseHours.Value;
             var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
 
             File.WriteAllText(appSettingsPath, newJson);

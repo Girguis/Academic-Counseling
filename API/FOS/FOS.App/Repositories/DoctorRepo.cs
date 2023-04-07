@@ -149,8 +149,8 @@ namespace FOS.App.Repositories
                 using var con2 = config.CreateInstance();
                 var subProgramsList = con2.Query<int>("WITH ParentChilds AS (SELECT ID FROM Program WHERE ID = " + programs.ElementAt(i).ToString() + " UNION ALL SELECT child.ID FROM Program child JOIN ParentChilds pc  ON pc.ID = child.superProgramID) SELECT *FROM ParentChilds;", commandType: CommandType.Text);
                 var subPrograms = string.Join(",", subProgramsList);
-                var students = con2.Query<int>("SELECT ID FROM Student WHERE IsGraduated = 0 AND CurrentProgramID IN (" + subPrograms + ") ORDER BY NEWID()", commandType: CommandType.Text);
-                var doctors = con2.Query<int>("SELECT ID FROM Doctor WHERE Type = " + ((int)DoctorTypesEnum.Supervisor).ToString() + " AND ProgramID IN (" + subPrograms + ") ORDER BY NEWID()", commandType: CommandType.Text);
+                var students = con2.Query<int>("SELECT ID FROM Student WHERE IsGraduated = 0 AND IsActive = 1 AND CurrentProgramID IN (" + subPrograms + ") ORDER BY NEWID()", commandType: CommandType.Text);
+                var doctors = con2.Query<int>("SELECT ID FROM Doctor WHERE Type = " + ((int)DoctorTypesEnum.Supervisor).ToString() + " AND IsActive = 1 AND ProgramID IN (" + subPrograms + ") ORDER BY NEWID()", commandType: CommandType.Text);
                 con2.Close();
                 var stdsCount = students.Count();
                 var docsCount = doctors.Count();
