@@ -366,5 +366,27 @@ namespace FOS.App.Repositories
                 levels = 1;
             return levels;
         }
+
+        public IEnumerable<dynamic> GetStudentsForAnalysis()
+        {
+            return config.CreateInstance().Query("[dbo].[AnalysisTeam_StudentsBasicData]",
+                commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<dynamic> GetStudentsGpasForAnalysis()
+        {
+            return config.CreateInstance().Query("[dbo].[AnalysisTeam_StudentsSemestersGpa]",
+                commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<dynamic> GetDoctorsCoursesForAnalysis()
+        {
+            return config.CreateInstance().Query("[dbo].[AnalysisTeam_CoursesAndTheirDoctors]",
+                commandType: CommandType.StoredProcedure);
+        }
+        public IEnumerable<dynamic> GetStudentsCoursesForAnalysis()
+        {
+            return config.CreateInstance()
+                .Query("[dbo].[AnalysisTeam_StudentsCoursesDetails]",
+                commandType: CommandType.StoredProcedure);
+        }
     }
 }

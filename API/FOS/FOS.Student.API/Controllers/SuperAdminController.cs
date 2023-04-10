@@ -121,5 +121,24 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
+
+        [HttpPost("DataForAnalysisTeam")]
+        public IActionResult DataForAnalysisTeam()
+        {
+            try
+            {
+                return Ok(new
+                {
+                    Students = studentCoursesRepo.GetStudentsForAnalysis(),
+                    StudentsSemestersGPA = studentCoursesRepo.GetStudentsGpasForAnalysis(),
+                    DoctorsCourses = studentCoursesRepo.GetDoctorsCoursesForAnalysis(),
+                    StudentsCourses = studentCoursesRepo.GetStudentsCoursesForAnalysis()
+                });
+            }catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 }

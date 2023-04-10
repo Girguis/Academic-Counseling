@@ -35,5 +35,9 @@ namespace FOS.Core.IRepositories
         bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model);
         bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model, int courseOp);
         List<GetAllCoursesRegistrationModel> GetAllRegistrations();
+        IEnumerable<dynamic> GetStudentsForAnalysis();
+        IEnumerable<dynamic> GetStudentsGpasForAnalysis();
+        IEnumerable<dynamic> GetDoctorsCoursesForAnalysis();
+        IEnumerable<dynamic> GetStudentsCoursesForAnalysis();
     }
 }
