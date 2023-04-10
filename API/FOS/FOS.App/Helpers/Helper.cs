@@ -1,6 +1,7 @@
 ﻿using FOS.App.Students.Mappers;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
@@ -18,7 +19,7 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
-        public static void UpdateAppSettings(int? hoursToSkip = null, int? summerRegisterHours = null,int? levels = null,int? OpeningGraduationCourseHours = null)
+        public static void UpdateAppSettings(AppSettingsModel model)
         {
             var appSettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
             var json = File.ReadAllText(appSettingsPath);
@@ -28,14 +29,14 @@ namespace FOS.App.Helpers
             jsonSettings.Converters.Add(new StringEnumConverter());
 
             dynamic config = JsonConvert.DeserializeObject<ExpandoObject>(json, jsonSettings);
-            if (hoursToSkip != null)
-                config.HoursToSkip = hoursToSkip.Value;
-            if (summerRegisterHours != null)
-                config.Summer.HoursToRegister = summerRegisterHours.Value;
-            if (levels != null)
-                config.LevelsRangeForCourseRegistraion = levels.Value;
-            if (OpeningGraduationCourseHours != null)
-                config.HoursForCourseOpeningForGraduation = OpeningGraduationCourseHours.Value;
+            if (model.ToNextLevelSkipHours.HasValue)
+                config.HoursToSkip = model.ToNextLevelSkipHours.Value;
+            if (model.SummerAllowedHours.HasValue)
+                config.Summer.HoursToRegister = model.SummerAllowedHours.Value;
+            if (model.CourseRegistrationAllowedLevels.HasValue)
+                config.LevelsRangeForCourseRegistraion = model.CourseRegistrationAllowedLevels.Value;
+            if (model.CourseOpeningForGraduationAllowedHours.HasValue)
+                config.HoursForCourseOpeningForGraduation = model.CourseOpeningForGraduationAllowedHours.Value;
             var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
 
             File.WriteAllText(appSettingsPath, newJson);

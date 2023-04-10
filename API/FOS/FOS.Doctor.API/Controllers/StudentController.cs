@@ -1,8 +1,7 @@
-﻿using FirebaseAdmin.Messaging;
-using FOS.App.ExcelReader;
-using FOS.Core.Languages;
+﻿using FOS.App.ExcelReader;
 using FOS.App.PDFCreators;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models;
 using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
@@ -52,6 +51,31 @@ namespace FOS.Doctors.API.Controllers
             this.courseRequestRepo = courseRequestRepo;
             this.programTransferRequestRepo = programTransferRequestRepo;
         }
+        [HttpPost("AddNewStudentsViaExcel")]
+        [AllowAnonymous]
+        public IActionResult AddNewStudentsViaExcel(IFormFile file)
+        {
+            try
+            {
+                if (file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
+                {
+                    return BadRequest(new { Massage = Resource.FileNotValid });
+                }
+                var students = StudentsAddSheet.Read(file, programRepo.GetPrograms());
+                if (students == null)
+                    return BadRequest(new { Massage = Resource.FileNotValid });
+                bool added = studentRepo.Add(students);
+                if (!added)
+                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+
         [HttpPost("Deactivate")]
         [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult Deactivate([FromBody] GuidModel model)
@@ -60,7 +84,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 if (string.IsNullOrWhiteSpace(model.Guid)) return BadRequest(new
                 {
-                    Massage =Resource.InvalidID
+                    Massage = Resource.InvalidID
                 });
                 var res = studentRepo.Deactivate(model.Guid);
                 if (!res)
@@ -244,7 +268,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 if (file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
                 {
-                    return BadRequest(new { Massage = Resource.FileNotValid});
+                    return BadRequest(new { Massage = Resource.FileNotValid });
                 }
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
@@ -394,7 +418,8 @@ namespace FOS.Doctors.API.Controllers
                 Student student = studentRepo.Get(guid, true);
                 if (student == null)
                     return NotFound(
-                    new{
+                    new
+                    {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var res = studentRepo.GetAcademicDetailsForReport(student.Id);

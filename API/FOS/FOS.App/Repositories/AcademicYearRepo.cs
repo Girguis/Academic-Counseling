@@ -24,17 +24,21 @@ namespace FOS.App.Repositories
             AcademicYear currentAcademicYear = GetCurrentYear();
             var newSemester = (byte)((currentAcademicYear.Semester % 3.0) + 1);
             string newYear = currentAcademicYear.AcademicYear1;
+            string AcademicCodeResetQuery = null;
             if (newSemester == 1)
             {
                 _ = int.TryParse(currentAcademicYear?.AcademicYear1?.ToString()?.Split("/")[0], out int year);
                 newYear = year + 1 + "/" + (year + 2);
+                AcademicCodeResetQuery = "ALTER SEQUENCE AcademicCodeSeq RESTART WITH "+
+                    DateTime.Now.Year.ToString()[2..] + "0000;";
             }
             return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "StartNewAcademicYear",
                 new List<SqlParameter>
                 {
                     new SqlParameter("@Semester", newSemester),
-                    new SqlParameter("@AcademicYear", newYear)
+                    new SqlParameter("@AcademicYear", newYear),
+                    new SqlParameter("@CodeResetQuery", AcademicCodeResetQuery)
                 });
         }
         /// <summary>

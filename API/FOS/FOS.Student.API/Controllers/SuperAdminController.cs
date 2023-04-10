@@ -1,6 +1,7 @@
 ﻿using FOS.App.Helpers;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
+using FOS.Core.Models;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Students.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -90,21 +91,15 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("ModifySummerHours/{hours}")]
-        public IActionResult ModifySummerHours(int hours)
+
+        [HttpGet("GetAppSettings")]
+        [ProducesResponseType(200, Type = typeof(AppSettingsModel))]
+        public IActionResult GetAppSettings()
         {
             try
             {
-                if (hours < 0)
-                    return BadRequest(new
-                    {
-                        Massage = Resource.InvalidData
-                    });
-                Helper.UpdateAppSettings(summerRegisterHours: hours);
-                return Ok(new
-                {
-                    Massage = string.Format(Resource.OldToNewValue, configuration["Summer:HoursToRegister"], hours)
-                });
+                var model = new AppSettingsModel(configuration);
+                return Ok(model);
             }
             catch(Exception ex)
             {
@@ -112,67 +107,15 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("ModifyHoursToSkip/{hours}")]
-        public IActionResult ModifyHoursToSkip(int hours)
+        [HttpPost("ModifyAppSettings")]
+        public IActionResult ModifyAppSetting(AppSettingsModel model)
         {
             try
             {
-                if (hours < 0)
-                    return BadRequest(new
-                    {
-                        Massage = Resource.InvalidData
-                    });
-                Helper.UpdateAppSettings(hoursToSkip: hours);
-                return Ok(new
-                {
-                    Massage = string.Format(Resource.OldToNewValue, configuration["HoursToSkip"], hours)
-                });
+                Helper.UpdateAppSettings(model);
+                return Ok();
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
-        [HttpPost("AllowedLevelsForCourseRegistration/{levels}")]
-        public IActionResult AllowedLevelsForCourseRegistration(int levels)
-        {
-            try
-            {
-                if (levels < 0)
-                    return BadRequest(new
-                    {
-                        Massage = Resource.InvalidData
-                    });
-                Helper.UpdateAppSettings(levels: levels);
-                return Ok(new
-                {
-                    Massage = string.Format(Resource.OldToNewValue, configuration["LevelsRangeForCourseRegistraion"], levels)
-                });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.ToString());
-                return Problem();
-            }
-        }
-        [HttpPost("ModifyHoursForOpeningCourseForGraduation/{hours}")]
-        public IActionResult ModifyHoursForOpeningCourseForGraduation(int hours)
-        {
-            try
-            {
-                if (hours < 0)
-                    return BadRequest(new
-                    {
-                        Massage = Resource.InvalidData
-                    });
-                Helper.UpdateAppSettings(OpeningGraduationCourseHours: hours);
-                return Ok(new
-                {
-                    Massage = string.Format(Resource.OldToNewValue, configuration["HoursForCourseOpeningForGraduation"], hours)
-                });
-            }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

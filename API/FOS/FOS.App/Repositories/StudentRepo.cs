@@ -2,6 +2,7 @@
 using FOS.App.Helpers;
 using FOS.Core;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
@@ -52,7 +53,7 @@ namespace FOS.App.Repositories
                 PassedHours = student.PassedHours,
                 PhoneNumber = student.PhoneNumber,
                 ProgramName = student.CurrentProgram.Name,
-                Rank = student.IsGraduated.Value ? student.Rank : student.CalculatedRank,
+                Rank = student.Rank,
                 SeatNumber = student.SeatNumber,
                 SSN = student.Ssn,
                 SupervisorName = student.Supervisor.Name,
@@ -344,6 +345,15 @@ namespace FOS.App.Repositories
                 "CanOpenCourseForGraduation",
                 string.Concat(studentID, ",", passedHours, ",", programID, ",", hoursToSkip)
                 );
+        }
+
+        public bool Add(DataTable dataTable)
+        {
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddNewStudents", 
+                new List<SqlParameter>() {
+                QueryExecuterHelper.DataTableToSqlParameter(dataTable, "Students", "StudentsAddType")
+                }
+            );
         }
     }
 }

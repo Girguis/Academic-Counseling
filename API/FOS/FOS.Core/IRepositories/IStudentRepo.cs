@@ -1,9 +1,11 @@
-﻿using FOS.Core.Models.DTOs;
+﻿using FOS.Core.Models;
+using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
 using FOS.Core.StudentDTOs;
 using FOS.DB.Models;
+using System.Data;
 
 namespace FOS.Core.IRepositories
 {
@@ -17,6 +19,7 @@ namespace FOS.Core.IRepositories
             GetAcademicDetailsForReport(int studentID);
         Student Login(string email, string hashedPassword);
         Student Add(Student student);
+        bool Add(DataTable dataTable);
         Student GetBySSN(string ssn);
         bool Update(Student student);
         bool ChangePassword(int id,string password);
