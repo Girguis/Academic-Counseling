@@ -44,12 +44,11 @@ namespace FOS.App.Helpers
         public static bool IsValidCourseData(AddCourseParamModel course)
         {
             int totalMarks = course.Practical + course.Final + course.Oral + course.YearWork;
+            if (course.CreditHours == 0)
+                return totalMarks % 50 == 0;
             if (course.LectureHours + ((course.LabHours + course.SectionHours) / 2) != course.CreditHours)
                 return false;
-            if (course.CreditHours == 0)
-                return totalMarks == 50;
-            else
-                return course.CreditHours * 50 == totalMarks;
+            return course.CreditHours * 50 == totalMarks;
         }
         public static bool HasThisTypeOfExam(int examType, Course course)
         {
@@ -167,11 +166,5 @@ namespace FOS.App.Helpers
                 optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());
             return optionalCoursesDTO;
         }
-    }
-
-    public class General
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
     }
 }

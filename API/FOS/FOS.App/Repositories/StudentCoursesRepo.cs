@@ -100,10 +100,12 @@ namespace FOS.App.Repositories
             return QueryExecuterHelper.Execute(config.CreateInstance(), "StudentCoursesRegistration", parameters);
         }
 
-        public Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses)
+        public (List<StudentCourse> toBeSavedLst, List<StudentCourse> toBeRemovedLst,
+            List<StudentCourse> toBeUpdatedLst, List<StudentCourse> toBeUpdatedOldMarksLst)
+            CompareStudentCourse(int studentID, List<StudentCourse> studentCourses)
         {
             if (studentID == -1)
-                return Tuple.Create(studentCourses, new List<StudentCourse>(), new List<StudentCourse>(), new List<StudentCourse>());
+                return (studentCourses, new List<StudentCourse>(), new List<StudentCourse>(), new List<StudentCourse>());
             var savedCoursesLst = GetAllCourses(studentID);
             ToBeInsertedStudentCoursesComparer insertedCoursesComparer = new();
             ToBeUpdatedStudentCoursesComparer updatedCoursesComparer = new();
@@ -122,7 +124,7 @@ namespace FOS.App.Repositories
                                                         .Except(toBeSavedLst, insertedCoursesComparer)
                                                         .Except(toBeRemovedLst, insertedCoursesComparer)
                                                         .ToList();
-            return Tuple.Create(toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst);
+            return (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst);
         }
         public bool UpdateStudentCourses(int studentID, AcademicRecordModels model)
         {
@@ -388,5 +390,6 @@ namespace FOS.App.Repositories
                 .Query("[dbo].[AnalysisTeam_StudentsCoursesDetails]",
                 commandType: CommandType.StoredProcedure);
         }
+        
     }
 }

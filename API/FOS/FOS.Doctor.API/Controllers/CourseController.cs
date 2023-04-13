@@ -222,26 +222,33 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpGet("CreateGradesSheet")]
-        public IActionResult CreateGradesExcel(StudentsExamParamModel model)
+        [HttpGet("CreateGradesSheet/{CourseID}/{ExamType}")]
+        public IActionResult CreateGradesExcel(int CourseID,int ExamType)
         {
             try
             {
-                var course = courseRepo.GetById(model.CourseID);
+                if (!(ExamType >= 1 && ExamType <= 4))
+                    return BadRequest(new { Massage = Resource.InvalidData });
+                var course = courseRepo.GetById(CourseID);
                 if (course == null)
                     return NotFound();
-                if (!Helper.HasThisTypeOfExam(model.ExamType, course))
+                if (!Helper.HasThisTypeOfExam(ExamType, course))
                     return BadRequest(new
                     {
-                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)model.ExamType))
+                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)ExamType))
                     });
-                var data = studentCoursesRepo.GetStudentsMarksList(model);
+                var data = studentCoursesRepo.GetStudentsMarksList(new StudentsExamParamModel { CourseID = CourseID, ExamType = ExamType});
                 if (data.Course == null) return NotFound();
-                var stream = CourseGradesSheet.CreateSheet(data, model.ExamType);
+                if(data.Students == null || data.Students.Count < 1)
+                    return NotFound(new
+                    {
+                        Massage = Resource.NoData
+                    });
+                var stream = CourseGradesSheet.CreateSheet(data, ExamType);
                 return File(stream,
                     "application/vnd.ms-excel",
                     string.Concat(data.Course.CourseCode, "_", data.Course.CourseName,
-                        "_", Helper.GetDescription((ExamTypeEnum)model.ExamType), ".xlsx")
+                        "_", Helper.GetDescription((ExamTypeEnum)ExamType), ".xlsx")
                     );
             }
             catch (Exception ex)
@@ -348,7 +355,11 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)model.ExamType))
                     });
-
+                if (result.Students.Count < 1)
+                    return NotFound(new
+                    {
+                        Massage = Resource.NoData
+                    });
                 var bytes = ExamCommitteesReport.CreateExamCommitteesPdf(result,
                     Helper.GetDescription((ExamTypeEnum)model.ExamType));
                 return File(bytes,

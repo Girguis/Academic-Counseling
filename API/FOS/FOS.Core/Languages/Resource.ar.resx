@@ -282,4 +282,19 @@
   <data name="OldToNewValue" xml:space="preserve">
     <value>القيمة القديمة : {0} القيمة الجديدة : {1}</value>
   </data>
+  <data name="First" xml:space="preserve">
+    <value>المستوى الأول</value>
+  </data>
+  <data name="Fourth" xml:space="preserve">
+    <value>المستوى الرابع</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>المستوى الثانى</value>
+  </data>
+  <data name="Third" xml:space="preserve">
+    <value>المستوى الثالث</value>
+  </data>
+  <data name="NoData" xml:space="preserve">
+    <value>لا يوجد بيانات</value>
+  </data>
 </root>

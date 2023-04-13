@@ -7,6 +7,7 @@ namespace FOS.Core.Models
         public string Name { get; set; }
         public string SSN { get; set; }
         public string SeatNumber { get; set; }
+        public byte NumberOfSemesters { get; set; }
         public List<StudentProgramModel> StudentPrograms { get; set; }
         public List<StudentCoursesModel> ToBeInserted { get; set; }
         public List<StudentCoursesUpdateModel> ToBeUpdated { get; set; }

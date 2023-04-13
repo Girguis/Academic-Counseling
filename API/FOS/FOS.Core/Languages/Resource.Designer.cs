@@ -277,11 +277,29 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First Level.
+        /// </summary>
+        public static string First {
+            get {
+                return ResourceManager.GetString("First", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available For 4th Year Students Only.
         /// </summary>
         public static string For4thYearOnly {
             get {
                 return ResourceManager.GetString("For4thYearOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fourth Level.
+        /// </summary>
+        public static string Fourth {
+            get {
+                return ResourceManager.GetString("Fourth", resourceCulture);
             }
         }
         
@@ -354,6 +372,15 @@ namespace FOS.Core.Languages {
         public static string Mandetory {
             get {
                 return ResourceManager.GetString("Mandetory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Data Found.
+        /// </summary>
+        public static string NoData {
+            get {
+                return ResourceManager.GetString("NoData", resourceCulture);
             }
         }
         
@@ -475,6 +502,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Second Level.
+        /// </summary>
+        public static string Second {
+            get {
+                return ResourceManager.GetString("Second", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spring.
         /// </summary>
         public static string Spring {
@@ -516,6 +552,15 @@ namespace FOS.Core.Languages {
         public static string Supervisor {
             get {
                 return ResourceManager.GetString("Supervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Third Level.
+        /// </summary>
+        public static string Third {
+            get {
+                return ResourceManager.GetString("Third", resourceCulture);
             }
         }
         

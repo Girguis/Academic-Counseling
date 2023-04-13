@@ -17,16 +17,32 @@ namespace FOS.Doctors.API.Controllers
         private readonly IProgramRepo programRepo;
         private readonly ICourseRepo courseRepo;
         private readonly IAcademicYearRepo academicYearRepo;
+        private readonly IDoctorRepo doctorRepo;
 
         public DropDownListsController(ILogger<DropDownListsController> logger,
             IProgramRepo programRepo,
             ICourseRepo courseRepo,
-            IAcademicYearRepo academicYearRepo)
+            IAcademicYearRepo academicYearRepo,
+            IDoctorRepo doctorRepo)
         {
             this.logger = logger;
             this.programRepo = programRepo;
             this.courseRepo = courseRepo;
             this.academicYearRepo = academicYearRepo;
+            this.doctorRepo = doctorRepo;
+        }
+        [HttpGet("GetAllDoctors")]
+        public IActionResult GetAllDoctors()
+        {
+            try
+            {
+                return Ok(doctorRepo.GetDoctorsAsDropDown());
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
         }
         [HttpGet("GetCourseTypes")]
         public IActionResult GetCourseTypes()

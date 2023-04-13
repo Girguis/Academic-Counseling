@@ -34,8 +34,12 @@ namespace FOS.DB.Models
         public int? CurrentProgramId { get; set; }
         public byte AvailableWithdraws { get; set; }
         public byte AvailableEnhancementCredits { get; set; }
+        public short EnrollYearID { get; set; }
+        public short GraduatedYearID { get; set; }
 
         public virtual Program? CurrentProgram { get; set; }
         public virtual Doctor? Supervisor { get; set; }
+        public virtual AcademicYear EnrollYear { get; set; }
+        public virtual AcademicYear GraduatedYear { get; set; }
     }
 }

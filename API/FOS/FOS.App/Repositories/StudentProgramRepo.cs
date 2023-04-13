@@ -46,7 +46,7 @@ namespace FOS.App.Repositories
             return QueryExecuterHelper.Execute(config.CreateInstance(), "AddStudentsToPrograms",
                 new List<SqlParameter>()
                 {
-                    new SqlParameter("StudentProgram",QueryExecuterHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType"))
+                    QueryExecuterHelper.DataTableToSqlParameter(dt, "StudentProgram", "StudentsProgramsType")
                 });
         }
 

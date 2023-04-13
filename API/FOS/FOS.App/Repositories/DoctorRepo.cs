@@ -3,6 +3,7 @@ using FOS.App.Helpers;
 using FOS.Core;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
@@ -180,6 +181,13 @@ namespace FOS.App.Repositories
             if (string.IsNullOrEmpty(queryToBeExecuted))
                 return false;
             return QueryExecuterHelper.Execute(config.CreateInstance(), queryToBeExecuted);
+        }
+
+        public List<General> GetDoctorsAsDropDown()
+        {
+            return QueryExecuterHelper.Execute<General>
+                (config.CreateInstance(),
+                "GetAllDoctorsAsDropDown");
         }
     }
 }

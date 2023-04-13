@@ -28,7 +28,9 @@ namespace FOS.Core.IRepositories
         bool RegisterCourses(int studentID, short academicYearID, List<int> courseIDs);
         bool UpdateStudentCourses(List<StudentCourse> studentCourses);
         bool UpdateStudentCourses(int studentID, AcademicRecordModels model);
-        Tuple<List<StudentCourse>, List<StudentCourse>, List<StudentCourse>, List<StudentCourse>> CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
+        (List<StudentCourse> toBeSavedLst, List<StudentCourse> toBeRemovedLst,
+            List<StudentCourse> toBeUpdatedLst, List<StudentCourse> toBeUpdatedOldMarksLst)
+            CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
         CourseGradesSheetOutModel GetStudentsMarksList(StudentsExamParamModel model);
         ExamCommitteeStudentsOutModel GetStudentsList(StudentsExamParamModel model);
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, int examType);

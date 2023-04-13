@@ -52,7 +52,6 @@ namespace FOS.Doctors.API.Controllers
             this.programTransferRequestRepo = programTransferRequestRepo;
         }
         [HttpPost("AddNewStudentsViaExcel")]
-        [AllowAnonymous]
         public IActionResult AddNewStudentsViaExcel(IFormFile file)
         {
             try
@@ -70,6 +69,28 @@ namespace FOS.Doctors.API.Controllers
                 return Ok();
             }
             catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("GetReportByCgpa")]
+        public IActionResult GetReportByCgpa(GetReportByCgpaParamModel model)
+        {
+            try
+            {
+                var students = studentRepo.ReportByCgpa(model);
+                if (students == null || students.Count < 1)
+                    return NotFound(new
+                    {
+                        Massage = Resource.NoData
+                    });
+                var stream = StudentsByCgpaReport.Create(model, students);
+                return File(stream,
+                    "application/vnd.ms-excel",
+                    "StudentsReport_" + DateTime.UtcNow.AddHours(2).ToString() + ".xlsx");
+            }
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -273,17 +294,20 @@ namespace FOS.Doctors.API.Controllers
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
                 var coursesLst = courseRepo.GetAll();
-                var sheet = AcademicReportReader.Read(file, studentRepo, academicYearsLst, programsLst, coursesLst);
-                var courses = studentCoursesRepo.CompareStudentCourse(sheet.Item6, sheet.Item4);
-                var toBeInserted = courses.Item1.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
-                var toBeRemoved = courses.Item2.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
-                var toBeUpdated = courses.Item4.Select(x => StudentCoursesUpdateModel.ToViewModel(x, courses.Item3, academicYearsLst));
+                var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter) 
+                    = AcademicReportReader.Read(file, studentRepo, academicYearsLst, programsLst, coursesLst);
+                var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst) 
+                    = studentCoursesRepo.CompareStudentCourse(studentID, studentCourses);
+                var toBeInserted = toBeSavedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                var toBeRemoved = toBeRemovedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                var toBeUpdated = toBeUpdatedOldMarksLst.Select(x => StudentCoursesUpdateModel.ToViewModel(x, toBeUpdatedLst, academicYearsLst));
                 return Ok(new AcademicRecordModels
                 {
-                    Name = sheet.Item1,
-                    SSN = sheet.Item2,
-                    SeatNumber = sheet.Item3,
-                    StudentPrograms = sheet.Item5,
+                    Name = name,
+                    SSN = ssn,
+                    SeatNumber = seatNumber,
+                    NumberOfSemesters = semesterCounter,
+                    StudentPrograms = studentPrograms,
                     ToBeInserted = toBeInserted.ToList(),
                     ToBeRemoved = toBeRemoved.ToList(),
                     ToBeUpdated = toBeUpdated.ToList()
@@ -307,8 +331,10 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Name = model.Name,
                         SeatNumber = model.SeatNumber,
-                        Ssn = model.SSN
+                        Ssn = model.SSN,
+                        NumberOfSemesters = model.NumberOfSemesters
                     }.ToDbModel();
+                    student.EnrollYearID = (short)model.ToBeInserted.Min(x => x.AcademicYearID);
                     student = studentRepo.Add(student);
                 }
                 for (int i = 0; i < model.StudentPrograms.Count; i++)
@@ -335,6 +361,51 @@ namespace FOS.Doctors.API.Controllers
                 });
             }
             catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("AddMultipleStudentsViaAcademicReport")]
+        public IActionResult AddMultipleStudentsViaAcademicReport(List<IFormFile> files)
+        {
+            try
+            {
+                if (files.Count < 1 || !files.All(x => x != null && x.Length > 0 && x.FileName.EndsWith(".xlsx")))
+                    return BadRequest(new { Massage = Resource.FileNotValid });
+                var academicYearsLst = academicYearRepo.GetAcademicYearsList();
+                var programsLst = programRepo.GetPrograms();
+                var coursesLst = courseRepo.GetAll();
+                List<string> corruptedFiles = new List<string>();
+                for(int i=0;i<files.Count; i++)
+                {
+                    var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter)
+                    = AcademicReportReader.Read(files.ElementAt(i), studentRepo, academicYearsLst, programsLst, coursesLst);
+                    var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst)
+                        = studentCoursesRepo.CompareStudentCourse(studentID, studentCourses);
+                    var toBeInserted = toBeSavedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                    var toBeRemoved = toBeRemovedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                    var toBeUpdated = toBeUpdatedOldMarksLst.Select(x => StudentCoursesUpdateModel.ToViewModel(x, toBeUpdatedLst, academicYearsLst));
+                    var res = UpdateFromAcademicReport(new AcademicRecordModels
+                    {
+                        Name = name,
+                        SSN = ssn,
+                        SeatNumber = seatNumber,
+                        NumberOfSemesters = semesterCounter,
+                        StudentPrograms = studentPrograms,
+                        ToBeInserted = toBeInserted.ToList(),
+                        ToBeRemoved = toBeRemoved.ToList(),
+                        ToBeUpdated = toBeUpdated.ToList()
+                    });
+                    if (res.GetType().Name.ToString() == "BadRequestObjectResult")
+                        corruptedFiles.Add(files[i].FileName);
+                }
+                return Ok(new
+                {
+                    FailedToInsert = corruptedFiles
+                });
+            }
+            catch(Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -399,6 +470,11 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var students = studentRepo.GetStruggledStudents(model);
+                if(students == null || students.Count <1)
+                    return NotFound(new
+                    {
+                        Massage = Resource.NoData
+                    });
                 var stream = StruggledStudentsReport.Create(students);
                 return File(stream,
                     "application/vnd.ms-excel",

@@ -11,7 +11,9 @@ namespace FOS.App.ExcelReader
 {
     public static class AcademicReportReader
     {
-        public static Tuple<string, string, string, List<StudentCourse>, List<StudentProgramModel>, int>
+        public static (string name, string ssn, string seatNumber,
+            List<StudentCourse> studentCourses, List<StudentProgramModel> studentPrograms
+            , int studentID, byte semesterCounter)
             Read
             (IFormFile file,
             IStudentRepo studentRepo,
@@ -32,7 +34,7 @@ namespace FOS.App.ExcelReader
             var seatNumber = ws.Cell("E9").Value.ToString();
             short currentYearID = 1;
             int currentProgramID;
-            int semesterCounter = 0;
+            byte semesterCounter = 0;
             string currentAcademicYearStr = "";
             var std = studentRepo.GetBySSN(ssn);
             int studentID = -1;
@@ -85,7 +87,7 @@ namespace FOS.App.ExcelReader
                     course.AcademicYearId = currentYearID;
                     course.StudentId = studentID;
                     var courseCode = ws.Cell("U" + i).Value.ToString();
-                    var courseObj = coursesLst.FirstOrDefault(x => x.CourseCode == courseCode);
+                    var courseObj = coursesLst.FirstOrDefault(x => x.CourseCode.Replace(" ", "") == courseCode.Replace(" ", ""));
                     course.CourseId = courseObj.Id;
                     if (ws.Cell("O" + i).IsEmpty())
                     {
@@ -99,19 +101,19 @@ namespace FOS.App.ExcelReader
                         if (ws.Cell("S" + i).Value.ToString().Contains("-**"))
                         {
                             course.IsGpaincluded = false;
-                            course.Grade = ws.Cell("R" + i).Value.ToString();
+                            course.Grade = ws.Cell("R" + i).Value.ToString().Trim();
                             course.Mark = null;
                         }
                         else if (ws.Cell("S" + i).Value.ToString().Contains("-"))
                         {
                             course.IsGpaincluded = false;
-                            course.Grade = ws.Cell("R" + i).Value.ToString();
-                            course.Mark = byte.Parse(ws.Cell("O" + i).Value.ToString());
+                            course.Grade = ws.Cell("R" + i).Value.ToString().Trim();
+                            course.Mark = (byte)Math.Ceiling(ws.Cell("O" + i).Value.GetNumber());
                         }
                         else
                         {
                             course.IsGpaincluded = true;
-                            course.Mark = byte.Parse(ws.Cell("O" + i).Value.ToString());
+                            course.Mark = (byte)Math.Ceiling(ws.Cell("O" + i).Value.GetNumber());
                         }
                     }
                     course.Course = courseObj;
@@ -119,7 +121,7 @@ namespace FOS.App.ExcelReader
                     studentCourses.Add(course);
                 }
             }
-            return Tuple.Create(name, ssn, seatNumber, studentCourses, studentPrograms, studentID);
+            return (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter);
         }
     }
 }

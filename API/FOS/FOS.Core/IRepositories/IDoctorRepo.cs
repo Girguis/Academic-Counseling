@@ -1,4 +1,5 @@
-﻿using FOS.Core.Models.ParametersModels;
+﻿using FOS.Core.Models;
+using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
 
@@ -16,5 +17,6 @@ namespace FOS.Core.IRepositories
         public bool Activate(string supervisorGUID);
         public bool IsEmailReserved(string email);
         public bool AssignSupervisorsToStudentsRandomly();
+        List<General> GetDoctorsAsDropDown();
     }
 }
