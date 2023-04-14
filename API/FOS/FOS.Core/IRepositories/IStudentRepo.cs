@@ -32,5 +32,6 @@ namespace FOS.Core.IRepositories
         float GetLastRegularSemesterGPA(int studentID);
         bool CanOpenCourseForGraduation(int studentID, byte passedHours, int programID, int hoursToSkip);
         List<GetReportByCgpaOutModel> ReportByCgpa(GetReportByCgpaParamModel model);
+        int? GetRank(int studentID, int? programID);
     }
 }

@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE DATABASE [FOS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ USE [FOS]
 GO
 USE [FOS]
 GO
-/****** Object:  Sequence [dbo].[AcademicCodeSeq]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Sequence [dbo].[AcademicCodeSeq]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE SEQUENCE [dbo].[AcademicCodeSeq] 
  AS [bigint]
  START WITH 230000
@@ -91,13 +91,13 @@ CREATE SEQUENCE [dbo].[AcademicCodeSeq]
  MAXVALUE 2147483647
  CACHE 
 GO
-/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[CommonQuestionsType] AS TABLE(
 	[Question] [nvarchar](max) NULL,
 	[Answer] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[CourseCode] [nvarchar](max) NULL,
 	[CourseName] [nvarchar](max) NULL,
@@ -110,12 +110,12 @@ CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[Semester] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[DoctorsGuidType] AS TABLE(
 	[DoctorGuid] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
@@ -124,13 +124,13 @@ CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Hour] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[PrerequisiteCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteCourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteRelationID] [tinyint] NULL,
@@ -138,25 +138,25 @@ CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[Category] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[ProgramDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
 	[NumberOfHours] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
 	[ProgramID] [int] NULL,
 	[DesireNumber] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[StudentRegistrationCoursesType] AS TABLE(
 	[CourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsAddType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsAddType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[StudentsAddType] AS TABLE(
 	[GUID] [nvarchar](max) NULL,
 	[Name] [nvarchar](max) NULL,
@@ -172,14 +172,14 @@ CREATE TYPE [dbo].[StudentsAddType] AS TABLE(
 	[CurrentProgramId] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-04-14 11:29:16 PM ******/
 CREATE TYPE [dbo].[StudentsProgramsType] AS TABLE(
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -201,7 +201,7 @@ AS
 		 RETURN @CGPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +225,7 @@ BEGIN
 	RETURN 0;
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -248,7 +248,7 @@ AS
 		 RETURN @GPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -286,7 +286,7 @@ BEGIN
 	RETURN @StudentLevel
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanOpenCourseForGraduation]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanOpenCourseForGraduation]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -314,7 +314,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -360,7 +360,7 @@ ELSE
 RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -388,7 +388,7 @@ ELSE
 RETURN @IsPassed;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -409,7 +409,7 @@ BEGIN
 	RETURN @RegCounter;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -423,7 +423,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -442,7 +442,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -473,7 +473,7 @@ BEGIN
 	RETURN [dbo].[CalculateSGPA](@StudentID,@AcademicYearID);
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -533,7 +533,7 @@ BEGIN
 	RETURN @NumberOfWarnings;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -563,7 +563,7 @@ DEALLOCATE Count_Passed_Prerequiste_Number;
 RETURN @PassedCoursesNumber;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -601,7 +601,7 @@ BEGIN
 	RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentEnrollYear]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentEnrollYear]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -615,7 +615,7 @@ BEGIN
 	RETURN @EnrollYearID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -630,7 +630,7 @@ BEGIN
 	RETURN @Grade;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -649,7 +649,7 @@ AS
 		 RETURN @ProgramID;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -667,7 +667,7 @@ BEGIN
 	RETURN @ProgName;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -713,7 +713,7 @@ BEGIN
 	RETURN @HoursSum;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -730,7 +730,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -748,7 +748,7 @@ AS
 		RETURN 0;
 	END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -765,7 +765,7 @@ IF EXISTS ( SELECT 1 FROM Doctor WHERE Email = @Email)
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -795,7 +795,7 @@ AS
 		RETURN @IsGraduated;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -833,7 +833,7 @@ AS
 		--RETURN 0;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -859,7 +859,7 @@ AS
 		RETURN @ReturnValue;
 	END
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -874,7 +874,7 @@ CREATE TABLE [dbo].[AcademicYear](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -889,7 +889,7 @@ CREATE TABLE [dbo].[CommonQuestion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -915,7 +915,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -926,7 +926,7 @@ CREATE TABLE [dbo].[CoursePrerequisites](
 	[PrerequisiteCourseID] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -937,7 +937,7 @@ CREATE TABLE [dbo].[Date](
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -958,7 +958,7 @@ CREATE TABLE [dbo].[Doctor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -972,7 +972,7 @@ CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[Hour] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -994,7 +994,7 @@ CREATE TABLE [dbo].[Program](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1009,7 +1009,7 @@ CREATE TABLE [dbo].[ProgramCourses](
 	[AddtionYearID] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1021,7 +1021,7 @@ CREATE TABLE [dbo].[ProgramDistribution](
 	[NumberOfHours] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1050,7 +1050,6 @@ CREATE TABLE [dbo].[Student](
 	[PassedHours] [tinyint] NULL,
 	[Level] [tinyint] NULL,
 	[IsGraduated] [bit] NULL,
-	[Rank] [smallint] NULL,
 	[IsActive] [bit] NOT NULL,
 	[IsInSpecialProgram]  AS ([dbo].[IsStudentInSpecialProgram]([ID])),
 	[CurrentProgramID] [int] NULL,
@@ -1064,7 +1063,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1078,7 +1077,7 @@ CREATE TABLE [dbo].[StudentCourseRequest](
 	[CourseOperationID] [bit] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1108,7 +1107,7 @@ CREATE TABLE [dbo].[StudentCourses](
 	[TookFromEnhancementCredits] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1120,7 +1119,7 @@ CREATE TABLE [dbo].[StudentDesires](
 	[StudentCurrentProgramID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1131,7 +1130,7 @@ CREATE TABLE [dbo].[StudentPrograms](
 	[AcademicYear] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1143,7 +1142,7 @@ CREATE TABLE [dbo].[StudentProgramTransferRequest](
 	[IsApproved] [bit] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1160,7 +1159,7 @@ CREATE TABLE [dbo].[SuperAdmin](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-04-14 11:29:16 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2313,313 +2312,313 @@ INSERT [dbo].[ProgramDistribution] ([ProgramID], [Level], [Semester], [NumberOfH
 GO
 SET IDENTITY_INSERT [dbo].[Student] ON 
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190691, N'190691', 9, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9842 AS Decimal(5, 4)), 118, 4, 0, 3, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190691, N'190691', 9, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9842 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'113407A1FFA2461A74B42B7078589B87EB6B66EEAEF67778FFF0A3DE3DD09A460B2D17BFBA9AB924CBB3060E97B684DC4DBCE353462B0C1464F9EC55324580EC', 190114, N'190114', 12, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(3.1639 AS Decimal(5, 4)), 118, 4, 0, 1, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'113407A1FFA2461A74B42B7078589B87EB6B66EEAEF67778FFF0A3DE3DD09A460B2D17BFBA9AB924CBB3060E97B684DC4DBCE353462B0C1464F9EC55324580EC', 190114, N'190114', 12, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(3.1639 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'جوفانى نادى ذكرى', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190552, N'190552', 8, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9906 AS Decimal(5, 4)), 121, 4, 0, 2, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'جوفانى نادى ذكرى', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190552, N'190552', 8, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9906 AS Decimal(5, 4)), 121, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'يوسف طارق مسعود', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190823, N'190823', 9, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.7660 AS Decimal(5, 4)), 118, 4, 0, 4, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'يوسف طارق مسعود', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190823, N'190823', 9, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.7660 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (13, N'FFEDC23A-8946-423D-AAFB-34D19EC18C64', N'ملك محمد عبدالحميد', N'30106190104688', N'01023883386', CAST(N'2001-06-19' AS Date), N'الزاوية', N'2', N'مصرى', N'30106190104688@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190787, N'190787', 0, 4, 3, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(1.9796 AS Decimal(5, 4)), 72, 3, 0, 2, 1, 6, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (13, N'FFEDC23A-8946-423D-AAFB-34D19EC18C64', N'ملك محمد عبدالحميد', N'30106190104688', N'01023883386', CAST(N'2001-06-19' AS Date), N'الزاوية', N'2', N'مصرى', N'30106190104688@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190787, N'190787', 0, 4, 3, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(1.9796 AS Decimal(5, 4)), 72, 3, 0, 1, 6, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (14, N'D0CCA8BC-0736-4298-98D6-994E01EF3EDE', N'جنه محمود حميده', N'30010282102447', N'01141733612', CAST(N'2000-10-28' AS Date), N'الهرم', N'2', N'مصرى', N'30010282102447@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190111, N'190111', 2, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.0960 AS Decimal(5, 4)), 87, 3, 0, 1, 1, 7, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (14, N'D0CCA8BC-0736-4298-98D6-994E01EF3EDE', N'جنه محمود حميده', N'30010282102447', N'01141733612', CAST(N'2000-10-28' AS Date), N'الهرم', N'2', N'مصرى', N'30010282102447@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190111, N'190111', 2, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.0960 AS Decimal(5, 4)), 87, 3, 0, 1, 7, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'محمود سالم فاروق', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 150123, N'150123', 0, 10, 3, CAST(N'2022-11-29T00:00:00' AS SmallDateTime), 0, 13, CAST(1.9423 AS Decimal(5, 4)), 134, 4, 0, 6, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'محمود سالم فاروق', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 150123, N'150123', 0, 10, 3, CAST(N'2022-11-29T00:00:00' AS SmallDateTime), 0, 13, CAST(1.9423 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (19, N'44B6F0C0-550C-4501-982E-5ABFB287BE3B', N'طالب مستوى اول', N'22222214562145', N'01000000014', CAST(N'2005-05-05' AS Date), N'القاهرة', N'1', N'مصرى', N'22222214562145@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 140140, N'140140', 12, 0, 3, CAST(N'2022-12-06T00:00:00' AS SmallDateTime), 0, 2, NULL, 0, 1, 0, NULL, 1, 5, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (19, N'44B6F0C0-550C-4501-982E-5ABFB287BE3B', N'طالب مستوى اول', N'22222214562145', N'01000000014', CAST(N'2005-05-05' AS Date), N'القاهرة', N'1', N'مصرى', N'22222214562145@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 140140, N'140140', 12, 0, 3, CAST(N'2022-12-06T00:00:00' AS SmallDateTime), 0, 2, NULL, 0, 1, 0, 1, 5, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (27, N'bd5d3e03-5f3c-423e-8338-126106db5b3d', N'احمد محمد شاكر', N'30101012145214', N'12345678912', CAST(N'2001-01-01' AS Date), N'Address', N'1', N'مصرى', N'30101012145214@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 152025, N'33333', 1, 9, 2, CAST(N'2023-02-10T16:15:00' AS SmallDateTime), 0, 0, CAST(1.8676 AS Decimal(5, 4)), 119, 4, 0, 7, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (27, N'bd5d3e03-5f3c-423e-8338-126106db5b3d', N'احمد محمد شاكر', N'30101012145214', N'12345678912', CAST(N'2001-01-01' AS Date), N'Address', N'1', N'مصرى', N'30101012145214@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 152025, N'33333', 1, 9, 2, CAST(N'2023-02-10T16:15:00' AS SmallDateTime), 0, 0, CAST(1.8676 AS Decimal(5, 4)), 119, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 125423, N'11111', 1, 8, 3, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, CAST(1.9465 AS Decimal(5, 4)), 110, 4, 0, 5, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 125423, N'11111', 1, 8, 3, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, CAST(1.9465 AS Decimal(5, 4)), 110, 4, 0, 1, 5, 8, 8, 4, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (29, N'52d2752d-bdc6-470f-bb11-310932ed51e4', N'A', N'30101092101478', N'12345678912', CAST(N'2001-01-09' AS Date), N'Address', N'1', N'مصرى', N'30101092101478@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 124957, N'11201', 0, 0, NULL, CAST(N'2023-02-10T19:59:00' AS SmallDateTime), 0, 0, CAST(2.0040 AS Decimal(5, 4)), 140, 4, 1, NULL, 1, 5, 8, 8, 1, 19)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (29, N'52d2752d-bdc6-470f-bb11-310932ed51e4', N'A', N'30101092101478', N'12345678912', CAST(N'2001-01-09' AS Date), N'Address', N'1', N'مصرى', N'30101092101478@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 124957, N'11201', 0, 0, NULL, CAST(N'2023-02-10T19:59:00' AS SmallDateTime), 0, 0, CAST(2.0040 AS Decimal(5, 4)), 140, 4, 1, 1, 5, 8, 8, 1, 19)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 147201, N'332011', 2, 0, 3, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, CAST(2.2084 AS Decimal(5, 4)), 101, 3, 0, 3, 1, 7, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 147201, N'332011', 2, 0, 3, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, CAST(2.2084 AS Decimal(5, 4)), 101, 3, 0, 1, 7, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (189, N'21d58cb8-5765-44eb-b7ce-56c325aaecaa', N'Student_638169158300138173', N'92', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'92@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 512005, N'512005', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 12, CAST(2.4156 AS Decimal(5, 4)), 67, 2, 0, NULL, 1, 6, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (189, N'21d58cb8-5765-44eb-b7ce-56c325aaecaa', N'Student_638169158300138173', N'92', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'92@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 512005, N'512005', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 12, CAST(2.4156 AS Decimal(5, 4)), 67, 2, 0, 1, 6, 8, 8, 4, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (190, N'd4a7c222-eabb-4431-86f9-130f82d866dc', N'Student_638169158302077730', N'98', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'98@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354001, N'354001', 1, 10, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 14, CAST(1.8924 AS Decimal(5, 4)), 122, 4, 0, NULL, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (190, N'd4a7c222-eabb-4431-86f9-130f82d866dc', N'Student_638169158302077730', N'98', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'98@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354001, N'354001', 1, 10, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 14, CAST(1.8924 AS Decimal(5, 4)), 122, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (191, N'b27397c5-9622-4b08-b3a2-369896ae6cd8', N'Student_638169158280153769', N'47', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'47@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352017, N'352017', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.2520 AS Decimal(5, 4)), 118, 4, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (191, N'b27397c5-9622-4b08-b3a2-369896ae6cd8', N'Student_638169158280153769', N'47', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'47@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352017, N'352017', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.2520 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (192, N'79c5f56c-c48b-49b1-9e16-5ac36bf57866', N'Student_638169158280544969', N'48', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'48@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210040, N'210040', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.2656 AS Decimal(5, 4)), 112, 4, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (192, N'79c5f56c-c48b-49b1-9e16-5ac36bf57866', N'Student_638169158280544969', N'48', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'48@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210040, N'210040', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.2656 AS Decimal(5, 4)), 112, 4, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (193, N'74725efd-305e-4aff-adef-55cce9f32353', N'Student_638169158280930340', N'49', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'49@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210048, N'210048', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.9202 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (193, N'74725efd-305e-4aff-adef-55cce9f32353', N'Student_638169158280930340', N'49', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'49@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210048, N'210048', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.9202 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (194, N'dd91a1ef-c755-4bcb-bd2a-df38c79affe8', N'Student_638169158281330929', N'50', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'50@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352014, N'352014', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.1228 AS Decimal(5, 4)), 97, 3, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (194, N'dd91a1ef-c755-4bcb-bd2a-df38c79affe8', N'Student_638169158281330929', N'50', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'50@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352014, N'352014', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.1228 AS Decimal(5, 4)), 97, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (195, N'd77a945a-044a-48c4-971e-4ff3004c8915', N'Student_638169158281857084', N'51', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'51@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210045, N'210045', 0, 4, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(0.9293 AS Decimal(5, 4)), 37, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (195, N'd77a945a-044a-48c4-971e-4ff3004c8915', N'Student_638169158281857084', N'51', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'51@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210045, N'210045', 0, 4, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(0.9293 AS Decimal(5, 4)), 37, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (196, N'0504328c-41bf-49ff-916e-4c837359add1', N'Student_638169158282144261', N'52', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'52@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210043, N'210043', 8, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.9261 AS Decimal(5, 4)), 49, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (196, N'0504328c-41bf-49ff-916e-4c837359add1', N'Student_638169158282144261', N'52', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'52@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210043, N'210043', 8, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.9261 AS Decimal(5, 4)), 49, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (197, N'33fc2529-9bb6-43ec-bd8e-8b2a35739e6d', N'Student_638169158283019723', N'55', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'55@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353008, N'353008', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.0798 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (197, N'33fc2529-9bb6-43ec-bd8e-8b2a35739e6d', N'Student_638169158283019723', N'55', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'55@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353008, N'353008', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.0798 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 7, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (198, N'21c2d90d-5650-4a5c-8e8d-57763238ecc0', N'Student_638169158283722071', N'56', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'56@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352013, N'352013', 0, 1, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.9409 AS Decimal(5, 4)), 131, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (198, N'21c2d90d-5650-4a5c-8e8d-57763238ecc0', N'Student_638169158283722071', N'56', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'56@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352013, N'352013', 0, 1, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.9409 AS Decimal(5, 4)), 131, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (199, N'40c4211c-67d8-4187-b12e-04b592599845', N'Student_638169158284207779', N'57', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'57@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352012, N'352012', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.9883 AS Decimal(5, 4)), 81, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (199, N'40c4211c-67d8-4187-b12e-04b592599845', N'Student_638169158284207779', N'57', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'57@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352012, N'352012', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.9883 AS Decimal(5, 4)), 81, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (200, N'cf23a069-8f5a-4079-bcaf-6b8418c9052a', N'Student_638169158284658117', N'58', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'58@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352011, N'352011', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(3.0550 AS Decimal(5, 4)), 118, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (200, N'cf23a069-8f5a-4079-bcaf-6b8418c9052a', N'Student_638169158284658117', N'58', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'58@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352011, N'352011', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(3.0550 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (201, N'03dd59ad-edaa-491a-b46d-09d6a2763eeb', N'Student_638169158285298113', N'59', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'59@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352008, N'352008', 7, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.4800 AS Decimal(5, 4)), 74, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (201, N'03dd59ad-edaa-491a-b46d-09d6a2763eeb', N'Student_638169158285298113', N'59', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'59@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352008, N'352008', 7, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.4800 AS Decimal(5, 4)), 74, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (202, N'291a2ad4-1e9c-4b84-b872-e546ee876633', N'Student_638169158286134381', N'61', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'61@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352007, N'352007', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.6360 AS Decimal(5, 4)), 69, 3, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (202, N'291a2ad4-1e9c-4b84-b872-e546ee876633', N'Student_638169158286134381', N'61', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'61@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352007, N'352007', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.6360 AS Decimal(5, 4)), 69, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (203, N'd596984e-1758-4c6d-a39d-d8464bb50a73', N'Student_638169158286771067', N'62', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'62@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210038, N'210038', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(3.1404 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (203, N'd596984e-1758-4c6d-a39d-d8464bb50a73', N'Student_638169158286771067', N'62', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'62@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210038, N'210038', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(3.1404 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (204, N'1cf2780d-6fd0-4b29-b073-27e25d002435', N'Student_638169158287415478', N'63', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'63@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354007, N'354007', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 12, CAST(1.6786 AS Decimal(5, 4)), 47, 2, 0, NULL, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (204, N'1cf2780d-6fd0-4b29-b073-27e25d002435', N'Student_638169158287415478', N'63', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'63@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354007, N'354007', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 12, CAST(1.6786 AS Decimal(5, 4)), 47, 2, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (205, N'5744e824-78fa-421a-994a-cef0889a1af2', N'Student_638169158288411385', N'64', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'64@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352010, N'352010', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.9136 AS Decimal(5, 4)), 46, 2, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (205, N'5744e824-78fa-421a-994a-cef0889a1af2', N'Student_638169158288411385', N'64', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'64@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352010, N'352010', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.9136 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (206, N'8ba7e489-11c8-4c2a-8289-240c86298727', N'Student_638169158288940513', N'65', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'65@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353004, N'353004', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.5523 AS Decimal(5, 4)), 134, 4, 1, NULL, 1, 5, 8, 8, 7, 18)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (206, N'8ba7e489-11c8-4c2a-8289-240c86298727', N'Student_638169158288940513', N'65', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'65@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353004, N'353004', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.5523 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (207, N'296c4152-a6f0-4ef6-b022-1e5354588c53', N'Student_638169158290205962', N'68', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'68@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353003, N'353003', 0, 10, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 14, CAST(1.7539 AS Decimal(5, 4)), 126, 4, 0, NULL, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (207, N'296c4152-a6f0-4ef6-b022-1e5354588c53', N'Student_638169158290205962', N'68', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'68@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353003, N'353003', 0, 10, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 14, CAST(1.7539 AS Decimal(5, 4)), 126, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (208, N'c30f20db-0c6a-41fd-8f5f-03686cb50443', N'Student_638169158291000780', N'69', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'69@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210036, N'210036', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.3651 AS Decimal(5, 4)), 81, 3, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (208, N'c30f20db-0c6a-41fd-8f5f-03686cb50443', N'Student_638169158291000780', N'69', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'69@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210036, N'210036', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.3651 AS Decimal(5, 4)), 81, 3, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (209, N'48950433-8db0-46e1-8cc9-199d42761132', N'Student_638169158291794881', N'72', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'72@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353002, N'353002', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.9425 AS Decimal(5, 4)), 81, 3, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (209, N'48950433-8db0-46e1-8cc9-199d42761132', N'Student_638169158291794881', N'72', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'72@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353002, N'353002', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.9425 AS Decimal(5, 4)), 81, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (210, N'05df4b39-fe5c-4b28-ab79-30d5835db2ca', N'Student_638169158293049290', N'77', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'77@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352009, N'352009', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.8535 AS Decimal(5, 4)), 47, 2, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (210, N'05df4b39-fe5c-4b28-ab79-30d5835db2ca', N'Student_638169158293049290', N'77', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'77@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352009, N'352009', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.8535 AS Decimal(5, 4)), 47, 2, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (211, N'395e82f1-1fae-4580-b110-54de96a933a8', N'Student_638169158293716157', N'78', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'78@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352006, N'352006', 0, 8, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.2168 AS Decimal(5, 4)), 82, 3, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (211, N'395e82f1-1fae-4580-b110-54de96a933a8', N'Student_638169158293716157', N'78', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'78@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352006, N'352006', 0, 8, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.2168 AS Decimal(5, 4)), 82, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (212, N'2e36ca49-ec61-46b8-9b18-70944c246a10', N'Student_638169158294504557', N'79', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'79@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353001, N'353001', 0, 8, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 11, CAST(1.8277 AS Decimal(5, 4)), 113, 4, 0, NULL, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (212, N'2e36ca49-ec61-46b8-9b18-70944c246a10', N'Student_638169158294504557', N'79', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'79@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353001, N'353001', 0, 8, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 11, CAST(1.8277 AS Decimal(5, 4)), 113, 4, 0, 1, 5, 8, 8, 4, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (213, N'3080bd6f-650b-4ad4-9939-fce9fa407459', N'Student_638169158295368077', N'81', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'81@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352004, N'352004', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.3521 AS Decimal(5, 4)), 102, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (213, N'3080bd6f-650b-4ad4-9939-fce9fa407459', N'Student_638169158295368077', N'81', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'81@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352004, N'352004', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.3521 AS Decimal(5, 4)), 102, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (214, N'714d9c0f-a59b-4814-b21c-1b8eca925db5', N'Student_638169158296274056', N'83', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'83@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352001, N'352001', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(3.0230 AS Decimal(5, 4)), 115, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (214, N'714d9c0f-a59b-4814-b21c-1b8eca925db5', N'Student_638169158296274056', N'83', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'83@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352001, N'352001', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(3.0230 AS Decimal(5, 4)), 115, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (215, N'67647145-306c-4193-a104-e960d3bea1ea', N'Student_638169158296779855', N'84', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'84@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210237, N'210237', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.1326 AS Decimal(5, 4)), 41, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (215, N'67647145-306c-4193-a104-e960d3bea1ea', N'Student_638169158296779855', N'84', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'84@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210237, N'210237', 9, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.1326 AS Decimal(5, 4)), 41, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (216, N'dc1bb948-0297-4598-957b-ddfb25b5a341', N'Student_638169158297274339', N'86', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'86@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210034, N'210034', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.9930 AS Decimal(5, 4)), 47, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (216, N'dc1bb948-0297-4598-957b-ddfb25b5a341', N'Student_638169158297274339', N'86', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'86@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210034, N'210034', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.9930 AS Decimal(5, 4)), 47, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (217, N'3e5bbe31-087d-4059-a1a0-af0903f56989', N'Student_638169158297650501', N'87', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'87@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352005, N'352005', 2, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.3367 AS Decimal(5, 4)), 73, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (217, N'3e5bbe31-087d-4059-a1a0-af0903f56989', N'Student_638169158297650501', N'87', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'87@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352005, N'352005', 2, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.3367 AS Decimal(5, 4)), 73, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (218, N'496abddf-34e3-4584-9184-6b47f7273762', N'Student_638169158298091734', N'88', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'88@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210033, N'210033', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.8534 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (218, N'496abddf-34e3-4584-9184-6b47f7273762', N'Student_638169158298091734', N'88', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'88@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210033, N'210033', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.8534 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (219, N'06af6192-a0a8-4cb2-b259-eb1b56a359da', N'Student_638169158298540986', N'89', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'89@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354003, N'354003', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.6299 AS Decimal(5, 4)), 134, 4, 1, NULL, 1, 5, 8, 8, 4, 18)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (219, N'06af6192-a0a8-4cb2-b259-eb1b56a359da', N'Student_638169158298540986', N'89', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'89@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354003, N'354003', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.6299 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 4, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (220, N'6b86ab8e-6c59-4f08-9f30-b47a97c27e2d', N'Student_638169158299541732', N'91', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'91@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352003, N'352003', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.5242 AS Decimal(5, 4)), 114, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (220, N'6b86ab8e-6c59-4f08-9f30-b47a97c27e2d', N'Student_638169158299541732', N'91', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'91@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352003, N'352003', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.5242 AS Decimal(5, 4)), 114, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (221, N'944d46da-cd4f-41b9-9397-448aacd0acbd', N'Student_638169158259905945', N'10', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'10@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354012, N'354012', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 12, CAST(2.0310 AS Decimal(5, 4)), 140, 4, 1, NULL, 1, 5, 8, 2, 1, 18)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (221, N'944d46da-cd4f-41b9-9397-448aacd0acbd', N'Student_638169158259905945', N'10', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'10@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354012, N'354012', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 12, CAST(2.0310 AS Decimal(5, 4)), 140, 4, 1, 1, 5, 8, 2, 1, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (222, N'34472944-0f81-4741-a57e-5a707f13d142', N'Student_638169158261429011', N'12', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'12@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210072, N'210072', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.0703 AS Decimal(5, 4)), 79, 3, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (222, N'34472944-0f81-4741-a57e-5a707f13d142', N'Student_638169158261429011', N'12', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'12@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210072, N'210072', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.0703 AS Decimal(5, 4)), 79, 3, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (223, N'4defd680-f239-4071-80d1-a19b69824fa7', N'Student_638169158262274126', N'13', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'13@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353015, N'353015', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.7430 AS Decimal(5, 4)), 115, 4, 0, NULL, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (223, N'4defd680-f239-4071-80d1-a19b69824fa7', N'Student_638169158262274126', N'13', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'13@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353015, N'353015', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.7430 AS Decimal(5, 4)), 115, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (224, N'fa00aecc-4a23-4015-ae01-28345f1ecc66', N'Student_638169158263632638', N'15', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'15@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351023, N'351023', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 5, CAST(1.6976 AS Decimal(5, 4)), 67, 3, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (224, N'fa00aecc-4a23-4015-ae01-28345f1ecc66', N'Student_638169158263632638', N'15', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'15@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351023, N'351023', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 5, CAST(1.6976 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (225, N'17c7fcb2-54ca-4e10-a48f-ef23152cf421', N'Student_638169158264516807', N'16', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'16@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210067, N'210067', 0, 3, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(1.9685 AS Decimal(5, 4)), 71, 3, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (225, N'17c7fcb2-54ca-4e10-a48f-ef23152cf421', N'Student_638169158264516807', N'16', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'16@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210067, N'210067', 0, 3, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(1.9685 AS Decimal(5, 4)), 71, 3, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (226, N'bec90e2a-8029-4464-bb00-b7044ebd4c2b', N'Student_638169158265527658', N'18', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'18@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210064, N'210064', 0, 4, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(1.4938 AS Decimal(5, 4)), 61, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (226, N'bec90e2a-8029-4464-bb00-b7044ebd4c2b', N'Student_638169158265527658', N'18', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'18@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210064, N'210064', 0, 4, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(1.4938 AS Decimal(5, 4)), 61, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (227, N'0b29d22d-625e-47e0-ba7a-a2e6b86d7426', N'Student_638169158266325756', N'19', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'19@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353010, N'353010', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 9, CAST(2.3696 AS Decimal(5, 4)), 134, 4, 1, NULL, 1, 5, 8, 8, 7, 19)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (227, N'0b29d22d-625e-47e0-ba7a-a2e6b86d7426', N'Student_638169158266325756', N'19', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'19@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353010, N'353010', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 9, CAST(2.3696 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 19)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (228, N'03810c5e-ff7e-4e48-b853-e5cc1e9d3be3', N'Student_638169158268257742', N'22', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'22@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352021, N'352021', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.5897 AS Decimal(5, 4)), 107, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (228, N'03810c5e-ff7e-4e48-b853-e5cc1e9d3be3', N'Student_638169158268257742', N'22', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'22@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352021, N'352021', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.5897 AS Decimal(5, 4)), 107, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (229, N'45777611-3d1c-40b0-a1e8-ca9e4693e4ee', N'Student_638169158269050860', N'23', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'23@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210058, N'210058', 0, 6, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(0.9910 AS Decimal(5, 4)), 52, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (229, N'45777611-3d1c-40b0-a1e8-ca9e4693e4ee', N'Student_638169158269050860', N'23', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'23@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210058, N'210058', 0, 6, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(0.9910 AS Decimal(5, 4)), 52, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (230, N'6c058e3d-5735-4724-87be-1d3ac8c99759', N'Student_638169158269543014', N'24', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'24@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353014, N'353014', 0, 5, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.9738 AS Decimal(5, 4)), 134, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (230, N'6c058e3d-5735-4724-87be-1d3ac8c99759', N'Student_638169158269543014', N'24', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'24@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353014, N'353014', 0, 5, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.9738 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (231, N'753774fe-62ca-4b1a-811c-19302b041b74', N'Student_638169158270516182', N'25', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'25@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353012, N'353012', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.5663 AS Decimal(5, 4)), 68, 3, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (231, N'753774fe-62ca-4b1a-811c-19302b041b74', N'Student_638169158270516182', N'25', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'25@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353012, N'353012', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.5663 AS Decimal(5, 4)), 68, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (232, N'7e6c03e6-b930-4fc4-946e-a01f5328f90b', N'Student_638169158271497407', N'26', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'26@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352024, N'352024', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.4941 AS Decimal(5, 4)), 38, 2, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (232, N'7e6c03e6-b930-4fc4-946e-a01f5328f90b', N'Student_638169158271497407', N'26', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'26@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352024, N'352024', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.4941 AS Decimal(5, 4)), 38, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (233, N'e6a355b7-7454-46f3-ad73-c1bd700ec24b', N'Student_638169158272208913', N'28', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'28@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352022, N'352022', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.1248 AS Decimal(5, 4)), 75, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (233, N'e6a355b7-7454-46f3-ad73-c1bd700ec24b', N'Student_638169158272208913', N'28', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'28@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352022, N'352022', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.1248 AS Decimal(5, 4)), 75, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (234, N'c47b9cea-da79-4694-b52b-166e153c645a', N'Student_638169158272824774', N'29', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'29@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352023, N'352023', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.5534 AS Decimal(5, 4)), 41, 2, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (234, N'c47b9cea-da79-4694-b52b-166e153c645a', N'Student_638169158272824774', N'29', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'29@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352023, N'352023', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.5534 AS Decimal(5, 4)), 41, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (235, N'0a7ae36f-eeda-4573-91e4-86b791488243', N'Student_638169158273852511', N'33', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'33@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351015, N'351015', 5, 1, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(1.1622 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (235, N'0a7ae36f-eeda-4573-91e4-86b791488243', N'Student_638169158273852511', N'33', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'33@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351015, N'351015', 5, 1, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(1.1622 AS Decimal(5, 4)), 16, 1, 0, 1, 5, 8, 8, 4, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (236, N'5ea9a333-dc88-47a8-89ed-a063f75786db', N'Student_638169158274499352', N'35', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'35@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352020, N'352020', 0, 12, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.8354 AS Decimal(5, 4)), 128, 4, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (236, N'5ea9a333-dc88-47a8-89ed-a063f75786db', N'Student_638169158274499352', N'35', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'35@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352020, N'352020', 0, 12, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.8354 AS Decimal(5, 4)), 128, 4, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (237, N'9b470dc1-ad8d-4916-9418-b1e43d9ab71b', N'Student_638169158275097925', N'36', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'36@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352019, N'352019', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.8808 AS Decimal(5, 4)), 47, 2, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (237, N'9b470dc1-ad8d-4916-9418-b1e43d9ab71b', N'Student_638169158275097925', N'36', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'36@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352019, N'352019', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.8808 AS Decimal(5, 4)), 47, 2, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (238, N'045c6a08-6163-4f05-899b-40ed71df5c95', N'Student_638169158275653889', N'37', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'37@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210052, N'210052', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.7695 AS Decimal(5, 4)), 118, 4, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (238, N'045c6a08-6163-4f05-899b-40ed71df5c95', N'Student_638169158275653889', N'37', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'37@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210052, N'210052', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.7695 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (239, N'de652fff-a12a-4d14-891c-7ebfe373212d', N'Student_638169158276151626', N'38', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'38@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353007, N'353007', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 9, CAST(2.3281 AS Decimal(5, 4)), 134, 4, 1, NULL, 1, 5, 8, 8, 7, 19)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (239, N'de652fff-a12a-4d14-891c-7ebfe373212d', N'Student_638169158276151626', N'38', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'38@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353007, N'353007', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 9, CAST(2.3281 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 19)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (240, N'4d1e451c-61e4-46b4-8e32-094e22a8ec25', N'Student_638169158276932808', N'39', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'39@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353011, N'353011', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.4614 AS Decimal(5, 4)), 131, 4, 0, NULL, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (240, N'4d1e451c-61e4-46b4-8e32-094e22a8ec25', N'Student_638169158276932808', N'39', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'39@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353011, N'353011', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 10, CAST(2.4614 AS Decimal(5, 4)), 131, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (241, N'4f6b6c22-198b-4865-a796-dabd780e17a6', N'Student_638169158277497447', N'40', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'40@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210046, N'210046', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.6044 AS Decimal(5, 4)), 116, 4, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (241, N'4f6b6c22-198b-4865-a796-dabd780e17a6', N'Student_638169158277497447', N'40', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'40@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210046, N'210046', 0, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.6044 AS Decimal(5, 4)), 116, 4, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (242, N'4189ef1c-ec56-4a64-9c46-e34cf61e0e33', N'Student_638169158277869347', N'41', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'41@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352015, N'352015', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.7521 AS Decimal(5, 4)), 81, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (242, N'4189ef1c-ec56-4a64-9c46-e34cf61e0e33', N'Student_638169158277869347', N'41', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'41@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352015, N'352015', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.7521 AS Decimal(5, 4)), 81, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (243, N'7c620051-d327-44d4-8241-e9d51a31a096', N'Student_638169158278301455', N'42', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'42@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210049, N'210049', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(3.0332 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (243, N'7c620051-d327-44d4-8241-e9d51a31a096', N'Student_638169158278301455', N'42', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'42@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210049, N'210049', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(3.0332 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (244, N'1119f7d0-3da3-42e3-8d87-a78464dd4e52', N'Student_638169158279590005', N'46', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'46@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353006, N'353006', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.7168 AS Decimal(5, 4)), 44, 2, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (244, N'1119f7d0-3da3-42e3-8d87-a78464dd4e52', N'Student_638169158279590005', N'46', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'46@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353006, N'353006', 1, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(1.7168 AS Decimal(5, 4)), 44, 2, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (245, N'c53f3f7d-88bc-4c34-bed0-d67f14cdfbb8', N'Student_638169158253432191', N'2', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'2@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353019, N'353019', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.8912 AS Decimal(5, 4)), 118, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (245, N'c53f3f7d-88bc-4c34-bed0-d67f14cdfbb8', N'Student_638169158253432191', N'2', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'2@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353019, N'353019', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.8912 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (246, N'71dbdb37-e673-4cae-8e8d-42215b43b6b9', N'Student_638169158254474298', N'3', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'3@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352027, N'352027', 0, 3, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.8894 AS Decimal(5, 4)), 70, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (246, N'71dbdb37-e673-4cae-8e8d-42215b43b6b9', N'Student_638169158254474298', N'3', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'3@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352027, N'352027', 0, 3, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.8894 AS Decimal(5, 4)), 70, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (247, N'8b8230e6-9093-4f1c-85b7-e56d09af4bdc', N'Student_638169158255298113', N'4', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'4@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210071, N'210071', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(3.5194 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (247, N'8b8230e6-9093-4f1c-85b7-e56d09af4bdc', N'Student_638169158255298113', N'4', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'4@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210071, N'210071', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(3.5194 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (248, N'a81787dc-5b73-4383-bb56-0b393db3a488', N'Student_638169158256335989', N'6', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'6@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352026, N'352026', 3, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(3.1226 AS Decimal(5, 4)), 81, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (248, N'a81787dc-5b73-4383-bb56-0b393db3a488', N'Student_638169158256335989', N'6', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'6@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352026, N'352026', 3, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(3.1226 AS Decimal(5, 4)), 81, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (249, N'0074bc10-d25f-45c3-aebd-317421da0eaa', N'Student_638169158257313564', N'7', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'7@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353016, N'353016', 3, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.4524 AS Decimal(5, 4)), 134, 4, 1, NULL, 1, 5, 8, 8, 7, 18)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (249, N'0074bc10-d25f-45c3-aebd-317421da0eaa', N'Student_638169158257313564', N'7', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'7@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353016, N'353016', 3, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 8, CAST(2.4524 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (250, N'8a469c85-c4c2-4135-bc79-2a514d644be7', N'Student_638169158258428680', N'8', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'8@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352025, N'352025', 3, 2, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.4394 AS Decimal(5, 4)), 46, 2, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (250, N'8a469c85-c4c2-4135-bc79-2a514d644be7', N'Student_638169158258428680', N'8', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'8@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352025, N'352025', 3, 2, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.4394 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (251, N'04cd1d9f-0eb1-49b2-a711-c4967bd015b8', N'Student_638169111580544943', N'53', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'53@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352036, N'352036', 6, 1, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.9776 AS Decimal(5, 4)), 67, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (251, N'04cd1d9f-0eb1-49b2-a711-c4967bd015b8', N'Student_638169111580544943', N'53', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'53@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352036, N'352036', 6, 1, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(1.9776 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (252, N'8e426e92-828b-4b8c-94a5-3c591640a782', N'Student_638169111580964533', N'54', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'54@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352035, N'352035', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.0588 AS Decimal(5, 4)), 70, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (252, N'8e426e92-828b-4b8c-94a5-3c591640a782', N'Student_638169111580964533', N'54', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'54@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352035, N'352035', 6, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 6, CAST(2.0588 AS Decimal(5, 4)), 70, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (253, N'd031e0e5-58e0-4733-b014-663862df36eb', N'Student_638169111583311339', N'60', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'60@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210090, N'210090', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.2064 AS Decimal(5, 4)), 41, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (253, N'd031e0e5-58e0-4733-b014-663862df36eb', N'Student_638169111583311339', N'60', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'60@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210090, N'210090', 12, 0, NULL, CAST(N'2023-04-12T21:29:00' AS SmallDateTime), NULL, 4, CAST(2.2064 AS Decimal(5, 4)), 41, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (254, N'1e086476-5854-4e50-9e0d-367d82b7035c', N'Student_638169111586675895', N'70', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'70@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210238, N'210238', 9, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(2.3581 AS Decimal(5, 4)), 44, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (254, N'1e086476-5854-4e50-9e0d-367d82b7035c', N'Student_638169111586675895', N'70', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'70@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210238, N'210238', 9, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(2.3581 AS Decimal(5, 4)), 44, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (255, N'fdee3c3e-6b91-4447-8e16-7006c29896f8', N'Student_638169111588082934', N'74', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'74@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352031, N'352031', 0, 2, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(1.7180 AS Decimal(5, 4)), 60, 2, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (255, N'fdee3c3e-6b91-4447-8e16-7006c29896f8', N'Student_638169111588082934', N'74', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'74@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352031, N'352031', 0, 2, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(1.7180 AS Decimal(5, 4)), 60, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (256, N'7a50ce38-c95b-4456-9f0c-bc3362f3df51', N'Student_638169111588526007', N'75', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'75@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352030, N'352030', 5, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(2.2197 AS Decimal(5, 4)), 73, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (256, N'7a50ce38-c95b-4456-9f0c-bc3362f3df51', N'Student_638169111588526007', N'75', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'75@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352030, N'352030', 5, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(2.2197 AS Decimal(5, 4)), 73, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (257, N'818b0da4-3763-4698-988e-92e37bebba1f', N'Student_638169111588883953', N'76', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'76@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210083, N'210083', 9, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(2.0449 AS Decimal(5, 4)), 37, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (257, N'818b0da4-3763-4698-988e-92e37bebba1f', N'Student_638169111588883953', N'76', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'76@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210083, N'210083', 9, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(2.0449 AS Decimal(5, 4)), 37, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (258, N'2d970ce8-2882-453d-a3cd-653aa9af6354', N'Student_638169111590904481', N'80', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'80@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210074, N'210074', 12, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(3.4666 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (258, N'2d970ce8-2882-453d-a3cd-653aa9af6354', N'Student_638169111590904481', N'80', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'80@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210074, N'210074', 12, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(3.4666 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (259, N'afc51b84-dcf5-4631-917b-06836d224c4e', N'Student_638169111569101279', N'27', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'27@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210130, N'210130', 8, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(2.6546 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (259, N'afc51b84-dcf5-4631-917b-06836d224c4e', N'Student_638169111569101279', N'27', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'27@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210130, N'210130', 8, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(2.6546 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (260, N'53dbc32c-2514-4507-8411-c4dd3b99b2bc', N'Student_638169111570487795', N'30', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'30@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210127, N'210127', 12, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(3.3464 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (260, N'53dbc32c-2514-4507-8411-c4dd3b99b2bc', N'Student_638169111570487795', N'30', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'30@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210127, N'210127', 12, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(3.3464 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (261, N'c7adaa30-2020-43b7-852f-53842104b83d', N'Student_638169111571165515', N'32', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'32@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210124, N'210124', 12, 1, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(1.7998 AS Decimal(5, 4)), 33, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (261, N'c7adaa30-2020-43b7-852f-53842104b83d', N'Student_638169111571165515', N'32', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'32@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210124, N'210124', 12, 1, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(1.7998 AS Decimal(5, 4)), 33, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (262, N'292df331-74c5-42c6-b156-ee5a5494d5b9', N'Student_638169111571940760', N'34', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'34@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351045, N'351045', 3, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(2.0438 AS Decimal(5, 4)), 67, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (262, N'292df331-74c5-42c6-b156-ee5a5494d5b9', N'Student_638169111571940760', N'34', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'34@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351045, N'351045', 3, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(2.0438 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (263, N'1e137662-8e92-4c68-a837-2696554852be', N'Student_638169111577372492', N'45', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'45@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210095, N'210095', 9, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(3.0123 AS Decimal(5, 4)), 50, 2, 0, NULL, 1, 5, 8, 8, 16, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (263, N'1e137662-8e92-4c68-a837-2696554852be', N'Student_638169111577372492', N'45', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'45@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210095, N'210095', 9, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 4, CAST(3.0123 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (264, N'55bd4a77-d80d-4179-b526-cc162b93afc0', N'Student_638169111525838738', N'11', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'11@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352049, N'352049', 12, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 8, CAST(3.2947 AS Decimal(5, 4)), 115, 4, 0, NULL, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (264, N'55bd4a77-d80d-4179-b526-cc162b93afc0', N'Student_638169111525838738', N'11', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'11@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352049, N'352049', 12, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 8, CAST(3.2947 AS Decimal(5, 4)), 115, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (265, N'cb79fb05-95de-4634-b444-62f23d475112', N'Student_638169111529172954', N'14', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'14@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352047, N'352047', 6, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(2.5755 AS Decimal(5, 4)), 78, 3, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (265, N'cb79fb05-95de-4634-b444-62f23d475112', N'Student_638169111529172954', N'14', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'14@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352047, N'352047', 6, 0, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(2.5755 AS Decimal(5, 4)), 78, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (266, N'cf3c823b-3789-475b-ac6c-db95b0a8ca6f', N'Student_638169111533232472', N'17', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'17@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352046, N'352046', 3, 2, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(1.5869 AS Decimal(5, 4)), 46, 2, 0, NULL, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (266, N'cf3c823b-3789-475b-ac6c-db95b0a8ca6f', N'Student_638169111533232472', N'17', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'17@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352046, N'352046', 3, 2, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 6, CAST(1.5869 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (267, N'3352908e-4808-4cdc-94cc-e4be1879587d', N'Student_638169111503093427', N'0', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'0@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353032, N'353032', 0, 5, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 10, CAST(1.8318 AS Decimal(5, 4)), 108, 4, 0, NULL, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (267, N'3352908e-4808-4cdc-94cc-e4be1879587d', N'Student_638169111503093427', N'0', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'0@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353032, N'353032', 0, 5, NULL, CAST(N'2023-04-12T21:30:00' AS SmallDateTime), NULL, 10, CAST(1.8318 AS Decimal(5, 4)), 108, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (268, N'85929c54-e7e7-45bb-868a-cdd50e00d3b7', N'Student_638169111575154011', N'28282', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'28282@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352041, N'352041', 0, 1, NULL, CAST(N'2023-04-12T21:34:00' AS SmallDateTime), NULL, 11, CAST(1.9388 AS Decimal(5, 4)), 60, 2, 0, NULL, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (268, N'85929c54-e7e7-45bb-868a-cdd50e00d3b7', N'Student_638169111575154011', N'28282', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'28282@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352041, N'352041', 0, 1, NULL, CAST(N'2023-04-12T21:34:00' AS SmallDateTime), NULL, 11, CAST(1.9388 AS Decimal(5, 4)), 60, 2, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (269, N'd78cb35c-e45e-4fdc-a6bc-475c60be0835', N'Student_638169111585124284', N'7765', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'7765@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353023, N'353023', 0, 0, NULL, CAST(N'2023-04-12T21:34:00' AS SmallDateTime), NULL, 10, CAST(2.6242 AS Decimal(5, 4)), 112, 4, 0, NULL, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (269, N'd78cb35c-e45e-4fdc-a6bc-475c60be0835', N'Student_638169111585124284', N'7765', N'12345678912', CAST(N'2023-04-12' AS Date), N'العنوان', N'1', N'مصرى', N'7765@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353023, N'353023', 0, 0, NULL, CAST(N'2023-04-12T21:34:00' AS SmallDateTime), NULL, 10, CAST(2.6242 AS Decimal(5, 4)), 112, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (270, N'8179feb8-9dad-4446-a13e-b59d6f5c9be1', N'Student_638169158300533360', N'93', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'93@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220661, N'220661', 12, 0, NULL, CAST(N'2023-04-13T16:25:00' AS SmallDateTime), NULL, 2, CAST(3.2075 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (270, N'8179feb8-9dad-4446-a13e-b59d6f5c9be1', N'Student_638169158300533360', N'93', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'93@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220661, N'220661', 12, 0, NULL, CAST(N'2023-04-13T16:25:00' AS SmallDateTime), NULL, 2, CAST(3.2075 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (271, N'38d8acf3-7352-478e-9e58-75f74eb22c99', N'Student_638169158274083927', N'192', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'192@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220650, N'220650', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.5200 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (271, N'38d8acf3-7352-478e-9e58-75f74eb22c99', N'Student_638169158274083927', N'192', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'192@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220650, N'220650', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.5200 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (272, N'0bc4228e-f359-48aa-8bf3-d6e50591f7b7', N'Student_638169158278633119', N'193', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'193@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220698, N'220698', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (272, N'0bc4228e-f359-48aa-8bf3-d6e50591f7b7', N'Student_638169158278633119', N'193', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'193@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220698, N'220698', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (273, N'3f0a3e2e-cfea-4cad-81fa-03bccb5e5948', N'Student_638169158278914510', N'194', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'194@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220700, N'220700', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6856 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (273, N'3f0a3e2e-cfea-4cad-81fa-03bccb5e5948', N'Student_638169158278914510', N'194', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'194@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220700, N'220700', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6856 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (274, N'04a17193-bf84-4956-8ce9-2570eb904f22', N'Student_638169158279244225', N'195', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'195@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220699, N'220699', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0638 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (274, N'04a17193-bf84-4956-8ce9-2570eb904f22', N'Student_638169158279244225', N'195', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'195@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220699, N'220699', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0638 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (275, N'4ae4c069-29d6-481a-a570-92dedd923e37', N'Student_638169158282629596', N'196', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'196@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220693, N'220693', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6656 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (275, N'4ae4c069-29d6-481a-a570-92dedd923e37', N'Student_638169158282629596', N'196', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'196@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220693, N'220693', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6656 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (276, N'e0298f27-b53f-42cd-aa55-7526ecd085da', N'Student_638169158285730384', N'197', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'197@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220687, N'220687', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3556 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (276, N'e0298f27-b53f-42cd-aa55-7526ecd085da', N'Student_638169158285730384', N'197', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'197@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220687, N'220687', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3556 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (277, N'01d69208-f400-4531-968b-dbce7f0f4fc9', N'Student_638169158289582116', N'198', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'198@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220675, N'220675', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6263 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (277, N'01d69208-f400-4531-968b-dbce7f0f4fc9', N'Student_638169158289582116', N'198', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'198@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220675, N'220675', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6263 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (278, N'e82ebe52-f30b-41e5-bfa1-419ddd7af742', N'Student_638169158289810076', N'199', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'199@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220686, N'220686', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (278, N'e82ebe52-f30b-41e5-bfa1-419ddd7af742', N'Student_638169158289810076', N'199', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'199@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220686, N'220686', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (279, N'265a9fe1-ed2d-49e0-8634-9dd832e33667', N'Student_638169158291319417', N'200', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'200@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220685, N'220685', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0619 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (279, N'265a9fe1-ed2d-49e0-8634-9dd832e33667', N'Student_638169158291319417', N'200', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'200@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220685, N'220685', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0619 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (280, N'08be7ad4-90a4-420f-8808-12801b538727', N'Student_638169158291486681', N'201', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'201@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220684, N'220684', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3325 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (280, N'08be7ad4-90a4-420f-8808-12801b538727', N'Student_638169158291486681', N'201', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'201@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220684, N'220684', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3325 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (281, N'caaebe84-e52e-46a2-86d7-2fbcbd3b6200', N'Student_638169158292255991', N'202', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'202@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220682, N'220682', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.9394 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (281, N'caaebe84-e52e-46a2-86d7-2fbcbd3b6200', N'Student_638169158292255991', N'202', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'202@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220682, N'220682', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.9394 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (282, N'9079d27d-87a8-49cc-8715-f12e9259a051', N'Student_638169158292424992', N'203', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'203@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220681, N'220681', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0850 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (282, N'9079d27d-87a8-49cc-8715-f12e9259a051', N'Student_638169158292424992', N'203', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'203@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220681, N'220681', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0850 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (283, N'6bcaabc4-6753-480d-a053-5a6910ca1cc5', N'Student_638169158292590314', N'204', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'204@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220679, N'220679', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8537 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (283, N'6bcaabc4-6753-480d-a053-5a6910ca1cc5', N'Student_638169158292590314', N'204', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'204@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220679, N'220679', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8537 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (284, N'25aa6449-f153-40d4-83b8-15abdbb4d711', N'Student_638169158292759427', N'205', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'205@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220677, N'220677', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7719 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (284, N'25aa6449-f153-40d4-83b8-15abdbb4d711', N'Student_638169158292759427', N'205', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'205@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220677, N'220677', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7719 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (285, N'cc2b767f-6262-4636-ad43-058a55fdca77', N'Student_638169158295033056', N'206', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'206@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220651, N'220651', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7481 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (285, N'cc2b767f-6262-4636-ad43-058a55fdca77', N'Student_638169158295033056', N'206', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'206@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220651, N'220651', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7481 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (286, N'9e0ff0a2-aa73-4ed3-b12d-715c1a73bc49', N'Student_638169158295880639', N'207', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'207@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220656, N'220656', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6869 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (286, N'9e0ff0a2-aa73-4ed3-b12d-715c1a73bc49', N'Student_638169158295880639', N'207', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'207@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220656, N'220656', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6869 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (287, N'695c2acf-8a36-421f-96ee-6bd46dc5d763', N'Student_638169158297038244', N'208', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'208@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220670, N'220670', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.1650 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (287, N'695c2acf-8a36-421f-96ee-6bd46dc5d763', N'Student_638169158297038244', N'208', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'208@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220670, N'220670', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.1650 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (288, N'69981779-2151-419a-b5e3-122cc78b3921', N'Student_638169158299212925', N'209', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'209@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220654, N'220654', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8313 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (288, N'69981779-2151-419a-b5e3-122cc78b3921', N'Student_638169158299212925', N'209', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'209@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220654, N'220654', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.8313 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (289, N'3146869a-f575-4004-a0d3-7e8b58e163fb', N'Student_638169158301241442', N'210', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'210@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220660, N'220660', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.2706 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (289, N'3146869a-f575-4004-a0d3-7e8b58e163fb', N'Student_638169158301241442', N'210', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'210@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220660, N'220660', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.2706 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (290, N'e2740121-b105-4736-bec1-016e268e636e', N'Student_638169158301404864', N'211', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'211@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220657, N'220657', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0188 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (290, N'e2740121-b105-4736-bec1-016e268e636e', N'Student_638169158301404864', N'211', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'211@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220657, N'220657', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0188 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (291, N'854fa221-3119-4e10-bcf7-ebe150f2e549', N'Student_638169158301566185', N'212', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'212@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220652, N'220652', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.2725 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (291, N'854fa221-3119-4e10-bcf7-ebe150f2e549', N'Student_638169158301566185', N'212', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'212@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220652, N'220652', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.2725 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (292, N'986b084f-491f-46c6-bd3b-3242f07b28ca', N'Student_638169111524250634', N'154', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'154@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220816, N'220816', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0825 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (292, N'986b084f-491f-46c6-bd3b-3242f07b28ca', N'Student_638169111524250634', N'154', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'154@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220816, N'220816', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0825 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (293, N'ac94493b-d224-4364-b244-9b3f4f651332', N'Student_638169111524583198', N'155', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'155@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220810, N'220810', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.9581 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (293, N'ac94493b-d224-4364-b244-9b3f4f651332', N'Student_638169111524583198', N'155', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'155@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220810, N'220810', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.9581 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (294, N'50790fbb-9244-4047-bcc2-4f5ebd549086', N'Student_638169111524949503', N'156', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'156@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220814, N'220814', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3350 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (294, N'50790fbb-9244-4047-bcc2-4f5ebd549086', N'Student_638169111524949503', N'156', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'156@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220814, N'220814', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3350 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (295, N'd5d558cd-6ccf-4230-b300-ce89df6dade2', N'Student_638169111527508194', N'157', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'157@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220812, N'220812', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.1237 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (295, N'd5d558cd-6ccf-4230-b300-ce89df6dade2', N'Student_638169111527508194', N'157', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'157@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220812, N'220812', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.1237 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (296, N'52edf1ba-c39d-4a81-aef9-7de4f0e85a4d', N'Student_638169111546814616', N'158', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'158@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220799, N'220799', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7719 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (296, N'52edf1ba-c39d-4a81-aef9-7de4f0e85a4d', N'Student_638169111546814616', N'158', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'158@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220799, N'220799', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7719 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (297, N'6d63f22a-15c1-4544-bdc4-f794804cd0ad', N'Student_638169111562532459', N'159', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'159@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220777, N'220777', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0612 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (297, N'6d63f22a-15c1-4544-bdc4-f794804cd0ad', N'Student_638169111562532459', N'159', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'159@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220777, N'220777', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0612 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (298, N'b8fad92a-39c5-4cc1-a7ac-753ed4117f10', N'Student_638169111569596762', N'160', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'160@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220790, N'220790', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7894 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (298, N'b8fad92a-39c5-4cc1-a7ac-753ed4117f10', N'Student_638169111569596762', N'160', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'160@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220790, N'220790', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7894 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (299, N'1ed395f5-d2f8-404b-9cce-41e213ea9e42', N'Student_638169111570876462', N'161', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'161@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220788, N'220788', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.9994 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (299, N'1ed395f5-d2f8-404b-9cce-41e213ea9e42', N'Student_638169111570876462', N'161', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'161@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220788, N'220788', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.9994 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (300, N'c1627f0b-2742-4254-b2c2-f3b8d4dc2a52', N'Student_638169111571530071', N'162', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'162@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220785, N'220785', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3756 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (300, N'c1627f0b-2742-4254-b2c2-f3b8d4dc2a52', N'Student_638169111571530071', N'162', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'162@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220785, N'220785', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.3756 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (301, N'6fdea5a2-679d-4b19-9174-f394795ac524', N'Student_638169111575760137', N'163', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'163@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220780, N'220780', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6463 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (301, N'6fdea5a2-679d-4b19-9174-f394795ac524', N'Student_638169111575760137', N'163', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'163@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220780, N'220780', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.6463 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (302, N'f84cd9f8-74c5-4ad7-96b7-1d31d2b7107b', N'Student_638169111576552884', N'164', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'164@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220748, N'220748', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7506 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (302, N'f84cd9f8-74c5-4ad7-96b7-1d31d2b7107b', N'Student_638169111576552884', N'164', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'164@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220748, N'220748', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(2.7506 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (303, N'62ee9a34-bcaa-4e7e-a2eb-36a0a96dbd1d', N'Student_638169111576737902', N'165', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'165@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220746, N'220746', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0619 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (303, N'62ee9a34-bcaa-4e7e-a2eb-36a0a96dbd1d', N'Student_638169111576737902', N'165', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'165@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220746, N'220746', 12, 0, NULL, CAST(N'2023-04-13T16:42:00' AS SmallDateTime), NULL, 2, CAST(3.0619 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (304, N'a7f81967-b9b3-499b-baf5-849ec9ce7498', N'Student_638169111577145001', N'167', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'167@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220754, N'220754', 12, 0, NULL, CAST(N'2023-04-13T17:27:00' AS SmallDateTime), NULL, 2, CAST(3.2475 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (304, N'a7f81967-b9b3-499b-baf5-849ec9ce7498', N'Student_638169111577145001', N'167', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'167@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220754, N'220754', 12, 0, NULL, CAST(N'2023-04-13T17:27:00' AS SmallDateTime), NULL, 2, CAST(3.2475 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (305, N'f23b0057-da72-44f6-9d9a-6d5ed284a145', N'Student_638169111579454833', N'168', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'168@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220768, N'220768', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.9787 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (305, N'f23b0057-da72-44f6-9d9a-6d5ed284a145', N'Student_638169111579454833', N'168', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'168@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220768, N'220768', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.9787 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (306, N'f424ca67-b2c9-437d-96a0-38011736b791', N'Student_638169111579668191', N'169', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'169@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220767, N'220767', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.0425 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (306, N'f424ca67-b2c9-437d-96a0-38011736b791', N'Student_638169111579668191', N'169', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'169@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220767, N'220767', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.0425 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (307, N'290c031e-5ade-442d-af43-221195833906', N'Student_638169111580286475', N'170', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'170@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220764, N'220764', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8125 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (307, N'290c031e-5ade-442d-af43-221195833906', N'Student_638169111580286475', N'170', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'170@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220764, N'220764', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8125 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (308, N'fb0b4f20-df29-4004-8a08-a7511d981753', N'Student_638169111582918103', N'171', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'171@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220750, N'220750', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.6875 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (308, N'fb0b4f20-df29-4004-8a08-a7511d981753', N'Student_638169111582918103', N'171', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'171@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220750, N'220750', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.6875 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (309, N'712882e6-2b74-4c17-bc79-2fc5106709ad', N'Student_638169111583092242', N'172', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'172@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220751, N'220751', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8763 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (309, N'712882e6-2b74-4c17-bc79-2fc5106709ad', N'Student_638169111583092242', N'172', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'172@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220751, N'220751', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8763 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (310, N'fae0f50c-68cd-4d5f-bb46-a52ab8bacb0a', N'Student_638169111583942237', N'173', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'173@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220736, N'220736', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.0194 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (310, N'fae0f50c-68cd-4d5f-bb46-a52ab8bacb0a', N'Student_638169111583942237', N'173', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'173@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220736, N'220736', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.0194 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (311, N'6f23c3b4-b789-4b2b-8e03-9e44660090a8', N'Student_638169111585611262', N'174', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'174@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220741, N'220741', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.2294 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (311, N'6f23c3b4-b789-4b2b-8e03-9e44660090a8', N'Student_638169111585611262', N'174', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'174@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220741, N'220741', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.2294 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (312, N'34abdeb6-3c31-4427-aef6-3fa8810eeefa', N'Student_638169111585773020', N'175', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'175@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220743, N'220743', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1650 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (312, N'34abdeb6-3c31-4427-aef6-3fa8810eeefa', N'Student_638169111585773020', N'175', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'175@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220743, N'220743', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1650 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (313, N'138b7367-02f6-4b68-9cf6-f28338d60acd', N'Student_638169111585960760', N'176', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'176@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220738, N'220738', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7706 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (313, N'138b7367-02f6-4b68-9cf6-f28338d60acd', N'Student_638169111585960760', N'176', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'176@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220738, N'220738', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7706 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (314, N'89ddbfd3-1ed5-4aa1-9576-5887237c40b5', N'Student_638169111586977986', N'177', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'177@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220740, N'220740', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.4169 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (314, N'89ddbfd3-1ed5-4aa1-9576-5887237c40b5', N'Student_638169111586977986', N'177', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'177@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220740, N'220740', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.4169 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (315, N'15b1c1e5-0fbf-4fcd-bbe8-3f1ada8b94c9', N'Student_638169111591281645', N'178', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'178@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220731, N'220731', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7275 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (315, N'15b1c1e5-0fbf-4fcd-bbe8-3f1ada8b94c9', N'Student_638169111591281645', N'178', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'178@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220731, N'220731', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7275 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (316, N'baae08c3-6d2e-4971-baa8-51b3d6dabeb4', N'Student_638169158248423242', N'179', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'179@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220730, N'220730', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1875 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (316, N'baae08c3-6d2e-4971-baa8-51b3d6dabeb4', N'Student_638169158248423242', N'179', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'179@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220730, N'220730', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1875 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (317, N'dcf3563f-11de-4dbe-9342-f9908e901c74', N'Student_638169158255752151', N'181', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'181@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220728, N'220728', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8125 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (317, N'dcf3563f-11de-4dbe-9342-f9908e901c74', N'Student_638169158255752151', N'181', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'181@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220728, N'220728', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8125 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (318, N'43c53c2b-1117-42b9-aa26-b391f86c77c5', N'Student_638169158259104812', N'182', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'182@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220720, N'220720', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1244 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (318, N'43c53c2b-1117-42b9-aa26-b391f86c77c5', N'Student_638169158259104812', N'182', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'182@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220720, N'220720', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1244 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (319, N'480c732b-412a-4996-bd5e-7ccc721f4669', N'Student_638169158261036608', N'183', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'183@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220722, N'220722', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7306 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (319, N'480c732b-412a-4996-bd5e-7ccc721f4669', N'Student_638169158261036608', N'183', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'183@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220722, N'220722', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7306 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (320, N'52b4a8f5-3a0f-44e4-9fde-0c7d5a02339a', N'Student_638169158263142558', N'184', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'184@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220724, N'220724', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (320, N'52b4a8f5-3a0f-44e4-9fde-0c7d5a02339a', N'Student_638169158263142558', N'184', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'184@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220724, N'220724', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (321, N'b5a2d3c6-86eb-4176-9e30-c061d0458d7a', N'Student_638169158265132937', N'185', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'185@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220719, N'220719', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1888 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (321, N'b5a2d3c6-86eb-4176-9e30-c061d0458d7a', N'Student_638169158265132937', N'185', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'185@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220719, N'220719', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1888 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (322, N'd8cefbda-76fa-4761-bada-311475fd8074', N'Student_638169158267346896', N'186', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'186@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220702, N'220702', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7306 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (322, N'd8cefbda-76fa-4761-bada-311475fd8074', N'Student_638169158267346896', N'186', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'186@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220702, N'220702', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7306 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (323, N'76fa8883-e69f-4bf5-9edd-c90ee526f8dc', N'Student_638169158271918675', N'188', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'188@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220714, N'220714', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7506 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (323, N'76fa8883-e69f-4bf5-9edd-c90ee526f8dc', N'Student_638169158271918675', N'188', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'188@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220714, N'220714', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7506 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (324, N'74cfabca-24dc-4b5c-a315-f2e4112ec918', N'Student_638169158273188750', N'189', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'189@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220707, N'220707', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.6056 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (324, N'74cfabca-24dc-4b5c-a315-f2e4112ec918', N'Student_638169158273188750', N'189', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'189@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220707, N'220707', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.6056 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (325, N'd985c5b8-a6bd-47ca-917e-c69cc77f6c40', N'Student_638169158273462290', N'190', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'190@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220706, N'220706', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.2506 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (325, N'd985c5b8-a6bd-47ca-917e-c69cc77f6c40', N'Student_638169158273462290', N'190', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'190@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220706, N'220706', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.2506 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (326, N'81d489b5-a6b9-41a1-8892-2424f4cdd3f9', N'Student_638169158273643054', N'191', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'191@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220705, N'220705', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7487 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (326, N'81d489b5-a6b9-41a1-8892-2424f4cdd3f9', N'Student_638169158273643054', N'191', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'191@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220705, N'220705', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.7487 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (327, N'2ea47339-2a34-4664-8218-d0f4780a79cc', N'Student_638169111510568226', N'150', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'150@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220802, N'220802', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1881 AS Decimal(5, 4)), 15, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (327, N'2ea47339-2a34-4664-8218-d0f4780a79cc', N'Student_638169111510568226', N'150', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'150@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220802, N'220802', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.1881 AS Decimal(5, 4)), 15, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (328, N'2b2ed0db-862e-4a56-9c9a-a391c2fa765a', N'Student_638169111514739611', N'151', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'151@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220815, N'220815', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.2725 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (328, N'2b2ed0db-862e-4a56-9c9a-a391c2fa765a', N'Student_638169111514739611', N'151', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'151@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220815, N'220815', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(3.2725 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (329, N'9ea9bc6d-7634-4c76-9d54-76d9d0ee37e9', N'Student_638169111515106318', N'152', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'152@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220818, N'220818', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.6269 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (329, N'9ea9bc6d-7634-4c76-9d54-76d9d0ee37e9', N'Student_638169111515106318', N'152', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'152@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220818, N'220818', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.6269 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [Rank], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (330, N'd330a3f2-c6a8-4a7d-939d-e45ed2f18a6b', N'Student_638169111516356231', N'153', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'153@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220817, N'220817', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8338 AS Decimal(5, 4)), 16, 1, 0, NULL, 1, 1, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (330, N'd330a3f2-c6a8-4a7d-939d-e45ed2f18a6b', N'Student_638169111516356231', N'153', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'153@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220817, N'220817', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8338 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Student] OFF
 GO
@@ -13391,7 +13390,7 @@ INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-04-14 11:29:17 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [K_GUID] ON [dbo].[Student]
 (
 	[GUID] ASC
@@ -13595,7 +13594,7 @@ REFERENCES [dbo].[Doctor] ([ID])
 GO
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13609,7 +13608,7 @@ BEGIN
 		FROM @Questions;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13629,7 +13628,7 @@ INSERT INTO [dbo].[Course]
 		   FROM @Courses
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13654,7 +13653,7 @@ BEGIN
            @ProgramID,@Type);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewStudents]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewStudents]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13720,7 +13719,7 @@ BEGIN
 		DEALLOCATE StudentsCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13762,7 +13761,7 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13801,7 +13800,7 @@ INSERT INTO [dbo].[Student]
 		SELECT * FROM Student WHERE ID = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13827,7 +13826,7 @@ BEGIN
 	EXECUTE [dbo].[UpdateStudentComputedValues] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13855,7 +13854,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13885,7 +13884,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_CoursesAndTheirDoctors]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_CoursesAndTheirDoctors]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13904,7 +13903,7 @@ BEGIN
 	JOIN Course c ON c.ID = tc.CourseID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsBasicData]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsBasicData]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13926,7 +13925,7 @@ BEGIN
 	LEFT JOIN Program p ON p.ID = s.CurrentProgramID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsCoursesDetails]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsCoursesDetails]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13955,7 +13954,7 @@ BEGIN
 	JOIN Course c ON c.ID = sc.CourseID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsSemestersGpa]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsSemestersGpa]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13972,7 +13971,7 @@ BEGIN
 	GROUP BY s.guid,sc.AcademicYearID,ay.AcademicYear,ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13998,7 +13997,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14014,7 +14013,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14028,7 +14027,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14063,7 +14062,7 @@ DECLARE MarkUpdateConfirmalCursor CURSOR FOR
 	EXECUTE [dbo].[UpdateStudentComputedValues]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14079,7 +14078,7 @@ BEGIN
 	@SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14097,7 +14096,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14112,7 +14111,7 @@ SELECT s.SSN,c.CourseCode
   END
  
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllDoctorsAsDropDown]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllDoctorsAsDropDown]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14125,7 +14124,7 @@ BEGIN
 	FROM Doctor d JOIN Program p ON d.ProgramID = p.ID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14140,7 +14139,7 @@ BEGIN
 	WHERE StudentID = @StudentID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14160,7 +14159,7 @@ BEGIN
 	ORDER BY s.CGPA DESC,sd.DesireNumber ASC;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14190,7 +14189,7 @@ ELSE
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14236,7 +14235,7 @@ DECLARE @StudentEnrollYear SMALLINT = [dbo].[GetStudentEnrollYear]('+CAST(@Stude
 	EXECUTE sp_executesql @Statement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14283,7 +14282,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14306,7 +14305,7 @@ BEGIN
 	WHERE pc.CourseID = @CourseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14428,7 +14427,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14444,7 +14443,7 @@ BEGIN
 	EXEC [dbo].[GetCoursesForDeletionOrWithdraw] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14462,7 +14461,7 @@ DECLARE @StudentProgram INT = [dbo].[GetStudentProgram](@StudentID);
 		sc.AcademicYearID =[dbo].[GetCurrentYearID]();	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14481,7 +14480,7 @@ BEGIN
 		EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,1 ;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14527,7 +14526,7 @@ DECLARE @CurrentSemester TINYINT;
 	EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14543,7 +14542,7 @@ EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,@Levels,1
 EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14565,7 +14564,7 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14614,7 +14613,7 @@ DECLARE @SelectStatement NVARCHAR(MAX), @FromStatement NVARCHAR(MAX), @WhereStat
 EXECUTE sp_executesql @SqlStatement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14633,7 +14632,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlSt;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14654,7 +14653,7 @@ SELECT Guid,
 		WHERE GUID = @GUID AND IsActive = @IsActive;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14726,7 +14725,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14762,7 +14761,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14778,7 +14777,7 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14790,7 +14789,7 @@ BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14814,7 +14813,7 @@ BEGIN
 	WHERE sub.ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14907,7 +14906,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14934,7 +14933,7 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14976,7 +14975,7 @@ DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),@WhereSt NVARCHAR(MAX),@Sq
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15019,7 +15018,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15052,7 +15051,7 @@ BEGIN
 			ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15090,7 +15089,7 @@ SELECT
   WHERE sc.StudentID = @StudentID AND sc.AcademicYearID = @AcademicYearID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15136,7 +15135,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15204,7 +15203,6 @@ IF @ProgramID IS NOT NULL
       s.[PassedHours],
       s.[Level],
       s.[IsGraduated],
-	  s.[Rank],
       s.[IsActive],
 	  s.[Gender],
 	  s.[Address],
@@ -15316,7 +15314,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15335,7 +15333,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15348,7 +15346,7 @@ BEGIN
 	FROM SuperAdmin s WHERE GUID = @Guid
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15361,7 +15359,7 @@ AS
 		SELECT * FROM Doctor WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15374,7 +15372,7 @@ AS
 		SELECT * FROM Student WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15387,7 +15385,7 @@ AS
 		SELECT * FROM SuperAdmin WHERE Email = @Email AND Password = @Password;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15445,7 +15443,7 @@ AS
 			WHERE StudentID = @StudentID AND IsIncluded = 0;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15457,7 +15455,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15500,7 +15498,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15528,7 +15526,7 @@ BEGIN
 	sc.AcademicYearID = [dbo].[GetCurrentYearID]();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15580,7 +15578,7 @@ IF @ProgramID IS NOT NULL
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStudentsByCGPA]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStudentsByCGPA]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15643,7 +15641,7 @@ BEGIN
 	ORDER BY s.CGPA DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15677,7 +15675,7 @@ BEGIN
 	EXEC [dbo].[GetStudentAcademicYearsSummary] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15715,7 +15713,7 @@ BEGIN
 	ORDER BY c.Level,c.Semester,pc.CourseType,pc.Category;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15741,7 +15739,7 @@ BEGIN
 		WHERE StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15765,7 +15763,7 @@ BEGIN
 	DELETE FROM StudentProgramTransferRequest;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15795,7 +15793,7 @@ DECLARE @SelectStatement NVARCHAR(MAX) = N'',
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15809,7 +15807,7 @@ BEGIN
 	  GROUP BY p.Name,p.ArabicName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15862,7 +15860,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15894,7 +15892,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15912,7 +15910,7 @@ BEGIN
 	VALUES(@StudentID,@ProgramID,@ReasonForTransfer)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15925,7 +15923,7 @@ BEGIN
 	UPDATE Doctor SET IsActive = @IsActive WHERE GUID = ''+@GUID+'';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15942,7 +15940,7 @@ BEGIN
 	WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15973,7 +15971,7 @@ BEGIN
 	 WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15995,7 +15993,7 @@ BEGIN
 	 WHERE [GUID] = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16026,7 +16024,7 @@ UPDATE [dbo].[Program]
  WHERE ID = @ID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16065,7 +16063,7 @@ UPDATE [dbo].[Student]
  WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudentComputedValues]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudentComputedValues]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16107,7 +16105,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16121,7 +16119,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16145,7 +16143,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16173,7 +16171,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16203,7 +16201,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16236,7 +16234,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16281,7 +16279,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourseRequest] ENABLE TRIGGER [HandleRequest]
 GO
-/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16507,7 +16505,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [EntringStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16557,7 +16555,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [GiveBackCredits]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16704,7 +16702,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [UpdateStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16722,7 +16720,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16740,7 +16738,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgramAfterDelete]
 GO
-/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-04-13 10:52:44 PM ******/
+/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-04-14 11:29:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

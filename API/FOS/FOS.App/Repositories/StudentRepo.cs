@@ -2,7 +2,6 @@
 using FOS.App.Helpers;
 using FOS.Core;
 using FOS.Core.IRepositories;
-using FOS.Core.Models;
 using FOS.Core.Models.DTOs;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
@@ -53,7 +52,6 @@ namespace FOS.App.Repositories
                 PassedHours = student.PassedHours,
                 PhoneNumber = student.PhoneNumber,
                 ProgramName = student.CurrentProgram.Name,
-                Rank = student.Rank,
                 SeatNumber = student.SeatNumber,
                 SSN = student.Ssn,
                 SupervisorName = student.Supervisor.Name,
@@ -341,7 +339,7 @@ namespace FOS.App.Repositories
             return QueryExecuterHelper.Execute(config.CreateInstance(), query);
         }
 
-        public bool CanOpenCourseForGraduation(int studentID, byte passedHours, int programID,int hoursToSkip)
+        public bool CanOpenCourseForGraduation(int studentID, byte passedHours, int programID, int hoursToSkip)
         {
             return (bool)QueryExecuterHelper.ExecuteFunction(config.CreateInstance(),
                 "CanOpenCourseForGraduation",
@@ -351,7 +349,7 @@ namespace FOS.App.Repositories
 
         public bool Add(DataTable dataTable)
         {
-            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddNewStudents", 
+            return QueryExecuterHelper.Execute(config.CreateInstance(), "AddNewStudents",
                 new List<SqlParameter>() {
                 QueryExecuterHelper.DataTableToSqlParameter(dataTable, "Students", "StudentsAddType")
                 }
@@ -370,6 +368,18 @@ namespace FOS.App.Repositories
                 (config.CreateInstance(),
                 "Report_GetStudentsByCGPA",
                 parameters);
+        }
+
+        public int? GetRank(int studentID, int? programID)
+        {
+            var fnRes = QueryExecuterHelper.ExecuteFunction
+                (config.CreateInstance(),
+                "RankStudent",
+                string.Concat(studentID.ToString(), ",", programID.ToString()));
+            if (fnRes == null)
+                return null;
+            bool paresd = int.TryParse(fnRes.ToString(), out int result);
+            return paresd ? result : null;
         }
     }
 }

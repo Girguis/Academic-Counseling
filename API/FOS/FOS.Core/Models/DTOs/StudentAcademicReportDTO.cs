@@ -16,7 +16,6 @@
         public string SupervisorName { get; set; }
         public byte AvailableCredits { get; set; }
         public string PhoneNumber { get; set; }
-        public short? Rank { get; set; }
         public List<AcademicYearDTO> AcademicYearsDetails { get; set; }
     }
     public class AcademicYearDTO

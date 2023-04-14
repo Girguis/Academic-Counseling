@@ -22,7 +22,6 @@
         public byte AvailableCredits { get; set; }
         public int? SupervisorID { get; set; }
         public string SupervisorName { get; set; }
-        public short Rank { get; set; }
         public int RegisteredHours { get; set; }
         public int CoursesCount { get; set; }
 

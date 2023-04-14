@@ -20,8 +20,6 @@ namespace FOS.App.Students.Mappers
             .ForMember(x => x.DoctorName, o => o.MapFrom(z =>z.Supervisor.Name)));
             var mapper = config.CreateMapper();
             var studentDto = mapper.Map<StudentDTO>(student);
-            studentDto.Rank = student.Rank;
-            //studentDto.Courses = courses;
             studentDto.academicYear = academicYear.AcademicYear1;
             studentDto.semester = academicYear.Semester;
             studentDto.ProgramName = programName;

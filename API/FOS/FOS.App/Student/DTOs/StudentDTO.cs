@@ -20,7 +20,6 @@ namespace FOS.App.Students.DTOs
         public string? AcademicCode { get; set; }
         public byte AvailableCredits { get; set; }
         public byte? WarningsNumber { get; set; }
-        public short? Rank { get; set; }
         public bool IsInSpecialProgram { get; set; }
         public decimal? Cgpa { get; set; }
         public byte? PassedHours { get; set; }

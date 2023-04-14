@@ -159,5 +159,33 @@ namespace FOS.Students.API.Controllers
                 return Problem();
             }
         }
+        [HttpPost("MyRank")]
+        public IActionResult MyRank()
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return BadRequest(new
+                    {
+                        Massage = Resource.InvalidID
+                    });
+
+                Student student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
+                if (student.IsGraduated.HasValue && student.IsGraduated.Value == true)
+                    return Ok(new RankModel{ Rank = null });
+                return Ok(new RankModel { Rank = studentRepo.GetRank(student.Id, student.CurrentProgramId) });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
     }
 }

@@ -28,7 +28,6 @@ namespace FOS.DB.Models
         public byte? PassedHours { get; set; }
         public byte? Level { get; set; }
         public bool? IsGraduated { get; set; }
-        public short? Rank { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsInSpecialProgram { get; set; }
         public int? CurrentProgramId { get; set; }
