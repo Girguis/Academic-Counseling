@@ -160,6 +160,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Course Excuse.
+        /// </summary>
+        public static string CourseExcuse {
+            get {
+                return ResourceManager.GetString("CourseExcuse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Course Overload.
         /// </summary>
         public static string CourseOverload {
@@ -241,11 +250,11 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error Occured While Processing Your Request.
+        ///   Looks up a localized string similar to Error Occurred While Processing Your Request.
         /// </summary>
-        public static string ErrorOccured {
+        public static string ErrorOccurred {
             get {
-                return ResourceManager.GetString("ErrorOccured", resourceCulture);
+                return ResourceManager.GetString("ErrorOccurred", resourceCulture);
             }
         }
         

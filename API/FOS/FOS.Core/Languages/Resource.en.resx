@@ -138,8 +138,8 @@
   <data name="EmptyList" xml:space="preserve">
     <value>The List Can't Be Empty</value>
   </data>
-  <data name="ErrorOccured" xml:space="preserve">
-    <value>Error Occured While Processing Your Request</value>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>Error Occurred While Processing Your Request</value>
   </data>
   <data name="FileNotValid" xml:space="preserve">
     <value>File Is Not Valid</value>
@@ -296,5 +296,8 @@
   </data>
   <data name="NoData" xml:space="preserve">
     <value>No Data Found</value>
+  </data>
+  <data name="CourseExcuse" xml:space="preserve">
+    <value>Course Excuse</value>
   </data>
 </root>

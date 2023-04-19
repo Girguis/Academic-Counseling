@@ -130,7 +130,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model
                     });
                 return Ok();

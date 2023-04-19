@@ -6,7 +6,7 @@ namespace FOS.Doctors.API.Models
     {
         public string Name { get; set; }
         public string Ssn { get; set; }
-        public string SeatNumber { get; set; }
+        public int SeatNumber { get; set; }
         public byte NumberOfSemesters { get; set; }
     }
     public class GuidModel

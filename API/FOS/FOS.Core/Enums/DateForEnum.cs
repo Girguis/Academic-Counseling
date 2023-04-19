@@ -19,6 +19,8 @@ namespace FOS.Core.Enums
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseEnhancement))]
         Enhancement,
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.ProgramTransfer))]
-        ProgramTransfer
+        ProgramTransfer,
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseExcuse))]
+        CourseExcuse
     }
 }

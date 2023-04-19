@@ -141,7 +141,7 @@ namespace FOS.Students.API.Controllers
                     {
                         isBifurcationAvailable = true,
                         Data = desiresList,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new Response
                 {

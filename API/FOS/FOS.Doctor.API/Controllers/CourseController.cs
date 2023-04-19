@@ -100,7 +100,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!savedCourses)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = course
                     });
                 return Ok();
@@ -125,7 +125,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = id
                     });
                 return Ok();
@@ -157,7 +157,7 @@ namespace FOS.Doctors.API.Controllers
                 bool res = courseRepo.Update(id, courseModel);
                 if (!res) return BadRequest(new
                 {
-                    Massage = Resource.ErrorOccured,
+                    Massage = Resource.ErrorOccurred,
                     Data = courseModel
                 });
                 return Ok();
@@ -184,7 +184,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!activated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = courseIDs
                     });
                 return Ok();
@@ -211,7 +211,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!deActivated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = courseIDs
                     });
                 return Ok();
@@ -316,7 +316,7 @@ namespace FOS.Doctors.API.Controllers
                 if (outModel == null)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = new
                         {
                             CourseID = model.CourseID,
@@ -327,7 +327,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = new
                         {
                             CourseID = model.CourseID,
@@ -390,7 +390,7 @@ namespace FOS.Doctors.API.Controllers
                 bool assigned = courseRepo.AssignDoctorsToCourse(model);
                 if (!assigned) return BadRequest(new
                 {
-                    Massage = Resource.ErrorOccured,
+                    Massage = Resource.ErrorOccurred,
                     Data = model
                 });
                 return Ok();
@@ -411,7 +411,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!confirmed)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok();
             }

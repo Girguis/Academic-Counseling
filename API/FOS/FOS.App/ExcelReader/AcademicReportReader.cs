@@ -11,7 +11,7 @@ namespace FOS.App.ExcelReader
 {
     public static class AcademicReportReader
     {
-        public static (string name, string ssn, string seatNumber,
+        public static (string name, string ssn, int seatNumber,
             List<StudentCourse> studentCourses, List<StudentProgramModel> studentPrograms
             , int studentID, byte semesterCounter)
             Read
@@ -31,7 +31,8 @@ namespace FOS.App.ExcelReader
             int rowsCount = ws.Rows().Count();
             var name = ws.Cell("Q9").Value.ToString();
             var ssn = ws.Cell("E12").Value.ToString();
-            var seatNumber = ws.Cell("E9").Value.ToString();
+            var seatparsed = int.TryParse(ws.Cell("E9").Value.ToString(), out int seatNumber);
+            if (!seatparsed) seatNumber = 0;
             short currentYearID = 1;
             int currentProgramID;
             byte semesterCounter = 0;

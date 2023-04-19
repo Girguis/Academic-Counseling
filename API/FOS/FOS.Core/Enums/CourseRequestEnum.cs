@@ -13,7 +13,9 @@ namespace FOS.Core.Enums
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.GraduationCourse))]
         OpenCourse,
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseEnhancement))]
-        Enhancement
+        Enhancement,
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseExcuse))]
+        Excuse
     }
     public enum CourseOperationEnum
     {

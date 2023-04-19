@@ -44,6 +44,9 @@ namespace FOS.Core.Models
         [Range(1, 3)]
         public byte CourseType { get; set; }
         public byte Category { get; set; }
+        public short AddtionYearId { get; set; }
+        public short? DeletionYearId { get; set; }
+
     }
     public class ProgramDistributionModel
     {

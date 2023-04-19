@@ -65,7 +65,7 @@ namespace FOS.Doctors.API.Controllers
                     return BadRequest(new { Massage = Resource.FileNotValid });
                 bool added = studentRepo.Add(students);
                 if (!added)
-                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                    return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok();
             }
             catch (Exception ex)
@@ -111,7 +111,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model.Guid
                     });
                 return Ok();
@@ -136,7 +136,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model.Guid
                     });
                 return Ok();
@@ -196,7 +196,7 @@ namespace FOS.Doctors.API.Controllers
                 var handled = courseRequestRepo.HandleRequest(model.RequestID, model.IsApproved);
                 if (!handled) return BadRequest(new
                 {
-                    Massage = Resource.ErrorOccured
+                    Massage = Resource.ErrorOccurred
                 });
                 return Ok();
             }
@@ -242,7 +242,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!isDeleted)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok();
             }
@@ -334,7 +334,7 @@ namespace FOS.Doctors.API.Controllers
                         Ssn = model.SSN,
                         NumberOfSemesters = model.NumberOfSemesters
                     }.ToDbModel();
-                    student.EnrollYearID = (short)model.ToBeInserted.Min(x => x.AcademicYearID);
+                    student.EnrollYearId = (short)model.ToBeInserted.Min(x => x.AcademicYearID);
                     student = studentRepo.Add(student);
                 }
                 for (int i = 0; i < model.StudentPrograms.Count; i++)
@@ -344,7 +344,7 @@ namespace FOS.Doctors.API.Controllers
                 {
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model
                     });
                 }
@@ -352,7 +352,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!addCourses)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model
                     });
                 return Ok(new
@@ -426,7 +426,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model
                     });
                 return Ok();

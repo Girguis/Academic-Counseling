@@ -28,7 +28,7 @@ namespace FOS.Doctors.API.Controllers
             if (!added)
                 return BadRequest(new
                 {
-                    Massage = Resource.ErrorOccured,
+                    Massage = Resource.ErrorOccurred,
                     Data = question
                 });
             return Ok();

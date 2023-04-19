@@ -17,7 +17,7 @@ namespace FOS.App.Repositories
             this.configuration = configuration;
             this.config = config;
         }
-        public int GetAllowedHoursToRegister(int programID, int studentLevel, int passedHours, int currentSemester)
+        public int? GetAllowedHoursToRegister(int programID, int studentLevel, int passedHours, int currentSemester)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Query", "SELECT * FROM ProgramDistribution WHERE ProgramID=" + programID);
@@ -26,6 +26,8 @@ namespace FOS.App.Repositories
                         (config.CreateInstance(),
                         "QueryExecuter",
                         parameters);
+            if(programDistributions == null || programDistributions.Count <1)
+                return null;
             if (studentLevel == programDistributions.Max(x => x.Level))
             {
                 var obj = programDistributions
@@ -37,10 +39,10 @@ namespace FOS.App.Repositories
             }
             bool parsed = int.TryParse(configuration["HoursToSkip"], out int hoursToSkip);
             if (!parsed) hoursToSkip = 3;
-            if (passedHours + hoursToSkip >= programDistributions.Where(x => x.Level == studentLevel + 1).Sum(x => x.NumberOfHours))
-                return programDistributions.FirstOrDefault(x => x.Level == studentLevel + 1 && x.Semester == currentSemester).NumberOfHours;
+            if (passedHours + hoursToSkip >= programDistributions.Where(x => x.Level == studentLevel + 1)?.Sum(x => x.NumberOfHours))
+                return programDistributions.FirstOrDefault(x => x.Level == studentLevel + 1 && x.Semester == currentSemester)?.NumberOfHours;
             else
-                return programDistributions.FirstOrDefault(x => x.Level == studentLevel && x.Semester == currentSemester).NumberOfHours;
+                return programDistributions.FirstOrDefault(x => x.Level == studentLevel && x.Semester == currentSemester)?.NumberOfHours;
         }
     }
 }

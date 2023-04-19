@@ -28,7 +28,7 @@ namespace FOS.Doctors.API.Controllers
                 if (filePath == null)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 MemoryStream ms = new MemoryStream();
                 using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -64,7 +64,7 @@ namespace FOS.Doctors.API.Controllers
                 filePath = filePath.Replace("\\", "/");
                 bool restored = databaseRepo.Restore(filePath);
                 if (!restored)
-                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                    return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok(new
                 {
                     Massage = Resource.Restored

@@ -166,7 +166,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = doctor
                     });
                 return Ok();
@@ -191,7 +191,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model.Guid
                     });
                 return Ok();
@@ -216,7 +216,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model.Guid
                     });
                 return Ok();
@@ -253,7 +253,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!res)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = supervisorModel
                     });
                 return Ok();
@@ -284,7 +284,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = model
                     });
                 return Ok();
@@ -302,7 +302,7 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 if (!doctorRepo.AssignSupervisorsToStudentsRandomly())
-                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                    return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok();
             }
             catch(Exception ex)

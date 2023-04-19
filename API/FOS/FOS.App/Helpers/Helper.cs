@@ -149,7 +149,7 @@ namespace FOS.App.Helpers
             else
             {
                 if (!student.Cgpa.HasValue || student.Cgpa.Value >= 2)
-                    allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester);
+                    allowedHoursToRegister = programDistributionRepo.GetAllowedHoursToRegister(student.CurrentProgramId.HasValue ? student.CurrentProgramId.Value : 1, student.Level.Value, student.PassedHours.Value, currentSemester) ?? 0;
                 else
                     allowedHoursToRegister = 12;
             }
@@ -159,8 +159,8 @@ namespace FOS.App.Helpers
         {
             List<ElectiveCourseDistribution> optionalCoursesDistribution = optionalCourseRepo
                                                     .GetOptionalCoursesDistibution(studentID)
-                                                    .Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
-                                                    .ToList();
+                                                    ?.Where(x => levels.Any(z => z == x.Level) && semesters.Any(z => z == x.Semester))
+                                                    ?.ToList();
             List<ElectiveCoursesDistribtionOutModel> optionalCoursesDTO = new();
             for (int i = 0; i < optionalCoursesDistribution.Count; i++)
                 optionalCoursesDTO.Add(optionalCoursesDistribution.ElementAt(i).ToDTO());

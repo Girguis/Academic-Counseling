@@ -29,7 +29,7 @@ namespace FOS.Doctors.API.Controllers
                 if (stream == null)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return File(stream,
                     "application/vnd.ms-excel",

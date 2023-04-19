@@ -143,7 +143,7 @@ namespace FOS.Students.API.Controllers
                     return Ok(new Response
                     {
                         isRegistrationAvailable = true,
-                        Massage = Resource.ErrorOccured,
+                        Massage = Resource.ErrorOccurred,
                         Data = courseIDs
                     });
 

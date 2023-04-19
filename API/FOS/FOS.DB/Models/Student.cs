@@ -16,13 +16,13 @@ namespace FOS.DB.Models
         public string Nationality { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public string AcademicCode { get; set; } = null!;
-        public string SeatNumber { get; set; } = null!;
+        public int AcademicCode { get; set; }
+        public string? SeatNumber { get; set; }
         public byte AvailableCredits { get; set; }
         public byte? WarningsNumber { get; set; }
         public int? SupervisorId { get; set; }
         public DateTime CreatedOn { get; set; }
-        public bool IsCrossStudent { get; set; }
+        public bool? IsCrossStudent { get; set; }
         public byte SemestersNumberInProgram { get; set; }
         public decimal? Cgpa { get; set; }
         public byte? PassedHours { get; set; }
@@ -33,12 +33,12 @@ namespace FOS.DB.Models
         public int? CurrentProgramId { get; set; }
         public byte AvailableWithdraws { get; set; }
         public byte AvailableEnhancementCredits { get; set; }
-        public short EnrollYearID { get; set; }
-        public short GraduatedYearID { get; set; }
+        public short EnrollYearId { get; set; }
+        public short? GraduatedYearId { get; set; }
 
         public virtual Program? CurrentProgram { get; set; }
+        public virtual AcademicYear EnrollYear { get; set; } = null!;
+        public virtual AcademicYear? GraduatedYear { get; set; }
         public virtual Doctor? Supervisor { get; set; }
-        public virtual AcademicYear EnrollYear { get; set; }
-        public virtual AcademicYear GraduatedYear { get; set; }
     }
 }

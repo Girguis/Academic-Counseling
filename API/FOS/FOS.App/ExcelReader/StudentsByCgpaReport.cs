@@ -16,7 +16,7 @@ namespace FOS.App.ExcelReader
             Parallel.For(0, groupedStudents.Count(), i =>
             {
                 var studentGroup = groupedStudents.ElementAt(i);
-                var sheetName = studentGroup.Key.Length > 30? studentGroup.Key[..30]:studentGroup.Key;
+                var sheetName = studentGroup.Key.Length > 30 ? studentGroup.Key[..30] : studentGroup.Key;
                 var ws = wb.Worksheets.Add(sheetName);
                 ws.SetRightToLeft();
                 string startCell = "", endCell = "";

@@ -106,7 +106,7 @@ namespace FOS.Students.API.Controllers
                     });
                 bool isDeleted = courseRequestRepo.DeleteRequest(requestID, student.Id);
                 if (!isDeleted)
-                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                    return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok();
             }
             catch (Exception ex)
@@ -163,7 +163,7 @@ namespace FOS.Students.API.Controllers
                     });
                 bool isDeleted = programTransferRequestRepo.DeleteRequest(student.Id);
                 if (!isDeleted)
-                    return BadRequest(new { Massage = Resource.ErrorOccured });
+                    return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok();
             }
             catch (Exception ex)
@@ -199,7 +199,8 @@ namespace FOS.Students.API.Controllers
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var res = studentCoursesRepo.GetCoursesForAddAndDelete(student.Id);
-                var allowedHoursToRegister = Helper.GetAllowedHoursToRegister(academicYearRepo, configuration, student, programDistributionRepo);
+                int? allowedHoursToRegister = Helper.GetAllowedHoursToRegister(academicYearRepo, configuration, student, programDistributionRepo);
+                if (!allowedHoursToRegister.HasValue) allowedHoursToRegister = 0;
                 return Ok(new
                 {
                     IsAvailable = true,
@@ -255,7 +256,7 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new
                 {
@@ -301,8 +302,8 @@ namespace FOS.Students.API.Controllers
                         Massage = Resource.AllWithdrawUsed
                     });
                 var courses = studentCoursesRepo.GetCoursesForWithdraw(student.Id);
-                if (courses.Sum(x => x.CreditHours) - courses.Min(x => x.CreditHours) < 12
-                    || courses.Count < 1)
+                if (courses == null || courses.Count < 1 || 
+                    courses.Sum(x => x.CreditHours) - courses.Min(x => x.CreditHours) < 12)
                     return BadRequest(new
                     {
                         IsAvailable = true,
@@ -365,7 +366,96 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
+                    });
+                return Ok(new
+                {
+                    Massgse = Resource.Done
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return Problem();
+            }
+        }
+        [HttpGet("CoursesExcuse")]
+        public IActionResult CoursesExcuse()
+        {
+            try
+            {
+                string guid = this.Guid();
+                if (string.IsNullOrWhiteSpace(guid))
+                    return NotFound(new
+                    {
+                        isAvailable = false,
+                        Massage = Resource.InvalidID
+                    });
+                if (!dateRepo.IsInRegisrationInterval
+                    ((int)DateForEnum.CourseExcuse)
+                    )
+                    return BadRequest(new
+                    {
+                        isAvailable = false,
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseExcuse)
+                    });
+                var student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
+               var courses = studentCoursesRepo.GetCoursesForWithdraw(student.Id);
+                return Ok(new
+                {
+                    IsAvailable = true,
+                    Courses = courses,
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return Problem();
+            }
+        }
+        [HttpPost("CoursesExcuse")]
+        public IActionResult CoursesExcuse(CoursesLstParamModel model)
+        {
+            try
+            {
+                string guid = this.Guid();
+                var regDate = dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseExcuse);
+                if (string.IsNullOrWhiteSpace(guid))
+                    return NotFound(new
+                    {
+                        IsAvailable = regDate,
+                        Massage = Resource.InvalidID
+                    });
+                if (model.CoursesList == null || model.CoursesList.Count < 1)
+                    return BadRequest(new
+                    {
+                        IsAvailable = regDate,
+                        Massage = Resource.EmptyList
+                    });
+                Student student = studentRepo.Get(guid);
+                if (student == null)
+                    return NotFound(new
+                    {
+                        IsAvailable = regDate,
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
+                if (!regDate)
+                    return BadRequest(new
+                    {
+                        IsAvailable = false,
+                        Massage = string.Format(Resource.NotAvailable, Resource.CourseWithdraw)
+                    });
+                var res = studentCoursesRepo.RequestCourse((int)CourseRequestEnum.Excuse, student.Id, model, (int)CourseOperationEnum.Deletion);
+                if (!res)
+                    return BadRequest(new
+                    {
+                        IsAvailable = true,
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new
                 {
@@ -413,14 +503,13 @@ namespace FOS.Students.API.Controllers
                         IsAvailable = false,
                         Massage = Resource.GpaAbove3
                     });
-                var result = studentCoursesRepo.GetCoursesForOverload(student.Id);
-                var courses = result.courses;
+                var (RegisteredHours, courses, electiveCoursesDistribtion) = studentCoursesRepo.GetCoursesForOverload(student.Id);
                 return Ok(new
                 {
                     IsAvailable = true,
                     Courses = courses,
-                    Distribution = result.electiveCoursesDistribtion,
-                    RegisteredHours = result.RegisteredHours
+                    Distribution = electiveCoursesDistribtion,
+                    RegisteredHours = RegisteredHours
                 });
             }
             catch (Exception ex)
@@ -466,7 +555,7 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new
                 {
@@ -570,7 +659,7 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new
                 {
@@ -675,7 +764,7 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new
                 {
@@ -759,7 +848,7 @@ namespace FOS.Students.API.Controllers
                     return BadRequest(new
                     {
                         IsAvailable = true,
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok(new
                 {

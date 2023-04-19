@@ -26,10 +26,12 @@ namespace FOS.App.Repositories
             coursesLstDt.Columns.Add("PrerequisiteRelationID");
             coursesLstDt.Columns.Add("CourseType");
             coursesLstDt.Columns.Add("Category");
+            coursesLstDt.Columns.Add("AddtionYearID");
+            coursesLstDt.Columns.Add("DeletionYearID");
             for (int i = 0; i < model.CoursesList.Count; i++)
             {
                 var course = model.CoursesList.ElementAt(i);
-                coursesLstDt.Rows.Add(course.CourseId, course.PrerequisiteRelationId, course.CourseType, course.Category);
+                coursesLstDt.Rows.Add(course.CourseId, course.PrerequisiteRelationId, course.CourseType, course.Category, course.AddtionYearId, course.DeletionYearId);
             }
 
             var prerequisiteCoursesLstDt = new DataTable();

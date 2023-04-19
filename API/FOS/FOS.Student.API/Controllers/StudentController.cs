@@ -149,7 +149,7 @@ namespace FOS.Students.API.Controllers
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccured
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok();
             }

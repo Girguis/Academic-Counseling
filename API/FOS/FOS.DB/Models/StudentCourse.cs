@@ -14,6 +14,7 @@ namespace FOS.DB.Models
         public int? Practical { get; set; }
         public string? Grade { get; set; }
         public double? Points { get; set; }
+        public double? QualityPoints { get; set; }
         public bool? IsApproved { get; set; }
         public bool IsGpaincluded { get; set; }
         public bool? IsIncluded { get; set; }

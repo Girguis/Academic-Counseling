@@ -207,7 +207,7 @@ namespace FOS.App.Repositories
             parameters.Add("@SupervisorID", student.SupervisorId);
             parameters.Add("@CreatedOn", student.CreatedOn);
             parameters.Add("@CurrentProgramID", student.CurrentProgramId);
-            parameters.Add("@EnrollYearID", student.EnrollYearID);
+            parameters.Add("@EnrollYearID", student.EnrollYearId);
             parameters.Add("@SemestersNumber", student.SemestersNumberInProgram);
             return QueryExecuterHelper.Execute<Student>(config.CreateInstance(),
                 "AddStudent", parameters).FirstOrDefault();
@@ -363,7 +363,8 @@ namespace FOS.App.Repositories
             parameters.Add("@Level", model.Level);
             parameters.Add("@ProgramID", model.ProgramID);
             parameters.Add("@IsGraduated", model.IsGraduated);
-            parameters.Add("@GraduationYear", string.IsNullOrEmpty(model.GraduationYear) ? null : model.GraduationYear);
+            parameters.Add("@StartGraduationYearID", model.StartGraduationYearID);
+            parameters.Add("@EndGraduationYearID", model.EndGraduationYearID);
             return QueryExecuterHelper.Execute<GetReportByCgpaOutModel>
                 (config.CreateInstance(),
                 "Report_GetStudentsByCGPA",

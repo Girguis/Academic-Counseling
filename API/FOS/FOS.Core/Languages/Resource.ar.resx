@@ -138,7 +138,7 @@
   <data name="EmptyList" xml:space="preserve">
     <value>القائمة المرسلة لا يجب أن تكون فارغة</value>
   </data>
-  <data name="ErrorOccured" xml:space="preserve">
+  <data name="ErrorOccurred" xml:space="preserve">
     <value>حدث خطأ أثناء معالجة طلبك</value>
   </data>
   <data name="FileNotValid" xml:space="preserve">
@@ -181,7 +181,7 @@
     <value>لقد استنفذت كل فرص الانسحاب</value>
   </data>
   <data name="CantWithdraw" xml:space="preserve">
-    <value>لا يمكنك الانسحاب من أي مقرر</value>
+    <value>لا يمكنك الانسحاب من اي مقرر</value>
   </data>
   <data name="NotEnoughWithdrawChances" xml:space="preserve">
     <value>لقد طلبت الانسحاب من {0} مقرر بينما الانسحاب من {1} مقررات فقط</value>
@@ -193,7 +193,7 @@
     <value>المعدل الفصلى لأخر ترم يجب أن يكون أكبر من أو يساوى 3</value>
   </data>
   <data name="CantEnrollEnhancementCourse" xml:space="preserve">
-    <value>لا يمكنك التسجيل لمقرر تحسيب</value>
+    <value>لا يمكنك التسجيل لمقرر تحسين</value>
   </data>
   <data name="NoEnhancementCredit" xml:space="preserve">
     <value>لا يوجد لديك فرص أخرى للتحسين</value>
@@ -296,5 +296,8 @@
   </data>
   <data name="NoData" xml:space="preserve">
     <value>لا يوجد بيانات</value>
+  </data>
+  <data name="CourseExcuse" xml:space="preserve">
+    <value>عذر</value>
   </data>
 </root>

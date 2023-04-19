@@ -7,6 +7,7 @@
         public byte? Level { get; set; }
         public int ProgramID { get; set; }
         public bool IsGraduated { get; set; }
-        public string? GraduationYear { get; set; }
+        public byte? StartGraduationYearID { get; set; }
+        public byte? EndGraduationYearID { get; set; }
     }
 }
