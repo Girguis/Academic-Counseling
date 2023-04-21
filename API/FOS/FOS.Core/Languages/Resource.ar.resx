@@ -300,4 +300,7 @@
   <data name="CourseExcuse" xml:space="preserve">
     <value>عذر</value>
   </data>
+  <data name="Final" xml:space="preserve">
+    <value>امتحان نهائى</value>
+  </data>
 </root>

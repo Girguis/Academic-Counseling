@@ -75,7 +75,7 @@ namespace FOS.App.Repositories
         public List<Course> GetAll()
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@Query", "SELECT * FROM Course");
+            parameters.Add("@Query", "SELECT ID,CourseCode,CourseName,Level,Semester,CreditHours FROM Course");
             return QueryExecuterHelper.Execute<Course>(config.CreateInstance(),
                 "QueryExecuter", parameters);
         }

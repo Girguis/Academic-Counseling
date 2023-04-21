@@ -191,10 +191,10 @@ namespace FOS.App.Repositories
             outModel.Students = result.Read<StudentMarkOutModel>().ToList();
             return outModel;
         }
-        public ExamCommitteeStudentsOutModel GetStudentsList(StudentsExamParamModel model)
+        public ExamCommitteeStudentsOutModel GetStudentsList(int CourseID)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@CourseID", model.CourseID);
+            parameters.Add("@CourseID", CourseID);
             using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_ExamCommitteeStudents", parameters, commandType: CommandType.StoredProcedure);
             ExamCommitteeStudentsOutModel outModel = new ExamCommitteeStudentsOutModel();

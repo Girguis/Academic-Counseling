@@ -50,6 +50,12 @@ namespace FOS.Core.Models
     }
     public class ProgramDistributionModel
     {
+        public ProgramDistributionModel(byte level, byte semester, byte numberOfHours)
+        {
+            Level = level;
+            Semester = semester;
+            NumberOfHours = numberOfHours;
+        }
         [Range(1, 10)]
         public byte Level { get; set; }
         [Range(1, 2)]

@@ -286,6 +286,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Final Exam.
+        /// </summary>
+        public static string Final {
+            get {
+                return ResourceManager.GetString("Final", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Level.
         /// </summary>
         public static string First {

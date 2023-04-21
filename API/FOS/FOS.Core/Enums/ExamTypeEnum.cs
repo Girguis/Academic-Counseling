@@ -6,7 +6,7 @@ namespace FOS.Core.Enums
     public enum ExamTypeEnum
     {
         [Description("امتحان نهائى")]
-        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Practical))]
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.Final))]
         Final = 1,
         [Description("أعمال فصلية")]
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.YearWork))]

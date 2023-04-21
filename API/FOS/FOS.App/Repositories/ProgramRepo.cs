@@ -84,6 +84,11 @@ namespace FOS.App.Repositories
                 "AddProgram", parameters);
         }
 
+        public List<string> GetAllProgramsNames()
+        {
+            return config.CreateInstance().Query<string>("SELECT Name FROM Program").ToList();
+        }
+
         /// <summary>
         /// Method to get details of a certain program by id
         /// </summary>

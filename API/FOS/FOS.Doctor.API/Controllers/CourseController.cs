@@ -343,25 +343,30 @@ namespace FOS.Doctors.API.Controllers
             }
         }
 
-        [HttpPost("CreateCommitteePDF")]
-        public IActionResult CreateCommitteePDF(StudentsExamParamModel model)
+        [HttpGet("CreateCommitteePDF/{CourseID}/{ExamType}")]
+        public IActionResult CreateCommitteePDF(int CourseID, int ExamType)
         {
             try
             {
-                var result = studentCoursesRepo.GetStudentsList(model);
-                if (result.Course == null) return NotFound();
-                if (!Helper.HasThisTypeOfExam(model.ExamType, result.Course))
+                if (!(ExamType >= 1 && ExamType <= 4))
+                    return BadRequest(new { Massage = Resource.InvalidData });
+                var course = courseRepo.GetById(CourseID);
+                if (course == null)
+                    return NotFound();
+                if (!Helper.HasThisTypeOfExam(ExamType, course))
                     return BadRequest(new
                     {
-                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)model.ExamType))
+                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)ExamType))
                     });
+
+                var result = studentCoursesRepo.GetStudentsList(CourseID);
                 if (result.Students.Count < 1)
                     return NotFound(new
                     {
                         Massage = Resource.NoData
                     });
                 var bytes = ExamCommitteesReport.CreateExamCommitteesPdf(result,
-                    Helper.GetDescription((ExamTypeEnum)model.ExamType));
+                    Helper.GetDescription((ExamTypeEnum)ExamType));
                 return File(bytes,
                     "application/pdf",
                     string.Concat(result.Course.CourseCode, "_", result.Course.CourseName, "_Committees", ".pdf")

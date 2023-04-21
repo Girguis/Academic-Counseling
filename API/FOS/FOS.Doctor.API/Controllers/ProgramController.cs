@@ -1,10 +1,13 @@
-﻿using FOS.Core.Languages;
+﻿using ClosedXML.Excel;
+using FOS.App.ExcelReader;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
@@ -15,11 +18,35 @@ namespace FOS.Doctors.API.Controllers
     {
         private readonly ILogger<ProgramController> logger;
         private readonly IProgramRepo programRepo;
+        private readonly ICourseRepo courseRepo;
+        private readonly IAcademicYearRepo academicYearRepo;
 
-        public ProgramController(ILogger<ProgramController> logger, IProgramRepo programRepo)
+        public ProgramController(ILogger<ProgramController> logger,
+            IProgramRepo programRepo,
+            ICourseRepo courseRepo,
+            IAcademicYearRepo academicYearRepo)
         {
             this.logger = logger;
             this.programRepo = programRepo;
+            this.courseRepo = courseRepo;
+            this.academicYearRepo = academicYearRepo;
+        }
+        [HttpGet("GetProgramAddTemplate")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult GetProgramAddTemplate()
+        {
+            try
+            {
+                var stream = ProgramSheet.Create(programRepo.GetAllProgramsNames(), courseRepo.GetAll(), academicYearRepo.GetAcademicYearsList());
+                return File(stream,
+                            "application/vnd.ms-excel",
+                            "ProgramTemplate.xlsx");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
         }
 
         [HttpPost("Add")]
@@ -28,6 +55,36 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
+                var res = programRepo.AddProgram(model);
+                if (!res)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.ErrorOccurred,
+                        Data = model
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("AddNewProgramViaExcel")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult AddNewProgramViaExcel(IFormFile file)
+        {
+            try
+            {
+                if (file == null || file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
+                    return BadRequest(new { Massage = Resource.FileNotValid });
+                MemoryStream ms = new();
+                file.OpenReadStream().CopyTo(ms);
+                var wb = new XLWorkbook(ms);
+                ms.Close();
+                var model = ProgramSheet.Read(wb, programRepo.GetPrograms(), courseRepo.GetAll(), academicYearRepo.GetAcademicYearsList());
+                if (model == null)
+                    return BadRequest(new { Massage = Resource.InvalidData });
                 var res = programRepo.AddProgram(model);
                 if (!res)
                     return BadRequest(new

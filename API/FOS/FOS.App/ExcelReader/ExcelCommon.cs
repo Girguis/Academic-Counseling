@@ -1,9 +1,21 @@
 ﻿using ClosedXML.Excel;
+using FOS.Core.Enums;
 
 namespace FOS.App.ExcelReader
 {
-    public class ExcelCommon
+    public static class ExcelCommon
     {
+        public static byte GetCellValueAsByte(this IXLWorksheet ws, string cellAddress, byte defaultValue = 0)
+        {
+            if (!byte.TryParse(ws.Cell(cellAddress).Value.ToString(), out byte cellValue))
+                return defaultValue;
+            return cellValue;
+        }
+        public static void SetFont(this IXLWorksheet ws, int size)
+        {
+            ws.Style.Font.FontSize = size;
+            ws.Style.Font.FontName = "calibri";
+        }
         public static void CreateTable(IXLWorksheet ws, IXLRange range,bool locktable = true)
         {
             var table = range.CreateTable();
@@ -15,16 +27,18 @@ namespace FOS.App.ExcelReader
             ws.Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
             ws.Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
             if (locktable)
-            {
-                ws.Range(1, 1, ws.LastRow().RangeAddress.RowSpan, ws.LastColumn().RangeAddress.ColumnSpan).Style.Protection.SetLocked(true);
-                ws.Protect("G2001G", XLProtectionAlgorithm.Algorithm.SHA512,
-                    XLSheetProtectionElements.SelectUnlockedCells
-                    | XLSheetProtectionElements.AutoFilter
-                    | XLSheetProtectionElements.SelectLockedCells
-                    | XLSheetProtectionElements.Sort
-                    );
-            }
+                ws.LockRange(1, 1, ws.LastRow().RangeAddress.RowSpan, ws.LastColumn().RangeAddress.ColumnSpan);
             ws.Columns().AdjustToContents();
+        }
+        public static void LockRange(this IXLWorksheet ws, int firstCellRow, int firstCellColumn, int lastCellRow, int lastCellColumn)
+        {
+            ws.Range(firstCellRow, firstCellColumn, lastCellRow, lastCellColumn).Style.Protection.SetLocked(true);
+            ws.Protect("G2001G", XLProtectionAlgorithm.Algorithm.SHA512,
+                XLSheetProtectionElements.SelectUnlockedCells
+                | XLSheetProtectionElements.AutoFilter
+                | XLSheetProtectionElements.SelectLockedCells
+                | XLSheetProtectionElements.Sort
+                );
         }
         public static Stream SaveAsStream(IXLWorkbook wb)
         {
@@ -32,6 +46,14 @@ namespace FOS.App.ExcelReader
             wb.SaveAs(stream);
             stream.Seek(0, SeekOrigin.Begin);
             return stream;
+        }
+        public static void SetRangeColor(IXLWorksheet ws,string range,XLColor color)
+        {
+            ws.Range(range).Style.Fill.BackgroundColor = color;
+        }
+        public static void SetCellColor(IXLWorksheet ws, string cell, XLColor color)
+        {
+            ws.Cell(cell).Style.Fill.BackgroundColor = color;
         }
     }
 }
