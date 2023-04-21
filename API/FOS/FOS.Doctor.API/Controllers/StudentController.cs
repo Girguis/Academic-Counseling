@@ -51,6 +51,22 @@ namespace FOS.Doctors.API.Controllers
             this.courseRequestRepo = courseRequestRepo;
             this.programTransferRequestRepo = programTransferRequestRepo;
         }
+        [HttpGet("GetNewStudentAddTemplate")]
+        public IActionResult GetNewStudentAddTemplate()
+        {
+            try
+            {
+                var stream = StudentsAddSheet.Create(programRepo.GetAllProgramsNames(1));
+                return File(stream,
+                    "application/vnd.ms-excel",
+                    "NewStudentsAddTemplate.xlsx");
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
         [HttpPost("AddNewStudentsViaExcel")]
         public IActionResult AddNewStudentsViaExcel(IFormFile file)
         {

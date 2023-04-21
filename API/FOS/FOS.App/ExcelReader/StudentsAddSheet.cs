@@ -68,5 +68,14 @@ namespace FOS.App.ExcelReader
             }
             return dt;
         }
+        public static Stream Create(List<string> programs)
+        {
+            var wb = new XLWorkbook("ExcelTemplates/StudentsAddTemplate.xlsx");
+            wb.TryGetWorksheet("البرامج المتاحه", out IXLWorksheet programsWs);
+            programsWs.Tables.FirstOrDefault()?.ReplaceData(programs);
+            programsWs.SetFont(16);
+            programsWs.LockRange(1, 1, programs.Count + 1, 1);
+            return ExcelCommon.SaveAsStream(wb);
+        }
     }
 }

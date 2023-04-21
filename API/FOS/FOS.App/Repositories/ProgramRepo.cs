@@ -84,9 +84,12 @@ namespace FOS.App.Repositories
                 "AddProgram", parameters);
         }
 
-        public List<string> GetAllProgramsNames()
+        public List<string> GetAllProgramsNames(int? startSemester = null)
         {
-            return config.CreateInstance().Query<string>("SELECT Name FROM Program").ToList();
+            if (startSemester == null)
+                return config.CreateInstance().Query<string>("SELECT Name FROM Program").ToList();
+            else
+                return config.CreateInstance().Query<string>("SELECT Name FROM Program WHERE Semester = " + startSemester.Value).ToList();
         }
 
         /// <summary>

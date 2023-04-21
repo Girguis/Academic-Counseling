@@ -260,7 +260,7 @@ namespace FOS.App.ExcelReader
         }
         private static IXLWorkbook GetTemplate()
         {
-            return new XLWorkbook("Program Template.xlsx");
+            return new XLWorkbook("ExcelTemplates/Program Template.xlsx");
         }
         private static IXLWorkbook GetSheetReady(List<string> programs, List<Course> courses,
                                                  List<AcademicYear> academicYears)

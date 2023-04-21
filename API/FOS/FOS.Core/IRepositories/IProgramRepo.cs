@@ -10,7 +10,7 @@ namespace FOS.Core.IRepositories
         ProgramBasicDataDTO GetProgram(int id);
         List<ProgramBasicDataDTO> GetPrograms(out int totalCount, SearchCriteria criteria);
         List<ProgramBasicDataDTO> GetPrograms(int? superProgID = null);
-        List<string> GetAllProgramsNames();
+        List<string> GetAllProgramsNames(int? startSemester = null);
         bool AddProgram(ProgramModel model);
         bool UpdateProgramBasicData(ProgramBasicDataUpdateParamModel model);
     }
