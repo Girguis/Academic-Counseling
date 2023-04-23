@@ -7,6 +7,7 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace FOS.Doctors.API.Controllers
 {
@@ -100,6 +101,53 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
+        [HttpGet("GetProgramExcel/{id}")]
+        public IActionResult GetProgramExcel(int id)
+        {
+            try
+            {
+                var program = programRepo.GetProgramDetails(id);
+                if (program.BasicData == null)
+                    return NotFound();
+                var stream = ProgramSheet.Create(program, programRepo.GetAllProgramsNames(), courseRepo.GetAll(), academicYearRepo.GetAcademicYearsList());
+                return File(stream,
+                         "application/vnd.ms-excel",
+                         program.BasicData.Name + "_Data.xlsx");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("UpdateProgramViaExcel/{programID}")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult UpdateProgramViaExcel(int programID, IFormFile file)
+        {
+            try
+            {
+                var program = programRepo.GetProgram(programID);
+                if (program == null) return NotFound();
+                if (file == null || file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
+                    return BadRequest(new { Massage = Resource.FileNotValid });
+                MemoryStream ms = new();
+                file.OpenReadStream().CopyTo(ms);
+                var wb = new XLWorkbook(ms);
+                ms.Close();
+                var model = ProgramSheet.Read(wb, programRepo.GetPrograms(), courseRepo.GetAll(), academicYearRepo.GetAcademicYearsList());
+                if (model == null)
+                    return BadRequest(new { Massage = Resource.InvalidData });
+                bool updated = programRepo.UpdateProgram(programID, model);
+                if (!updated) return BadRequest(new { Massage = Resource.ErrorOccurred });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        
         [HttpGet("Get/{id}")]
         public IActionResult Get(int id)
         {

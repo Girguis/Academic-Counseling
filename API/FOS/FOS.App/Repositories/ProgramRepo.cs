@@ -4,7 +4,9 @@ using FOS.Core;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
+using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
+using FOS.DB.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -18,8 +20,7 @@ namespace FOS.App.Repositories
         {
             this.config = config;
         }
-
-        public bool AddProgram(ProgramModel model)
+        private static DataTable GetCoursesListDT(List<ProgramCourseModel> coursesList)
         {
             var coursesLstDt = new DataTable();
             coursesLstDt.Columns.Add("CourseID");
@@ -28,44 +29,56 @@ namespace FOS.App.Repositories
             coursesLstDt.Columns.Add("Category");
             coursesLstDt.Columns.Add("AddtionYearID");
             coursesLstDt.Columns.Add("DeletionYearID");
-            for (int i = 0; i < model.CoursesList.Count; i++)
+            for (int i = 0; i < coursesList.Count; i++)
             {
-                var course = model.CoursesList.ElementAt(i);
+                var course = coursesList.ElementAt(i);
                 coursesLstDt.Rows.Add(course.CourseId, course.PrerequisiteRelationId, course.CourseType, course.Category, course.AddtionYearId, course.DeletionYearId);
             }
-
+            return coursesLstDt;
+        }
+        private static DataTable GetPrerequisiteCoursesListDT(List<PrerequisiteCourseModel> prerequisiteCoursesList)
+        {
             var prerequisiteCoursesLstDt = new DataTable();
             prerequisiteCoursesLstDt.Columns.Add("CourseID");
             prerequisiteCoursesLstDt.Columns.Add("PrerequisiteCourseID");
-            for (int i = 0; i < model.PrerequisiteCoursesList.Count; i++)
+            for (int i = 0; i < prerequisiteCoursesList.Count; i++)
             {
-                var prereqCourse = model.PrerequisiteCoursesList.ElementAt(i);
+                var prereqCourse = prerequisiteCoursesList.ElementAt(i);
                 prerequisiteCoursesLstDt.Rows.Add(prereqCourse.CourseId, prereqCourse.PrerequisiteCourseId);
             }
-
+            return prerequisiteCoursesLstDt;
+        }
+        private static DataTable GetProgramDistributionDT(List<ProgramDistributionModel> programHoursDistributionList)
+        {
             var programDistributionLstDt = new DataTable();
             programDistributionLstDt.Columns.Add("Level");
             programDistributionLstDt.Columns.Add("Semester");
             programDistributionLstDt.Columns.Add("NumberOfHours");
-            for (int i = 0; i < model.ProgramHoursDistributionList.Count; i++)
+            for (int i = 0; i < programHoursDistributionList.Count; i++)
             {
-                var progDist = model.ProgramHoursDistributionList.ElementAt(i);
+                var progDist = programHoursDistributionList.ElementAt(i);
                 programDistributionLstDt.Rows.Add(progDist.Level, progDist.Semester, progDist.NumberOfHours);
             }
-
+            return programDistributionLstDt;
+        }
+        private static DataTable GetElectiveCoursesHoursDistributionDT(List<ElectiveCoursesDistributionModel> electiveCoursesDistributionList)
+        {
             var electiveCourseDistributionLstDt = new DataTable();
             electiveCourseDistributionLstDt.Columns.Add("Level");
             electiveCourseDistributionLstDt.Columns.Add("Semester");
             electiveCourseDistributionLstDt.Columns.Add("CourseType");
             electiveCourseDistributionLstDt.Columns.Add("Category");
             electiveCourseDistributionLstDt.Columns.Add("Hour");
-            for (int i = 0; i < model.ElectiveCoursesDistributionList.Count; i++)
+            for (int i = 0; i < electiveCoursesDistributionList.Count; i++)
             {
-                var elecCourse = model.ElectiveCoursesDistributionList.ElementAt(i);
+                var elecCourse = electiveCoursesDistributionList.ElementAt(i);
                 electiveCourseDistributionLstDt.Rows.Add(elecCourse.Level, elecCourse.Semester, elecCourse.CourseType, elecCourse.Category, elecCourse.Hour);
             }
-
-            List<SqlParameter> parameters = new List<SqlParameter>() {
+            return electiveCourseDistributionLstDt;
+        }
+        private static List<SqlParameter> GetStoredProcedureParameter(ProgramModel model)
+        {
+            return new List<SqlParameter>() {
                 new SqlParameter("@Name", model.programData.Name),
                 new SqlParameter("@SuperProgramID", model.programData.SuperProgramID),
                 new SqlParameter("@Semester", model.programData.Semester),
@@ -75,11 +88,15 @@ namespace FOS.App.Repositories
                 new SqlParameter("@TotalHours", model.programData.TotalHours),
                 new SqlParameter("@EnglishName", model.programData.EnglishName),
                 new SqlParameter("@ArabicName", model.programData.ArabicName),
-                QueryExecuterHelper.DataTableToSqlParameter(coursesLstDt,"CoursesList","ProgramCoursesType"),
-                QueryExecuterHelper.DataTableToSqlParameter(prerequisiteCoursesLstDt,"PrerequisiteCoursesList","PrerequisiteCoursesType"),
-                QueryExecuterHelper.DataTableToSqlParameter(programDistributionLstDt,"ProgramDistributionList","ProgramDistributionType"),
-                QueryExecuterHelper.DataTableToSqlParameter(electiveCourseDistributionLstDt,"ElectiveCourseDistributionList","ElectiveCourseDistributionType"),
+                QueryExecuterHelper.DataTableToSqlParameter(GetCoursesListDT(model.CoursesList),"CoursesList","ProgramCoursesType"),
+                QueryExecuterHelper.DataTableToSqlParameter(GetPrerequisiteCoursesListDT(model.PrerequisiteCoursesList),"PrerequisiteCoursesList","PrerequisiteCoursesType"),
+                QueryExecuterHelper.DataTableToSqlParameter(GetProgramDistributionDT(model.ProgramHoursDistributionList),"ProgramDistributionList","ProgramDistributionType"),
+                QueryExecuterHelper.DataTableToSqlParameter(GetElectiveCoursesHoursDistributionDT(model.ElectiveCoursesDistributionList),"ElectiveCourseDistributionList","ElectiveCourseDistributionType"),
             };
+        }
+        public bool AddProgram(ProgramModel model)
+        {
+            var parameters = GetStoredProcedureParameter(model);
             return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "AddProgram", parameters);
         }
@@ -132,7 +149,13 @@ namespace FOS.App.Repositories
             totalCount = QueryExecuterHelper.GetTotalCountParamValue(parameters, programs);
             return programs;
         }
-
+        public bool UpdateProgram(int id, ProgramModel model)
+        {
+            var parameters = GetStoredProcedureParameter(model);
+            parameters.Add(new SqlParameter("@ProgramID", id));
+            return QueryExecuterHelper.Execute(config.CreateInstance(),
+                "UpdateFullProgram", parameters);
+        }
         public bool UpdateProgramBasicData(ProgramBasicDataUpdateParamModel model)
         {
             List<SqlParameter> parameters = new List<SqlParameter>()
@@ -151,6 +174,21 @@ namespace FOS.App.Repositories
                 parameters.Add(new SqlParameter("@SuperProgramId", model.SuperProgramId.Value));
             return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "UpdateProgramBasicData", parameters);
+        }
+
+        public ProgramDetailsOutModel GetProgramDetails(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProgramID", id);
+            var con = config.CreateInstance();
+            var queryResult = con.QueryMultiple("GetProgramDetails", parameters, commandType: CommandType.StoredProcedure);
+            ProgramDetailsOutModel model = new()
+            {
+                BasicData = queryResult.ReadFirstOrDefault<ProgramBasicDataDTO>(),
+                ProgramHoursDistribution = queryResult.Read<ProgramDistribution>()?.ToList(),
+                Courses = queryResult.Read<CoursesDetailsForExcel>()?.ToList()
+            };
+            return model;
         }
     }
 }
