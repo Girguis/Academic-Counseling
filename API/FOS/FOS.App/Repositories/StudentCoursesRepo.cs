@@ -369,25 +369,40 @@ namespace FOS.App.Repositories
             return levels;
         }
 
-        public IEnumerable<dynamic> GetStudentsForAnalysis()
+        public IEnumerable<dynamic> GetStudentsForAnalysis(short startYearID, short endYearID)
         {
-            return config.CreateInstance().Query("[dbo].[AnalysisTeam_StudentsBasicData]",
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StartYear", startYearID);
+            parameters.Add("@EndYear", endYearID);
+            return config.CreateInstance().Query("[dbo].[AnalysisTeam_StudentsBasicData]",param: parameters,
                 commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<dynamic> GetStudentsGpasForAnalysis()
+        public IEnumerable<dynamic> GetStudentsGpasForAnalysis(short startYearID, short endYearID)
         {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StartYear", startYearID);
+            parameters.Add("@EndYear", endYearID);
             return config.CreateInstance().Query("[dbo].[AnalysisTeam_StudentsSemestersGpa]",
+                parameters,
                 commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<dynamic> GetDoctorsCoursesForAnalysis()
+        public IEnumerable<dynamic> GetDoctorsCoursesForAnalysis(short startYearID, short endYearID)
         {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StartYear", startYearID);
+            parameters.Add("@EndYear", endYearID);
             return config.CreateInstance().Query("[dbo].[AnalysisTeam_CoursesAndTheirDoctors]",
+                parameters,
                 commandType: CommandType.StoredProcedure);
         }
-        public IEnumerable<dynamic> GetStudentsCoursesForAnalysis()
+        public IEnumerable<dynamic> GetStudentsCoursesForAnalysis(short startYearID, short endYearID)
         {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StartYear", startYearID);
+            parameters.Add("@EndYear", endYearID);
             return config.CreateInstance()
                 .Query("[dbo].[AnalysisTeam_StudentsCoursesDetails]",
+                parameters,
                 commandType: CommandType.StoredProcedure);
         }
         

@@ -44,111 +44,126 @@ namespace FOS.App.ExcelReader
             wb.Worksheets.TryGetWorksheet("المقررات الإجبارية", out var mandetoryCoursesWs);
             if (mandetoryCoursesWs == null) return null;
             var modifiedCoursesList = programData.Courses
-                .Select(x => new
+                .Select(x => new CoursesExcelFormat
                 {
-                    x.CourseCode,
-                    x.Level,
-                    x.Semester,
-                    x.CourseType,
-                    x.Category,
-                    x.CreditHours,
+                    CourseCode = x.CourseCode,
+                    Level = x.Level,
+                    Semester = x.Semester,
+                    CourseType = x.CourseType,
+                    Category = x.Category,
+                    CreditHours = x.CreditHours,
                     PrerequisiteRelation = GetPrerequisiteRelationName(x.PrerequisiteRelationID),
-                    x.Prerequisites,
+                    Prerequisites = x.Prerequisites,
                     AddtionYear = GetYearName(academicYears, x.AddtionYearID),
                     DeletionYear = GetYearName(academicYears, x.DeletionYearID),
-                    x.AllowedHours
+                    AllowedHours = x.AllowedHours
                 });
-            var mandetoryCourses = modifiedCoursesList
-                                .Where(x => x.CourseType == (byte)CourseTypeEnum.Mandetory);
-            var groupedElectiveCourses = modifiedCoursesList
-                                .Where(x => x.CourseType == (byte)CourseTypeEnum.Elective)
-                                .GroupBy(x => new { x.Level, x.Semester, x.CourseType, x.Category });
-            var groupedUniCourses = modifiedCoursesList
-                                .Where(x => x.CourseType == (byte)CourseTypeEnum.UniversityRequirement)
-                                .GroupBy(x => new { x.Level, x.Semester, x.CourseType, x.Category });
 
-            var mandetoryCoursesCount = mandetoryCourses.Count();
-            var tableRowsCount = mandetoryCoursesWs.Table(0).RowCount() - 1;
-            if (tableRowsCount < mandetoryCoursesCount)
-            {
-                var baseRow = mandetoryCoursesWs.Table(0).Row(2);
-                for (int i = 0; i < mandetoryCoursesCount - tableRowsCount + 1; i++)
-                {
-                    mandetoryCoursesWs.Table(0).InsertRowsBelow(1);
-                    baseRow.CopyTo(mandetoryCoursesWs.Table(0).Row(i + 3));
-                }
-            }
-            for (int i = 0; i < mandetoryCoursesCount; i++)
-            {
-                mandetoryCoursesWs.Cell("A" + (i + 2)).Value = mandetoryCourses.ElementAt(i).CourseCode;
-                mandetoryCoursesWs.Cell("C" + (i + 2)).Value = mandetoryCourses.ElementAt(i).PrerequisiteRelation;
-                mandetoryCoursesWs.Cell("D" + (i + 2)).Value = mandetoryCourses.ElementAt(i).Prerequisites;
-                mandetoryCoursesWs.Cell("E" + (i + 2)).Value = mandetoryCourses.ElementAt(i).AddtionYear;
-                mandetoryCoursesWs.Cell("F" + (i + 2)).Value = mandetoryCourses.ElementAt(i).DeletionYear;
-            }
+            mandetoryCoursesWs.PrepareCoursesSheet(modifiedCoursesList, CourseTypeEnum.Mandetory);
+
             wb.Worksheets.TryGetWorksheet("المقررات الاختيارية", out var electiveCoursesWs);
             if (electiveCoursesWs == null) return null;
-            var electiveWsTables = electiveCoursesWs.Tables;
-            var tblIndex = 0;
-            for (int i = 0; i < groupedElectiveCourses.Count(); i++)
-            {
-                var electiveCourses = groupedElectiveCourses.ElementAt(i);
-                var electiveCoursesCount = electiveCourses.Count();
-                tableRowsCount = electiveCoursesWs.Table(tblIndex).RowCount() - 1;
-                var baseRow = electiveCoursesWs.Table(tblIndex).Row(2);
-                var rowNo = baseRow.RangeAddress.FirstAddress.RowNumber;
-                if (tableRowsCount < electiveCoursesCount)
-                    for (int j = 0; j < electiveCoursesCount - tableRowsCount + 1; j++)
-                    {
-                        electiveWsTables.ElementAt(tblIndex).InsertRowsBelow(1);
-                        baseRow.CopyTo(electiveCoursesWs.Table(tblIndex).Row(j + 3));
-                    }
-                electiveCoursesWs.Cell("D" + (rowNo - 2)).Value = electiveCourses.ElementAt(0).AllowedHours ?? electiveCourses.Sum(x => x.CreditHours);
-                for (int j = 0; j < electiveCoursesCount; j++)
-                {
-                    electiveCoursesWs.Cell("A" + rowNo).Value = electiveCourses.ElementAt(j).CourseCode;
-                    electiveCoursesWs.Cell("C" + rowNo).Value = electiveCourses.ElementAt(j).PrerequisiteRelation;
-                    electiveCoursesWs.Cell("D" + rowNo).Value = electiveCourses.ElementAt(j).Prerequisites;
-                    electiveCoursesWs.Cell("E" + rowNo).Value = electiveCourses.ElementAt(j).AddtionYear;
-                    electiveCoursesWs.Cell("F" + rowNo).Value = electiveCourses.ElementAt(j).DeletionYear;
-                    rowNo++;
-                }
-                tblIndex++;
-            }
+            electiveCoursesWs.PrepareCoursesSheet(modifiedCoursesList, CourseTypeEnum.Elective);
 
             wb.Worksheets.TryGetWorksheet("مقررات متطلب الجامعة", out var uniCoursesWs);
             if (uniCoursesWs == null) return null;
-            var uniWsTables = uniCoursesWs.Tables;
-            tblIndex = 0;
-            for (int i = 0; i < groupedUniCourses.Count(); i++)
-            {
-                var uniCourses = groupedUniCourses.ElementAt(i);
-                var uniCoursesCount = uniCourses.Count();
-                tableRowsCount = uniCoursesWs.Table(tblIndex).RowCount() - 1;
-                var baseRow = uniCoursesWs.Table(tblIndex).Row(2);
-                var rowNo = baseRow.RangeAddress.FirstAddress.RowNumber;
-                if (tableRowsCount < uniCoursesCount)
-                    for (int j = 0; j < uniCoursesCount - tableRowsCount + 1; j++)
-                    {
-                        uniWsTables.ElementAt(tblIndex).InsertRowsBelow(1);
-                        baseRow.CopyTo(uniCoursesWs.Table(tblIndex).Row(j + 3));
-                    }
-                uniCoursesWs.Cell("D" + (rowNo - 2)).Value = uniCourses.ElementAt(0).AllowedHours ?? uniCourses.Sum(x => x.CreditHours);
-                for (int j = 0; j < uniCoursesCount; j++)
-                {
-                    uniCoursesWs.Cell("A" + rowNo).Value = uniCourses.ElementAt(j).CourseCode;
-                    uniCoursesWs.Cell("C" + rowNo).Value = uniCourses.ElementAt(j).PrerequisiteRelation;
-                    uniCoursesWs.Cell("D" + rowNo).Value = uniCourses.ElementAt(j).Prerequisites;
-                    uniCoursesWs.Cell("E" + rowNo).Value = uniCourses.ElementAt(j).AddtionYear;
-                    uniCoursesWs.Cell("F" + rowNo).Value = uniCourses.ElementAt(j).DeletionYear;
-                    rowNo++;
-                }
-                tblIndex++;
-            }
+            uniCoursesWs.PrepareCoursesSheet(modifiedCoursesList, CourseTypeEnum.UniversityRequirement);
+
             mandetoryCoursesWs.Columns().AdjustToContents();
+            mandetoryCoursesWs.SetTabSelected(false);
+
             electiveCoursesWs.Columns().AdjustToContents();
+            electiveCoursesWs.SetTabSelected(false);
+
             uniCoursesWs.Columns().AdjustToContents();
+            uniCoursesWs.SetTabSelected(false);
+
+            wb.Worksheets.ElementAt(0).SetTabSelected(true).TabActive = true;
             return ExcelCommon.SaveAsStream(wb);
+        }
+        public static void AddExtraRowsToTable(this IXLTable table, int coursesCount, int tableRowsCounts)
+        {
+            var baseRow = table.Row(2);
+            for (int i = 0; i < coursesCount - tableRowsCounts + 1; i++)
+            {
+                var address = table.InsertRowsBelow(1);
+                address.First().Cell(2).FormulaA1 = "=IFERROR(VLOOKUP(A" + address.First().RowNumber() + ",Course_Code_Name,2,0),\"\")";
+                baseRow.CopyTo(table.Row(i + 3));
+            }
+        }
+        public static void PrepareCoursesSheet(this IXLWorksheet ws, IEnumerable<CoursesExcelFormat> courses, CourseTypeEnum courseType)
+        {
+            if (courseType == CourseTypeEnum.Mandetory)
+            {
+                courses = courses
+                                .Where(x => x.CourseType == (byte)courseType);
+                var tableRowsCount = ws.Table(0).RowCount() - 1;
+                var coursesCount = courses.Count();
+                if (tableRowsCount < coursesCount)
+                    ws.Table(0).AddExtraRowsToTable(coursesCount, tableRowsCount);
+                ws.AddCoursesToTable(courses, 2, coursesCount);
+            }
+            else
+            {
+                var groupedCourses = courses
+                                    .Where(x => x.CourseType == (byte)courseType)
+                                    .GroupBy(x => new { x.Level, x.Semester, x.CourseType, x.Category });
+                var wsTables = ws.Tables;
+                var wsTablesCount = wsTables.Count();
+                var groupedCoursesCount = groupedCourses.Count();
+                if (wsTablesCount < groupedCoursesCount)
+                {
+                    ws.CreateExtraTables(wsTablesCount, groupedCourses.Count());
+                    wsTables = ws.Tables;
+                }
+                var tblIndex = 0;
+                var sortedTables = wsTables.OrderBy(t => t.RangeAddress.FirstAddress.RowNumber);
+                for (int i = 0; i < groupedCoursesCount; i++)
+                {
+                    var tblCourses = groupedCourses.ElementAt(i);
+                    var tblCoursesCount = tblCourses.Count();
+                    var tableRowsCount = sortedTables.ElementAt(tblIndex).RowCount() - 1;
+                    var baseRow = sortedTables.ElementAt(tblIndex).Row(2);
+                    var rowNo = baseRow.RangeAddress.FirstAddress.RowNumber;
+                    if (tableRowsCount < tblCoursesCount)
+                        sortedTables.ElementAt(tblIndex).AddExtraRowsToTable(tblCoursesCount, tableRowsCount);
+
+                    ws.AddCoursesToTable(tblCourses, rowNo, tblCoursesCount, true);
+                    tblIndex++;
+                }
+            }
+        }
+        public static void AddCoursesToTable(this IXLWorksheet ws, IEnumerable<CoursesExcelFormat> courses, int startRow, int coursesCount, bool isElectiveTable = false)
+        {
+            var rowNo = startRow;
+            if (isElectiveTable)
+            {
+                if (!ws.Cell("D" + (rowNo - 2)).HasDataValidation)
+                    ws.Cell("D" + (rowNo - 2)).GetDataValidation().WholeNumber.EqualOrGreaterThan(0);
+                ws.Cell("D" + (rowNo - 2)).Value = courses.ElementAt(0).AllowedHours ?? courses.Sum(x => x.CreditHours);
+            }
+            for (int i = 0; i < coursesCount; i++)
+            {
+                ws.Cell("A" + rowNo).Value = courses.ElementAt(i).CourseCode;
+                ws.Cell("C" + rowNo).Value = courses.ElementAt(i).PrerequisiteRelation;
+                ws.Cell("D" + rowNo).Value = courses.ElementAt(i).Prerequisites;
+                ws.Cell("E" + rowNo).Value = courses.ElementAt(i).AddtionYear;
+                ws.Cell("F" + rowNo).Value = courses.ElementAt(i).DeletionYear;
+                rowNo++;
+            }
+        }
+        public static void CreateExtraTables(this IXLWorksheet ws, int existingTablesCount, int totalCoursesGroupsCount)
+        {
+            var tblsCount = existingTablesCount;
+            var firstTableRange = ws.Range("A1:F5");
+            for (int i = 0; i < (totalCoursesGroupsCount + 2); i++)
+            {
+                var index = (tblsCount * 5) + 1;
+                firstTableRange.CopyTo(ws.Cell("A" + index));
+                var tbl = ws.Range("A" + (index + 1), "F" + (index + 4)).CreateTable();
+                tbl.Theme = XLTableTheme.TableStyleMedium16;
+                tblsCount++;
+            }
         }
         public static ProgramModel Read(XLWorkbook wb,
             List<ProgramBasicDataDTO> programs,
@@ -417,6 +432,20 @@ namespace FOS.App.ExcelReader
             academicYearsWs.SetFont(16);
             academicYearsWs.LockRange(1, 1, academicYears.Count + 1, 1);
             return wb;
+        }
+        public class CoursesExcelFormat
+        {
+            public string CourseCode { get; set; }
+            public byte Level { get; set; }
+            public byte Semester { get; set; }
+            public byte CourseType { get; set; }
+            public byte Category { get; set; }
+            public int CreditHours { get; set; }
+            public string PrerequisiteRelation { get; set; }
+            public string Prerequisites { get; set; }
+            public string AddtionYear { get; set; }
+            public string DeletionYear { get; set; }
+            public int? AllowedHours { get; set; }
         }
     }
 }

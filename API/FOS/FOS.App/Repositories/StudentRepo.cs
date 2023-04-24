@@ -40,7 +40,7 @@ namespace FOS.App.Repositories
                 academicYears.ElementAt(i).Courses = currentYearCourses;
                 academicYears.ElementAt(i).SemesterHours = currentYearCourses.Sum(x => x.CreditHours);
                 academicYears.ElementAt(i).PassedSemesterHours = currentYearCourses.Where(x => x.Grade.ToLower() != "f" && x.Grade != null).Sum(x => x.CreditHours);
-                academicYears.ElementAt(i).CHours += academicYears.ElementAt(i).PassedSemesterHours;
+                academicYears.ElementAt(i).CHours = (i == 0 ? academicYears.ElementAt(i).SemesterHours : academicYears.ElementAt(i - 1).CHours + academicYears.ElementAt(i).SemesterHours);
             }
             return new StudentAcademicReportDTO()
             {
@@ -152,6 +152,8 @@ namespace FOS.App.Repositories
             parameters.Add("@PhoneNumber", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "phonenumber")?.Value?.ToString());
             parameters.Add("@Address", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "address")?.Value?.ToString());
             parameters.Add("@IncludeRegistrationDetails", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "includeregistrationdetails")?.Value?.ToString());
+            parameters.Add("@GetCoursesRequestsOnly", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "getcoursesrequestsonly")?.Value?.ToString());
+            parameters.Add("@IsApprovedCourseRequest", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isapprovedcourserequest")?.Value?.ToString());
             parameters.GetPageParameters(criteria, "s.id");
             using var con = config.CreateInstance();
             var students = con.Query<StudentsDTO>

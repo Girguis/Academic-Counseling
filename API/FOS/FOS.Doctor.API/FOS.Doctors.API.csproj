@@ -30,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ExcelTemplates\StudentsAddTemplate.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Images\AinShamsUniv.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

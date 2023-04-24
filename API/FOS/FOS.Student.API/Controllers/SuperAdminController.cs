@@ -1,4 +1,5 @@
 ﻿using FOS.App.Helpers;
+using FOS.App.Repositories;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
 using FOS.Core.Models;
@@ -23,16 +24,19 @@ namespace FOS.Students.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly ILogger<SuperAdminController> logger;
         private readonly IConfiguration configuration;
+        private readonly IAcademicYearRepo academicYearRepo;
 
         public SuperAdminController(ISuperAdminRepo superAdminRepo,
             IStudentCoursesRepo studentCoursesRepo,
             ILogger<SuperAdminController> logger,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IAcademicYearRepo academicYearRepo)
         {
             this.superAdminRepo = superAdminRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.logger = logger;
             this.configuration = configuration;
+            this.academicYearRepo = academicYearRepo;
         }
         [AllowAnonymous]
         [HttpPost("SuperAdminLogin")]
@@ -122,17 +126,41 @@ namespace FOS.Students.API.Controllers
             }
         }
 
-        [HttpPost("DataForAnalysisTeam")]
-        public IActionResult DataForAnalysisTeam()
+        [HttpPost]
+        [Route("DataForAnalysisTeam")]
+        [Route("DataForAnalysisTeam/{startYear}/{endYear}")]
+        public IActionResult DataForAnalysisTeam(string startYear,string endYear)
         {
             try
             {
+                short? startYearID, endYearID;
+                var academicYears = academicYearRepo.GetAcademicYearsList();
+                if (string.IsNullOrEmpty(startYear))
+                    startYearID = academicYears.MinBy(x => x.Id).Id;
+                else
+                {
+                    var start = startYear.Split("_");
+                    startYearID = academicYears
+                        .FirstOrDefault(x => x.AcademicYear1 == string.Concat(start[0], "/", start[1])
+                        && x.Semester.ToString() == start[2])?.Id;
+                    startYearID ??= academicYears.MinBy(x => x.Id).Id;
+                }
+                if (string.IsNullOrEmpty(endYear))
+                    endYearID = academicYears.MaxBy(x => x.Id).Id;
+                else
+                {
+                    var end = endYear.Split("_");
+                    endYearID = academicYears
+                        .FirstOrDefault(x => x.AcademicYear1 == string.Concat(end[0], "/", end[1])
+                        && x.Semester.ToString() == end[2])?.Id;
+                    endYearID ??= academicYears.MaxBy(x => x.Id).Id;
+                }
                 return Ok(new
                 {
-                    Students = studentCoursesRepo.GetStudentsForAnalysis(),
-                    StudentsSemestersGPA = studentCoursesRepo.GetStudentsGpasForAnalysis(),
-                    DoctorsCourses = studentCoursesRepo.GetDoctorsCoursesForAnalysis(),
-                    StudentsCourses = studentCoursesRepo.GetStudentsCoursesForAnalysis()
+                    Students = studentCoursesRepo.GetStudentsForAnalysis(startYearID.Value,endYearID.Value),
+                    StudentsSemestersGPA = studentCoursesRepo.GetStudentsGpasForAnalysis(startYearID.Value, endYearID.Value),
+                    DoctorsCourses = studentCoursesRepo.GetDoctorsCoursesForAnalysis(startYearID.Value, endYearID.Value),
+                    StudentsCourses = studentCoursesRepo.GetStudentsCoursesForAnalysis(startYearID.Value, endYearID.Value),
                 });
             }catch(Exception ex)
             {
