@@ -8,10 +8,10 @@ namespace FOS.DB.Models
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public byte? Mark { get; set; }
-        public int? Final { get; set; }
-        public int? YearWork { get; set; }
-        public int? Oral { get; set; }
-        public int? Practical { get; set; }
+        public byte? Final { get; set; }
+        public byte? YearWork { get; set; }
+        public byte? Oral { get; set; }
+        public byte? Practical { get; set; }
         public string? Grade { get; set; }
         public double? Points { get; set; }
         public double? QualityPoints { get; set; }

@@ -2,7 +2,7 @@
 {
     public class DoctorsToCourseParamModel
     {
-        public int CourseId { get; set; }
+        public string CourseId { get; set; }
         public List<string> DoctorsGuid { get; set; }
     }
 }

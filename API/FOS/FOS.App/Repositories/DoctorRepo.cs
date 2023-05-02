@@ -63,7 +63,7 @@ namespace FOS.App.Repositories
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Name", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "name")?.Value?.ToString());
             parameters.Add("@Email", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "email")?.Value?.ToString());
-            parameters.Add("@ProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "programid")?.Value?.ToString());
+            parameters.Add("@ProgramGuid", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "programid")?.Value?.ToString());
             parameters.Add("@Type", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "type")?.Value?.ToString());
             parameters.Add("@IsActive", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "isactive")?.Value?.ToString());
             parameters.GetPageParameters(criteria, "d.ID");
@@ -103,13 +103,13 @@ namespace FOS.App.Repositories
         /// <param name="email"></param>
         /// <param name="hashedPassword"></param>
         /// <returns></returns>
-        public DoctorOutModel Login(string email, string hashedPassword)
+        public DoctorLoginOutModel Login(string email, string hashedPassword)
         {
             DynamicParameters parameters = new();
             parameters.Add("@Email", email);
             parameters.Add("@Password", hashedPassword);
             using var con = config.CreateInstance();
-            return con.Query<DoctorOutModel>("Login_Doctor",
+            return con.Query<DoctorLoginOutModel>("Login_Doctor",
                 param: parameters,
                 commandType: CommandType.StoredProcedure)?.FirstOrDefault();
         }

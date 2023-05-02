@@ -130,7 +130,7 @@ namespace FOS.App.Repositories
                 return con.Query<Student>("GetStudent", parameters, commandType: CommandType.StoredProcedure)?.FirstOrDefault();
             }
         }
-        public (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null)
+        public (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, string? DoctorProgramID = null)
         {
             DynamicParameters parameters = new();
             parameters.Add("@ProgramID", DoctorProgramID);
@@ -305,17 +305,17 @@ namespace FOS.App.Repositories
             return paresd ? result : 0.0f;
         }
 
-        public (List<AcademicYearsDTO> academicYears,
-            List<StudentCoursesGradesOutModel> courses)
-            GetAcademicDetailsForReport(int studentID)
+        public AcademicReportOutModel GetAcademicDetailsForReport(int studentID)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@StudentID", studentID);
             using var con = config.CreateInstance();
+            AcademicReportOutModel reportOutModel = new AcademicReportOutModel();
             var result = con.QueryMultiple("Report_StudentAcademicReport", parameters, commandType: CommandType.StoredProcedure);
-            var courses = result.Read<StudentCoursesGradesOutModel>().ToList();
-            var academicYears = result.Read<AcademicYearsDTO>().ToList();
-            return (academicYears, courses);
+            reportOutModel.Student = result.ReadFirst<StudentAcademicReportDTO>();
+            reportOutModel.Courses =  result.Read<StudentCoursesGradesOutModel>().ToList();
+            reportOutModel.AcademicYears = result.Read<AcademicYearsDTO>().ToList();
+            return reportOutModel;
         }
 
         public StudentCoursesSummaryTreeOutModel GetStudentCoursesSummaryTree(int studentID)
@@ -383,6 +383,26 @@ namespace FOS.App.Repositories
                 return null;
             bool paresd = int.TryParse(fnRes.ToString(), out int result);
             return paresd ? result : null;
+        }
+
+        public IEnumerable<AcademicReportOutModel> AcademicReportsPerProgram(string programGuid)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProgramGuid", programGuid);
+            var queryResult = config.CreateInstance().QueryMultiple("Report_MultipleAcademicReports",
+                param: parameters, commandType: CommandType.StoredProcedure);
+            var count = queryResult.ReadFirst<int>();
+            var returnResult = new List<AcademicReportOutModel>();
+            for (int i = 0; i < count; i++)
+            {
+                returnResult.Add(new AcademicReportOutModel()
+                {
+                    Student = queryResult.ReadFirst<StudentAcademicReportDTO>(),
+                    Courses = queryResult.Read<StudentCoursesGradesOutModel>(),
+                    AcademicYears = queryResult.Read<AcademicYearsDTO>(),
+                });
+            }
+            return returnResult;
         }
     }
 }

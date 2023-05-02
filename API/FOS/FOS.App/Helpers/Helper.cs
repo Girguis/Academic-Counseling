@@ -57,6 +57,14 @@ namespace FOS.App.Helpers
                     || (examType == (int)ExamTypeEnum.Oral && course.Oral != 0)
                     || (examType == (int)ExamTypeEnum.Practical && course.Practical != 0);
         }
+        public static bool HasFinalExam(this Course course)
+        {
+            return course.Final != 0;
+        }
+        public static bool HasYearWorkExams(this Course course)
+        {
+            return course.YearWork != 0 || course.Oral != 0 || course.Practical != 0;
+        }
         public static bool HasThisTypeOfExam(int examType, CourseOutModel course)
         {
             return (examType == (int)ExamTypeEnum.Final && course.Final != 0)
@@ -116,7 +124,7 @@ namespace FOS.App.Helpers
         {
             return programs.Select(x => new General
             {
-                ID = x.Id,
+                ID = x.Guid,
                 Name = x.Name
             }).ToList();
         }
@@ -124,7 +132,7 @@ namespace FOS.App.Helpers
         {
             return courses.Select(x => new General
             {
-                ID = x.Id,
+                ID = x.Guid,
                 Name = string.Concat(x.CourseCode, "-", x.CourseName)
             }).ToList();
         }

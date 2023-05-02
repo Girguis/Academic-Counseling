@@ -13,6 +13,7 @@ namespace FOS.DB.Models
         }
 
         public int Id { get; set; }
+        public string Guid { get; set; } = null!;
         public string Name { get; set; } = null!;
         public byte Semester { get; set; }
         public double Percentage { get; set; }

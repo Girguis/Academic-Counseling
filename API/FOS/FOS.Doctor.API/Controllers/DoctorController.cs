@@ -48,10 +48,10 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 string hashedPassword = Helper.HashPassowrd(loginModel.Password);
-                var supervisor = doctorRepo.Login(loginModel.Email, hashedPassword);
-                if (supervisor != null)
+                var doctor = doctorRepo.Login(loginModel.Email, hashedPassword);
+                if (doctor != null)
                 {
-                    var roleName = Enum.GetName((DoctorTypesEnum)supervisor.Type);
+                    var roleName = Enum.GetName((DoctorTypesEnum)doctor.Type);
                     var issuer = configuration["Jwt:Issuer"];
                     var audience = configuration["Jwt:Audience"];
                     var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
@@ -59,9 +59,9 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Subject = new ClaimsIdentity(new[]
                         {
-                            new Claim("Guid", supervisor.Guid),
+                            new Claim("Guid", doctor.Guid),
                             new Claim(ClaimTypes.Role,roleName??"Doctor"),
-                            new Claim("ProgramID",supervisor.ProgramID.ToString())
+                            new Claim("ProgramID",doctor.ProgramGuid)
                         }),
                         Expires = DateTime.UtcNow.AddHours(6),
                         Issuer = issuer,

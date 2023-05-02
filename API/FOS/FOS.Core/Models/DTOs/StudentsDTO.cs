@@ -11,7 +11,7 @@
         public byte PassedHours { get; set; }
         public byte Level { get; set; }
         public byte WarningsNumber { get; set; }
-        public int? ProgramID { get; set; }
+        public string? ProgramID { get; set; }
         public string ProgramName { get; set; }
         public string Ssn { get; set; }
         public string PhoneNumber { get; set; }

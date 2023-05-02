@@ -181,7 +181,7 @@ namespace FOS.App.Repositories
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@CourseID", model.CourseID);
-            parameters.Add("@MarkTypeID", model.ExamType);
+            parameters.Add("@IsFinalExam", model.IsFinalExam);
             using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_CourseGradesSheet", parameters, commandType: CommandType.StoredProcedure);
             CourseGradesSheetOutModel outModel = new CourseGradesSheetOutModel();
@@ -203,15 +203,28 @@ namespace FOS.App.Repositories
             return outModel;
         }
 
-        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, int examType)
+        public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, bool isFinalExam)
         {
-            string examName = Enum.GetName((ExamTypeEnum)examType);
             string query = "";
-            for (int i = 0; i < model.Count; i++)
-                query += string.Concat("UPDATE StudentCourses SET ", examName, " = ", model.ElementAt(i).Mark.HasValue ? model.ElementAt(i).Mark.Value : "NULL",
-                    " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
-                    " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
-
+            if (isFinalExam)
+                for (int i = 0; i < model.Count; i++)
+                {
+                    var stdMarks = model[i];
+                    query += string.Concat("UPDATE StudentCourses SET Final =", stdMarks.Final.HasValue ? model.ElementAt(i).Final : "NULL",
+                        " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
+                        " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
+                }
+            else
+                for (int i = 0; i < model.Count; i++)
+                {
+                    var stdMarks = model[i];    
+                    query += string.Concat("UPDATE StudentCourses",
+                        " SET Oral  = ", stdMarks.Oral.HasValue ? model.ElementAt(i).Oral : "NULL",
+                        ",YearWork = ",stdMarks.YearWork.HasValue?stdMarks.YearWork.Value:"NULL",
+                        ",Practical = ", stdMarks.Practical.HasValue ? stdMarks.Practical.Value : "NULL",
+                        " WHERE StudentID = (SELECT ID FROM Student WHERE AcademicCode = ", model.ElementAt(i).AcademicCode, ")",
+                        " AND AcademicYearID = ", model.ElementAt(i).AcademicYearID, " AND CourseID = ", model.ElementAt(i).CourseID, "; ");
+                }
             List<SqlParameter> parameters = new List<SqlParameter>
             {
                 new SqlParameter("@Query", query)

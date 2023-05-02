@@ -40,12 +40,12 @@ namespace FOS.App.Repositories
                     QueryExecuterHelper.DataTableToSqlParameter(dt,"Courses","CourseType")
                 });
         }
-        public bool Delete(int id)
+        public bool Delete(string id)
         {
             return QueryExecuterHelper.Execute(config.CreateInstance(),
-                "DELETE FROM Course WHERE ID = " + id);
+                "DeleteCourseByGuid", new List<SqlParameter>() { new SqlParameter("@Guid", id) });
         }
-        public List<Course> GetAll(out int totalCount, string doctorID, SearchCriteria criteria = null, int? doctorProgramID = null)
+        public List<Course> GetAll(out int totalCount, string doctorID, SearchCriteria criteria = null, string? doctorProgramID = null)
         {
             DynamicParameters parameters = new();
             parameters.Add("@ProgramID", doctorProgramID);
@@ -75,21 +75,21 @@ namespace FOS.App.Repositories
         public List<Course> GetAll()
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@Query", "SELECT ID,CourseCode,CourseName,Level,Semester,CreditHours FROM Course");
+            parameters.Add("@Query", "SELECT ID,Guid,CourseCode,CourseName,Level,Semester,CreditHours FROM Course");
             return QueryExecuterHelper.Execute<Course>(config.CreateInstance(),
                 "QueryExecuter", parameters);
         }
-        public Course GetById(int id)
+        public Course GetById(string id)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@Query", "SELECT * FROM Course WHERE ID = " + id);
+            parameters.Add("@Guid", id);
             return QueryExecuterHelper.Execute<Course>(config.CreateInstance(),
-                "QueryExecuter", parameters).FirstOrDefault();
+                "GetCourseByGuid", parameters).FirstOrDefault();
         }
         public (Course course, IEnumerable<string> doctors, IEnumerable<string> programs) GetCourseDetails(int id)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@CourseID", id);
+            parameters.Add("@CourseId", id);
             using var con = config.CreateInstance();
             var res = con.QueryMultiple("GetCourseDetails", parameters, commandType: System.Data.CommandType.StoredProcedure);
             var firstRes = res.ReadFirstOrDefault<Course>();
@@ -114,22 +114,12 @@ namespace FOS.App.Repositories
                     new SqlParameter("@Semester", course.Semester)
                 });
         }
-        public bool Activate(List<int> courseIDs)
+        public bool ToggleActivation(HashSet<string> courseIDs, bool isActive)
         {
-            string courseLst = string.Concat("(", string.Join(",", courseIDs), ")");
+            string courseLst = string.Concat("(", string.Join(",", courseIDs.Select(x => "'" + x + "'")), ")");
             List<SqlParameter> parameters = new List<SqlParameter>
             {
-                new SqlParameter("@IsActive", true),
-                new SqlParameter("@CourseLst", courseLst)
-            };
-            return QueryExecuterHelper.Execute(config.CreateInstance(), "CoursesActivation", parameters);
-        }
-        public bool Deactivate(List<int> courseIDs)
-        {
-            string courseLst = string.Concat("(", string.Join(",", courseIDs), ")");
-            List<SqlParameter> parameters = new List<SqlParameter>
-            {
-                new SqlParameter("@IsActive",false),
+                new SqlParameter("@IsActive", isActive),
                 new SqlParameter("@CourseLst", courseLst)
             };
             return QueryExecuterHelper.Execute(config.CreateInstance(), "CoursesActivation", parameters);
@@ -144,7 +134,7 @@ namespace FOS.App.Repositories
             return QueryExecuterHelper.Execute(config.CreateInstance(), "AssignDoctorsToCourse", new List<SqlParameter>()
             {
                 QueryExecuterHelper.DataTableToSqlParameter(dt,"Doctors","DoctorsGuidType"),
-                new SqlParameter("@CourseID", model.CourseId)
+                new SqlParameter("@CourseGuid", model.CourseId)
             });
         }
 

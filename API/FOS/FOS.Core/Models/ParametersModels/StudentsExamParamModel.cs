@@ -6,11 +6,12 @@ namespace FOS.Core.Models.ParametersModels
     public class StudentsExamParamModel
     {
         public int CourseID { get; set; }
-        [Range(1,4)]
-        public int ExamType { get; set; }
+        public bool IsFinalExam { get; set; }
     }
-    public class StudentExamSheetUploadParamModel : StudentsExamParamModel
+    public class StudentExamSheetUploadParamModel
     {
+        public string CourseID { get; set; }
+        public bool IsFinalExam { get; set; }
         public IFormFile file { get; set; }
     }
 }

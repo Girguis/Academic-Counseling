@@ -14,13 +14,12 @@ namespace FOS.Doctors.API.Extenstions
         {
             return controller.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Guid")?.Value;
         }        
-        public static int? ProgramID(this ControllerBase controller)
+        public static string? ProgramID(this ControllerBase controller)
         {
             var pid = controller.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "ProgramID")?.Value;
             if (string.IsNullOrEmpty(pid))
                 return null;
-            var parsed = int.TryParse(pid, out int num);
-            return parsed ? num : null;
+            return pid;
         }
     }
 

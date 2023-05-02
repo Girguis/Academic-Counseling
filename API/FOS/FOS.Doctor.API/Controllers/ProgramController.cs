@@ -7,7 +7,6 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
 
 namespace FOS.Doctors.API.Controllers
 {
@@ -102,7 +101,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpGet("GetProgramExcel/{id}")]
-        public IActionResult GetProgramExcel(int id)
+        public IActionResult GetProgramExcel(string id)
         {
             try
             {
@@ -122,7 +121,7 @@ namespace FOS.Doctors.API.Controllers
         }
         [HttpPost("UpdateProgramViaExcel/{programID}")]
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult UpdateProgramViaExcel(int programID, IFormFile file)
+        public IActionResult UpdateProgramViaExcel(string programID, IFormFile file)
         {
             try
             {
@@ -137,7 +136,7 @@ namespace FOS.Doctors.API.Controllers
                 var model = ProgramSheet.Read(wb, programRepo.GetPrograms(), courseRepo.GetAll(), academicYearRepo.GetAcademicYearsList());
                 if (model == null)
                     return BadRequest(new { Massage = Resource.InvalidData });
-                bool updated = programRepo.UpdateProgram(programID, model);
+                bool updated = programRepo.UpdateProgram(program.Id, model);
                 if (!updated) return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok();
             }
@@ -147,9 +146,9 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        
+
         [HttpGet("Get/{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             try
             {

@@ -109,8 +109,8 @@ namespace FOS.Students.API.Controllers
                 Student student = studentRepo.Get(guid, true);
                 if (student == null)
                     return NotFound(new { Massage = string.Format(Resource.DoesntExist, Resource.Student) });
-                var (academicYears, courses) = studentRepo.GetAcademicDetailsForReport(student.Id);
-                var bytes = StudentAcademicReportPDF.CreateAcademicReport(student, academicYears, courses);
+                var reportData = studentRepo.GetAcademicDetailsForReport(student.Id);
+                var bytes = StudentAcademicReportPDF.CreateAcademicReport(reportData);
                 return File(bytes,
                 "application/pdf",
                 string.Concat(student.Name, "_AcademicReport.pdf")

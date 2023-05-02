@@ -515,11 +515,53 @@ namespace FOS.Doctors.API.Controllers
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var res = studentRepo.GetAcademicDetailsForReport(student.Id);
-                var bytes = StudentAcademicReportPDF.CreateAcademicReport(student, res.academicYears, res.courses);
+                var bytes = StudentAcademicReportPDF.CreateAcademicReport(res);
                 return File(bytes,
                 "application/pdf",
                 string.Concat(student.Name, "_AcademicReport.pdf")
                 );
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetAcademicReportExcel/{guid}")]
+        public IActionResult GetAcademicReportExcel(string guid)
+        {
+            try
+            {
+                Student student = studentRepo.Get(guid, true);
+                if (student == null)
+                    return NotFound(
+                    new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Student)
+                    });
+                var res = studentRepo.GetAcademicDetailsForReport(student.Id);
+                var stream = AcademicReportReader.Create(res);
+                return File(stream,
+                    "application/vnd.ms-excel",
+                    student.Name + "_" + DateTime.UtcNow.AddHours(3).ToString() + ".xlsx");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("ExcelAcademicReportsPerProgram/{ProgramGuid}")]
+        public IActionResult GetAcademicReportExcels(string ProgramGuid)
+        {
+            try
+            {
+                var program = programRepo.GetProgram(ProgramGuid);
+                if (program == null)
+                    return NotFound();
+                var models = studentRepo.AcademicReportsPerProgram(program.Guid);
+                var (fileContent,fileName) = AcademicReportReader.CreateMultiple(program.Name, models);
+                return File(fileContent, "application/zip", fileName + ".zip");
             }
             catch (Exception ex)
             {

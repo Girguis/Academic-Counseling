@@ -7,7 +7,7 @@ namespace FOS.Core.IRepositories
 {
     public interface IDoctorRepo
     {
-        public DoctorOutModel Login(string email, string hashedPassword);
+        public DoctorLoginOutModel Login(string email, string hashedPassword);
         public DoctorOutModel GetById(string GUID, bool isActive = true);
         public List<DoctorOutModel> GetAll(out int totalCount, SearchCriteria criteria = null);
         public bool Add(DoctorAddParamModel supervisor);

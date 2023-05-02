@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE DATABASE [FOS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ USE [FOS]
 GO
 USE [FOS]
 GO
-/****** Object:  Sequence [dbo].[AcademicCodeSeq]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Sequence [dbo].[AcademicCodeSeq]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE SEQUENCE [dbo].[AcademicCodeSeq] 
  AS [bigint]
  START WITH 230000
@@ -91,13 +91,13 @@ CREATE SEQUENCE [dbo].[AcademicCodeSeq]
  MAXVALUE 2147483647
  CACHE 
 GO
-/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[CommonQuestionsType] AS TABLE(
 	[Question] [nvarchar](max) NULL,
 	[Answer] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[CourseCode] [nvarchar](max) NULL,
 	[CourseName] [nvarchar](max) NULL,
@@ -110,12 +110,12 @@ CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[Semester] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[DoctorsGuidType] AS TABLE(
 	[DoctorGuid] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
@@ -124,13 +124,13 @@ CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Hour] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[PrerequisiteCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteCourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteRelationID] [tinyint] NULL,
@@ -140,25 +140,25 @@ CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[DeletionYearID] [smallint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[ProgramDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
 	[NumberOfHours] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
 	[ProgramID] [int] NULL,
 	[DesireNumber] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[StudentRegistrationCoursesType] AS TABLE(
 	[CourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsAddType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsAddType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[StudentsAddType] AS TABLE(
 	[GUID] [nvarchar](max) NULL,
 	[Name] [nvarchar](max) NULL,
@@ -174,14 +174,14 @@ CREATE TYPE [dbo].[StudentsAddType] AS TABLE(
 	[CurrentProgramId] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-05-02 7:41:47 PM ******/
 CREATE TYPE [dbo].[StudentsProgramsType] AS TABLE(
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +203,7 @@ AS
 		 RETURN @CGPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -227,7 +227,7 @@ BEGIN
 	RETURN 0;
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -250,7 +250,7 @@ AS
 		 RETURN @GPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -288,7 +288,7 @@ BEGIN
 	RETURN @StudentLevel
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanOpenCourseForGraduation]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanOpenCourseForGraduation]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -316,7 +316,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -362,7 +362,7 @@ ELSE
 RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -390,7 +390,7 @@ ELSE
 RETURN @IsPassed;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +411,7 @@ BEGIN
 	RETURN @RegCounter;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -425,7 +425,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -444,7 +444,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -475,7 +475,7 @@ BEGIN
 	RETURN [dbo].[CalculateSGPA](@StudentID,@AcademicYearID);
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -535,7 +535,7 @@ BEGIN
 	RETURN @NumberOfWarnings;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -565,7 +565,7 @@ DEALLOCATE Count_Passed_Prerequiste_Number;
 RETURN @PassedCoursesNumber;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -603,7 +603,7 @@ BEGIN
 	RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentEnrollYear]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentEnrollYear]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -617,7 +617,7 @@ BEGIN
 	RETURN @EnrollYearID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -632,7 +632,7 @@ BEGIN
 	RETURN @Grade;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -651,7 +651,7 @@ AS
 		 RETURN @ProgramID;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -669,7 +669,7 @@ BEGIN
 	RETURN @ProgName;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -715,7 +715,7 @@ BEGIN
 	RETURN @HoursSum;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -732,7 +732,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -750,7 +750,7 @@ AS
 		RETURN 0;
 	END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -767,7 +767,7 @@ IF EXISTS ( SELECT 1 FROM Doctor WHERE Email = @Email)
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -797,7 +797,7 @@ AS
 		RETURN @IsGraduated;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -835,7 +835,7 @@ AS
 		--RETURN 0;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -861,7 +861,7 @@ AS
 		RETURN @ReturnValue;
 	END
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -876,7 +876,7 @@ CREATE TABLE [dbo].[AcademicYear](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -891,13 +891,14 @@ CREATE TABLE [dbo].[CommonQuestion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Course](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[GUID] [nvarchar](max) NOT NULL,
 	[CourseCode] [nvarchar](max) NOT NULL,
 	[CourseName] [nvarchar](max) NOT NULL,
 	[CreditHours] [tinyint] NOT NULL,
@@ -907,17 +908,17 @@ CREATE TABLE [dbo].[Course](
 	[IsActive] [bit] NOT NULL,
 	[Level] [tinyint] NOT NULL,
 	[Semester] [tinyint] NOT NULL,
-	[Final] [int] NOT NULL,
-	[YearWork] [int] NOT NULL,
-	[Oral] [int] NOT NULL,
-	[Practical] [int] NOT NULL,
+	[Final] [tinyint] NOT NULL,
+	[YearWork] [tinyint] NOT NULL,
+	[Oral] [tinyint] NOT NULL,
+	[Practical] [tinyint] NOT NULL,
  CONSTRAINT [PK_Course] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -928,7 +929,7 @@ CREATE TABLE [dbo].[CoursePrerequisites](
 	[PrerequisiteCourseID] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -939,7 +940,7 @@ CREATE TABLE [dbo].[Date](
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -960,7 +961,7 @@ CREATE TABLE [dbo].[Doctor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -974,13 +975,14 @@ CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[Hour] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Program](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[guid] [nvarchar](max) NOT NULL,
 	[Name] [nvarchar](max) NOT NULL,
 	[Semester] [tinyint] NOT NULL,
 	[Percentage] [float] NOT NULL,
@@ -996,7 +998,7 @@ CREATE TABLE [dbo].[Program](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1011,7 +1013,7 @@ CREATE TABLE [dbo].[ProgramCourses](
 	[AddtionYearID] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1023,7 +1025,7 @@ CREATE TABLE [dbo].[ProgramDistribution](
 	[NumberOfHours] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1065,7 +1067,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1079,7 +1081,7 @@ CREATE TABLE [dbo].[StudentCourseRequest](
 	[CourseOperationID] [bit] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1088,10 +1090,10 @@ CREATE TABLE [dbo].[StudentCourses](
 	[StudentID] [int] NOT NULL,
 	[CourseID] [int] NOT NULL,
 	[Mark] [tinyint] NULL,
-	[Final] [int] NULL,
-	[YearWork] [int] NULL,
-	[Oral] [int] NULL,
-	[Practical] [int] NULL,
+	[Final] [tinyint] NULL,
+	[YearWork] [tinyint] NULL,
+	[Oral] [tinyint] NULL,
+	[Practical] [tinyint] NULL,
 	[Grade] [nvarchar](2) NULL,
 	[points] [float] NULL,
 	[QualityPoints] [float] NULL,
@@ -1109,7 +1111,7 @@ CREATE TABLE [dbo].[StudentCourses](
 	[TookFromEnhancementCredits] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1121,7 +1123,7 @@ CREATE TABLE [dbo].[StudentDesires](
 	[StudentCurrentProgramID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1132,7 +1134,7 @@ CREATE TABLE [dbo].[StudentPrograms](
 	[AcademicYear] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1144,7 +1146,7 @@ CREATE TABLE [dbo].[StudentProgramTransferRequest](
 	[IsApproved] [bit] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1161,7 +1163,7 @@ CREATE TABLE [dbo].[SuperAdmin](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-04-25 12:54:04 AM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-05-02 7:41:47 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1244,237 +1246,237 @@ SET IDENTITY_INSERT [dbo].[CommonQuestion] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Course] ON 
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (1, N'CHEM 101', N'كيمياء عامة 1', 3, 3, 0, 0, 0, 1, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (1, N'C0E56D20-B9BA-4A26-980E-B45306AF5F6D', N'CHEM 101', N'كيمياء عامة 1', 3, 3, 0, 0, 0, 1, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (2, N'CHEM 103', N'عملي كيمياء عامة 1', 1, 0, 3, 0, 0, 1, 1, 0, 35, 0, 15)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (2, N'93AD4DAD-2169-44A7-8682-B0EC0B1D8CF5', N'CHEM 103', N'عملي كيمياء عامة 1', 1, 0, 3, 0, 0, 1, 1, 0, 35, 0, 15)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (3, N'COMP 102', N'مقدمة في الحاسب الالي', 3, 2, 2, 0, 1, 1, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (3, N'67CAF7C0-ED72-4BDA-B244-72C78B570894', N'COMP 102', N'مقدمة في الحاسب الالي', 3, 2, 2, 0, 1, 1, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (4, N'COMP 104', N'برمجة حاسب 1', 3, 2, 2, 0, 1, 1, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (4, N'9B59BA03-0446-4D23-9F95-2A8C45F9D420', N'COMP 104', N'برمجة حاسب 1', 3, 2, 2, 0, 1, 1, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (5, N'COMP 106', N'تصميم منطق', 3, 2, 0, 2, 1, 1, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (5, N'83255FAD-C40C-4F74-82BA-AD6ADBF2CFE5', N'COMP 106', N'تصميم منطق', 3, 2, 0, 2, 1, 1, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (6, N'COMP 201', N'تصميم وتحليل الخوارزميات', 3, 3, 0, 0, 0, 2, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (6, N'589620B4-BE73-4297-8303-5627013E1240', N'COMP 201', N'تصميم وتحليل الخوارزميات', 3, 3, 0, 0, 0, 2, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (7, N'COMP 202', N'تراكيب البيانات', 3, 2, 2, 0, 1, 2, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (7, N'A824A5BD-DF88-42F3-AFBB-3353DF50AD6C', N'COMP 202', N'تراكيب البيانات', 3, 2, 2, 0, 1, 2, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (8, N'COMP 203', N'نظرية الحسابات', 2, 2, 0, 0, 0, 2, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (8, N'58A227FB-CC97-4D74-9A9E-0FA6C95A5ADE', N'COMP 203', N'نظرية الحسابات', 2, 2, 0, 0, 0, 2, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (9, N'COMP 204', N'شبكات الحاسب', 3, 2, 2, 0, 1, 2, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (9, N'B06B93A5-0352-4C0E-972E-0C18F8E102D3', N'COMP 204', N'شبكات الحاسب', 3, 2, 2, 0, 1, 2, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (10, N'COMP 205', N'برمجة حاسب 2', 3, 2, 2, 0, 0, 2, 1, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (10, N'136AA3A1-6AC4-4830-8F54-9642B72C8734', N'COMP 205', N'برمجة حاسب 2', 3, 2, 2, 0, 0, 2, 1, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (11, N'COMP 206', N'برمجة الويب', 3, 2, 3, 0, 1, 2, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (11, N'251C06B5-E3A9-47FE-8BF4-5408DA17B5D4', N'COMP 206', N'برمجة الويب', 3, 2, 3, 0, 1, 2, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (12, N'COMP 207', N'نظم قواعد البيانات', 4, 3, 2, 0, 0, 2, 1, 120, 20, 10, 50)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (12, N'1DE3B904-6EAB-434D-98F8-04A31E9FB3A2', N'COMP 207', N'نظم قواعد البيانات', 4, 3, 2, 0, 0, 2, 1, 120, 20, 10, 50)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (13, N'COMP 208', N'نظرية الاليات الذاتية', 3, 2, 0, 2, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (13, N'7D442B80-011C-433F-A77F-CF6872A5ADCD', N'COMP 208', N'نظرية الاليات الذاتية', 3, 2, 0, 2, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (14, N'COMP 210', N'خورزميات الرسوم', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (14, N'E74996FF-7207-4F55-B2F3-0529DC8E446B', N'COMP 210', N'خورزميات الرسوم', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (15, N'COMP 301', N'برمجة متقدمة', 3, 2, 3, 0, 0, 3, 1, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (15, N'24ABDF1A-5B28-48BE-9367-30DE278DFFC3', N'COMP 301', N'برمجة متقدمة', 3, 2, 3, 0, 0, 3, 1, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (16, N'COMP 302', N'تاليفات خوارزمية', 2, 2, 0, 1, 1, 3, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (16, N'2A2ED429-B6E4-4543-B922-5894323B3185', N'COMP 302', N'تاليفات خوارزمية', 2, 2, 0, 1, 1, 3, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (17, N'COMP 303', N'قواعد ودلالات لغات البرمجة', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (17, N'F5715DB1-8A7D-4432-AFE9-068D9BEB0D43', N'COMP 303', N'قواعد ودلالات لغات البرمجة', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (18, N'COMP 304', N'تصميم مؤلفات', 3, 2, 2, 0, 1, 3, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (18, N'081FDCD5-7E55-485F-BD34-C41C8903525C', N'COMP 304', N'تصميم مؤلفات', 3, 2, 2, 0, 1, 3, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (19, N'COMP 305', N'نظرية التعقيد', 3, 3, 0, 0, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (19, N'88BA50A9-FDE4-4DD9-98B7-57521B969A53', N'COMP 305', N'نظرية التعقيد', 3, 3, 0, 0, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (20, N'COMP 306', N'رسومات الحاسب', 3, 2, 2, 0, 1, 3, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (20, N'B1CE55ED-EF07-4621-8A9C-D304CE578E4B', N'COMP 306', N'رسومات الحاسب', 3, 2, 2, 0, 1, 3, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (21, N'COMP 307', N'نظم التشغيل', 3, 3, 0, 0, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (21, N'B596653F-ABE1-48A6-BAC7-4A9E9B529F0D', N'COMP 307', N'نظم التشغيل', 3, 3, 0, 0, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (22, N'COMP 308', N'تشفير', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (22, N'7CCBD73C-F621-4E0D-A777-97A8D9154A5B', N'COMP 308', N'تشفير', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (23, N'COMP 309', N'نظم الوسائط المتعددة', 2, 2, 1, 0, 0, 3, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (23, N'E04D0C48-FC46-4FCB-87A9-EBD03513C79A', N'COMP 309', N'نظم الوسائط المتعددة', 2, 2, 1, 0, 0, 3, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (24, N'COMP 310', N'برمجة ويب متقدمة', 2, 1, 3, 0, 1, 3, 2, 60, 10, 5, 25)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (24, N'014B737C-5E0D-4CB2-9B8A-88DD0D4BD347', N'COMP 310', N'برمجة ويب متقدمة', 2, 1, 3, 0, 1, 3, 2, 60, 10, 5, 25)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (25, N'COMP 311', N'اللغات التصريحية', 2, 2, 1, 0, 0, 3, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (25, N'F42EF141-2C4E-4D27-A5E1-BC5FF4A4B98B', N'COMP 311', N'اللغات التصريحية', 2, 2, 1, 0, 0, 3, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (26, N'COMP 312', N'تنظيم الملفات', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (26, N'FD8C5A6E-3262-42BE-9A23-9F14B6D48C00', N'COMP 312', N'تنظيم الملفات', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (27, N'COMP 314', N'نظم قواعد بيانات متقدمة', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (27, N'30C3AEB3-0CFE-4E40-BAFB-D942F8B11460', N'COMP 314', N'نظم قواعد بيانات متقدمة', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (28, N'COMP 401', N'ذكاء اصطناعي', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (28, N'2F16DF2D-A5A6-420F-8BD0-4CFBC58EE585', N'COMP 401', N'ذكاء اصطناعي', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (29, N'COMP 402', N'المعلومات الحيوية', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (29, N'180A44DE-6C3D-4767-8A37-DF0E1FF64A6F', N'COMP 402', N'المعلومات الحيوية', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (30, N'COMP 403', N'المعالجة المتوازية الموزعة', 3, 3, 1, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (30, N'CDB00157-7A86-4F79-A90B-F79A85FCB171', N'COMP 403', N'المعالجة المتوازية الموزعة', 3, 3, 1, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (31, N'COMP 404', N'هندسة البرمجيات', 3, 2, 2, 0, 1, 4, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (31, N'AA1F1D8E-6799-48B5-A794-1A9FC38BF930', N'COMP 404', N'هندسة البرمجيات', 3, 2, 2, 0, 1, 4, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (32, N'COMP 405', N'مشروع حاسب (أ)', 2, 0, 3, 2, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (32, N'4E4F99D9-8732-4C7C-AFB4-264C7F55808D', N'COMP 405', N'مشروع حاسب (أ)', 2, 0, 3, 2, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (33, N'COMP 406', N'مشروع حاسب (ب)', 4, 0, 4, 4, 1, 4, 2, 0, 60, 70, 70)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (33, N'9E847D4B-A77F-4908-80DA-2723B2A47F90', N'COMP 406', N'مشروع حاسب (ب)', 4, 0, 4, 4, 1, 4, 2, 0, 60, 70, 70)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (34, N'COMP 407', N'معالجة الصور', 3, 3, 1, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (34, N'7F437568-C1B2-45F4-8156-A3A3B8BE0CC8', N'COMP 407', N'معالجة الصور', 3, 3, 1, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (35, N'COMP 408', N'موضوعات متقدمة في الذكاء الاصطناعي', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (35, N'218C53BA-4E00-4C88-A3B4-1647D674A3B1', N'COMP 408', N'موضوعات متقدمة في الذكاء الاصطناعي', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (36, N'COMP 409', N'امن شبكات', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (36, N'BB888FA4-6158-48DF-8855-12521F0E61F8', N'COMP 409', N'امن شبكات', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (37, N'COMP 410', N'الرؤية بالحاسب', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (37, N'9C028227-5AB5-4019-9DFA-317D215D8035', N'COMP 410', N'الرؤية بالحاسب', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (38, N'COMP 411', N'الهندسة الحسابية', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (38, N'1601C5A3-A242-4E0F-A5EA-0CE2FC52E3CF', N'COMP 411', N'الهندسة الحسابية', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (39, N'COMP 412', N'موضوعات مختارة في امن المعلومات', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (39, N'379816D3-B377-440C-8B32-BF46ABC0DF55', N'COMP 412', N'موضوعات مختارة في امن المعلومات', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (40, N'COMP 413', N'موضوعات مختارة في الخوارزميات', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (40, N'CAF81951-7CE5-4C94-86CB-DC7F68A42A86', N'COMP 413', N'موضوعات مختارة في الخوارزميات', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (41, N'COMP 414', N'موضوعات مختارة في الحوسبة', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (41, N'5349B79B-764C-43EA-8906-585AFCD25320', N'COMP 414', N'موضوعات مختارة في الحوسبة', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (42, N'COMP 415', N'مؤلفات متقدمة', 3, 2, 2, 0, 0, 4, 1, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (42, N'8AE74BF1-46B0-4732-A0BB-AF7515AC3EA2', N'COMP 415', N'مؤلفات متقدمة', 3, 2, 2, 0, 0, 4, 1, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (43, N'COMP 416', N'استخلاص البيانات والويب', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (43, N'2C7E8232-2AC7-43C6-A0A5-45E4820B5448', N'COMP 416', N'استخلاص البيانات والويب', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (44, N'COMP 418', N'مشروع حاسب ( لمزدوج التخصص )', 3, 0, 4, 2, 1, 4, 2, 0, 40, 55, 55)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (44, N'15C680F5-97A5-43E3-9648-06FBEEB6F83D', N'COMP 418', N'مشروع حاسب ( لمزدوج التخصص )', 3, 0, 4, 2, 1, 4, 2, 0, 40, 55, 55)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (45, N'ENCU 401', N'ثقافة بينية', 1, 1, 0, 0, 0, 4, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (45, N'0A756DA4-22FC-4512-960F-9C1E3577495B', N'ENCU 401', N'ثقافة بينية', 1, 1, 0, 0, 0, 4, 1, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (46, N'ENGL 102', N'لغة انجليزية 1', 2, 2, 0, 0, 1, 1, 2, 100, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (46, N'6BB5CB23-EDFA-4274-A7B6-04EB3678043D', N'ENGL 102', N'لغة انجليزية 1', 2, 2, 0, 0, 1, 1, 2, 100, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (47, N'ENGL 201', N'لغة انجليزية 2', 2, 2, 0, 0, 0, 2, 1, 100, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (47, N'26253A9C-0AA4-4284-A790-BAB82A9CBF41', N'ENGL 201', N'لغة انجليزية 2', 2, 2, 0, 0, 0, 2, 1, 100, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (48, N'ETHR 302', N'اخلاقيات البحث العلمي', 1, 1, 0, 0, 1, 3, 2, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (48, N'34430B95-06E5-4E81-B7C3-F9CB99E4B15E', N'ETHR 302', N'اخلاقيات البحث العلمي', 1, 1, 0, 0, 1, 3, 2, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (49, N'GHDS 401', N'نشاة تاريخ وتطور العالم', 1, 1, 0, 0, 0, 4, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (49, N'075A9A9C-0402-4577-B9EA-B2E08889A0FC', N'GHDS 401', N'نشاة تاريخ وتطور العالم', 1, 1, 0, 0, 0, 4, 1, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (50, N'HURI 101', N'حقوق الانسان', 0, 1, 0, 0, 0, 1, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (50, N'7061933A-56E0-4371-B127-3DEAF3D17BE4', N'HURI 101', N'حقوق الانسان', 0, 1, 0, 0, 0, 1, 1, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (51, N'INCO 102', N'مدخل في الحاسب الالي', 0, 1, 0, 0, 1, 1, 2, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (51, N'FF22B673-A9FD-4AEF-B374-8821A32ACFB2', N'INCO 102', N'مدخل في الحاسب الالي', 0, 1, 0, 0, 1, 1, 2, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (52, N'MATH 101', N'تفاضل وتكامل 1', 4, 3, 0, 2, 0, 1, 1, 140, 50, 10, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (52, N'D922C886-4840-4DC7-AB6C-EF26815E2F4D', N'MATH 101', N'تفاضل وتكامل 1', 4, 3, 0, 2, 0, 1, 1, 140, 50, 10, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (53, N'MATH 102', N'تفاضل وتكامل 2', 3, 3, 0, 1, 1, 1, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (53, N'A6DDA5D5-09C1-4BB9-B0FB-2534210CC2ED', N'MATH 102', N'تفاضل وتكامل 2', 3, 3, 0, 1, 1, 1, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (54, N'MATH 104', N'مفاهيم اساسية في الرياضيات', 3, 3, 0, 1, 1, 1, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (54, N'D30C4AD7-1625-44EC-B5FC-63E546941E75', N'MATH 104', N'مفاهيم اساسية في الرياضيات', 3, 3, 0, 1, 1, 1, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (55, N'MATH 201', N'التحليل الرياضى', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (55, N'A77945DA-6FB7-4BCF-A50B-D92B9C28E059', N'MATH 201', N'التحليل الرياضى', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (56, N'MATH 202', N'معادلات تفاضلية عادية', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (56, N'56284D95-A972-4AF3-AB2A-91B55F199086', N'MATH 202', N'معادلات تفاضلية عادية', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (57, N'MATH 203', N'جبر خطي', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (57, N'E9591596-210C-4286-A0CA-1D5917D5C7F3', N'MATH 203', N'جبر خطي', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (58, N'MATH 204', N'تحليل حقيقى', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (58, N'D86236A6-CBB3-4B43-B8D0-BCDCBCD97B6B', N'MATH 204', N'تحليل حقيقى', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (59, N'MATH 205', N'نظرية الأعداد', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (59, N'9D8E9DCA-495A-42E5-8552-6B821FD10DEF', N'MATH 205', N'نظرية الأعداد', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (60, N'MATH 206', N'نظرية الألعاب', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (60, N'4B814ED2-A652-43C1-9FC6-8772BA195181', N'MATH 206', N'نظرية الألعاب', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (61, N'MATH 208', N'البرمجة الخطية', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (61, N'322F9FE6-3C64-4F37-B402-9CBDD093F960', N'MATH 208', N'البرمجة الخطية', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (62, N'MATH 222', N'المنطق الرياضى', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (62, N'EC0E9610-E45E-42D9-BAB0-D65111A1F1EA', N'MATH 222', N'المنطق الرياضى', 2, 2, 0, 0, 1, 2, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (63, N'MATH 301', N'الجبر المجرد (1) نظرية الزمر', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (63, N'1416E8CD-A7A5-4939-940E-F35F8B30B91A', N'MATH 301', N'الجبر المجرد (1) نظرية الزمر', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (64, N'MATH 302', N'التوبولوجى العام', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (64, N'CCECE13A-2B5D-4A33-9BEA-BB5F23466E6D', N'MATH 302', N'التوبولوجى العام', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (65, N'MATH 303', N'التحليل العددي', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (65, N'30CFEE41-B8A9-434A-8611-2C4927A2BFA1', N'MATH 303', N'التحليل العددي', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (66, N'MATH 304', N'نظرية القياس', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (66, N'0C744477-528C-4F32-88F5-292D53B6B857', N'MATH 304', N'نظرية القياس', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (67, N'MATH 305', N'الهندسة التفاضلية', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (67, N'28EE2DBD-6545-4B21-879E-6503CB414477', N'MATH 305', N'الهندسة التفاضلية', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (68, N'MATH 306', N'بحوث العمليات', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (68, N'44262084-4191-4217-AA0B-82B8DC2A817F', N'MATH 306', N'بحوث العمليات', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (69, N'MATH 307', N'نظرية الخوارزميات', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (69, N'858AF710-42B7-46CA-9316-B83C6AEA533F', N'MATH 307', N'نظرية الخوارزميات', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (70, N'MATH 319', N'مبادئ نمذجة رياضية', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (70, N'4576700B-DA32-4C1B-A8DC-4294E57DB305', N'MATH 319', N'مبادئ نمذجة رياضية', 2, 2, 0, 0, 0, 3, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (71, N'MATH 331', N'مبادئ حساب التغيرات', 3, 2, 0, 2, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (71, N'D72B18F9-99FA-40CD-B6AB-F5BF510E2938', N'MATH 331', N'مبادئ حساب التغيرات', 3, 2, 0, 2, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (72, N'MATH 333', N'الجبر المجرد لعلوم الحاسب', 3, 2, 0, 2, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (72, N'79131A6A-D2B2-4A60-8279-6FD0EB5456A4', N'MATH 333', N'الجبر المجرد لعلوم الحاسب', 3, 2, 0, 2, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (73, N'MATH 401', N'التحليل الدالى', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (73, N'D536DF02-E64D-49B1-A6EE-6B7377614E3F', N'MATH 401', N'التحليل الدالى', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (74, N'MATH 402', N'الجبر المجرد (2) (الحلقات و الحقول)', 3, 3, 0, 1, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (74, N'2E095387-E5A2-429E-BAFE-E3556EE7C5B4', N'MATH 402', N'الجبر المجرد (2) (الحلقات و الحقول)', 3, 3, 0, 1, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (75, N'MATH 403', N'التحليل المركب', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (75, N'17B6FCB2-84FB-4F4F-9248-82C61D3A855C', N'MATH 403', N'التحليل المركب', 3, 3, 0, 0, 0, 4, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (76, N'MATH 404', N'المعادلات التفاضلية الجزئية', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (76, N'3E9D2130-5C85-4E28-92DE-98480BEEEE61', N'MATH 404', N'المعادلات التفاضلية الجزئية', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (77, N'MATH 406', N'جبر خطى متقدم', 3, 2, 2, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (77, N'8179DEC5-1D5D-4C6F-A891-AC6A2C8831D1', N'MATH 406', N'جبر خطى متقدم', 3, 2, 2, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (78, N'MATH 407', N'الهندسة الجبرية', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (78, N'A9317890-A2BF-403C-835F-9C7E323FFD9B', N'MATH 407', N'الهندسة الجبرية', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (79, N'MATH 408', N'موضوعات مختارة فى الرياضيات البحتة', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (79, N'5921B444-D197-45FD-A600-09D3157EA6B6', N'MATH 408', N'موضوعات مختارة فى الرياضيات البحتة', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (80, N'MATH 409', N'نظرية الرسوم', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (80, N'5556684F-ECC2-46EE-A030-35EEE1D2B3A6', N'MATH 409', N'نظرية الرسوم', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (81, N'MATH 421', N'جبر خطى عددى', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (81, N'568917B8-0CCA-4FE6-AE77-80FD0E7E3445', N'MATH 421', N'جبر خطى عددى', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (82, N'MATH 423', N'مشروع بحثى رياضيات بحتة', 1, 0, 0, 3, 0, 4, 1, 0, 25, 25, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (82, N'B7EAB88B-0087-4CC0-A149-0C04C4959BB5', N'MATH 423', N'مشروع بحثى رياضيات بحتة', 1, 0, 0, 3, 0, 4, 1, 0, 25, 25, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (83, N'PHYS 101', N'فيزياء 1', 4, 3, 3, 0, 0, 1, 1, 120, 20, 10, 50)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (83, N'32D91C11-C9D9-4D55-A3BF-95DD605B3916', N'PHYS 101', N'فيزياء 1', 4, 3, 3, 0, 0, 1, 1, 120, 20, 10, 50)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (84, N'SAFS 101', N'الامن والسلامة', 1, 1, 0, 0, 0, 1, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (84, N'0F33D525-8B5C-4089-9FA6-73C0A1CDC542', N'SAFS 101', N'الامن والسلامة', 1, 1, 0, 0, 0, 1, 1, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (85, N'SCTH 301', N'التفكير العلمي', 1, 1, 0, 0, 0, 3, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (85, N'99CF40BC-E034-4540-9A97-ACF882FC49E4', N'SCTH 301', N'التفكير العلمي', 1, 1, 0, 0, 0, 3, 1, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (86, N'SKIL 401', N'مهارات العمل', 1, 1, 0, 0, 0, 4, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (86, N'D38965CC-D87D-445D-B34E-1F9B2CF6DC8B', N'SKIL 401', N'مهارات العمل', 1, 1, 0, 0, 0, 4, 1, 50, 0, 0, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (87, N'STAT 101', N'مقدمة في الاحصاء', 3, 3, 0, 1, 0, 1, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (87, N'BEF5551A-22F0-4573-B2C2-33FB82065F54', N'STAT 101', N'مقدمة في الاحصاء', 3, 3, 0, 1, 0, 1, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (88, N'STAT 102', N'نظرية الاحتمالات 1', 3, 3, 0, 1, 1, 1, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (88, N'B7998C2B-3EE6-4DA8-AEC3-DC14C3F6F39E', N'STAT 102', N'نظرية الاحتمالات 1', 3, 3, 0, 1, 1, 1, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (89, N'STAT 201', N'(1) نظرية الإحصاء', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (89, N'B111F142-DD81-4508-943F-B3B601432644', N'STAT 201', N'(1) نظرية الإحصاء', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (90, N'STAT 202', N'(2) نظرية الإحصاء', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (90, N'5064BA28-2732-4C88-84B9-710A6FC6681A', N'STAT 202', N'(2) نظرية الإحصاء', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (91, N'STAT 203', N'(1) طرق إحصائية', 3, 2, 3, 0, 0, 2, 1, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (91, N'92CAF226-FB64-4CE1-8DF4-D41C3D1B1CA5', N'STAT 203', N'(1) طرق إحصائية', 3, 2, 3, 0, 0, 2, 1, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (92, N'STAT 204', N'(1) طرق إحتمالية فى بحوث العمليات', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (92, N'00EF6F6F-E01E-4963-9D31-E95D9AA4A174', N'STAT 204', N'(1) طرق إحتمالية فى بحوث العمليات', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (93, N'STAT 205', N'رياضيات إحصائية', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (93, N'3D7A7674-B01E-49C0-AE98-38297AFC86E7', N'STAT 205', N'رياضيات إحصائية', 3, 3, 0, 1, 0, 2, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (94, N'STAT 206', N'(2) طرق إحصائية', 3, 2, 3, 0, 1, 2, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (94, N'31B5CDA6-9F74-401D-9F4F-648393D74A07', N'STAT 206', N'(2) طرق إحصائية', 3, 2, 3, 0, 1, 2, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (95, N'STAT 208', N'مبادئ تحاليل الانحدار', 3, 3, 1, 0, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (95, N'DF879C34-F33D-4EF7-9129-3924ECE8938B', N'STAT 208', N'مبادئ تحاليل الانحدار', 3, 3, 1, 0, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (96, N'STAT 218', N'مقدمة في نظرية الاحتمالات', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (96, N'376E8F89-F375-490D-ABB7-57F1F27E01C2', N'STAT 218', N'مقدمة في نظرية الاحتمالات', 3, 3, 0, 1, 1, 2, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (97, N'STAT 301', N'(1) استدلال إحصائى', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (97, N'3DE5F2DF-3A0B-47E1-8680-4FB9802A6409', N'STAT 301', N'(1) استدلال إحصائى', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (98, N'STAT 302', N'(2) استدلال إحصائى', 3, 3, 0, 1, 1, 3, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (98, N'C46F23EE-5588-4F22-A1D1-644B7888873D', N'STAT 302', N'(2) استدلال إحصائى', 3, 3, 0, 1, 1, 3, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (99, N'STAT 303', N'(1) عمليات عشوائية', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (99, N'ADB33764-2574-4759-A892-540A88A3EE77', N'STAT 303', N'(1) عمليات عشوائية', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (100, N'STAT 304', N'طرق المعاينة', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (100, N'800632EF-0A9B-47EC-B2CD-B4D50B31487A', N'STAT 304', N'طرق المعاينة', 3, 3, 0, 0, 1, 3, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (101, N'STAT 305', N'إحصاءات مرتبة', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (101, N'98751011-6B11-4E29-B712-196B7D803D43', N'STAT 305', N'إحصاءات مرتبة', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (102, N'STAT 311', N'محاكاة ونمذجة', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (102, N'AE18D46E-5153-469C-BA65-575728A93DB1', N'STAT 311', N'محاكاة ونمذجة', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (103, N'STAT 314', N'نظرية الصلاحية', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (103, N'6DA1D5A4-6FE1-429C-9A67-04558B497796', N'STAT 314', N'نظرية الصلاحية', 2, 2, 0, 0, 1, 3, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (104, N'STAT 315', N'(2) طرق إحتمالية فى بحوث العمليات', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (104, N'BDCD9E5E-64E8-4004-811D-45A566F5606D', N'STAT 315', N'(2) طرق إحتمالية فى بحوث العمليات', 3, 3, 0, 1, 0, 3, 1, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (105, N'STAT 405', N'تصميم و تحليل التجارب', 4, 3, 2, 0, 0, 4, 1, 120, 20, 10, 50)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (105, N'DDD8F92F-A41E-4F51-B0C7-E8D43BAE1029', N'STAT 405', N'تصميم و تحليل التجارب', 4, 3, 2, 0, 0, 4, 1, 120, 20, 10, 50)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (106, N'STAT 408', N'سلاسل زمنية', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (106, N'AD69088D-6E60-49DC-97B0-B3FBC3FA4B5D', N'STAT 408', N'سلاسل زمنية', 3, 3, 0, 0, 1, 4, 2, 105, 37, 8, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (107, N'STAT 411', N'التحليل التتابعى', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (107, N'E4FD4EC2-C968-49CF-8689-B675257DF73A', N'STAT 411', N'التحليل التتابعى', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (108, N'STAT 412', N'نظرية الطوابير', 2, 2, 0, 0, 1, 4, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (108, N'2239EA09-EDA4-4CCD-B728-76E896B4F781', N'STAT 412', N'نظرية الطوابير', 2, 2, 0, 0, 1, 4, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (109, N'STAT 415', N'تحليل إحصائى متعدد', 2, 2, 0, 1, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (109, N'DAB68550-72EC-46E1-8F2E-8F09B0370362', N'STAT 415', N'تحليل إحصائى متعدد', 2, 2, 0, 1, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (110, N'STAT 416', N'نظرية التجديد', 2, 2, 0, 0, 1, 4, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (110, N'08748262-8313-4C27-AD9F-E1B83CA1C061', N'STAT 416', N'نظرية التجديد', 2, 2, 0, 0, 1, 4, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (111, N'STAT 417', N'نظرية اتخاذ القرار', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (111, N'9E7573A3-E2D0-4234-84E1-E9530D3BCB03', N'STAT 417', N'نظرية اتخاذ القرار', 2, 2, 0, 0, 0, 4, 1, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (112, N'STAT 418', N'(2) عمليات عشوائية', 2, 2, 0, 0, 1, 4, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (112, N'2F40F047-724A-45ED-AD16-4F3B31CFC74D', N'STAT 418', N'(2) عمليات عشوائية', 2, 2, 0, 0, 1, 4, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (113, N'STAT 424', N'مشروع بحثى فى الإحصاء', 2, 0, 2, 2, 1, 4, 2, 70, 25, 5, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (113, N'FD4E0BCC-97A9-4F36-A127-DB95A4D6FF51', N'STAT 424', N'مشروع بحثى فى الإحصاء', 2, 0, 2, 2, 1, 4, 2, 70, 25, 5, 0)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (114, N'COMP 212', N'برمجة حاسب متقدم', 3, 2, 2, 0, 1, 2, 2, 90, 15, 8, 37)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (114, N'4BD01FF5-88C1-4220-B31D-4A833DA55138', N'COMP 212', N'برمجة حاسب متقدم', 3, 2, 2, 0, 1, 2, 2, 90, 15, 8, 37)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (115, N'COMP 313', N'حزم برمجية', 1, 0, 3, 0, 0, 3, 1, 0, 12, 3, 35)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (115, N'EC27B9D8-901C-43C6-A672-5EFEFB59FF7F', N'COMP 313', N'حزم برمجية', 1, 0, 3, 0, 0, 3, 1, 0, 12, 3, 35)
 GO
-INSERT [dbo].[Course] ([ID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (116, N'ASU 101', N'القضايا المجتمعية', 0, 1, 0, 0, 0, 1, 1, 50, 0, 0, 0)
+INSERT [dbo].[Course] ([ID], [GUID], [CourseCode], [CourseName], [CreditHours], [LectureHours], [LabHours], [SectionHours], [IsActive], [Level], [Semester], [Final], [YearWork], [Oral], [Practical]) VALUES (116, N'A7286F60-9484-4A1F-9E42-2C079083D80F', N'ASU 101', N'القضايا المجتمعية', 0, 1, 0, 0, 0, 1, 1, 50, 0, 0, 0)
 GO
 SET IDENTITY_INSERT [dbo].[Course] OFF
 GO
@@ -1738,25 +1740,25 @@ INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [Co
 GO
 SET IDENTITY_INSERT [dbo].[Program] ON 
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (1, N'برنامج الرياضيات (عام)', 1, 1, 1, 1, 16, N'General Math Program', N'برنامج الرياضيات', NULL)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (1, N'B5B0ABA3-B121-461E-9685-021E8FCC0CE5', N'برنامج الرياضيات (عام)', 1, 1, 1, 1, 16, N'General Math Program', N'برنامج الرياضيات', NULL)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (2, N'برنامج علوم الحاسب (عام)', 2, 0.35, 1, 1, 17, N'Computer Science', N'برنامج علوم الحاسب', 1)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (2, N'D2DE5C6B-7A7F-4F97-BFEB-CFE06220A8E1', N'برنامج علوم الحاسب (عام)', 2, 0.35, 1, 1, 17, N'Computer Science', N'برنامج علوم الحاسب', 1)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (3, N'برنامج الإحصاء الرياضى (عام)', 2, 0.35, 1, 1, 17, N'Statistics', N'برنامج الاحصاء الرياضي', 1)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (3, N'CDC2F28A-CACF-429E-9B3C-CCDC5B1DE9E4', N'برنامج الإحصاء الرياضى (عام)', 2, 0.35, 1, 1, 17, N'Statistics', N'برنامج الاحصاء الرياضي', 1)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (4, N'برنامج الرياضيات', 2, 0.3, 1, 0, 134, N'Pure Mathmatics', N'برنامج الرياضيات', 1)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (4, N'1D9B7411-834E-43B1-9472-B35D3123AFBB', N'برنامج الرياضيات', 2, 0.3, 1, 0, 134, N'Pure Mathmatics', N'برنامج الرياضيات', 1)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (5, N'برنامج علوم الحاسب', 3, 0.6, 1, 0, 134, N'Pure Computer Science', N'برنامج علوم الحاسب', 2)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (5, N'74A2386E-AD52-4123-80AB-F67F6C53EF12', N'برنامج علوم الحاسب', 3, 0.6, 1, 0, 134, N'Pure Computer Science', N'برنامج علوم الحاسب', 2)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (6, N'برنامج الرياضيات البحتة وعلوم الحاسب', 3, 0.4, 1, 0, 140, N'Mathmathic & Computer Science', N'برنامج الرياضيات البحته وعلوم الحاسب', 2)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (6, N'F782DF6E-0555-4C62-99EA-6E2C2B98FAF9', N'برنامج الرياضيات البحتة وعلوم الحاسب', 3, 0.4, 1, 0, 140, N'Mathmathic & Computer Science', N'برنامج الرياضيات البحته وعلوم الحاسب', 2)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (7, N'برنامج الإحصاء الرياضى وعلوم الحاسب', 3, 1, 1, 0, 140, N'Statistics & Computer Science', N'برنامج الاحصاء الرياضي وعلوم الحاسب', 3)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (7, N'C460B859-442B-444E-816B-1B2BE5640E9B', N'برنامج الإحصاء الرياضى وعلوم الحاسب', 3, 1, 1, 0, 140, N'Statistics & Computer Science', N'برنامج الاحصاء الرياضي وعلوم الحاسب', 3)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (8, N'برنامج الإحصاء الرياضى منفرد', 3, 1, 1, 0, 134, N'Pure Statisstics', N'برنامج الاحصاء الرياضي منفرد', 3)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (8, N'5ACF3D26-D583-414F-AAAF-EE45EC337373', N'برنامج الإحصاء الرياضى منفرد', 3, 1, 1, 0, 134, N'Pure Statisstics', N'برنامج الاحصاء الرياضي منفرد', 3)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (9, N'برنامج الإحصاء الرياضى والرياضات البحته', 3, 1, 1, 0, 140, N'Statistics & Mathmatics', N'برنامج الاحصاء الرياضي والرياضيات البحته', 3)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (9, N'7714D3DC-0AEF-417B-A31C-12C881CBDE11', N'برنامج الإحصاء الرياضى والرياضات البحته', 3, 1, 1, 0, 140, N'Statistics & Mathmatics', N'برنامج الاحصاء الرياضي والرياضيات البحته', 3)
 GO
-INSERT [dbo].[Program] ([ID], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (10, N'برنامج الكيمياء', 1, 0.2, 1, 1, 140, N'Chemistry', N'برنامج الكيمياء', NULL)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (10, N'2D669245-C37C-4955-9861-28BA4984719E', N'برنامج الكيمياء', 1, 0.2, 1, 1, 140, N'Chemistry', N'برنامج الكيمياء', NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Program] OFF
 GO
@@ -2637,6 +2639,10 @@ GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (330, N'd330a3f2-c6a8-4a7d-939d-e45ed2f18a6b', N'Student_638169111516356231', N'153', N'12345678912', CAST(N'2023-04-13' AS Date), N'العنوان', N'1', N'مصرى', N'153@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220817, N'220817', 12, 0, NULL, CAST(N'2023-04-13T17:28:00' AS SmallDateTime), NULL, 2, CAST(2.8338 AS Decimal(5, 4)), 16, 1, 0, 1, 1, 8, 8, 19, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Student] OFF
+GO
+INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'd3f88e49-b3d1-49ac-a208-68f257920299', 1, 8, 39, NULL, 1)
+GO
+INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'd3f88e49-b3d1-49ac-a208-68f257920299', 1, 8, 35, NULL, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (191, 57, 111, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 0, 1, 0, 16, 1, 0, 0, 0, 0, 0)
 GO
@@ -11060,8 +11066,6 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWo
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (287, 52, 136, NULL, NULL, NULL, NULL, N'C', 2.33, 9.32, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 29, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0, 0, 0)
-GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 43, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0, 0, 0)
@@ -13412,11 +13416,13 @@ INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-05-02 7:41:48 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [K_GUID] ON [dbo].[Student]
 (
 	[GUID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Course] ADD  CONSTRAINT [DF_Course_GUID]  DEFAULT (newid()) FOR [GUID]
 GO
 ALTER TABLE [dbo].[Course] ADD  CONSTRAINT [DF_Course_Final]  DEFAULT ((0)) FOR [Final]
 GO
@@ -13427,6 +13433,8 @@ GO
 ALTER TABLE [dbo].[Course] ADD  CONSTRAINT [DF_Course_Practical]  DEFAULT ((0)) FOR [Practical]
 GO
 ALTER TABLE [dbo].[Doctor] ADD  CONSTRAINT [DF_Doctor_Type]  DEFAULT ((1)) FOR [Type]
+GO
+ALTER TABLE [dbo].[Program] ADD  CONSTRAINT [DF_Program_guid]  DEFAULT (newid()) FOR [guid]
 GO
 ALTER TABLE [dbo].[Program] ADD  CONSTRAINT [DF_Program_TotalHours]  DEFAULT ((140)) FOR [TotalHours]
 GO
@@ -13616,7 +13624,7 @@ REFERENCES [dbo].[Doctor] ([ID])
 GO
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13630,7 +13638,7 @@ BEGIN
 		FROM @Questions;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13650,7 +13658,7 @@ INSERT INTO [dbo].[Course]
 		   FROM @Courses
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13660,7 +13668,7 @@ CREATE PROCEDURE [dbo].[AddDoctor]
 @Name NVARCHAR(MAX),
 @Email NVARCHAR(MAX),
 @Password NVARCHAR(MAX),
-@ProgramId INT,
+@ProgramGuid NVARCHAR(MAX),
 @Type TINYINT,
 @CreatedOn SMALLDATETIME
 AS
@@ -13672,10 +13680,10 @@ BEGIN
      VALUES
            (@GUID,@Name,@Email,
            @Password,1,@CreatedOn,
-           @ProgramID,@Type);
+           (SELECT ID FROM Program WHERE guid = @ProgramGuid),@Type);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewStudents]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewStudents]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13741,7 +13749,7 @@ BEGIN
 		DEALLOCATE StudentsCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13784,7 +13792,7 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13823,7 +13831,7 @@ INSERT INTO [dbo].[Student]
 		SELECT * FROM Student WHERE ID = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13849,7 +13857,7 @@ BEGIN
 	EXECUTE [dbo].[UpdateStudentComputedValues] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13877,7 +13885,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13907,7 +13915,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_CoursesAndTheirDoctors]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_CoursesAndTheirDoctors]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13929,7 +13937,7 @@ BEGIN
 	WHERE ay.ID BETWEEN @StartYear AND @EndYear;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsBasicData]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsBasicData]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13954,7 +13962,7 @@ BEGIN
 	WHERE (ey.ID BETWEEN @StartYear AND @EndYear)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsCoursesDetails]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsCoursesDetails]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -13986,7 +13994,7 @@ BEGIN
 	WHERE ay.ID BETWEEN @StartYear AND @EndYear;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsSemestersGpa]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsSemestersGpa]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14006,18 +14014,20 @@ BEGIN
 	GROUP BY s.guid,sc.AcademicYearID,ay.AcademicYear,ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[AssignDoctorsToCourse]
 @Doctors DoctorsGuidType READONLY,
-@CourseID INT
+@CourseGuid INT
 AS 
 BEGIN
 	BEGIN TRANSACTION
 	BEGIN TRY
+	DECLARE @CourseID INT;
+	SELECT @CourseID = ID FROM Course WHERE GUID = @CourseGuid;
 	DECLARE @YearID SMALLINT = [dbo].[GetCurrentYearID]();
 	DELETE FROM [dbo].[TeacherCourses]
 	WHERE CourseID = @CourseID AND AcademicYearID = @YearID;
@@ -14032,7 +14042,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14048,7 +14058,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14062,7 +14072,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14097,7 +14107,7 @@ DECLARE MarkUpdateConfirmalCursor CURSOR FOR
 	EXECUTE [dbo].[UpdateStudentComputedValues]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14108,12 +14118,24 @@ CREATE PROCEDURE [dbo].[CoursesActivation]
 AS
 BEGIN
 	DECLARE @SqlStatment NVARCHAR(MAX) = N'';
-	SET @SqlStatment += N'UPDATE Course SET IsActive = '+CAST(@IsActive AS nvarchar(1)) + ' WHERE ID IN '+@CourseLst+';';
+	SET @SqlStatment += N'UPDATE Course SET IsActive = '+CAST(@IsActive AS nvarchar(1)) + ' WHERE Guid IN '+@CourseLst+';';
 	EXECUTE sp_executesql 
 	@SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteCourseByGuid]    Script Date: 2023-05-02 7:41:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DeleteCourseByGuid]
+@Guid NVARCHAR(MAX)
+AS
+BEGIN
+	DELETE FROM Course WHERE guid = @Guid;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14131,7 +14153,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14146,7 +14168,7 @@ SELECT s.SSN,c.CourseCode
   END
  
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllDoctorsAsDropDown]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllDoctorsAsDropDown]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14154,12 +14176,12 @@ GO
 CREATE PROCEDURE [dbo].[GetAllDoctorsAsDropDown]
 AS
 BEGIN
-	SELECT GUID AS [ID]
+	SELECT d.GUID AS [ID]
 	,CONCAT(d.Name,' - ',d.Name) AS [Name]
 	FROM Doctor d JOIN Program p ON d.ProgramID = p.ID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14174,7 +14196,7 @@ BEGIN
 	WHERE StudentID = @StudentID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14194,16 +14216,16 @@ BEGIN
 	ORDER BY s.CGPA DESC,sd.DesireNumber ASC;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetAllSubPrograms]
-@ProgramID INT = NULL
+@ProgramGuid NVARCHAR(MAX) = NULL
 AS
 BEGIN
-IF @ProgramID IS NULL
+IF @ProgramGuid IS NULL
 	BEGIN
 		SELECT p.* FROM Program p
 	END
@@ -14212,7 +14234,7 @@ ELSE
 		WITH ParentChilds AS (
 			SELECT *
 			FROM Program
-			WHERE ID = @ProgramID
+			WHERE guid = @ProgramGuid
 		UNION ALL
 			SELECT child.*
 			FROM Program child
@@ -14224,7 +14246,7 @@ ELSE
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14270,7 +14292,7 @@ DECLARE @StudentEnrollYear SMALLINT = [dbo].[GetStudentEnrollYear]('+CAST(@Stude
 	EXECUTE sp_executesql @Statement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14317,7 +14339,21 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseByGuid]    Script Date: 2023-05-02 7:41:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetCourseByGuid]
+@Guid NVARCHAR(MAX)
+AS
+BEGIN
+	SELECT *
+	FROM [dbo].[Course]
+	WHERE GUID = @Guid;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14340,13 +14376,13 @@ BEGIN
 	WHERE pc.CourseID = @CourseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetCourses]
-@ProgramID INT = NULL,
+@ProgramID NVARCHAR(MAX) = NULL,
 @CourseProgramID INT = NULL,
 @CourseCode NVARCHAR(MAX) = NULL,
 @CourseName NVARCHAR(MAX) = NULL,
@@ -14379,15 +14415,16 @@ IF @ProgramID IS NOT NULL
 		WITH ParentChilds AS (
 			SELECT *
 			FROM Program
-			WHERE ID ='+ CAST(@ProgramID AS VARCHAR(10))+
-		' UNION ALL
+			WHERE Guid ='''+ @ProgramID+
+		''' UNION ALL
 			SELECT child.*
 			FROM Program child
 			JOIN ParentChilds pc
 			  ON pc.ID = child.superProgramID)';
 	END
-	SET @SelectStatment =@RecursionStatement + N' SELECT DISTINCT(c.[ID])
-      ,c.[CourseCode]
+	SET @SelectStatment =@RecursionStatement + N' SELECT DISTINCT(c.[guid])
+      ,c.id
+	  ,c.[CourseCode]
       ,c.[CourseName]
       ,c.[CreditHours]
       ,c.[LectureHours]
@@ -14462,7 +14499,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14478,7 +14515,7 @@ BEGIN
 	EXEC [dbo].[GetCoursesForDeletionOrWithdraw] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14496,7 +14533,7 @@ DECLARE @StudentProgram INT = [dbo].[GetStudentProgram](@StudentID);
 		sc.AcademicYearID =[dbo].[GetCurrentYearID]();	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14515,7 +14552,7 @@ BEGIN
 		EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,1 ;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14561,7 +14598,7 @@ DECLARE @CurrentSemester TINYINT;
 	EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14577,7 +14614,7 @@ EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,@Levels,1
 EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14599,7 +14636,7 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14648,7 +14685,7 @@ DECLARE @SelectStatement NVARCHAR(MAX), @FromStatement NVARCHAR(MAX), @WhereStat
 EXECUTE sp_executesql @SqlStatement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14667,7 +14704,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlSt;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14677,18 +14714,19 @@ CREATE PROCEDURE [dbo].[GetDoctorByGuid]
 @IsActive BIT = 1
 AS
 BEGIN
-SELECT Guid,
+SELECT d.Guid,
 		d.Name,
 		Email,
 		p.Name AS[ProgramName],
 		d.IsActive,
 		d.Type,
-		p.id AS [ProgramID]
+		p.guid AS [ProgramGuid],
+		p.ID AS [ProgramID]
 		FROM Doctor d JOIN Program p ON p.ID = d.ProgramID
-		WHERE GUID = @GUID AND IsActive = @IsActive;
+		WHERE d.GUID = @GUID AND IsActive = @IsActive;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14696,7 +14734,7 @@ GO
 CREATE PROCEDURE [dbo].[GetDoctors]
 @Name NVARCHAR(MAX) = NULL,
 @Email NVARCHAR(MAX)= NULL,
-@ProgramID INT= NULL,
+@ProgramGuid NVARCHAR(MAX) = NULL,
 @Type TINYINT = NULL,
 @IsActive BIT = NULL,
 @PageNumber INT = 1,
@@ -14713,13 +14751,13 @@ BEGIN
 	@ParamsDefinition nvarchar(max)=N'',
 	@OrderByStatement nvarchar(MAX)=N''
 
-	SET @SelectSt = N'SELECT Guid,
+	SET @SelectSt = N'SELECT d.Guid,
 		d.Name,
 		Email,
 		p.Name AS[ProgramName],
 		d.IsActive,
 		d.Type,
-		p.id AS [ProgramID]'
+		p.Guid AS [ProgramGuid]'
 	SET @FromSt = N'
 		FROM Doctor d JOIN Program p ON p.ID = d.ProgramID
 		';
@@ -14732,9 +14770,9 @@ BEGIN
 		BEGIN
 			SET @WhereSt += N' AND d.Email LIKE N''%'+@Email+'%''';
 		END
-	IF @ProgramID IS NOT NULL
+	IF @ProgramGuid IS NOT NULL
 		BEGIN
-			SET @WhereSt += N' AND p.id ='+CAST(@ProgramID AS NVARCHAR(MAX));
+			SET @WhereSt += N' AND p.guid =''' + @ProgramGuid+'''';
 		END
 	IF @Type IS NOT NULL
 		BEGIN
@@ -14760,7 +14798,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14796,7 +14834,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14812,7 +14850,7 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14824,16 +14862,16 @@ BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetProgramByID]
-@ID INT
+@Guid NVARCHAR(MAX)
 AS
 BEGIN
-	SELECT sub.ID,
+	SELECT sub.guid,
 	sub.Name,
 	sub.Semester,
 	sub.Percentage,
@@ -14842,22 +14880,26 @@ BEGIN
 	sub.TotalHours,
 	sub.EnglishName,
 	sub.ArabicName,
-	sub.SuperProgramID,
+	sup.ID As [SuperProgramID],
+	sup.Guid As [SuperProgramGuid],
 	sup.Name AS [SuperProgramName]
 	FROM Program sub LEFT JOIN Program sup on sup.ID = sub.SuperProgramID
-	WHERE sub.ID = @ID;
+	WHERE sub.guid = @GUID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramDetails]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramDetails]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetProgramDetails]
-@ProgramID INT
+@ProgramGUID NVARCHAR(MAX)
 AS
 BEGIN
-	EXECUTE [dbo].[GetProgramByID] @ProgramID;
+	DECLARE @ProgramID INT;
+	SELECT @ProgramID = ID FROM Program WHERE guid = @ProgramGUID;
+	--------------------------------------------------------------
+	EXECUTE [dbo].[GetProgramByID] @ProgramGUID;
 	------------------------------------------
 	SELECT [Level],[Semester],[NumberOfHours]
 		FROM [dbo].[ProgramDistribution]
@@ -14886,7 +14928,7 @@ BEGIN
 			ORDER BY c.Level,c.semester;	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14915,6 +14957,7 @@ BEGIN
 	@ParamsDefinition nvarchar(max)=N'',
 	@OrderByStatement nvarchar(MAX)=N''
 	SET @SelectSt = N'SELECT sub.ID,
+	sub.Guid,
 	sub.Name,
 	sub.Semester,
 	sub.Percentage,
@@ -14979,7 +15022,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15006,7 +15049,7 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15048,7 +15091,7 @@ DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),@WhereSt NVARCHAR(MAX),@Sq
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15091,7 +15134,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15124,7 +15167,7 @@ BEGIN
 			ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15162,7 +15205,7 @@ SELECT
   WHERE sc.StudentID = @StudentID AND sc.AcademicYearID = @AcademicYearID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15208,25 +15251,25 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[GetStudents]
-@ProgramID INT = NULL,
+@ProgramID NVARCHAR(MAX) = NULL,
 @AcademicCode NVARCHAR(MAX) = NULL,
 @SeatNumber NVARCHAR(MAX) = NULL,
 @WarningsNumber TINYINT = NULL,
 @WarningsOp NVARCHAR(2) = '=',
-@SupervisorID INT = NULL,
+@SupervisorID NVARCHAR(MAX) = NULL,
 @CGPA FLOAT = NULL,
 @PassedHours TINYINT = NULL,
 @Level TINYINT = NULL,
 @Gender TINYINT = NULL,
 @IsGraduated BIT = NULL,
 @IsActive BIT = NULL,
-@CurrentProgramID INT = NULL,
+@CurrentProgramID NVARCHAR(MAX) = NULL,
 @Name NVARCHAR(MAX) = NULL,
 @SSN NVARCHAR(MAX) = NULL,
 @PhoneNumber NVARCHAR(MAX) = NULL,
@@ -15254,8 +15297,7 @@ IF @ProgramID IS NOT NULL
 		WITH ParentChilds AS (
 			SELECT *
 			FROM Program
-			WHERE ID ='+ CAST(@ProgramID AS VARCHAR(10))+
-		' UNION ALL
+			WHERE Guid LIKE'''+@ProgramID+''' UNION ALL
 			SELECT child.*
 			FROM Program child
 			JOIN ParentChilds pc
@@ -15279,10 +15321,20 @@ IF @ProgramID IS NOT NULL
       s.[IsActive],
 	  s.[Gender],
 	  s.[Address],
-      s.[CurrentProgramID] AS ProgramID,
+      p.[Guid] AS ProgramID,
 	  p.[Name] AS ProgramName,
 	  d.[Name] AS SupervisorName';
-	SET @FromStatment = N' FROM Student s LEFT JOIN Program p ON p.ID = s.CurrentProgramID LEFT JOIN Doctor d ON d.ID = s.SupervisorID ';
+	  IF @GetCoursesRequestsOnly = 1
+		  BEGIN
+		  SET @FromStatment =N' FROM StudentCourseRequest scr LEFT JOIN Student s ON s.ID = scr.StudentID
+									LEFT JOIN Program p ON p.ID = s.CurrentProgramID 
+									LEFT JOIN Doctor d ON d.ID = s.SupervisorID ';
+		  END
+	  ELSE
+		  BEGIN
+				SET @FromStatment = N' FROM Student s LEFT JOIN Program p ON p.ID = s.CurrentProgramID 
+									 LEFT JOIN Doctor d ON d.ID = s.SupervisorID ';
+		  END
 	IF @IncludeRegistrationDetails = 1
 		BEGIN
 		SET @SelectStatment +=N'
@@ -15298,14 +15350,13 @@ IF @ProgramID IS NOT NULL
 	SET @WhereStatment = N' WHERE 1 = 1 ';
 	IF @GetCoursesRequestsOnly = 1
 	BEGIN
-		SET @FromStatment+=N' RIGHT JOIN StudentCourseRequest scr ON scr.StudentID = s.ID ';
 		IF @IsApprovedCourseRequest IS NULL
 		BEGIN
-			SET @WhereStatment = N' AND scr.IsApproved IS NULL ';
+			SET @WhereStatment += N' AND scr.IsApproved IS NULL ';
 		END
 		ELSE
 		BEGIN
-			SET @WhereStatment = N' AND scr.IsApproved = '+CAST(@IsApprovedCourseRequest AS NVARCHAR(MAX));
+			SET @WhereStatment += N' AND scr.IsApproved = '+CAST(@IsApprovedCourseRequest AS NVARCHAR(MAX));
 		END
 	END
 	IF @ProgramID IS NOT NULL
@@ -15330,7 +15381,7 @@ IF @ProgramID IS NOT NULL
 		END
 	IF @SupervisorID IS NOT NULL
 		BEGIN
-			SET @WhereStatment += N' AND s.SupervisorID =' + CAST(@SupervisorID AS VARCHAR(3));
+			SET @WhereStatment += N' AND s.SupervisorID =(SELECT ID FROM Doctor WHERE Guid =''' +@SupervisorID+''')';
 		END
 	IF @CGPA IS NOT NULL
 		BEGIN
@@ -15354,7 +15405,7 @@ IF @ProgramID IS NOT NULL
 		END
 	IF @CurrentProgramID IS NOT NULL
 		BEGIN
-			SET @WhereStatment += N' AND s.CurrentProgramID =' + CAST(@CurrentProgramID AS VARCHAR(10));
+			SET @WhereStatment += N' AND s.CurrentProgramID =(SELECT ID FROM Program WHERE Guid = ''' + @CurrentProgramID+''')';
 		END
 	IF @Name IS NOT NULL
 		BEGIN
@@ -15387,7 +15438,7 @@ PRINT @SqlStatment;
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15406,7 +15457,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15419,7 +15470,7 @@ BEGIN
 	FROM SuperAdmin s WHERE GUID = @Guid
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15429,10 +15480,12 @@ CREATE PROCEDURE [dbo].[Login_Doctor]
 @Password VARCHAR(MAX)
 AS
 	BEGIN
-		SELECT * FROM Doctor WHERE Email = @Email AND Password = @Password AND IsActive = 1;
+		SELECT d.Type,d.GUID,(SELECT GUID FROM Program WHERE ID =d.ProgramID) AS ProgramGuid
+		FROM Doctor d
+		WHERE d.Email = @Email AND d.Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15445,7 +15498,7 @@ AS
 		SELECT * FROM Student WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15458,7 +15511,7 @@ AS
 		SELECT * FROM SuperAdmin WHERE Email = @Email AND Password = @Password;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15516,7 +15569,7 @@ AS
 			WHERE StudentID = @StudentID AND IsIncluded = 0;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15528,14 +15581,14 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[Report_CourseGradesSheet]
 @CourseID INT,
-@MarkTypeID TINYINT
+@IsFinalExam BIT
 AS
 BEGIN
 	DECLARE @CurrentYearID TINYINT = [dbo].[GetCurrentYearID]();
@@ -15547,21 +15600,13 @@ BEGIN
 	s.Name,
 	s.Level,
 	p.Name AS [ProgramName],';
-	IF @MarkTypeID = 1
+	IF @IsFinalExam = 1
 		BEGIN
-			SET @Sql +=N'sc.Final AS [Mark]';
+			SET @Sql +=N'sc.Final AS [Final]';
 		END
-	ELSE IF @MarkTypeID = 2
+	ELSE 
 		BEGIN
-			SET @Sql +=N'sc.YearWork AS [Mark]';
-		END
-	ELSE IF @MarkTypeID = 3
-		BEGIN
-			SET @Sql +=N'sc.Oral AS [Mark]';
-		END
-	ELSE
-		BEGIN
-			SET @Sql +=N'sc.Practical AS [Mark]';
+			SET @Sql +=N'sc.YearWork AS [YearWork],sc.Oral AS [Oral], sc.Practical AS [Practical]';
 		END
 	SET @Sql +=N'
 	FROM Student s JOIN Program p ON p.ID = s.CurrentProgramID JOIN StudentCourses sc ON s.ID = sc.StudentID
@@ -15571,7 +15616,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15599,13 +15644,13 @@ BEGIN
 	sc.AcademicYearID = [dbo].[GetCurrentYearID]();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[Report_GetStruggledStudents]
-@ProgramID INT = NULL,
+@ProgramID NVARCHAR(MAX) = NULL,
 @IsActive INT = NULL,
 @WarningsNumber INT = NULL
 AS
@@ -15621,7 +15666,7 @@ IF @ProgramID IS NOT NULL
 		WITH ParentChilds AS (
 			SELECT *
 			FROM Program
-			WHERE ID ='+CAST(@ProgramID AS VARCHAR(10)) +' UNION ALL
+			WHERE Guid ='''+ @ProgramID+'''UNION ALL
 			SELECT child.*
 			FROM Program child
 			JOIN ParentChilds pc
@@ -15651,7 +15696,7 @@ IF @ProgramID IS NOT NULL
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStudentsByCGPA]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStudentsByCGPA]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15660,10 +15705,10 @@ CREATE PROCEDURE [dbo].[Report_GetStudentsByCGPA]
 @FromCgpa DECIMAl(5,4) = NULL,
 @ToCgpa DECIMAl(5,4) = NULL,
 @Level TINYINT = NULL,
-@ProgramID INT,
+@ProgramID NVARCHAR(MAX),
 @IsGraduated BIT = 0,
-@StartGraduationYearID SMALLINT NULL,
-@EndGraduationYearID SMALLINT NULL
+@StartGraduationYearID SMALLINT = NULL,
+@EndGraduationYearID SMALLINT = NULL
 AS
 BEGIN
 	IF @IsGraduated = 0
@@ -15694,7 +15739,7 @@ BEGIN
 		WITH ParentChilds AS (
 			SELECT *
 			FROM Program
-			WHERE ID = @ProgramID
+			WHERE GUID = @ProgramID
 		UNION ALL
 			SELECT child.*
 			FROM Program child
@@ -15723,7 +15768,55 @@ BEGIN
 	ORDER BY s.CGPA DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_MultipleAcademicReports]    Script Date: 2023-05-02 7:41:48 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Report_MultipleAcademicReports]
+@ProgramGuid VARCHAR(MAX)
+AS
+BEGIN
+	DECLARE @MyTableVar TABLE (
+		ID INT
+	);
+	WITH ParentChilds AS (
+	SELECT *
+	FROM Program
+	WHERE guid = @ProgramGuid
+	UNION ALL
+	SELECT child.*
+	FROM Program child
+	JOIN ParentChilds pc
+	ON pc.ID = child.superProgramID
+	)	
+	INSERT INTO @MyTableVar
+	SELECT ID FROM ParentChilds
+
+	SELECT COUNT(ID) AS StudentsCount FROM Student
+	WHERE CurrentProgramID IN (SELECT ID FROM @MyTableVar);
+
+
+	DECLARE @StudentID INT;
+	DECLARE AcademicReportCursor CURSOR FOR  
+			SELECT ID
+			FROM Student
+			WHERE CurrentProgramID IN (SELECT ID FROM @MyTableVar);
+
+		OPEN AcademicReportCursor;  
+		FETCH NEXT FROM AcademicReportCursor 
+		INTO @StudentID;
+			WHILE @@FETCH_STATUS = 0 
+				BEGIN
+					EXEC [Report_StudentAcademicReport] @StudentID
+					FETCH NEXT FROM AcademicReportCursor 
+					INTO @StudentID;
+				END;  
+			CLOSE AcademicReportCursor;  
+		DEALLOCATE AcademicReportCursor;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15733,6 +15826,9 @@ CREATE PROCEDURE [dbo].[Report_StudentAcademicReport]
 @ForDoctorView BIT = 0
 AS
 BEGIN
+	SELECT s.ID,s.Name,s.AcademicCode,p.Name AS ProgramName,s.SSN
+					FROM Student s JOIN Program p ON s.CurrentProgramID = p.ID
+					WHERE s.ID = @StudentID
 	SELECT c.ID,
 	c.CourseCode,
 	c.CourseName,
@@ -15757,7 +15853,7 @@ BEGIN
 	EXEC [dbo].[GetStudentAcademicYearsSummary] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15795,7 +15891,7 @@ BEGIN
 	ORDER BY c.Level,c.Semester,pc.CourseType,pc.Category;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15821,7 +15917,7 @@ BEGIN
 		WHERE StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15845,7 +15941,7 @@ BEGIN
 	DELETE FROM StudentProgramTransferRequest;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15875,7 +15971,7 @@ DECLARE @SelectStatement NVARCHAR(MAX) = N'',
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15889,7 +15985,7 @@ BEGIN
 	  GROUP BY p.Name,p.ArabicName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15942,7 +16038,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15974,7 +16070,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15992,7 +16088,7 @@ BEGIN
 	VALUES(@StudentID,@ProgramID,@ReasonForTransfer)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16005,7 +16101,7 @@ BEGIN
 	UPDATE Doctor SET IsActive = @IsActive WHERE GUID = ''+@GUID+'';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16022,7 +16118,7 @@ BEGIN
 	WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16053,7 +16149,7 @@ BEGIN
 	 WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16062,7 +16158,7 @@ CREATE PROCEDURE [dbo].[UpdateDoctor]
 @Guid NVARCHAR(MAX),
 @Name NVARCHAR(MAX),
 @Email NVARCHAR(MAX),
-@ProgramID INT,
+@ProgramGuid NVARCHAR(MAX),
 @Type TINYINT
 AS
 BEGIN
@@ -16070,12 +16166,12 @@ BEGIN
 	   SET 
 		  [Name] = @Name
 		  ,[Email] = @Email
-		  ,[ProgramID] = @ProgramID
+		  ,[ProgramID] = (SELECT ID FROM Program WHERE guid = @ProgramGuid) 
 		  ,[Type] = @Type
 	 WHERE [GUID] = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateFullProgram]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateFullProgram]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16153,13 +16249,13 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[UpdateProgramBasicData]
-@ID INT,
+@GUID NVARCHAR(MAX),
 @Name NVARCHAR(MAX),
 @Semester TINYINT,
 @Percentage FLOAT,
@@ -16168,23 +16264,25 @@ CREATE PROCEDURE [dbo].[UpdateProgramBasicData]
 @TotalHours TINYINT,
 @ArabicName NVARCHAR(MAX),
 @EnglishName NVARCHAR(MAX),
-@SuperProgramId INT = NULL
+@SuperProgramGUID NVARCHAR(MAX) = NULL
 AS
 BEGIN
-UPDATE [dbo].[Program]
-   SET [Name] = @Name
-      ,[Semester] = @Semester
-      ,[Percentage] = @Percentage
-      ,[IsRegular] = @IsRegular
-      ,[IsGeneral] = @IsGeneral
-      ,[TotalHours] = @TotalHours
-      ,[EnglishName] = @EnglishName
-      ,[ArabicName] = @ArabicName
-      ,[SuperProgramID] = @SuperProgramId
- WHERE ID = @ID
+	DECLARE @SuperProgramID INT = NULL;
+	SELECT ID FROM Program WHERE guid = @SuperProgramGUID;
+	UPDATE [dbo].[Program]
+	   SET [Name] = @Name
+		  ,[Semester] = @Semester
+		  ,[Percentage] = @Percentage
+		  ,[IsRegular] = @IsRegular
+		  ,[IsGeneral] = @IsGeneral
+		  ,[TotalHours] = @TotalHours
+		  ,[EnglishName] = @EnglishName
+		  ,[ArabicName] = @ArabicName
+		  ,[SuperProgramID] = @SuperProgramId
+	 WHERE GUID = @GUID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16223,7 +16321,7 @@ UPDATE [dbo].[Student]
  WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudentComputedValues]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudentComputedValues]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16265,7 +16363,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16279,7 +16377,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16303,7 +16401,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16331,7 +16429,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16361,7 +16459,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16394,7 +16492,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16445,7 +16543,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourseRequest] ENABLE TRIGGER [HandleRequest]
 GO
-/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16671,7 +16769,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [EntringStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16721,7 +16819,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [GiveBackCredits]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16868,7 +16966,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [UpdateStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16886,7 +16984,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16904,7 +17002,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgramAfterDelete]
 GO
-/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-04-25 12:54:05 AM ******/
+/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-05-02 7:41:48 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

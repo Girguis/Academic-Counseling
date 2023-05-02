@@ -7,15 +7,14 @@ namespace FOS.Core.IRepositories
     public interface ICourseRepo
     {
         bool Add(AddCourseParamModel course);
-        bool Delete(int id);
+        bool Delete(string id);
         bool IsCourseExist(string courseCode);
         bool Update(int id, AddCourseParamModel course);
-        Course GetById(int id);
+        Course GetById(string id);
         (Course course, IEnumerable<string> doctors, IEnumerable<string> programs) GetCourseDetails(int id);
-        List<Course> GetAll(out int totalCount, string doctorID, SearchCriteria criteria = null, int? doctorProgramID = null);
+        List<Course> GetAll(out int totalCount, string doctorID, SearchCriteria criteria = null, string? doctorProgramID = null);
         List<Course> GetAll();
-        bool Activate(List<int> courseIDs);
-        bool Deactivate(List<int> courseIDs);
+        bool ToggleActivation(HashSet<string> courseIDs, bool isActive);
         bool AssignDoctorsToCourse(DoctorsToCourseParamModel model);
         bool ConfirmExamsResult();
     }

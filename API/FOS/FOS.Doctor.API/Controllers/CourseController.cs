@@ -45,6 +45,7 @@ namespace FOS.Doctors.API.Controllers
                 string doctorID = null;
                 if (criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "mycourses")?.Value?.ToString().ToLower() == "true")
                     doctorID = doctorRepo.GetById(this.Guid()).Guid;
+                
                 var courses = courseRepo.GetAll(out int totalCount, doctorID, criteria, this.ProgramID());
                 return Ok(new
                 {
@@ -60,16 +61,17 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpGet("GetByID/{id}")]
-        public IActionResult GetByID(int id)
+        public IActionResult GetByID(string id)
         {
             try
             {
-                var (course, doctors, programs) = courseRepo.GetCourseDetails(id);
+                var course = courseRepo.GetById(id);
                 if (course == null)
                     return NotFound();
+                var (courseData, doctors, programs) = courseRepo.GetCourseDetails(course.Id);
                 return Ok(new
                 {
-                    Course = course,
+                    Course = courseData,
                     Doctors = doctors,
                     Programs = programs
                 });
@@ -114,7 +116,7 @@ namespace FOS.Doctors.API.Controllers
 
         [HttpDelete("Delete/{id}")]
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult DeleteCourse(int id)
+        public IActionResult DeleteCourse(string id)
         {
             try
             {
@@ -137,7 +139,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPut("Update/{id}")]
-        public IActionResult UpdateCourse(int id, AddCourseParamModel courseModel)
+        public IActionResult UpdateCourse(string id, AddCourseParamModel courseModel)
         {
             try
             {
@@ -154,7 +156,7 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Massage = Resource.InvalidData
                     });
-                bool res = courseRepo.Update(id, courseModel);
+                bool res = courseRepo.Update(course.Id, courseModel);
                 if (!res) return BadRequest(new
                 {
                     Massage = Resource.ErrorOccurred,
@@ -170,17 +172,17 @@ namespace FOS.Doctors.API.Controllers
         }
         [HttpPost("Activate")]
         [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
-        public IActionResult Activate([FromBody] List<int> courseIDs)
+        public IActionResult Activate([FromBody] HashSet<string> courseIDs)
         {
             try
             {
-                if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs[0] == 0))
+                if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs.ElementAt(0) == "string"))
                     return BadRequest(new
                     {
                         Massage = Resource.EmptyList,
                         Data = courseIDs
                     });
-                var activated = courseRepo.Activate(courseIDs);
+                var activated = courseRepo.ToggleActivation(courseIDs, true);
                 if (!activated)
                     return BadRequest(new
                     {
@@ -197,17 +199,17 @@ namespace FOS.Doctors.API.Controllers
         }
         [HttpPost("Deactivate")]
         [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
-        public IActionResult Deactivate([FromBody] List<int> courseIDs)
+        public IActionResult Deactivate([FromBody] HashSet<string> courseIDs)
         {
             try
             {
-                if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs[0] == 0))
+                if (courseIDs == null || courseIDs.Count < 1 || (courseIDs.Count == 1 && courseIDs.ElementAt(0) == "string"))
                     return BadRequest(new
                     {
                         Massage = Resource.EmptyList,
                         Data = courseIDs
                     });
-                var deActivated = courseRepo.Deactivate(courseIDs);
+                var deActivated = courseRepo.ToggleActivation(courseIDs, false);
                 if (!deActivated)
                     return BadRequest(new
                     {
@@ -222,33 +224,32 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpGet("CreateGradesSheet/{CourseID}/{ExamType}")]
-        public IActionResult CreateGradesExcel(int CourseID,int ExamType)
+        [HttpGet("CreateGradesSheet/{CourseID}/{IsFinalExam}")]
+        public IActionResult CreateGradesExcel(string CourseID,bool IsFinalExam)
         {
             try
             {
-                if (!(ExamType >= 1 && ExamType <= 4))
-                    return BadRequest(new { Massage = Resource.InvalidData });
                 var course = courseRepo.GetById(CourseID);
                 if (course == null)
                     return NotFound();
-                if (!Helper.HasThisTypeOfExam(ExamType, course))
+                if ((IsFinalExam && !course.HasFinalExam())
+                   || (!IsFinalExam && !course.HasYearWorkExams()))
                     return BadRequest(new
                     {
-                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)ExamType))
+                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType)
                     });
-                var data = studentCoursesRepo.GetStudentsMarksList(new StudentsExamParamModel { CourseID = CourseID, ExamType = ExamType});
+                var data = studentCoursesRepo.GetStudentsMarksList(new StudentsExamParamModel { CourseID = course.Id });
                 if (data.Course == null) return NotFound();
-                if(data.Students == null || data.Students.Count < 1)
+                if (data.Students == null || data.Students.Count < 1)
                     return NotFound(new
                     {
                         Massage = Resource.NoData
                     });
-                var stream = CourseGradesSheet.CreateSheet(data, ExamType);
+                var stream = CourseGradesSheet.CreateSheet(data, IsFinalExam);
                 return File(stream,
                     "application/vnd.ms-excel",
                     string.Concat(data.Course.CourseCode, "_", data.Course.CourseName,
-                        "_", Helper.GetDescription((ExamTypeEnum)ExamType), ".xlsx")
+                        "_", Helper.GetDescription(IsFinalExam?ExamTypeEnum.Final:ExamTypeEnum.YearWork), ".xlsx")
                     );
             }
             catch (Exception ex)
@@ -265,74 +266,50 @@ namespace FOS.Doctors.API.Controllers
                 if (model.file.Length < 0 || !model.file.FileName.EndsWith(".xlsx"))
                     return BadRequest(new
                     {
-                        Massage = Resource.FileNotValid,
-                        Data = new
-                        {
-                            CourseID = model.CourseID,
-                            File = model.file
-                        }
+                        Massage = Resource.FileNotValid
                     });
                 var course = courseRepo.GetById(model.CourseID);
                 if (course == null)
                     return NotFound();
-                if (!Helper.HasThisTypeOfExam(model.ExamType, course))
+                if ((model.IsFinalExam && !course.HasFinalExam())
+                    || (!model.IsFinalExam && !course.HasYearWorkExams()))
                     return BadRequest(new
                     {
-                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)model.ExamType))
+                        Massage = string.Format(Resource.CourseDoesntHaveThisMarkType)
                     });
                 MemoryStream ms = new MemoryStream();
                 model.file.OpenReadStream().CopyTo(ms);
                 var wb = new XLWorkbook(ms);
                 ms.Close();
-                wb.TryGetWorksheet(course.CourseCode, out var ws);
-                if (ws == null)
+                wb.TryGetWorksheet(wb.Worksheets.ElementAt(0).Name, out var ws);
+                var H2Text = ws.Cell("H2").Value.ToString();
+                var courseCode = H2Text.Substring(H2Text.IndexOf('(') + 1, (H2Text.IndexOf(')') - H2Text.IndexOf('(') - 1));
+                if (ws == null || courseCode != course.CourseCode)
                     return BadRequest(new
                     {
                         Massage = string.Format(Resource.FileNotValid,
-                                                wb.Worksheet(1).Name,
-                                                course.CourseCode),
-                        Data = new
-                        {
-                            CourseID = model.CourseID,
-                            File = model.file
-                        }
+                                                courseCode,
+                                                course.CourseCode)
                     });
-                var allText = ws.Cell("G2").Value.GetText().Split(':');
-                var examType = allText[allText.Length - 1].Trim();
-                var requestedExamType = Helper.GetDescription((ExamTypeEnum)model.ExamType);
-                if (examType != requestedExamType)
+                var splitedH2 = H2Text.Split(':');
+                var examType = splitedH2[^1].Split("\n")[0].Trim();
+                if ((examType == Helper.GetDescription(ExamTypeEnum.Final) && !model.IsFinalExam) ||
+                    (examType == Helper.GetDescription(ExamTypeEnum.YearWork) && model.IsFinalExam))
                     return BadRequest(new
                     {
-                        Massage = string.Format(Resource.FileNotValid,
-                                                examType,
-                                               requestedExamType),
-                        Data = new
-                        {
-                            CourseID = model.CourseID,
-                            File = model.file
-                        }
+                        Massage = Resource.FileNotValid
                     });
-                var outModel = CourseGradesSheet.ReadGradesSheet(ws, academicYearRepo.GetCurrentYear().Id, model.CourseID);
+                var outModel = CourseGradesSheet.ReadGradesSheet(wb, academicYearRepo.GetCurrentYear().Id, course.Id, model.IsFinalExam);
                 if (outModel == null)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccurred,
-                        Data = new
-                        {
-                            CourseID = model.CourseID,
-                            File = model.file
-                        }
+                        Massage = Resource.ErrorOccurred
                     });
-                var updated = studentCoursesRepo.UpdateStudentsGradesFromSheet(outModel, model.ExamType);
+                var updated = studentCoursesRepo.UpdateStudentsGradesFromSheet(outModel, model.IsFinalExam);
                 if (!updated)
                     return BadRequest(new
                     {
-                        Massage = Resource.ErrorOccurred,
-                        Data = new
-                        {
-                            CourseID = model.CourseID,
-                            File = model.file
-                        }
+                        Massage = Resource.ErrorOccurred
                     });
                 return Ok();
             }
@@ -344,7 +321,7 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpGet("CreateCommitteePDF/{CourseID}/{ExamType}")]
-        public IActionResult CreateCommitteePDF(int CourseID, int ExamType)
+        public IActionResult CreateCommitteePDF(string CourseID, int ExamType)
         {
             try
             {
@@ -358,8 +335,7 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Massage = string.Format(Resource.CourseDoesntHaveThisMarkType, Helper.GetDisplayName((ExamTypeEnum)ExamType))
                     });
-
-                var result = studentCoursesRepo.GetStudentsList(CourseID);
+                var result = studentCoursesRepo.GetStudentsList(course.Id);
                 if (result.Students.Count < 1)
                     return NotFound(new
                     {

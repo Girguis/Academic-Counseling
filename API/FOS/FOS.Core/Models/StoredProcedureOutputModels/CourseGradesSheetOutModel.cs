@@ -17,6 +17,9 @@
         public string Name { get; set; }
         public int Level { get; set; }
         public string ProgramName { get; set; }
-        public int? Mark { get; set; }
+        public byte? Final { get; set; } = null;
+        public byte? Oral { get; set; } = null;
+        public byte? YearWork { get; set; } = null;
+        public byte? Practical { get; set; } = null;
     }
 }

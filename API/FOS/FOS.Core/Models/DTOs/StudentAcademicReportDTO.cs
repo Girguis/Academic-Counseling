@@ -13,6 +13,7 @@
         public byte? Level { get; set; }
         public byte? WarningsNumber { get; set; }
         public string SeatNumber { get; set; }
+        public string AcademicCode { get; set; }
         public string SupervisorName { get; set; }
         public byte AvailableCredits { get; set; }
         public string PhoneNumber { get; set; }

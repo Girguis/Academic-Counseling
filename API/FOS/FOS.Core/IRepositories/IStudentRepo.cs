@@ -12,11 +12,10 @@ namespace FOS.Core.IRepositories
     public interface IStudentRepo
     {
         Student Get(string GUID, bool includeProgram = false, bool includeSupervisor = false);
-        (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, int? DoctorProgramID = null);
+        (int totalCount, List<StudentsDTO> students) GetAll(SearchCriteria criteria, string? DoctorProgramID = null);
         StudentAcademicReportDTO GetAcademicDetails(Student student);
-        (List<AcademicYearsDTO> academicYears
-            ,List<StudentCoursesGradesOutModel> courses) 
-            GetAcademicDetailsForReport(int studentID);
+        AcademicReportOutModel GetAcademicDetailsForReport(int studentID);
+        IEnumerable<AcademicReportOutModel> AcademicReportsPerProgram(string programGuid);
         Student Login(string email, string hashedPassword);
         Student Add(Student student);
         bool Add(DataTable dataTable);

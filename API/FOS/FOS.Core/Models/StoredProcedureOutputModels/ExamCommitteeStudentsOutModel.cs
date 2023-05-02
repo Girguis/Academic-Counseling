@@ -11,10 +11,10 @@
         public string CourseCode { get; set; }
         public string CourseName { get; set; }
         public int CreditHours { get; set; }
-        public int Final { get; set; }
-        public int YearWork { get; set; }
-        public int Oral { get; set; }
-        public int Practical { get; set; }
+        public byte Final { get; set; }
+        public byte YearWork { get; set; }
+        public byte Oral { get; set; }
+        public byte Practical { get; set; }
     }
     public class StudentOutModel
     {

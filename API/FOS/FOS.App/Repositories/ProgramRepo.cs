@@ -114,17 +114,17 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProgramBasicDataDTO GetProgram(int id)
+        public ProgramBasicDataDTO GetProgram(string id)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@ID", id);
+            parameters.Add("@Guid", id);
             return QueryExecuterHelper.Execute<ProgramBasicDataDTO>(config.CreateInstance(),
                 "GetProgramByID", parameters).FirstOrDefault();
         }
-        public List<ProgramBasicDataDTO> GetPrograms(int? superProgID = null)
+        public List<ProgramBasicDataDTO> GetPrograms(string superProgID = null)
         {
             DynamicParameters parameter = new DynamicParameters();
-            parameter.Add("@ProgramID", superProgID);
+            parameter.Add("@ProgramGuid", superProgID);
             return QueryExecuterHelper.Execute<ProgramBasicDataDTO>(config.CreateInstance(),
                 "GetAllSubPrograms",
                 parameter);
@@ -158,9 +158,9 @@ namespace FOS.App.Repositories
         }
         public bool UpdateProgramBasicData(ProgramBasicDataUpdateParamModel model)
         {
-            List<SqlParameter> parameters = new List<SqlParameter>()
+            List<SqlParameter> parameters = new()
             {
-                new SqlParameter("@ID",model.Id),
+                new SqlParameter("@Guid",model.Guid),
                 new SqlParameter("@Name",model.Name),
                 new SqlParameter("@Semester",model.Semester),
                 new SqlParameter("@Percentage",model.Percentage),
@@ -170,16 +170,16 @@ namespace FOS.App.Repositories
                 new SqlParameter("@ArabicName",model.ArabicName),
                 new SqlParameter("@EnglishName",model.EnglishName),
             };
-            if (model.SuperProgramId.HasValue)
-                parameters.Add(new SqlParameter("@SuperProgramId", model.SuperProgramId.Value));
+            if (!string.IsNullOrEmpty(model.SuperProgramGuid))
+                parameters.Add(new SqlParameter("@SuperProgramGuid", model.SuperProgramGuid));
             return QueryExecuterHelper.Execute(config.CreateInstance(),
                 "UpdateProgramBasicData", parameters);
         }
 
-        public ProgramDetailsOutModel GetProgramDetails(int id)
+        public ProgramDetailsOutModel GetProgramDetails(string id)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@ProgramID", id);
+            parameters.Add("@ProgramGuid", id);
             var con = config.CreateInstance();
             var queryResult = con.QueryMultiple("GetProgramDetails", parameters, commandType: CommandType.StoredProcedure);
             ProgramDetailsOutModel model = new()

@@ -33,7 +33,7 @@ namespace FOS.Core.IRepositories
             CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
         CourseGradesSheetOutModel GetStudentsMarksList(StudentsExamParamModel model);
         ExamCommitteeStudentsOutModel GetStudentsList(int CourseID);
-        bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, int examType);
+        bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, bool isFinalExam);
         bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model);
         bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model, int courseOp);
         List<GetAllCoursesRegistrationModel> GetAllRegistrations();
