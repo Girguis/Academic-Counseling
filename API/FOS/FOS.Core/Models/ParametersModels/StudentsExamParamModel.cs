@@ -14,4 +14,9 @@ namespace FOS.Core.Models.ParametersModels
         public bool IsFinalExam { get; set; }
         public IFormFile file { get; set; }
     }
+    public class MultipleCourseExamSheetUploadModel
+    {
+        public bool IsFinalExam { get; set; }
+        public List<IFormFile> Files { get; set;}
+    }
 }

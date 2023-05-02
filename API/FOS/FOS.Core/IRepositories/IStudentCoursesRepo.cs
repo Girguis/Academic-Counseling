@@ -32,6 +32,7 @@ namespace FOS.Core.IRepositories
             List<StudentCourse> toBeUpdatedLst, List<StudentCourse> toBeUpdatedOldMarksLst)
             CompareStudentCourse(int studentID, List<StudentCourse> studentCourses);
         CourseGradesSheetOutModel GetStudentsMarksList(StudentsExamParamModel model);
+        List<CourseGradesSheetOutModel> GetStudentsMarksList(bool isFinalExam);
         ExamCommitteeStudentsOutModel GetStudentsList(int CourseID);
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, bool isFinalExam);
         bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model);

@@ -191,6 +191,25 @@ namespace FOS.App.Repositories
             outModel.Students = result.Read<StudentMarkOutModel>().ToList();
             return outModel;
         }
+        public List<CourseGradesSheetOutModel> GetStudentsMarksList(bool isFinalExam)
+        {
+            DynamicParameters parameters = new();
+            parameters.Add("@IsFinalExam", isFinalExam);
+            using var con = config.CreateInstance();
+            var result = con.QueryMultiple("Report_MultipleCourseGradesSheet", parameters, commandType: CommandType.StoredProcedure);
+            int coursesCount = result.ReadFirst<int>();
+            var courses = new List<CourseGradesSheetOutModel>();
+            for(int i=0;i<coursesCount; i++)
+            {
+                courses.Add(new CourseGradesSheetOutModel
+                {
+                    Course = result.ReadFirstOrDefault<CourseOutModel>(),
+                    YearModel = result.ReadFirstOrDefault<AcademicYearOutModel>(),
+                    Students = result.Read<StudentMarkOutModel>().ToList()
+                });
+            }
+            return courses;
+        }
         public ExamCommitteeStudentsOutModel GetStudentsList(int CourseID)
         {
             DynamicParameters parameters = new DynamicParameters();

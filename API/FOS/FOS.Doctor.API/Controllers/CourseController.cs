@@ -283,7 +283,8 @@ namespace FOS.Doctors.API.Controllers
                 ms.Close();
                 wb.TryGetWorksheet(wb.Worksheets.ElementAt(0).Name, out var ws);
                 var H2Text = ws.Cell("H2").Value.ToString();
-                var courseCode = H2Text.Substring(H2Text.IndexOf('(') + 1, (H2Text.IndexOf(')') - H2Text.IndexOf('(') - 1));
+                var courseCode = H2Text.Split("\n")[1].Trim();
+                courseCode = courseCode.Substring(1, courseCode.Length - 2);
                 if (ws == null || courseCode != course.CourseCode)
                     return BadRequest(new
                     {
@@ -312,6 +313,55 @@ namespace FOS.Doctors.API.Controllers
                         Massage = Resource.ErrorOccurred
                     });
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("GetAllGradesSheet/{IsFinalExam}")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult GetAllGradesSheet(bool IsFinalExam)
+        {
+            try
+            {
+                var data = studentCoursesRepo.GetStudentsMarksList(IsFinalExam);
+                var (fileContent, fileName) = 
+                    CourseGradesSheet.CreateMultipleSheets(data, IsFinalExam);
+                return File(fileContent, "application/zip", fileName + ".zip");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("UploadMultipleGradesSheet")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult UploadMultipleGradesSheet([FromForm] MultipleCourseExamSheetUploadModel model)
+        {
+            try
+            {
+                if (model == null || model.Files.Count < 1 || !model.Files.TrueForAll(x=>x.FileName.EndsWith(".xlsx")))
+                    return BadRequest(new
+                    {
+                        Massage = Resource.FileNotValid
+                    });
+                var (outModel, errors) = CourseGradesSheet.ReadMultipleGradesSheet(model, academicYearRepo.GetCurrentYear().Id, courseRepo.GetAll());
+                if (outModel.Count > 0)
+                {
+                    var updated = studentCoursesRepo.UpdateStudentsGradesFromSheet(outModel, model.IsFinalExam);
+                    if (!updated)
+                        return BadRequest(new
+                        {
+                            Massage = Resource.ErrorOccurred
+                        });
+                }
+                return Ok(new
+                {
+                    FilesWithError = errors
+                });
             }
             catch (Exception ex)
             {
