@@ -6,9 +6,9 @@ namespace FOS.Doctors.API.Models
     {
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

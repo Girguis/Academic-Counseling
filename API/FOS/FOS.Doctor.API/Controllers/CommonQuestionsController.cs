@@ -82,7 +82,7 @@ namespace FOS.Doctors.API.Controllers
                 if (!deleted)
                     return BadRequest(new
                     {
-                        Massage = "Error occured while deleting question",
+                        Massage = Resource.ErrorOccurred,
                         Data = id
                     });
                 return Ok();
@@ -105,7 +105,7 @@ namespace FOS.Doctors.API.Controllers
             if (!updated)
                 return BadRequest(new
                 {
-                    Massage = "Error occured while updating question",
+                    Massage = Resource.ErrorOccurred,
                     Data = new { ID = id, Model = model }
                 });
             return Ok();

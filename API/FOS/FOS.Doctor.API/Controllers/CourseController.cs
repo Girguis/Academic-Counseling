@@ -23,21 +23,23 @@ namespace FOS.Doctors.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IDoctorRepo doctorRepo;
+        private readonly IDateRepo dateRepo;
 
         public CourseController(ILogger<CourseController> logger
             , ICourseRepo courseRepo
             , IStudentCoursesRepo studentCoursesRepo
             , IAcademicYearRepo academicYearRepo
-            , IDoctorRepo doctorRepo)
+            , IDoctorRepo doctorRepo
+            , IDateRepo dateRepo)
         {
             this.logger = logger;
             this.courseRepo = courseRepo;
             this.studentCoursesRepo = studentCoursesRepo;
             this.academicYearRepo = academicYearRepo;
             this.doctorRepo = doctorRepo;
+            this.dateRepo = dateRepo;
         }
         [HttpPost("GetAll")]
-        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetAll([FromBody] SearchCriteria criteria)
         {
             try
@@ -84,6 +86,7 @@ namespace FOS.Doctors.API.Controllers
         }
 
         [HttpPost("Add")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult AddCourse(AddCourseParamModel course)
         {
             try
@@ -139,13 +142,15 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPut("Update/{id}")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult UpdateCourse(string id, AddCourseParamModel courseModel)
         {
             try
             {
                 var course = courseRepo.GetById(id);
+                if (course == null)
+                    return NotFound();
                 if (courseRepo.IsCourseExist(courseModel.CourseCode)
-                    && course != null
                     && course.CourseCode != courseModel.CourseCode)
                     return BadRequest(new
                     {
@@ -263,6 +268,13 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
+                if ((model.IsFinalExam && !dateRepo.IsInRegisrationInterval((int)DateForEnum.UploadFinalGradesSheets))
+                    || (!model.IsFinalExam && !dateRepo.IsInRegisrationInterval((int)DateForEnum.UploadYearWorkGradesSheets)))
+                    return BadRequest(new
+                    {
+                        Massage = string.Format(Resource.NotAvailable,
+                        (model.IsFinalExam ? Resource.UploadFinalGradesSheets : Resource.UploadYearWorkGradesSheets))
+                    });
                 if (model.file.Length < 0 || !model.file.FileName.EndsWith(".xlsx"))
                     return BadRequest(new
                     {

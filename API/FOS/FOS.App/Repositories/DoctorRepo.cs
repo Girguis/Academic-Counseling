@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core;
+using FOS.Core.Configs;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
@@ -31,7 +32,7 @@ namespace FOS.App.Repositories
                     new SqlParameter("@Password",Helper.HashPassowrd(doctor.Password)),
                     new SqlParameter("@ProgramID",doctor.ProgramId),
                     new SqlParameter("@Type",doctor.Type),
-                    new SqlParameter("@CreatedOn",DateTime.UtcNow.AddHours(2))
+                    new SqlParameter("@CreatedOn",DateTime.UtcNow.AddHours(Helper.GetUtcOffset())))
             });
         }
 

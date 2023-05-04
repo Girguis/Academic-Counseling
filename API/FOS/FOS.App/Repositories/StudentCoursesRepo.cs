@@ -2,6 +2,7 @@
 using FOS.App.Comparers;
 using FOS.App.Helpers;
 using FOS.Core;
+using FOS.Core.Configs;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
@@ -18,15 +19,12 @@ namespace FOS.App.Repositories
     {
         private readonly IAcademicYearRepo academicYearRepo;
         private readonly IDbContext config;
-        private readonly IConfiguration configuration;
 
         public StudentCoursesRepo(IAcademicYearRepo academicYearRepo,
-            IDbContext config,
-            IConfiguration configuration)
+            IDbContext config)
         {
             this.academicYearRepo = academicYearRepo;
             this.config = config;
-            this.configuration = configuration;
         }
         /// <summary>
         /// Method to get all courses for a certain student
@@ -393,13 +391,7 @@ namespace FOS.App.Repositories
                     Courses = y.Select(x => x.CourseCode).ToList(),
                 }).ToList();
         }
-        private int GetLevelFromAppsettings()
-        {
-            bool parsed = int.TryParse(configuration["LevelsRangeForCourseRegistraion"], out int levels);
-            if (!parsed)
-                levels = 1;
-            return levels;
-        }
+        private int GetLevelFromAppsettings() => ConfigurationsManager.TryGetNumber(Config.LevelsRangeForCourseRegistraion, 1);
 
         public IEnumerable<dynamic> GetStudentsForAnalysis(short startYearID, short endYearID)
         {

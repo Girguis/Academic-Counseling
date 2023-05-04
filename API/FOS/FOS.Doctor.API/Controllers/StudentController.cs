@@ -1,5 +1,7 @@
 ﻿using FOS.App.ExcelReader;
+using FOS.App.Helpers;
 using FOS.App.PDFCreators;
+using FOS.Core.Configs;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
 using FOS.Core.Models;
@@ -30,7 +32,6 @@ namespace FOS.Doctors.API.Controllers
         private readonly IStudentCoursesRepo studentCoursesRepo;
         private readonly ICourseRequestRepo courseRequestRepo;
         private readonly IProgramTransferRequestRepo programTransferRequestRepo;
-
         public StudentController(IStudentRepo studentRepo,
             ILogger<StudentController> logger,
             IAcademicYearRepo academicYearRepo,
@@ -52,6 +53,7 @@ namespace FOS.Doctors.API.Controllers
             this.programTransferRequestRepo = programTransferRequestRepo;
         }
         [HttpGet("GetNewStudentAddTemplate")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult GetNewStudentAddTemplate()
         {
             try
@@ -68,6 +70,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("AddNewStudentsViaExcel")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult AddNewStudentsViaExcel(IFormFile file)
         {
             try
@@ -104,7 +107,7 @@ namespace FOS.Doctors.API.Controllers
                 var stream = StudentsByCgpaReport.Create(model, students);
                 return File(stream,
                     "application/vnd.ms-excel",
-                    "StudentsReport_" + DateTime.UtcNow.AddHours(2).ToString() + ".xlsx");
+                    "StudentsReport_" + DateTime.UtcNow.AddHours(Helper.GetUtcOffset()).ToString() + ".xlsx");
             }
             catch(Exception ex)
             {
@@ -182,6 +185,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpGet("GetCoursesRequests/{guid}")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin,Supervisor")]
         public IActionResult GetCoursesRequests(string guid)
         {
             try
@@ -205,6 +209,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("HandleCourseRequest")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin,Supervisor")]
         public IActionResult HandleCourseRequest(HandleCourseRequestParamModel model)
         {
             try
@@ -299,6 +304,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("ReadAcademicReport")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult ReadAcademicReport(IFormFile file)
         {
             try
@@ -336,6 +342,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("UpdateFromAcademicReport")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult UpdateFromAcademicReport(AcademicRecordModels model)
         {
             try
@@ -383,6 +390,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpPost("AddMultipleStudentsViaAcademicReport")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult AddMultipleStudentsViaAcademicReport(List<IFormFile> files)
         {
             try
@@ -494,7 +502,7 @@ namespace FOS.Doctors.API.Controllers
                 var stream = StruggledStudentsReport.Create(students);
                 return File(stream,
                     "application/vnd.ms-excel",
-                    "StruggledStudents_" + DateTime.UtcNow.AddHours(2).ToString() + ".xlsx");
+                    "StruggledStudents_" + DateTime.UtcNow.AddHours(Helper.GetUtcOffset()).ToString() + ".xlsx");
             }
             catch (Exception ex)
             {
@@ -543,7 +551,7 @@ namespace FOS.Doctors.API.Controllers
                 var stream = AcademicReportReader.Create(res);
                 return File(stream,
                     "application/vnd.ms-excel",
-                    student.Name + "_" + DateTime.UtcNow.AddHours(3).ToString() + ".xlsx");
+                    student.Name + "_" + DateTime.UtcNow.AddHours(Helper.GetUtcOffset()).ToString() + ".xlsx");
             }
             catch (Exception ex)
             {
@@ -552,11 +560,12 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpGet("ExcelAcademicReportsPerProgram/{ProgramGuid}")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult GetAcademicReportExcels(string ProgramGuid)
         {
             try
             {
-                var program = programRepo.GetProgram(ProgramGuid);
+                var program = programRepo.GetProgram(this.ProgramID(), ProgramGuid);
                 if (program == null)
                     return NotFound();
                 var models = studentRepo.AcademicReportsPerProgram(program.Guid);

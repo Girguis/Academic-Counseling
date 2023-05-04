@@ -1,20 +1,18 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core;
+using FOS.Core.Configs;
 using FOS.Core.IRepositories;
 using FOS.DB.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace FOS.App.Repositories
 {
     public class ProgramDistributionRepo : IProgramDistributionRepo
     {
-        private readonly IConfiguration configuration;
         private readonly IDbContext config;
 
-        public ProgramDistributionRepo(IConfiguration configuration, IDbContext config)
+        public ProgramDistributionRepo(IDbContext config)
         {
-            this.configuration = configuration;
             this.config = config;
         }
         public int? GetAllowedHoursToRegister(int programID, int studentLevel, int passedHours, int currentSemester)
@@ -26,7 +24,7 @@ namespace FOS.App.Repositories
                         (config.CreateInstance(),
                         "QueryExecuter",
                         parameters);
-            if(programDistributions == null || programDistributions.Count <1)
+            if (programDistributions == null || programDistributions.Count < 1)
                 return null;
             if (studentLevel == programDistributions.Max(x => x.Level))
             {
@@ -37,8 +35,7 @@ namespace FOS.App.Repositories
 
                 return obj.NumberOfHours;
             }
-            bool parsed = int.TryParse(configuration["HoursToSkip"], out int hoursToSkip);
-            if (!parsed) hoursToSkip = 3;
+            int hoursToSkip = ConfigurationsManager.TryGetNumber(Config.HoursToSkip, 3);
             if (passedHours + hoursToSkip >= programDistributions.Where(x => x.Level == studentLevel + 1)?.Sum(x => x.NumberOfHours))
                 return programDistributions.FirstOrDefault(x => x.Level == studentLevel + 1 && x.Semester == currentSemester)?.NumberOfHours;
             else

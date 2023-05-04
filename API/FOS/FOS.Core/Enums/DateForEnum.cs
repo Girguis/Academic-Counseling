@@ -21,6 +21,10 @@ namespace FOS.Core.Enums
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.ProgramTransfer))]
         ProgramTransfer,
         [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.CourseExcuse))]
-        CourseExcuse
+        CourseExcuse,
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.UploadFinalGradesSheets))]
+        UploadFinalGradesSheets,
+        [Display(ResourceType = typeof(Languages.Resource), Name = nameof(Languages.Resource.UploadYearWorkGradesSheets))]
+        UploadYearWorkGradesSheets
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FOS.App.Helpers;
 using FOS.Core;
+using FOS.Core.Configs;
 using FOS.Core.IRepositories;
 using FOS.DB.Models;
 
@@ -19,7 +20,7 @@ namespace FOS.App.Repositories
             var date = GetDate(id);
             if (date == null)
                 return false;
-            DateTime currentDate = DateTime.UtcNow.AddHours(2);
+            DateTime currentDate = DateTime.UtcNow.AddHours(Helper.GetUtcOffset());
             return currentDate >= date.StartDate && currentDate <= date.EndDate;
         }
         public bool UpdateDate(int id, DateTime startDate, DateTime endDate)

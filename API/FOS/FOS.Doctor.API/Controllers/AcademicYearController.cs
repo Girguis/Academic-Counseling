@@ -47,11 +47,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 var academicYear = academicYearRepo.GetCurrentYear();
                 if (academicYear == null)
-                    return Ok(
-                        new
-                        {
-                            AcademicYear = "No Years Exits"
-                        });
+                    return NotFound();
                 return Ok(new
                     {
                         AcademicYear = 

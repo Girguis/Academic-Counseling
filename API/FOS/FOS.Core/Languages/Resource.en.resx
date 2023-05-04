@@ -303,4 +303,10 @@
   <data name="Final" xml:space="preserve">
     <value>Final Exam</value>
   </data>
+  <data name="UploadYearWorkGradesSheets" xml:space="preserve">
+    <value>Upload Grades Sheet For Year Work Exams</value>
+  </data>
+  <data name="UploadFinalGradesSheets" xml:space="preserve">
+    <value>Upload Grades Sheet For Final Exam</value>
+  </data>
 </root>

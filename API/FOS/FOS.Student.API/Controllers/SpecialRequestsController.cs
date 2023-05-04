@@ -1,5 +1,6 @@
 ﻿using FOS.App.Helpers;
 using FOS.Core;
+using FOS.Core.Configs;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
@@ -698,9 +699,8 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-                bool converted = int.TryParse(configuration["HoursForCourseOpeningForGraduation"], out int hours);
-                if (!converted) hours = 4;
-                if (!studentRepo.CanOpenCourseForGraduation(student.Id, student.PassedHours ?? byte.MinValue, student.CurrentProgramId ?? 0, hours))
+                int hours = ConfigurationsManager.TryGetNumber(Config.HoursForCourseOpeningForGraduation, 4);
+                    if (!studentRepo.CanOpenCourseForGraduation(student.Id, student.PassedHours ?? byte.MinValue, student.CurrentProgramId ?? 0, hours))
                     return BadRequest(new
                     {
                         IsAvailable = false,

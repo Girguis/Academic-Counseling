@@ -14,7 +14,7 @@ namespace FOS.Doctors.API.Mappers
             var student = mapper.Map<Student>(basicModel);
             student.Address = "العنوان";
             student.AcademicCode = basicModel.SeatNumber;
-            student.CreatedOn = DateTime.UtcNow.AddHours(2);
+            student.CreatedOn = DateTime.UtcNow.AddHours(Helper.GetUtcOffset());
             student.Email = student.Ssn + "@sci.asu.edu.eg";
             student.Password = Helper.HashPassowrd("Sci@2023");
             if(student.Ssn.Length == 14)
@@ -29,7 +29,7 @@ namespace FOS.Doctors.API.Mappers
             else
             {
                 student.Gender = "1";
-                student.BirthDate = DateTime.UtcNow.AddHours(2);
+                student.BirthDate = DateTime.UtcNow;
             }
             student.Guid = Guid.NewGuid().ToString();
             student.PhoneNumber = "12345678912";

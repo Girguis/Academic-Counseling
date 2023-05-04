@@ -592,6 +592,24 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload Grades Sheet For Final Exam.
+        /// </summary>
+        public static string UploadFinalGradesSheets {
+            get {
+                return ResourceManager.GetString("UploadFinalGradesSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Grades Sheet For Year Work Exams.
+        /// </summary>
+        public static string UploadYearWorkGradesSheets {
+            get {
+                return ResourceManager.GetString("UploadYearWorkGradesSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Uploaded Sheet Is For {0} While Requested Course Is For {1}.
         /// </summary>
         public static string WrongUploadedSheetFile {

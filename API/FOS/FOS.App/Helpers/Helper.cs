@@ -1,4 +1,5 @@
 ﻿using FOS.App.Students.Mappers;
+using FOS.Core.Configs;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Models;
@@ -19,6 +20,10 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
+        public static int GetUtcOffset()
+        {
+            return ConfigurationsManager.TryGetNumber(Config.UtcOffset, 2);
+        }
         public static void UpdateAppSettings(AppSettingsModel model)
         {
             var appSettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
@@ -37,6 +42,8 @@ namespace FOS.App.Helpers
                 config.LevelsRangeForCourseRegistraion = model.CourseRegistrationAllowedLevels.Value;
             if (model.CourseOpeningForGraduationAllowedHours.HasValue)
                 config.HoursForCourseOpeningForGraduation = model.CourseOpeningForGraduationAllowedHours.Value;
+            if(model.UtcOffset.HasValue)
+                config.UtcOffset = model.UtcOffset.Value;
             var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
 
             File.WriteAllText(appSettingsPath, newJson);
@@ -150,9 +157,8 @@ namespace FOS.App.Helpers
             int currentSemester = academicYearRepo.GetCurrentYear().Semester;
             if (currentSemester == 3)
             {
-                bool parsed = int.TryParse(configuration["Summer:HoursToRegister"], out allowedHoursToRegister);
-                if (!parsed)
-                    allowedHoursToRegister = 6;
+                allowedHoursToRegister = ConfigurationsManager
+                    .TryGetNumber(Config.SummerRegHours, 6);
             }
             else
             {

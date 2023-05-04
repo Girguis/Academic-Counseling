@@ -45,21 +45,9 @@ namespace FOS.App.ExcelReader
                                 ws.Cell("G" + i).Value.ToString(),
                                 string.Concat(ws.Cell("B" + i).Value.ToString(), "@sci.asu.edu.eg"),
                                 Helpers.Helper.HashPassowrd("Sci@2023"),
-                                DateTime.UtcNow.AddHours(2).ToString(),
+                                DateTime.UtcNow.AddHours(Helpers.Helper.GetUtcOffset()).ToString(),
                                 programs.FirstOrDefault(x => x.Name == ws.Cell("H" + i).Value.ToString())?.Id
                                 );
-                    //var guid = Guid.NewGuid().ToString();
-                    //var name = ws.Cell("A" + i).Value.ToString();
-                    //var ssn = ws.Cell("B" + i).Value.ToString();
-                    //var phoneNumber = ws.Cell("C" + i).Value.ToString();
-                    //var birthDate = DateTime.Parse(ws.Cell("D" + i).Value.ToString());
-                    //var address = ws.Cell("E" + i).Value.ToString();
-                    //var gender = ws.Cell("F" + i).Value.ToString() == "ذكر" ? "1" : "2";
-                    //var nationality = ws.Cell("G" + i).Value.ToString();
-                    //var email = string.Concat(ws.Cell("B" + i).Value.ToString(), "@sci.asu.edu.eg");
-                    //var password = Helpers.Helper.HashPassowrd("Sci@2023");
-                    //var createdOn = DateTime.UtcNow.AddHours(2).ToString();
-                    //var programID = programs.FirstOrDefault(x => x.Name == ws.Cell("H" + i).Value.ToString())?.Id;
                 }
                 catch
                 {

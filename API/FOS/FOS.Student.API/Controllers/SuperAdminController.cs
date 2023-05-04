@@ -1,5 +1,6 @@
 ﻿using FOS.App.Helpers;
 using FOS.App.Repositories;
+using FOS.Core.Configs;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
 using FOS.Core.Models;
@@ -59,7 +60,7 @@ namespace FOS.Students.API.Controllers
                             new Claim(ClaimTypes.Role, "SuperAdmin"),
                             new Claim("ProgramID", "")
                         }),
-                        Expires = DateTime.UtcNow.AddHours(6),
+                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
                         Issuer = issuer,
                         Audience = audience,
                         SigningCredentials = new SigningCredentials

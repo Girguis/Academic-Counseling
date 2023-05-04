@@ -2,6 +2,8 @@
 using FOS.Core.IRepositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FOS.Core.Configs;
+using FOS.App.Helpers;
 
 namespace FOS.Doctors.API.Controllers
 {
@@ -33,7 +35,7 @@ namespace FOS.Doctors.API.Controllers
                     });
                 return File(stream,
                     "application/vnd.ms-excel",
-                    "BirfucationResult" + DateTime.UtcNow.AddHours(2).ToString() + ".xlsx");
+                    "BirfucationResult" + DateTime.UtcNow.AddHours(Helper.GetUtcOffset()).ToString() + ".xlsx");
             }
             catch (Exception ex)
             {

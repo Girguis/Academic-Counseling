@@ -2,6 +2,7 @@
 using FOS.App.Helpers;
 using FOS.App.Students.DTOs;
 using FOS.App.Students.Mappers;
+using FOS.Core.Configs;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
 using FOS.DB.Models;
@@ -62,7 +63,7 @@ namespace FOS.Students.API.Controllers
                         {
                         new Claim("Guid", student.Guid),
                         }),
-                        Expires = DateTime.UtcNow.AddHours(6),
+                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
                         Issuer = issuer,
                         Audience = audience,
                         SigningCredentials = new SigningCredentials

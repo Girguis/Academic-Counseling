@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FOS.Core.Configs;
+
 namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
@@ -63,7 +65,7 @@ namespace FOS.Doctors.API.Controllers
                             new Claim(ClaimTypes.Role,roleName??"Doctor"),
                             new Claim("ProgramID",doctor.ProgramGuid)
                         }),
-                        Expires = DateTime.UtcNow.AddHours(6),
+                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
                         Issuer = issuer,
                         Audience = audience,
                         SigningCredentials = new SigningCredentials

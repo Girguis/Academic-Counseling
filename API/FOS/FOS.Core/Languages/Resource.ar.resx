@@ -303,4 +303,10 @@
   <data name="Final" xml:space="preserve">
     <value>امتحان نهائى</value>
   </data>
+  <data name="UploadYearWorkGradesSheets" xml:space="preserve">
+    <value>رفع ملف الدرجات الخاص بامتحانات الأعمال الفصلية</value>
+  </data>
+  <data name="UploadFinalGradesSheets" xml:space="preserve">
+    <value>رفع ملف الدرجات الخاص بالامتحان النهائي</value>
+  </data>
 </root>

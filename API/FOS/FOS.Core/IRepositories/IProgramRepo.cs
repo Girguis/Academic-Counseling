@@ -7,9 +7,9 @@ namespace FOS.Core.IRepositories
 {
     public interface IProgramRepo
     {
-        ProgramBasicDataDTO GetProgram(string id);
+        ProgramBasicDataDTO GetProgram(string accountProgramGuid, string id);
         ProgramDetailsOutModel GetProgramDetails(string id);
-        List<ProgramBasicDataDTO> GetPrograms(out int totalCount, SearchCriteria criteria);
+        List<ProgramBasicDataDTO> GetPrograms(out int totalCount, SearchCriteria criteria, string accountProgramGuid);
         List<ProgramBasicDataDTO> GetPrograms(string superProgID = null);
         List<string> GetAllProgramsNames(int? startSemester = null);
         bool AddProgram(ProgramModel model);

@@ -1,6 +1,6 @@
 ﻿using FOS.App.Helpers;
-using FOS.Core.Languages;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Doctors.API.Extenstions;
 using FOS.Doctors.API.Models;
@@ -60,7 +60,7 @@ namespace FOS.Doctors.API.Controllers
                             new Claim(ClaimTypes.Role, "SuperAdmin"),
                             new Claim("ProgramID", "")
                         }),
-                        Expires = DateTime.UtcNow.AddHours(6),
+                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
                         Issuer = issuer,
                         Audience = audience,
                         SigningCredentials = new SigningCredentials
@@ -133,6 +133,27 @@ namespace FOS.Doctors.API.Controllers
                         Massage = Resource.ErrorOccurred,
                         Data = model
                     });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("UpdateUtcOffset/{utcOffset}")]
+        public IActionResult UpdateUtcOffset(int utcOffset)
+        {
+            try
+            {
+                Helper.UpdateAppSettings(new Core.Models.AppSettingsModel
+                {
+                    UtcOffset = utcOffset,
+                    CourseOpeningForGraduationAllowedHours = null,
+                    CourseRegistrationAllowedLevels = null,
+                    SummerAllowedHours = null,
+                    ToNextLevelSkipHours = null
+                });
                 return Ok();
             }
             catch (Exception ex)

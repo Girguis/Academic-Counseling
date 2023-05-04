@@ -114,10 +114,11 @@ namespace FOS.App.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ProgramBasicDataDTO GetProgram(string id)
+        public ProgramBasicDataDTO GetProgram(string accountProgramGuid,string id)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Guid", id);
+            parameters.Add("@AccountProgramGuid", accountProgramGuid);
             return QueryExecuterHelper.Execute<ProgramBasicDataDTO>(config.CreateInstance(),
                 "GetProgramByID", parameters).FirstOrDefault();
         }
@@ -129,7 +130,7 @@ namespace FOS.App.Repositories
                 "GetAllSubPrograms",
                 parameter);
         }
-        public List<ProgramBasicDataDTO> GetPrograms(out int totalCount, SearchCriteria criteria)
+        public List<ProgramBasicDataDTO> GetPrograms(out int totalCount, SearchCriteria criteria, string accountProgramGuid)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Name", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "name")?.Value?.ToString());
@@ -141,6 +142,7 @@ namespace FOS.App.Repositories
             parameters.Add("@EnglishName", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "englishname")?.Value?.ToString());
             parameters.Add("@ArabicName", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "arabicname")?.Value?.ToString());
             parameters.Add("@SuperProgramID", criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "superprogramid")?.Value?.ToString());
+            parameters.Add("@AccountProgramGuid", accountProgramGuid);
             parameters.GetPageParameters(criteria, "sub.ID");
             var programs = QueryExecuterHelper.Execute<ProgramBasicDataDTO>
                 (config.CreateInstance(),

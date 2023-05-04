@@ -69,10 +69,11 @@ namespace FOS.Doctors.API.Controllers
                 var date = dateRepo.GetDate(id);
                 if (date == null) return NotFound();
 
-                if (model.StartDate > model.EndDate || model.StartDate == model.EndDate)
+                if (model.StartDate > model.EndDate 
+                    || model.StartDate == model.EndDate)
                     return BadRequest(new { Massage = Resource.InvalidDateinterval });
 
-                var res = dateRepo.UpdateDate(id, model.StartDate.Value, model.EndDate.Value);
+                var res = dateRepo.UpdateDate(id, model.StartDate, model.EndDate);
                 if (!res)
                     return BadRequest(new
                     {
