@@ -7,7 +7,6 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.AspNetCore.Http;
-using System.IO.Compression;
 
 namespace FOS.App.ExcelReader
 {
@@ -16,11 +15,8 @@ namespace FOS.App.ExcelReader
         public static (string name, string ssn, int seatNumber,
             List<StudentCourse> studentCourses, List<StudentProgramModel> studentPrograms
             , int studentID, byte semesterCounter)
-            Read
-            (IFormFile file,
-            IStudentRepo studentRepo,
-            List<AcademicYear> academicYearsLst,
-            List<ProgramBasicDataDTO> programsLst,
+            Read(IFormFile file, IStudentRepo studentRepo,
+            List<AcademicYear> academicYearsLst, List<ProgramBasicDataDTO> programsLst,
             List<Course> coursesLst)
         {
             MemoryStream ms = new MemoryStream();
@@ -39,6 +35,7 @@ namespace FOS.App.ExcelReader
             int currentProgramID;
             byte semesterCounter = 0;
             string currentAcademicYearStr = "";
+            bool isSummerSemester = false;
             var std = studentRepo.GetBySSN(ssn);
             int studentID = -1;
             if (std != null)
@@ -59,7 +56,11 @@ namespace FOS.App.ExcelReader
                         var semesterStr = ws.Cell("C" + (i + 2)).Value.ToString().Split('-')[0].Trim();
                         byte semesterNo = Helper.GetSemesterNumber(semesterStr);
                         if (semesterNo != (int)SemesterEnum.Summer)
+                        {
                             semesterCounter++;
+                            isSummerSemester = false;
+                        }
+                        else isSummerSemester = true;
                         currentYearID = academicYearsLst.FirstOrDefault(x => x.AcademicYear1 == currentAcademicYearStr && x.Semester == semesterNo).Id;
                         currentProgramID = programsLst.Where(x => x.ArabicName == ProgramNameStr && x.Semester <= semesterCounter)
                                             .OrderByDescending(x => x.Semester).FirstOrDefault().Id;
@@ -82,7 +83,11 @@ namespace FOS.App.ExcelReader
                         var semesterStr = ws.Cell("C" + i).Value.ToString().Split('-')[0].Trim();
                         var semesterNo = Helper.GetSemesterNumber(semesterStr);
                         if (semesterNo != (int)SemesterEnum.Summer)
+                        {
                             semesterCounter++;
+                            isSummerSemester = false;
+                        }
+                        else isSummerSemester = true;
                         currentYearID = academicYearsLst.FirstOrDefault(x => x.AcademicYear1 == currentAcademicYearStr && x.Semester == semesterNo).Id;
                         i += 2;
                     }
@@ -127,14 +132,19 @@ namespace FOS.App.ExcelReader
                     studentCourses.Add(course);
                 }
             }
-            semesterCounter++;
+
             var lastProgramID = programsLst
                 .Where(x => x.ArabicName == ws.Cell("Q12").Value.ToString()
                     && x.Semester <= semesterCounter)
                 .OrderByDescending(x => x.Semester).FirstOrDefault()?.Id;
             if (lastProgramID != null && !studentPrograms.Any(x => x.ProgramId == lastProgramID))
             {
-                var academicYear = academicYearsLst.ElementAtOrDefault(academicYearsLst.IndexOf(academicYearsLst.FirstOrDefault(x => x.Id == currentYearID)) + 1);
+                var academicYear = new AcademicYear();
+                if (isSummerSemester)
+                    academicYear = academicYearsLst.ElementAtOrDefault(academicYearsLst.IndexOf(academicYearsLst.FirstOrDefault(x => x.Id == currentYearID)) - 1);
+                else
+                    academicYear = academicYearsLst.FirstOrDefault(x => x.Id == currentYearID);
+
                 if (academicYear != null)
                     studentPrograms.Add(new StudentProgramModel
                     {
@@ -146,7 +156,28 @@ namespace FOS.App.ExcelReader
                     });
             }
             else
-                semesterCounter--;
+            {
+                semesterCounter++;
+                lastProgramID = programsLst
+                .Where(x => x.ArabicName == ws.Cell("Q12").Value.ToString()
+                    && x.Semester <= semesterCounter)
+                .OrderByDescending(x => x.Semester).FirstOrDefault()?.Id;
+                if (lastProgramID != null && !studentPrograms.Any(x => x.ProgramId == lastProgramID))
+                {
+                    var academicYear = academicYearsLst.ElementAtOrDefault(academicYearsLst.IndexOf(academicYearsLst.FirstOrDefault(x => x.Id == currentYearID)) + 1);
+                    if (academicYear != null)
+                        studentPrograms.Add(new StudentProgramModel
+                        {
+                            StudentId = -1,
+                            ProgramId = lastProgramID.Value,
+                            AcademicYear = academicYear.Id,
+                            AcademicYearName = academicYear.AcademicYear1 + " - " + Helper.GetDisplayName((SemesterEnum)academicYear.Semester),
+                            ProgramName = programsLst.FirstOrDefault(x => x.Id == lastProgramID)?.Name
+                        });
+                }
+                else
+                    semesterCounter--;
+            }
             return (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter);
         }
         public static Stream Create(AcademicReportOutModel model)
@@ -221,34 +252,20 @@ namespace FOS.App.ExcelReader
             }
             return ExcelCommon.SaveAsStream(wb);
         }
-
-        public static (byte[] bytes, string fileName) CreateMultiple(string ProgramName, IEnumerable<AcademicReportOutModel> models)
+        public static (byte[] bytes, string fileName)
+            CreateMultiple(string programName, IEnumerable<AcademicReportOutModel> models)
         {
-            var folderName = "AcademicReprotsExcels_" + ProgramName + "_" + DateTime.Now.Ticks;
-            var path = Directory.GetCurrentDirectory();
-            path = path.Replace("\\", "/");
-            path = path + "/ExcelFiles/" + folderName;
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            var (path, folderName, subFolderName) =
+                Helper.CreateDirectory("ExcelFiles", "AcademicReprotsExcels_" + programName);
             Parallel.For(0, models.Count(), i =>
             {
                 var stream = Create(models.ElementAt(i));
                 var filePath = path + "/" + models.ElementAt(i).Student.Name + "_"
                     + models.ElementAt(i).Student.AcademicCode + ".xlsx";
-                using FileStream file = new(filePath, FileMode.Create, FileAccess.Write);
-                byte[] bytes = new byte[stream.Length];
-                stream.Read(bytes, 0, (int)stream.Length);
-                file.Write(bytes, 0, bytes.Length);
-                stream.Close();
-                file.Close();
+                Helper.SaveStreamAsFile(stream, filePath);
             });
-            var zipFileName = folderName + ".zip";
-            ZipFile.CreateFromDirectory(path, "ExcelFiles/" + zipFileName, CompressionLevel.Optimal, true);
-            Directory.Delete(path, true);
-            byte[] fileContent = File.ReadAllBytes("ExcelFiles/" + zipFileName);
-            return (fileContent, folderName);
+            var fileContent = Helper.CreateZipFile(path, folderName, subFolderName);
+            return (fileContent, subFolderName);
         }
     }
 }

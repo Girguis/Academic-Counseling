@@ -199,7 +199,13 @@ namespace FOS.Doctors.API.Controllers
                 var requests = courseRequestRepo
                     .GetRequests(new CourseRequestParamModel { StudentID = student.Id })
                     .GroupBy(x => x.RequestID)
-                    .Select(x => new { RequestID = x.Key, RequestData = x });
+                    .Select(x => new
+                    {
+                        RequestID = x.Key,
+                        x.FirstOrDefault()?.RequestTypeID,
+                        x.FirstOrDefault()?.RequestType,
+                        RequestData = x
+                    });
                 return Ok(requests);
             }
             catch (Exception ex)

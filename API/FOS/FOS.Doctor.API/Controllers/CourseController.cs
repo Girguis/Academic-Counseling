@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using FOS.App.ExcelReader;
 using FOS.App.Helpers;
+using FOS.App.PDFCreators;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
@@ -47,7 +48,7 @@ namespace FOS.Doctors.API.Controllers
                 string doctorID = null;
                 if (criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "mycourses")?.Value?.ToString().ToLower() == "true")
                     doctorID = doctorRepo.GetById(this.Guid()).Guid;
-                
+
                 var courses = courseRepo.GetAll(out int totalCount, doctorID, criteria, this.ProgramID());
                 return Ok(new
                 {
@@ -230,7 +231,7 @@ namespace FOS.Doctors.API.Controllers
             }
         }
         [HttpGet("CreateGradesSheet/{CourseID}/{IsFinalExam}")]
-        public IActionResult CreateGradesExcel(string CourseID,bool IsFinalExam)
+        public IActionResult CreateGradesExcel(string CourseID, bool IsFinalExam)
         {
             try
             {
@@ -254,7 +255,7 @@ namespace FOS.Doctors.API.Controllers
                 return File(stream,
                     "application/vnd.ms-excel",
                     string.Concat(data.Course.CourseCode, "_", data.Course.CourseName,
-                        "_", Helper.GetDescription(IsFinalExam?ExamTypeEnum.Final:ExamTypeEnum.YearWork), ".xlsx")
+                        "_", Helper.GetDescription(IsFinalExam ? ExamTypeEnum.Final : ExamTypeEnum.YearWork), ".xlsx")
                     );
             }
             catch (Exception ex)
@@ -273,7 +274,7 @@ namespace FOS.Doctors.API.Controllers
                     return BadRequest(new
                     {
                         Massage = string.Format(Resource.NotAvailable,
-                        (model.IsFinalExam ? Resource.UploadFinalGradesSheets : Resource.UploadYearWorkGradesSheets))
+                        model.IsFinalExam ? Resource.UploadFinalGradesSheets : Resource.UploadYearWorkGradesSheets)
                     });
                 if (model.file.Length < 0 || !model.file.FileName.EndsWith(".xlsx"))
                     return BadRequest(new
@@ -339,7 +340,7 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var data = studentCoursesRepo.GetStudentsMarksList(IsFinalExam);
-                var (fileContent, fileName) = 
+                var (fileContent, fileName) =
                     CourseGradesSheet.CreateMultipleSheets(data, IsFinalExam);
                 return File(fileContent, "application/zip", fileName + ".zip");
             }
@@ -355,7 +356,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (model == null || model.Files.Count < 1 || !model.Files.TrueForAll(x=>x.FileName.EndsWith(".xlsx")))
+                if (model == null || model.Files.Count < 1 || !model.Files.TrueForAll(x => x.FileName.EndsWith(".xlsx")))
                     return BadRequest(new
                     {
                         Massage = Resource.FileNotValid
@@ -403,12 +404,31 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Massage = Resource.NoData
                     });
-                var bytes = ExamCommitteesReport.CreateExamCommitteesPdf(result,
+                var bytes = ExamCommitteesReport.CreateCommittePDFAsByteArray(result,
                     Helper.GetDescription((ExamTypeEnum)ExamType));
                 return File(bytes,
                     "application/pdf",
                     string.Concat(result.Course.CourseCode, "_", result.Course.CourseName, "_Committees", ".pdf")
                     );
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpGet("CreateAllCommittePDFsForFinal")]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult CreateAllCommittePDFsForFinal()
+        {
+            try
+            {
+                var studentsListsModel = studentCoursesRepo.GetStudentsLists();
+                if (studentsListsModel == null || !studentsListsModel.Any())
+                    return NoContent();
+                var (fileContent, fileName) =
+                    ExamCommitteesReport.CreateExamCommitteesPdf(studentsListsModel);
+                return File(fileContent, "application/zip", fileName + ".zip");
             }
             catch (Exception ex)
             {

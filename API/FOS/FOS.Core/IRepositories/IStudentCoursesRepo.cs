@@ -34,6 +34,7 @@ namespace FOS.Core.IRepositories
         CourseGradesSheetOutModel GetStudentsMarksList(StudentsExamParamModel model);
         List<CourseGradesSheetOutModel> GetStudentsMarksList(bool isFinalExam);
         ExamCommitteeStudentsOutModel GetStudentsList(int CourseID);
+        public IEnumerable<ExamCommitteeStudentsOutModel> GetStudentsLists();
         bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, bool isFinalExam);
         bool RequestAddAndDelete(int studentID, AddAndDeleteCoursesParamModel model);
         bool RequestCourse(int requestType, int studentID, CoursesLstParamModel model, int courseOp);

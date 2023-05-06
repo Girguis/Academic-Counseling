@@ -219,6 +219,23 @@ namespace FOS.App.Repositories
             outModel.Students = result.Read<StudentOutModel>().ToList();
             return outModel;
         }
+        public IEnumerable<ExamCommitteeStudentsOutModel> GetStudentsLists()
+        {
+            var result = config.CreateInstance()
+                .QueryMultiple("Report_MultipleExamCommitteeStudents",
+                commandType: CommandType.StoredProcedure);
+            var coursesCount = result.ReadFirst<int>();
+            var outModel = new List<ExamCommitteeStudentsOutModel>();
+            for (int i = 0; i < coursesCount; i++)
+            {
+                outModel.Add(new ExamCommitteeStudentsOutModel()
+                {
+                    Course = result.ReadFirstOrDefault<CourseOutModel>(),
+                    Students = result.Read<StudentOutModel>().ToList()
+                });
+            }
+            return outModel;
+        }
 
         public bool UpdateStudentsGradesFromSheet(List<GradesSheetUpdateModel> model, bool isFinalExam)
         {

@@ -76,8 +76,11 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-                var res = courseRequestRepo.GetRequests(new CourseRequestParamModel { StudentID = student.Id });
-                return Ok(res);
+                var requests = courseRequestRepo
+                    .GetRequests(new CourseRequestParamModel { StudentID = student.Id })
+                    .GroupBy(x => x.RequestID)
+                    .Select(x => new { RequestID = x.Key, x.FirstOrDefault()?.RequestType, RequestData = x });
+                return Ok(requests);
             }
             catch (Exception ex)
             {

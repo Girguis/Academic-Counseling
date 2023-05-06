@@ -1,14 +1,10 @@
 ﻿using ClosedXML.Excel;
 using FOS.App.Helpers;
 using FOS.Core.Enums;
-using FOS.Core.Languages;
 using FOS.Core.Models;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing.Constraints;
-using System.IO.Compression;
 
 namespace FOS.App.ExcelReader
 {
@@ -104,36 +100,24 @@ namespace FOS.App.ExcelReader
             }
             return ExcelCommon.SaveAsStream(wb);
         }
-        public static (byte[] fileContent, string fileName) 
+        public static (byte[] fileContent, string fileName)
             CreateMultipleSheets(List<CourseGradesSheetOutModel> courses, bool isFinalExam)
         {
-            var examType = (isFinalExam ? "FinalGrades" : "YearWorkGrades");
-            var folderName = "CoursesSheets_" + examType + "_" + DateTime.Now.Ticks;
-            var path = Directory.GetCurrentDirectory();
-            path = path.Replace("\\", "/");
-            path = path + "/ExcelFiles/" + folderName;
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            var examType = isFinalExam ? "FinalGrades" : "YearWorkGrades";
+            var (path, folderName, subFolderName) =
+                Helper.CreateDirectory("ExcelFiles", "CoursesSheets_" + examType);
             Parallel.For(0, courses.Count, i =>
             {
                 var stream = CreateSheet(courses.ElementAt(i), isFinalExam);
                 var filePath = path + "/" + courses.ElementAt(i).Course.CourseCode + "_" + examType + ".xlsx";
-                using FileStream file = new(filePath, FileMode.Create, FileAccess.Write);
-                byte[] bytes = new byte[stream.Length];
-                stream.Read(bytes, 0, (int)stream.Length);
-                file.Write(bytes, 0, bytes.Length);
-                stream.Close();
-                file.Close();
+                Helper.SaveStreamAsFile(stream, filePath);
             });
-            var zipFileName = folderName + ".zip";
-            ZipFile.CreateFromDirectory(path, "ExcelFiles/" + zipFileName, CompressionLevel.Optimal, true);
-            Directory.Delete(path, true);
-            byte[] fileContent = File.ReadAllBytes("ExcelFiles/" + zipFileName);
-            return (fileContent, folderName);
+            var fileContent = Helper.CreateZipFile(path, folderName, subFolderName);
+            return (fileContent, subFolderName);
         }
-        private static void CheckAndHideCol(this IXLWorksheet ws, ExamTypeEnum examType, string colChar, CourseGradesSheetOutModel model)
+        private static void CheckAndHideCol
+            (this IXLWorksheet ws, ExamTypeEnum examType,
+            string colChar, CourseGradesSheetOutModel model)
         {
             if (GetMark((int)examType, model) < 1)
                 ws.Column(colChar).Hide();
@@ -148,7 +132,8 @@ namespace FOS.App.ExcelReader
                 return model.Course.YearWork;
             return model.Course.Oral;
         }
-        public static List<GradesSheetUpdateModel> ReadGradesSheet(IXLWorkbook wb, short yearID, int courseID, bool isFinalExam)
+        public static List<GradesSheetUpdateModel> ReadGradesSheet
+            (IXLWorkbook wb, short yearID, int courseID, bool isFinalExam)
         {
             List<GradesSheetUpdateModel> model = new();
             for (int wsIndex = 0; wsIndex < wb.Worksheets.Count; wsIndex++)
@@ -195,7 +180,7 @@ namespace FOS.App.ExcelReader
         {
             var outModel = new List<GradesSheetUpdateModel>();
             List<string> errorFiles = new List<string>();
-            for(int i=0;i<model.Files.Count;i++)
+            for (int i = 0; i < model.Files.Count; i++)
             {
                 MemoryStream ms = new MemoryStream();
                 model.Files.ElementAt(i).OpenReadStream().CopyTo(ms);

@@ -12,6 +12,7 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
+using System.IO.Compression;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -20,6 +21,35 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
+        public static void SaveStreamAsFile(Stream stream, string filePath)
+        {
+            using FileStream file = new(filePath, FileMode.Create, FileAccess.Write);
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, (int)stream.Length);
+            file.Write(bytes, 0, bytes.Length);
+            stream.Close();
+            file.Close();
+        }
+        public static byte[] CreateZipFile(string path, string folderName, string subfolderName)
+        {
+            var zipFileName = subfolderName + ".zip";
+            ZipFile.CreateFromDirectory(path, folderName + "/" + zipFileName, CompressionLevel.Optimal, true);
+            Directory.Delete(path, true);
+            return File.ReadAllBytes(path.Replace(subfolderName, zipFileName));
+        }
+        public static (string path, string folderName, string subFolderName)
+            CreateDirectory(string folderName, string subFolderName)
+        {
+            subFolderName += "_" + DateTime.Now.Ticks;
+            var path = Directory.GetCurrentDirectory();
+            path = path.Replace("\\", "/");
+            path = path + "/" + folderName + "/" + subFolderName;
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return (path, folderName, subFolderName);
+        }
         public static int GetUtcOffset()
         {
             return ConfigurationsManager.TryGetNumber(Config.UtcOffset, 2);
@@ -42,7 +72,7 @@ namespace FOS.App.Helpers
                 config.LevelsRangeForCourseRegistraion = model.CourseRegistrationAllowedLevels.Value;
             if (model.CourseOpeningForGraduationAllowedHours.HasValue)
                 config.HoursForCourseOpeningForGraduation = model.CourseOpeningForGraduationAllowedHours.Value;
-            if(model.UtcOffset.HasValue)
+            if (model.UtcOffset.HasValue)
                 config.UtcOffset = model.UtcOffset.Value;
             var newJson = JsonConvert.SerializeObject(config, Formatting.Indented, jsonSettings);
 
