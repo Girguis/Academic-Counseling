@@ -32,7 +32,7 @@ namespace FOS.App.Repositories
                     new SqlParameter("@Password",Helper.HashPassowrd(doctor.Password)),
                     new SqlParameter("@ProgramID",doctor.ProgramId),
                     new SqlParameter("@Type",doctor.Type),
-                    new SqlParameter("@CreatedOn",DateTime.UtcNow.AddHours(Helper.GetUtcOffset())))
+                    new SqlParameter("@CreatedOn",DateTime.UtcNow.AddHours(Helper.GetUtcOffset()))
             });
         }
 

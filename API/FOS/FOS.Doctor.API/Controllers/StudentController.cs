@@ -391,6 +391,7 @@ namespace FOS.Doctors.API.Controllers
         }
         [HttpPost("AddMultipleStudentsViaAcademicReport")]
         [Authorize(Roles = "SuperAdmin")]
+        [RequestSizeLimit(int.MaxValue)]
         public IActionResult AddMultipleStudentsViaAcademicReport(List<IFormFile> files)
         {
             try
