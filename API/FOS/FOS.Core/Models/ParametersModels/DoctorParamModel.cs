@@ -12,7 +12,7 @@ namespace FOS.Core.Models.ParametersModels
         [RegularExpression("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$")]
         public string Password { get; set; }
         [Required]
-        public int ProgramId { get; set; }
+        public string ProgramId { get; set; }
         [Required]
         [Range(1,3)]
         public byte Type { get; set; }
@@ -24,7 +24,7 @@ namespace FOS.Core.Models.ParametersModels
         [Required]
         public string Email { get; set; }
         [Required]
-        public int ProgramId { get; set; }
+        public string ProgramId { get; set; }
         [Required]
         [Range(1, 3)]
         public byte Type { get; set; }

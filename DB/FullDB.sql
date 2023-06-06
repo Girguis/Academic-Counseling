@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [FOS]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Database [FOS]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE DATABASE [FOS]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ USE [FOS]
 GO
 USE [FOS]
 GO
-/****** Object:  Sequence [dbo].[AcademicCodeSeq]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Sequence [dbo].[AcademicCodeSeq]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE SEQUENCE [dbo].[AcademicCodeSeq] 
  AS [bigint]
  START WITH 230000
@@ -91,13 +91,13 @@ CREATE SEQUENCE [dbo].[AcademicCodeSeq]
  MAXVALUE 2147483647
  CACHE 
 GO
-/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CommonQuestionsType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[CommonQuestionsType] AS TABLE(
 	[Question] [nvarchar](max) NULL,
 	[Answer] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[CourseType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[CourseCode] [nvarchar](max) NULL,
 	[CourseName] [nvarchar](max) NULL,
@@ -107,15 +107,19 @@ CREATE TYPE [dbo].[CourseType] AS TABLE(
 	[SectionHours] [tinyint] NULL,
 	[IsActive] [bit] NULL,
 	[Level] [tinyint] NULL,
-	[Semester] [tinyint] NULL
+	[Semester] [tinyint] NULL,
+	[Final] [tinyint] NULL,
+	[YearWork] [tinyint] NULL,
+	[Oral] [tinyint] NULL,
+	[Practical] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[DoctorsGuidType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[DoctorsGuidType] AS TABLE(
 	[DoctorGuid] [nvarchar](max) NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ElectiveCourseDistributionType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
@@ -124,13 +128,13 @@ CREATE TYPE [dbo].[ElectiveCourseDistributionType] AS TABLE(
 	[Hour] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[PrerequisiteCoursesType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[PrerequisiteCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteCourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramCoursesType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[CourseID] [int] NULL,
 	[PrerequisiteRelationID] [tinyint] NULL,
@@ -140,25 +144,25 @@ CREATE TYPE [dbo].[ProgramCoursesType] AS TABLE(
 	[DeletionYearID] [smallint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[ProgramDistributionType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[ProgramDistributionType] AS TABLE(
 	[Level] [tinyint] NULL,
 	[Semester] [tinyint] NULL,
 	[NumberOfHours] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentDesiresType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[StudentDesiresType] AS TABLE(
 	[ProgramID] [int] NULL,
 	[DesireNumber] [tinyint] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentRegistrationCoursesType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[StudentRegistrationCoursesType] AS TABLE(
 	[CourseID] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsAddType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsAddType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[StudentsAddType] AS TABLE(
 	[GUID] [nvarchar](max) NULL,
 	[Name] [nvarchar](max) NULL,
@@ -174,14 +178,14 @@ CREATE TYPE [dbo].[StudentsAddType] AS TABLE(
 	[CurrentProgramId] [int] NULL
 )
 GO
-/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedTableType [dbo].[StudentsProgramsType]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE TYPE [dbo].[StudentsProgramsType] AS TABLE(
 	[ProgramID] [int] NOT NULL,
 	[StudentID] [int] NOT NULL,
 	[AcademicYearID] [smallint] NOT NULL
 )
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateCGPA]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -203,7 +207,7 @@ AS
 		 RETURN @CGPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculatePassedHours]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -227,7 +231,7 @@ BEGIN
 	RETURN 0;
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateSGPA]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -250,7 +254,7 @@ AS
 		 RETURN @GPA;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CalculateStudentLevel]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -288,7 +292,43 @@ BEGIN
 	RETURN @StudentLevel
 END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanOpenCourseForGraduation]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanDeleteProgramTransferRequest]    Script Date: 2023-06-06 1:20:32 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[CanDeleteProgramTransferRequest](@StudentID NVARCHAR(MAX))
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @RequestStatus BIT = NULL;
+	SELECT TOP (1) @RequestStatus = IsApproved 
+	FROM StudentProgramTransferRequest 
+	WHERE StudentID = @StudentID;
+	IF @RequestStatus IS NULL
+		RETURN 1;
+	RETURN 0;
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[CanDeleteSpecialCourseRequest]    Script Date: 2023-06-06 1:20:32 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[CanDeleteSpecialCourseRequest](@RequestID NVARCHAR(MAX))
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @RequestStatus BIT = NULL;
+	SELECT TOP (1) @RequestStatus = IsApproved 
+	FROM StudentCourseRequest
+	WHERE RequestID = @RequestID;
+	IF @RequestStatus IS NULL
+		RETURN 1;
+	RETURN 0;
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[CanOpenCourseForGraduation]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -316,7 +356,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CanRegisterThisCourse]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -362,7 +402,7 @@ ELSE
 RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CheckIfPassedCourse]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -390,7 +430,7 @@ ELSE
 RETURN @IsPassed;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[CountRegistrationTimes]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +451,7 @@ BEGIN
 	RETURN @RegCounter;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetCurrentYearID]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -425,7 +465,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDoctorIDFromGuid]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -444,7 +484,7 @@ BEGIN
 	RETURN @ID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetLastRegularSemesterGpa]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -475,7 +515,7 @@ BEGIN
 	RETURN [dbo].[CalculateSGPA](@StudentID,@AcademicYearID);
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetNumberOfWarnings]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -535,7 +575,7 @@ BEGIN
 	RETURN @NumberOfWarnings;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPassedPrequisteNumber]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -565,7 +605,7 @@ DEALLOCATE Count_Passed_Prerequiste_Number;
 RETURN @PassedCoursesNumber;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetPrequisteNumber]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -603,7 +643,7 @@ BEGIN
 	RETURN @ReturnValue;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentEnrollYear]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentEnrollYear]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -617,7 +657,7 @@ BEGIN
 	RETURN @EnrollYearID;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentGradeInCourse]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -632,7 +672,7 @@ BEGIN
 	RETURN @Grade;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgram]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -644,14 +684,11 @@ RETURNS int
 AS
      BEGIN
          DECLARE @ProgramID int;
-         Select @ProgramID=(SELECT ProgramID
-				FROM StudentPrograms sp
-				WHERE sp.StudentID =@StudentID and (sp.AcademicYear = (SELECT MAX(AcademicYear) FROM StudentPrograms WHERE StudentID = @StudentID)));
-
+         Select @ProgramID= CurrentProgramID FROM Student WHERE ID = @StudentID;
 		 RETURN @ProgramID;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetStudentProgramNameAtAcademicYear]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -669,7 +706,7 @@ BEGIN
 	RETURN @ProgName;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSumOfElectivePassedHours]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -715,7 +752,7 @@ BEGIN
 	RETURN @HoursSum;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseExist]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -732,7 +769,7 @@ BEGIN
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsCourseIncluded]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -750,7 +787,7 @@ AS
 		RETURN 0;
 	END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsDoctorEmailExist]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -767,7 +804,7 @@ IF EXISTS ( SELECT 1 FROM Doctor WHERE Email = @Email)
 	RETURN 0;
 END
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsGraduatedStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -797,7 +834,7 @@ AS
 		RETURN @IsGraduated;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[IsStudentInSpecialProgram]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -835,7 +872,7 @@ AS
 		--RETURN 0;
      END;
 GO
-/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[RankStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -861,7 +898,7 @@ AS
 		RETURN @ReturnValue;
 	END
 GO
-/****** Object:  Table [dbo].[Program]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[Program]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -884,7 +921,7 @@ CREATE TABLE [dbo].[Program](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  UserDefinedFunction [dbo].[GetSubProgramsIDs]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[GetSubProgramsIDs]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -908,7 +945,7 @@ RETURN
 	FROM ParentChilds
 )
 GO
-/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[AcademicYear]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -923,7 +960,7 @@ CREATE TABLE [dbo].[AcademicYear](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[CommonQuestion]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -938,7 +975,7 @@ CREATE TABLE [dbo].[CommonQuestion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -965,7 +1002,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[CoursePrerequisites]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -976,7 +1013,7 @@ CREATE TABLE [dbo].[CoursePrerequisites](
 	[PrerequisiteCourseID] [int] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Date]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[Date]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -987,7 +1024,7 @@ CREATE TABLE [dbo].[Date](
 	[EndDate] [smalldatetime] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1008,7 +1045,7 @@ CREATE TABLE [dbo].[Doctor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[ElectiveCourseDistribution]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1022,7 +1059,7 @@ CREATE TABLE [dbo].[ElectiveCourseDistribution](
 	[Hour] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[ProgramCourses]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1037,7 +1074,7 @@ CREATE TABLE [dbo].[ProgramCourses](
 	[AddtionYearID] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[ProgramDistribution]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1049,7 +1086,7 @@ CREATE TABLE [dbo].[ProgramDistribution](
 	[NumberOfHours] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1091,7 +1128,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[StudentCourseRequest]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1105,7 +1142,7 @@ CREATE TABLE [dbo].[StudentCourseRequest](
 	[CourseOperationID] [bit] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[StudentCourses]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1135,7 +1172,7 @@ CREATE TABLE [dbo].[StudentCourses](
 	[TookFromEnhancementCredits] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[StudentDesires]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1147,7 +1184,7 @@ CREATE TABLE [dbo].[StudentDesires](
 	[StudentCurrentProgramID] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[StudentPrograms]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1158,7 +1195,7 @@ CREATE TABLE [dbo].[StudentPrograms](
 	[AcademicYear] [smallint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[StudentProgramTransferRequest]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1170,7 +1207,7 @@ CREATE TABLE [dbo].[StudentProgramTransferRequest](
 	[IsApproved] [bit] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[SuperAdmin]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1187,7 +1224,7 @@ CREATE TABLE [dbo].[SuperAdmin](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Table [dbo].[TeacherCourses]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1670,33 +1707,33 @@ INSERT [dbo].[CoursePrerequisites] ([ProgramID], [CourseID], [PrerequisiteCourse
 GO
 INSERT [dbo].[CoursePrerequisites] ([ProgramID], [CourseID], [PrerequisiteCourseID]) VALUES (5, 47, 46)
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (0, CAST(N'2023-02-10T15:57:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (0, CAST(N'2023-02-10T15:57:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (1, CAST(N'2023-03-26T12:47:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (1, CAST(N'2023-03-26T12:47:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (2, CAST(N'2023-02-10T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (2, CAST(N'2023-02-10T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (3, CAST(N'2023-03-16T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (3, CAST(N'2023-03-16T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (4, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (4, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (5, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (5, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (6, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (6, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (7, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (7, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (8, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (8, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (9, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (9, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
-INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (10, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-05-29T00:00:00' AS SmallDateTime))
+INSERT [dbo].[Date] ([DateFor], [StartDate], [EndDate]) VALUES (10, CAST(N'2023-03-18T00:00:00' AS SmallDateTime), CAST(N'2023-06-29T00:00:00' AS SmallDateTime))
 GO
 SET IDENTITY_INSERT [dbo].[Doctor] ON 
 GO
 INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (2, N'A95A4304-E215-46A3-A3C9-3D01F90F0868', N'CS supervisor', N'cssuper@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 5, 2)
 GO
-INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (3, N'A95A4304-E215-46A3-A3C9-3D01F90F543', N'Math Admin', N'Amath@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-03-09T00:00:00' AS SmallDateTime), 1, 2)
+INSERT [dbo].[Doctor] ([ID], [GUID], [Name], [Email], [Password], [IsActive], [CreatedOn], [ProgramID], [Type]) VALUES (3, N'A95A4304-E215-46A3-A3C9-3D01F90F543', N'Math Prog Admin', N'Amath@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 1, CAST(N'2022-03-09T00:00:00' AS SmallDateTime), 1, 2)
 GO
 SET IDENTITY_INSERT [dbo].[Doctor] OFF
 GO
@@ -1766,19 +1803,21 @@ INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [Co
 GO
 INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (5, 4, 1, 3, 6, 1)
 GO
-INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (2, 1, 2, 3, 6, 2)
+INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (2, 1, 2, 3, 1, 2)
 GO
-INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (2, 1, 1, 3, 7, 1)
+INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (2, 1, 1, 3, 5, 1)
 GO
 INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (3, 1, 2, 3, 6, 2)
 GO
 INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (3, 1, 1, 3, 7, 1)
 GO
+INSERT [dbo].[ElectiveCourseDistribution] ([ProgramID], [Level], [Semester], [CourseType], [Category], [Hour]) VALUES (1, 1, 1, 3, 5, 1)
+GO
 SET IDENTITY_INSERT [dbo].[Program] ON 
 GO
-INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (1, N'B5B0ABA3-B121-461E-9685-021E8FCC0CE5', N'برنامج الرياضيات (عام)', 1, 1, 1, 1, 16, N'General Math Program', N'برنامج الرياضيات', NULL)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (1, N'B5B0ABA3-B121-461E-9685-021E8FCC0CE5', N'برنامج الرياضيات (عام)', 1, 0.4, 1, 1, 16, N'General Math Program', N'برنامج الرياضيات', NULL)
 GO
-INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (2, N'D2DE5C6B-7A7F-4F97-BFEB-CFE06220A8E1', N'برنامج علوم الحاسب (عام)', 2, 0.35, 1, 1, 33, N'Computer Science', N'برنامج علوم الحاسب', 1)
+INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (2, N'D2DE5C6B-7A7F-4F97-BFEB-CFE06220A8E1', N'برنامج علوم الحاسب (عام)', 2, 0.3, 1, 1, 33, N'Computer Science', N'برنامج علوم الحاسب', 1)
 GO
 INSERT [dbo].[Program] ([ID], [guid], [Name], [Semester], [Percentage], [IsRegular], [IsGeneral], [TotalHours], [EnglishName], [ArabicName], [SuperProgramID]) VALUES (3, N'CDC2F28A-CACF-429E-9B3C-CCDC5B1DE9E4', N'برنامج الإحصاء الرياضى (عام)', 2, 0.35, 1, 1, 33, N'Statistics', N'برنامج الاحصاء الرياضي', 1)
 GO
@@ -2222,9 +2261,9 @@ INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID]
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 87, 0, 1, 1, NULL, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 50, 0, 3, 1, 19, 1)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 50, 0, 3, 5, 19, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 84, 0, 3, 1, NULL, 1)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 84, 0, 3, 5, NULL, 1)
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 3, 0, 1, 1, NULL, 1)
 GO
@@ -2236,9 +2275,9 @@ INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID]
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 54, 0, 1, 1, NULL, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 46, 0, 3, 6, NULL, 1)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 46, 0, 3, 1, NULL, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 51, 0, 3, 6, NULL, 1)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 51, 0, 3, 1, NULL, 1)
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (3, 3, 0, 1, 1, NULL, 1)
 GO
@@ -2256,7 +2295,7 @@ INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID]
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (5, 116, 0, 3, 5, NULL, 19)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 116, 0, 3, 1, NULL, 19)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (1, 116, 0, 3, 5, NULL, 19)
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (6, 116, 0, 3, 1, NULL, 19)
 GO
@@ -2272,11 +2311,11 @@ INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID]
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 87, 0, 1, 1, NULL, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 50, 0, 3, 7, 19, 1)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 50, 0, 3, 5, 19, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 84, 0, 3, 7, NULL, 1)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 84, 0, 3, 5, NULL, 1)
 GO
-INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 116, 0, 3, 7, NULL, 19)
+INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (2, 116, 0, 3, 5, NULL, 19)
 GO
 INSERT [dbo].[ProgramCourses] ([ProgramID], [CourseID], [PrerequisiteRelationID], [CourseType], [Category], [DeletionYearID], [AddtionYearID]) VALUES (3, 1, 0, 1, 1, NULL, 1)
 GO
@@ -2402,29 +2441,23 @@ INSERT [dbo].[ProgramDistribution] ([ProgramID], [Level], [Semester], [NumberOfH
 GO
 SET IDENTITY_INSERT [dbo].[Student] ON 
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190691, N'190691', 6, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9842 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (5, N'94A552CF-AF8D-402A-AB9D-F37D11220E97', N'مؤمن عصام عرفه', N'30105050106293', N'01021179969', CAST(N'2001-05-05' AS Date), N'26 شارع راضى سليم الاول - الزيتون - القاهره', N'1', N'مصرى', N'30105050106293@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190691, N'190691', 9, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9842 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'113407A1FFA2461A74B42B7078589B87EB6B66EEAEF67778FFF0A3DE3DD09A460B2D17BFBA9AB924CBB3060E97B684DC4DBCE353462B0C1464F9EC55324580EC', 190114, N'190114', 12, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(3.1639 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (8, N'5A0F826F-770A-44FA-BE66-62721E55D5F1', N'جرجس اشرف فكرى', N'30109272102534', N'01033916944', CAST(N'2001-09-27' AS Date), N'11 شارع كمال احمد منصور - ارض اللواء  العجوزة - الجيزة', N'1', N'مصرى', N'30109272102534@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190114, N'190114', 12, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(3.1639 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'جوفانى نادى ذكرى', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190552, N'190552', 4, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9906 AS Decimal(5, 4)), 121, 4, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (11, N'03CBB008-52E8-4904-BDC4-70AD821E4388', N'جوفانى نادى ذكرى', N'30105120101332', N'01227901024', CAST(N'2001-05-12' AS Date), N'عين شمس', N'1', N'مصرى', N'30105120101332@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190552, N'190552', 8, 0, 2, CAST(N'2022-11-27T00:00:00' AS SmallDateTime), 0, 8, CAST(2.9906 AS Decimal(5, 4)), 121, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'يوسف طارق مسعود', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190823, N'190823', 6, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.7660 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (12, N'2B6289DA-B16C-49B2-BF48-CCF5D5B5B433', N'يوسف طارق مسعود', N'30101150105477', N'01278552284', CAST(N'2001-01-15' AS Date), N'7916 شارع المدينة المنورة متفرع من شارع 9 المقطم', N'1', N'مصرى', N'30101150105477@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190823, N'190823', 9, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.7660 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (13, N'FFEDC23A-8946-423D-AAFB-34D19EC18C64', N'ملك محمد عبدالحميد', N'30106190104688', N'01023883386', CAST(N'2001-06-19' AS Date), N'الزاوية', N'2', N'مصرى', N'30106190104688@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190787, N'190787', 0, 4, 3, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(1.9796 AS Decimal(5, 4)), 72, 3, 0, 1, 6, 8, 8, 10, NULL)
-GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (14, N'D0CCA8BC-0736-4298-98D6-994E01EF3EDE', N'جنه محمود حميده', N'30010282102447', N'01141733612', CAST(N'2000-10-28' AS Date), N'الهرم', N'2', N'مصرى', N'30010282102447@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 190111, N'190111', 2, 0, 2, CAST(N'2022-11-28T00:00:00' AS SmallDateTime), 0, 8, CAST(2.0960 AS Decimal(5, 4)), 87, 3, 0, 1, 7, 8, 8, 10, NULL)
-GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'محمود سالم فاروق', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 150123, N'150123', 0, 10, 3, CAST(N'2022-11-29T00:00:00' AS SmallDateTime), 0, 13, CAST(1.9423 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (18, N'98F9F7E1-59DE-4AE0-B52A-FFC731D02253', N'محمود سالم فاروق', N'29612121014574', N'01000000013', CAST(N'1996-12-12' AS Date), N'القاهرة', N'1', N'مصرى', N'29612121014574@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 150123, N'150123', 0, 10, 3, CAST(N'2022-11-29T00:00:00' AS SmallDateTime), 0, 13, CAST(1.9293 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (19, N'44B6F0C0-550C-4501-982E-5ABFB287BE3B', N'طالب مستوى اول', N'22222214562145', N'01000000014', CAST(N'2005-05-05' AS Date), N'القاهرة', N'1', N'مصرى', N'22222214562145@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 140140, N'140140', 12, 0, 3, CAST(N'2022-12-06T00:00:00' AS SmallDateTime), 0, 2, NULL, 0, 1, 0, 1, 5, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (27, N'bd5d3e03-5f3c-423e-8338-126106db5b3d', N'احمد محمد شاكر', N'30101012145214', N'12345678912', CAST(N'2001-01-01' AS Date), N'Address', N'1', N'مصرى', N'30101012145214@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 152025, N'33333', 1, 9, 2, CAST(N'2023-02-10T16:15:00' AS SmallDateTime), 0, 0, CAST(1.8159 AS Decimal(5, 4)), 119, 4, 0, 1, 5, 8, 8, 1, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 125423, N'11111', 0, 8, 3, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, CAST(1.8998 AS Decimal(5, 4)), 110, 4, 0, 1, 5, 8, 8, 4, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (28, N'b7b60b00-f697-4b9b-8ac6-983b331ed08f', N'علي سعيد علي عبد الجليل', N'30204021235412', N'12345678912', CAST(N'2002-04-02' AS Date), N'Address', N'1', N'مصرى', N'30204021235412@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 125423, N'11111', 0, 8, 3, CAST(N'2023-02-10T16:31:00' AS SmallDateTime), 0, 0, CAST(1.9465 AS Decimal(5, 4)), 110, 4, 0, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (29, N'52d2752d-bdc6-470f-bb11-310932ed51e4', N'A', N'30101092101478', N'12345678912', CAST(N'2001-01-09' AS Date), N'Address', N'1', N'مصرى', N'30101092101478@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 124957, N'11201', 0, 0, NULL, CAST(N'2023-02-10T19:59:00' AS SmallDateTime), 0, 0, CAST(1.9316 AS Decimal(5, 4)), 140, 4, 1, 1, 5, 8, 8, 1, 19)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (29, N'52d2752d-bdc6-470f-bb11-310932ed51e4', N'A', N'30101092101478', N'12345678912', CAST(N'2001-01-09' AS Date), N'Address', N'1', N'مصرى', N'30101092101478@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 124957, N'11201', 0, 0, NULL, CAST(N'2023-02-10T19:59:00' AS SmallDateTime), 0, 0, CAST(2.0040 AS Decimal(5, 4)), 140, 4, 1, 1, 5, 8, 8, 1, 19)
-GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 147201, N'332011', 2, 0, 3, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, CAST(2.2084 AS Decimal(5, 4)), 101, 3, 0, 1, 7, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (30, N'CFE18760-3020-40D2-BDF3-865D847A373B', N'اسلام امير بدوى ابوالحمد', N'30201130105335', N'01125036756', CAST(N'2002-01-13' AS Date), N'شبرا الخيمه', N'1', N'مصرى', N'30201130105335@sci.asu.edu.eg', N'0FBC1FB9CDE268DF12C8CE7A0CF5847B9D1246F76D994A335EBBE0068D777BF00641A9CF776BEF92DBBC4A9B9389095D7ABAFECF9560BC8BD42FD5AA3564DE8C', 147201, N'332011', 2, 0, 3, CAST(N'2023-02-11T00:00:00' AS SmallDateTime), 0, 8, CAST(2.1890 AS Decimal(5, 4)), 101, 3, 0, 1, 7, 8, 8, 10, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (331, N'a438d1eb-c955-4b88-b031-7c8a6cc6a1c5', N'Student_638169111503093427', N'1', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'1@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353032, N'353032', 0, 5, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(1.8318 AS Decimal(5, 4)), 108, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
@@ -2440,7 +2473,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (337, N'cb1a5654-92f0-4117-8b4a-4b29d4971a0c', N'Student_638169111515676846', N'7', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'7@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352050, N'352050', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(3.2606 AS Decimal(5, 4)), 84, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (338, N'f4c3c880-71da-4a27-899a-5baff48d7651', N'Student_638169111516356231', N'8', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'8@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220817, N'220817', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.8337 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (338, N'f4c3c880-71da-4a27-899a-5baff48d7651', N'Student_638169111516356231', N'8', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'8@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220817, N'220817', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.8338 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (339, N'a4808f51-2bb2-446c-8393-1df16ed1d5e4', N'Student_638169111524250634', N'9', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'9@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220816, N'220816', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.0825 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2452,7 +2485,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (343, N'4e296cc7-9551-46e3-8b02-b1a4ceb8732a', N'Student_638169111526908869', N'13', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'13@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352048, N'352048', 6, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.4556 AS Decimal(5, 4)), 79, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (344, N'0af6b79f-d41a-4631-ab39-a2d7a9b64346', N'Student_638169111527508194', N'14', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'14@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220812, N'220812', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.1238 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (344, N'0af6b79f-d41a-4631-ab39-a2d7a9b64346', N'Student_638169111527508194', N'14', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'14@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220812, N'220812', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.1237 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (345, N'fbb0a9a6-6974-4b28-8e4f-2ee03558493b', N'Student_638169111529172954', N'15', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'15@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352047, N'352047', 6, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.5755 AS Decimal(5, 4)), 78, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
@@ -2460,21 +2493,21 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (347, N'299a7c81-a389-4f47-a7fb-980b318008c1', N'Student_638169111532431412', N'17', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'17@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351053, N'351053', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.3812 AS Decimal(5, 4)), 71, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (348, N'c7d3eda6-d026-442b-829d-a08ceadea862', N'Student_638169111533232472', N'18', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'18@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352046, N'352046', 3, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(1.5869 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (348, N'c7d3eda6-d026-442b-829d-a08ceadea862', N'Student_638169111533232472', N'18', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'18@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352046, N'352046', 9, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(1.5869 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (349, N'2c34cb87-2bd7-45c0-9df0-1e89063da566', N'Student_638169111539788987', N'19', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'19@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352045, N'352045', 6, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(1.8027 AS Decimal(5, 4)), 61, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (350, N'61e944b9-5512-4c7c-a411-7b6c6848c331', N'Student_638169111546814616', N'20', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'20@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220799, N'220799', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.7719 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (351, N'86af2189-e693-4feb-b1e3-60b0f5c97a8c', N'Student_638169111562532459', N'21', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'21@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220777, N'220777', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.0613 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (351, N'86af2189-e693-4feb-b1e3-60b0f5c97a8c', N'Student_638169111562532459', N'21', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'21@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220777, N'220777', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.0612 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (352, N'73884df3-6100-4ee1-b2e1-4d2018cde7fd', N'Student_638169111563229522', N'22', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'22@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352038, N'352038', 6, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.5897 AS Decimal(5, 4)), 107, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (353, N'c79e0967-8b3b-46a7-95be-9ace445801bd', N'Student_638169111564281212', N'23', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'23@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352039, N'352039', 0, 4, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(1.1586 AS Decimal(5, 4)), 52, 2, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (354, N'2a9b1b60-590c-4e7a-884d-174b4513e1d4', N'Student_638169111565642865', N'24', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'24@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353029, N'353029', 1, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 8, CAST(2.7081 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (354, N'2a9b1b60-590c-4e7a-884d-174b4513e1d4', N'Student_638169111565642865', N'24', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'24@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353029, N'353029', 1, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 8, CAST(2.7081 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (355, N'dfc01b5d-9202-4c28-9917-d51bd7ead139', N'Student_638169111567236028', N'25', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'25@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352040, N'352040', 3, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.4270 AS Decimal(5, 4)), 68, 3, 0, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (355, N'dfc01b5d-9202-4c28-9917-d51bd7ead139', N'Student_638169111567236028', N'25', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'25@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352040, N'352040', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.4270 AS Decimal(5, 4)), 68, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (356, N'30d831b9-01ba-4981-932f-1bf25146d674', N'Student_638169111568385273', N'26', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'26@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210132, N'210132', 8, 1, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(1.9574 AS Decimal(5, 4)), 38, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
@@ -2492,7 +2525,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (363, N'c562e4d9-36d5-41d2-9164-2d127d286e59', N'Student_638169111571530071', N'33', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'33@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220785, N'220785', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.3756 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (364, N'9c7d1bef-da1b-457f-a689-47a704e9b988', N'Student_638169111571940760', N'34', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'34@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351045, N'351045', 3, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.0438 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (364, N'9c7d1bef-da1b-457f-a689-47a704e9b988', N'Student_638169111571940760', N'34', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'34@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351045, N'351045', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.0438 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (365, N'd706a94a-42f0-49c3-b7ff-c0433c04dc12', N'Student_638169111572918631', N'35', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'35@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354021, N'354021', 0, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 13, CAST(2.0087 AS Decimal(5, 4)), 128, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
@@ -2502,7 +2535,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (368, N'ab33da02-c725-4f47-85dc-7908374b267c', N'Student_638169111575154011', N'38', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'38@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352041, N'352041', 0, 1, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 10, CAST(1.9388 AS Decimal(5, 4)), 60, 2, 0, 1, 5, 8, 8, 1, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (369, N'1ad2f97a-55e4-44b6-b53f-896e8d3b622a', N'Student_638169111575760137', N'39', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'39@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220780, N'220780', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.6462 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (369, N'1ad2f97a-55e4-44b6-b53f-896e8d3b622a', N'Student_638169111575760137', N'39', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'39@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220780, N'220780', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.6463 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (370, N'20fdbedd-986f-4a30-99a6-58553d6d631a', N'Student_638169111576097075', N'40', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'40@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353028, N'353028', 6, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.8629 AS Decimal(5, 4)), 116, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
@@ -2518,9 +2551,9 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (376, N'a5e4dedd-5936-4b33-ac18-78d6d23ab65e', N'Student_638169111578252138', N'46', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'46@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353027, N'353027', 6, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.8873 AS Decimal(5, 4)), 118, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (377, N'db3e37b6-12c0-4513-b8ed-dadd4851daf7', N'Student_638169111578968724', N'47', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'47@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352037, N'352037', 4, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.4213 AS Decimal(5, 4)), 112, 4, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (377, N'db3e37b6-12c0-4513-b8ed-dadd4851daf7', N'Student_638169111578968724', N'47', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'47@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352037, N'352037', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.4213 AS Decimal(5, 4)), 112, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (378, N'181f4bac-c903-46e7-aa1e-07d2686fd30f', N'Student_638169111579454833', N'48', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'48@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220768, N'220768', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.9788 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (378, N'181f4bac-c903-46e7-aa1e-07d2686fd30f', N'Student_638169111579454833', N'48', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'48@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220768, N'220768', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.9787 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (379, N'd0da4d68-d3e3-43f0-b60f-1a8e807ffebc', N'Student_638169111579668191', N'49', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'49@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220767, N'220767', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.0425 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2570,7 +2603,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (402, N'0b8ee46e-2c05-44ad-9dc9-f9f7a086e3a0', N'Student_638169111588082934', N'72', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'72@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352031, N'352031', 0, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(1.7180 AS Decimal(5, 4)), 60, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (403, N'd174feaf-23bc-4fcf-9cd6-b7188a677f52', N'Student_638169111588526007', N'73', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'73@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352030, N'352030', 5, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.2197 AS Decimal(5, 4)), 73, 3, 0, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (403, N'd174feaf-23bc-4fcf-9cd6-b7188a677f52', N'Student_638169111588526007', N'73', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'73@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352030, N'352030', 8, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.2197 AS Decimal(5, 4)), 73, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (404, N'ea8f73ec-ab8d-4cd0-82c6-9c5cade36c15', N'Student_638169111588883953', N'74', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'74@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210083, N'210083', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(2.0449 AS Decimal(5, 4)), 37, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
@@ -2594,11 +2627,11 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (414, N'1ecdd107-866d-4b22-bf4e-e04db6139f95', N'Student_638169158255752151', N'84', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'84@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220728, N'220728', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.8125 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (415, N'b9a8a949-fb09-4667-bcdb-0e6b5f93d58d', N'Student_638169158256335989', N'85', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'85@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352026, N'352026', 3, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.4085 AS Decimal(5, 4)), 79, 3, 0, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (415, N'b9a8a949-fb09-4667-bcdb-0e6b5f93d58d', N'Student_638169158256335989', N'85', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'85@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352026, N'352026', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.4085 AS Decimal(5, 4)), 79, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (416, N'2b2f56e0-ffa5-4b5c-83cb-18ee124e3a60', N'Student_638169158257313564', N'86', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'86@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353016, N'353016', 3, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 8, CAST(2.4524 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (416, N'2b2f56e0-ffa5-4b5c-83cb-18ee124e3a60', N'Student_638169158257313564', N'86', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'86@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353016, N'353016', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 8, CAST(2.4524 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (417, N'e5f76ceb-7cf8-4184-a57f-2ee8b07509ce', N'Student_638169158258428680', N'87', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'87@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352025, N'352025', 3, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(1.4394 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (417, N'e5f76ceb-7cf8-4184-a57f-2ee8b07509ce', N'Student_638169158258428680', N'87', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'87@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352025, N'352025', 9, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(1.4394 AS Decimal(5, 4)), 46, 2, 0, 1, 5, 8, 8, 13, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (418, N'987b4862-8744-4465-8cae-cccc923ac076', N'Student_638169158259104812', N'88', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'88@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220720, N'220720', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.1244 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2612,15 +2645,15 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (423, N'0a80010d-e53a-454b-8ee6-23f039e0f010', N'Student_638169158263142558', N'93', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'93@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220724, N'220724', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.8744 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (424, N'289d6aca-591f-4f5b-88c4-89581586dd1b', N'Student_638169158263632638', N'94', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'94@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351023, N'351023', 4, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 4, CAST(0.0817 AS Decimal(5, 4)), 19, 1, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (424, N'289d6aca-591f-4f5b-88c4-89581586dd1b', N'Student_638169158263632638', N'94', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'94@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351023, N'351023', 8, 2, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 4, CAST(0.0817 AS Decimal(5, 4)), 19, 1, 0, 1, 5, 8, 8, 10, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (425, N'5a9af082-04e9-4344-be83-a71d095ffa99', N'Student_638169158264516807', N'95', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'95@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210067, N'210067', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(2.2198 AS Decimal(5, 4)), 44, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (426, N'03a20097-8428-401e-b0b4-685f5b542885', N'Student_638169158265132937', N'96', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'96@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220719, N'220719', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.1887 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (426, N'03a20097-8428-401e-b0b4-685f5b542885', N'Student_638169158265132937', N'96', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'96@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220719, N'220719', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.1888 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (427, N'2a7c4ceb-8a74-4409-b5b8-9dd4707bb6c4', N'Student_638169158265527658', N'97', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'97@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210064, N'210064', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(3.4204 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (428, N'65a90992-f60a-44ff-b01e-172133fd2384', N'Student_638169158266325756', N'98', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'98@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353010, N'353010', 0, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(2.3696 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (428, N'65a90992-f60a-44ff-b01e-172133fd2384', N'Student_638169158266325756', N'98', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'98@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353010, N'353010', 0, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(2.3696 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 19)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (429, N'116ce2ef-0d31-4ba2-a73e-28b24a16b47d', N'Student_638169158267346896', N'99', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'99@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220702, N'220702', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.7306 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2644,9 +2677,9 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (439, N'6cd5d4da-27c7-4966-9029-2da963b0afc8', N'Student_638169158273462290', N'109', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'109@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220706, N'220706', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.2506 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (440, N'3502cdb9-ed4e-46d9-aa4d-92213f7064d2', N'Student_638169158273643054', N'110', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'110@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220705, N'220705', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.7488 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (440, N'3502cdb9-ed4e-46d9-aa4d-92213f7064d2', N'Student_638169158273643054', N'110', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'110@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220705, N'220705', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(2.7487 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (441, N'b4c6208b-8335-49e8-8481-6fc15f81eca9', N'Student_638169158273852511', N'111', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'111@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351015, N'351015', 5, 1, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(1.1622 AS Decimal(5, 4)), 16, 1, 0, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (441, N'b4c6208b-8335-49e8-8481-6fc15f81eca9', N'Student_638169158273852511', N'111', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'111@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 351015, N'351015', 8, 1, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(1.1622 AS Decimal(5, 4)), 16, 1, 0, 1, 5, 8, 8, 4, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (442, N'edc9d25c-7c74-4f00-8031-fa6039743253', N'Student_638169158274083927', N'112', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'112@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220650, N'220650', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 2, CAST(3.5200 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2656,7 +2689,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (445, N'59b1f9e7-2bdc-449b-af45-e325a7de7c4b', N'Student_638169158275653889', N'115', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'115@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210052, N'210052', 12, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 3, CAST(2.4068 AS Decimal(5, 4)), 41, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (446, N'778ac1b2-1ce1-4a02-8163-d65f26b0855d', N'Student_638169158276151626', N'116', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'116@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353007, N'353007', 0, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(2.3281 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (446, N'778ac1b2-1ce1-4a02-8163-d65f26b0855d', N'Student_638169158276151626', N'116', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'116@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353007, N'353007', 0, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(2.3281 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 19)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (447, N'246f9f66-cd2b-442f-80cb-16f2a48d8e98', N'Student_638169158276932808', N'117', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'117@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353011, N'353011', 0, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(2.4614 AS Decimal(5, 4)), 131, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
@@ -2690,7 +2723,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (462, N'fd09695c-138e-495e-8dfa-e42f3a57b0ac', N'Student_638169158283019723', N'132', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'132@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353008, N'353008', 0, 1, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 9, CAST(1.8162 AS Decimal(5, 4)), 107, 4, 0, 1, 5, 8, 8, 7, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (463, N'18c848ca-f42f-4c10-9b05-79b7cf2fda40', N'Student_638169158283722071', N'133', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'133@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352013, N'352013', 4, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.3463 AS Decimal(5, 4)), 97, 3, 0, 1, 5, 8, 8, 10, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (463, N'18c848ca-f42f-4c10-9b05-79b7cf2fda40', N'Student_638169158283722071', N'133', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'133@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352013, N'352013', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 7, CAST(2.3463 AS Decimal(5, 4)), 97, 3, 0, 1, 5, 8, 8, 10, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (464, N'78e9b59c-c505-4d5c-9ea8-e809f201f4d5', N'Student_638169158284207779', N'134', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'134@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352012, N'352012', 9, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.6814 AS Decimal(5, 4)), 81, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
@@ -2708,7 +2741,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (471, N'96f2798a-fb8f-4131-b0f6-71ec8e472bbc', N'Student_638169158288411385', N'141', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'141@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352010, N'352010', 6, 0, NULL, CAST(N'2023-05-06T17:48:00' AS SmallDateTime), NULL, 5, CAST(2.3882 AS Decimal(5, 4)), 76, 3, 0, 1, 5, 8, 8, 13, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (472, N'0aac5e83-fbc3-4903-b5f1-965a0bdc6bbe', N'Student_638169158288940513', N'142', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'142@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353004, N'353004', 0, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 8, CAST(2.5523 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 7, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (472, N'0aac5e83-fbc3-4903-b5f1-965a0bdc6bbe', N'Student_638169158288940513', N'142', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'142@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 353004, N'353004', 0, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 8, CAST(2.5523 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 7, 18)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (473, N'064d1e9c-ca76-4d71-9897-fb19364a56ed', N'Student_638169158289582116', N'143', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'143@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220675, N'220675', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(2.6263 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2728,7 +2761,7 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (481, N'142b885a-a102-4983-972c-56e86334a37f', N'Student_638169158292424992', N'151', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'151@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220681, N'220681', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(3.0850 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (482, N'2a5a1344-50e1-47fe-80b2-1342963264a5', N'Student_638169158292590314', N'152', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'152@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220679, N'220679', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(2.8538 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (482, N'2a5a1344-50e1-47fe-80b2-1342963264a5', N'Student_638169158292590314', N'152', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'152@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220679, N'220679', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(2.8537 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (483, N'2d8f4b18-d4b2-4f7a-91e4-0d2f9b31776c', N'Student_638169158292759427', N'153', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'153@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220677, N'220677', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(2.7719 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2756,13 +2789,13 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (495, N'8b2b6c8a-52bc-4fee-908c-981433ee9b0a', N'Student_638169158298091734', N'165', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'165@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 210033, N'210033', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 3, CAST(2.8534 AS Decimal(5, 4)), 50, 2, 0, 1, 5, 8, 8, 16, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (496, N'696ce3a0-cc2c-46ce-b718-c9d3d1e6ab34', N'Student_638169158298540986', N'166', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'166@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354003, N'354003', 0, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 10, CAST(2.6299 AS Decimal(5, 4)), 134, 4, 0, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (496, N'696ce3a0-cc2c-46ce-b718-c9d3d1e6ab34', N'Student_638169158298540986', N'166', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'166@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354003, N'354003', 0, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 10, CAST(2.6299 AS Decimal(5, 4)), 134, 4, 1, 1, 5, 8, 8, 4, 18)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (497, N'a2c173b1-0d32-404c-a7ac-b00a7f3fbadd', N'Student_638169158299212925', N'167', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'167@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220654, N'220654', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(2.8312 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (497, N'a2c173b1-0d32-404c-a7ac-b00a7f3fbadd', N'Student_638169158299212925', N'167', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'167@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220654, N'220654', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(2.8313 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (498, N'a98ce4c2-7a2b-480a-a25a-87e00f347d92', N'Student_638169158299541732', N'168', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'168@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 352003, N'352003', 6, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 7, CAST(2.5242 AS Decimal(5, 4)), 114, 4, 0, 1, 5, 8, 8, 10, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (499, N'31c7a486-1662-4c3e-bc84-4fa446f635fc', N'Student_638169158300138173', N'169', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'169@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 512005, N'512005', 1, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 12, CAST(2.4156 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 4, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (499, N'31c7a486-1662-4c3e-bc84-4fa446f635fc', N'Student_638169158300138173', N'169', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'169@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 512005, N'512005', 11, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 12, CAST(2.4156 AS Decimal(5, 4)), 67, 3, 0, 1, 5, 8, 8, 4, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (500, N'94486304-84e2-4954-9508-98afdf3dd949', N'Student_638169158300533360', N'170', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'170@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220661, N'220661', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(3.2075 AS Decimal(5, 4)), 15, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
@@ -2770,17 +2803,19 @@ INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate],
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (502, N'89cc28c0-f517-43a8-b55a-5001fc4ff984', N'Student_638169158301241442', N'172', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'172@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220660, N'220660', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(3.2706 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
-INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (503, N'37c39245-f857-4c97-8e53-fcd59a0c9555', N'Student_638169158301404864', N'173', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'173@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220657, N'220657', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(3.0187 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (503, N'37c39245-f857-4c97-8e53-fcd59a0c9555', N'Student_638169158301404864', N'173', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'173@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220657, N'220657', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(3.0188 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (504, N'1b4c0f9f-d388-4d37-891c-a0f7f9de0ac1', N'Student_638169158301566185', N'174', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'174@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 220652, N'220652', 12, 0, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 2, CAST(3.2725 AS Decimal(5, 4)), 16, 1, 0, 1, 2, 8, 8, 19, NULL)
 GO
 INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (505, N'3a73eccd-a978-4eaf-9dbc-4afa9030209f', N'Student_638169158302077730', N'175', N'12345678912', CAST(N'2023-05-06' AS Date), N'العنوان', N'1', N'مصرى', N'175@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 354001, N'354001', 1, 10, NULL, CAST(N'2023-05-06T17:49:00' AS SmallDateTime), NULL, 13, CAST(1.8924 AS Decimal(5, 4)), 122, 4, 0, 1, 5, 8, 8, 1, NULL)
 GO
+INSERT [dbo].[Student] ([ID], [GUID], [Name], [SSN], [PhoneNumber], [BirthDate], [Address], [Gender], [Nationality], [Email], [Password], [AcademicCode], [SeatNumber], [AvailableCredits], [WarningsNumber], [SupervisorID], [CreatedOn], [IsCrossStudent], [SemestersNumberInProgram], [CGPA], [PassedHours], [Level], [IsGraduated], [IsActive], [CurrentProgramID], [AvailableWithdraws], [AvailableEnhancementCredits], [EnrollYearID], [GraduatedYearID]) VALUES (507, N'eea522a6-ab23-42a5-9d4f-ebefd5c7d018', N'احمد محمد شاكر', N'333333', N'12345678912', CAST(N'2023-05-16' AS Date), N'العنوان', N'1', N'مصرى', N'333333@sci.asu.edu.eg', N'2E8C43FCA046AE2DDEA40E3E09EB8FE6BCAC25AC9096EC49CD1CDC931A8D5D38AA9791E652C16DD73A9B6C9EED34519651071CDBE0C4666B0840B5CEA54D5505', 453215, N'453215', 1, 9, NULL, CAST(N'2023-05-16T21:26:00' AS SmallDateTime), NULL, 12, CAST(1.8676 AS Decimal(5, 4)), 119, 4, 0, 1, 5, 8, 8, 1, NULL)
+GO
 SET IDENTITY_INSERT [dbo].[Student] OFF
 GO
-INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'd3f88e49-b3d1-49ac-a208-68f257920299', 1, 8, 39, NULL, 1)
+INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'5b21ed4e-0b5f-4e98-90d5-b911c107dc82', 1, 8, 29, 1, 1)
 GO
-INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'd3f88e49-b3d1-49ac-a208-68f257920299', 1, 8, 35, NULL, 0)
+INSERT [dbo].[StudentCourseRequest] ([RequestID], [RequestTypeID], [StudentID], [CourseID], [IsApproved], [CourseOperationID]) VALUES (N'6ac027a2-f8c8-4ed1-919d-0c96d7cc5a5b', 4, 8, 65, 1, 1)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (331, 1, 98, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
 GO
@@ -2823,8 +2858,6 @@ GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (415, 4, 129, NULL, NULL, NULL, NULL, N'A-', 3.67, 11.01, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (5, 1, 119, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 87, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (12, 51, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
 GO
@@ -4282,6 +4315,144 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWo
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (419, 50, 27, NULL, NULL, NULL, NULL, N'P', 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
 GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 29, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 65, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 20, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 1, 95, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 2, 47, NULL, NULL, NULL, NULL, N'A', 4, 4, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 52, 159, NULL, NULL, NULL, NULL, N'B', 3, 12, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 83, 130, NULL, NULL, NULL, NULL, N'C', 2.33, 9.32, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 84, 30, NULL, NULL, NULL, NULL, N'D', 2, 2, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 87, 108, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 3, 77, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 4, 84, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 5, 142, NULL, NULL, NULL, NULL, N'A', 4, 12, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 46, 44, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 51, 31, NULL, NULL, NULL, NULL, N'P', 0, 0, 1, 0, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 53, 100, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 54, 122, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 3, 118, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 2, 0, 3, 1, 1, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 4, 140, NULL, NULL, NULL, NULL, N'A', 4, 12, 1, 1, 1, 2, 0, 3, 1, 1, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 6, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 8, 69, NULL, NULL, NULL, NULL, N'C', 2.33, 4.66, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 10, 120, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 12, 140, NULL, NULL, NULL, NULL, N'C+', 2.67, 10.68, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 57, 109, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 7, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 9, 57, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 11, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 13, 90, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 14, 57, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 46, 43, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 5, 1, 1, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 56, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 15, 68, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 17, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 19, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 21, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 23, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 72, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 9, 76, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 8, 1, 1, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 11, 95, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 8, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 46, 55, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 3, 1, 8, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 48, 39, NULL, NULL, NULL, NULL, N'B', 3, 3, 1, 1, 1, 1, 0, 8, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 56, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 8, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 17, 55, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 9, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 85, 31, NULL, NULL, NULL, NULL, N'D', 2, 2, 1, 1, 1, 1, 0, 9, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 28, 129, NULL, NULL, NULL, NULL, N'A-', 3.67, 11.01, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 30, 99, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 32, 92, NULL, NULL, NULL, NULL, N'A', 4, 8, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 34, 119, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 86, 34, NULL, NULL, NULL, NULL, N'C', 2.33, 2.33, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 26, 72, NULL, NULL, NULL, NULL, N'C+', 2.67, 5.34, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 33, 182, NULL, NULL, NULL, NULL, N'A', 4, 16, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 35, 111, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 43, 126, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 6, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 12, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 15, 103, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 13, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 17, 72, NULL, NULL, NULL, NULL, N'D', 2, 4, 1, 1, 1, 3, 1, 13, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 19, 99, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 13, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 72, 102, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 13, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 20, 122, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 24, 66, NULL, NULL, NULL, NULL, N'C', 2.33, 4.66, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 29, 132, NULL, NULL, NULL, NULL, N'A-', 3.67, 11.01, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 31, 101, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 21, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 16, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 23, 74, NULL, NULL, NULL, NULL, N'D', 2, 4, 1, 1, 1, 2, 0, 16, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 38, 141, NULL, NULL, NULL, NULL, N'A', 4, 12, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 47, 79, NULL, NULL, NULL, NULL, N'B', 3, 6, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 7, 87, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 17, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 9, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 3, 1, 17, 0, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 16, 57, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 22, 93, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
+GO
+INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (507, 50, 34, NULL, NULL, NULL, NULL, N'P', 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
+GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (349, 2, 42, NULL, NULL, NULL, NULL, N'B+', 3.33, 3.33, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (366, 2, 45, NULL, NULL, NULL, NULL, N'A', 4, 4, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
@@ -4698,166 +4869,6 @@ INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWo
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (8, 31, 127, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
 GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 50, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 52, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 83, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 84, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 87, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 3, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 4, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 46, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 51, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 53, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 54, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 12, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 47, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 55, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 57, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 59, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 114, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 56, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 15, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 15, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 19, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 23, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 115, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 63, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 67, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 85, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 64, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 22, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (13, 57, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 18, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 50, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 52, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 83, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 84, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 3, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 4, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 46, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 51, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 53, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 54, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 88, NULL, NULL, NULL, NULL, NULL, N'P', NULL, NULL, 1, 0, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 12, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 83, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 12, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 47, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 89, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 91, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 93, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 13, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 114, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 90, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 92, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 95, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 19, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 23, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 85, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 89, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 2, 0, 16, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 99, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 48, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 98, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 103, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 22, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (14, 31, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
-GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (12, 28, 113, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (12, 30, 119, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 1, 0, 19, 1, 0, 0, 0, 0, 0)
@@ -5095,140 +5106,6 @@ GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (12, 31, 149, NULL, NULL, NULL, NULL, N'A', 4, 12, 1, 1, 1, 1, 0, 18, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (12, 22, 119, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 2, 0, 18, 1, 1, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 1, 95, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 2, 47, NULL, NULL, NULL, NULL, N'A', 4, 4, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 50, 34, NULL, NULL, NULL, NULL, N'P', 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 52, 159, NULL, NULL, NULL, NULL, N'B', 3, 12, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 83, 130, NULL, NULL, NULL, NULL, N'C', 2.33, 9.32, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 84, 30, NULL, NULL, NULL, NULL, N'D', 2, 2, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 87, 108, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 3, 77, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 4, 84, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 5, 142, NULL, NULL, NULL, NULL, N'A', 4, 12, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 46, 44, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 51, 31, NULL, NULL, NULL, NULL, N'P', 0, 0, 1, 0, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 53, 100, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 54, 122, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 2, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 3, 118, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 3, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 4, 140, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 3, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 6, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 8, 69, NULL, NULL, NULL, NULL, N'C', 2.33, 4.66, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 10, 120, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 12, 140, NULL, NULL, NULL, NULL, N'C+', 2.67, 10.68, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 57, 109, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 7, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 9, 57, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 11, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 13, 90, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 14, 57, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 46, 43, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 5, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 56, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 5, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 15, 68, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 17, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 19, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 21, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 23, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 72, 0, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 7, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 9, 76, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 8, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 11, 95, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 8, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 46, 55, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 3, 1, 8, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 48, 39, NULL, NULL, NULL, NULL, N'B', 3, 3, 1, 1, 1, 1, 0, 8, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 56, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 8, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 17, 55, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 9, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 85, 31, NULL, NULL, NULL, NULL, N'D', 2, 2, 1, 1, 1, 1, 0, 9, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 28, 129, NULL, NULL, NULL, NULL, N'A-', 3.67, 11.01, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 30, 99, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 32, 92, NULL, NULL, NULL, NULL, N'A', 4, 8, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 34, 119, NULL, NULL, NULL, NULL, N'B', 3, 9, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 86, 34, NULL, NULL, NULL, NULL, N'C', 2.33, 2.33, 1, 1, 1, 1, 0, 10, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 26, 72, NULL, NULL, NULL, NULL, N'C+', 2.67, 5.34, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 33, 182, NULL, NULL, NULL, NULL, N'A', 4, 16, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 35, 111, NULL, NULL, NULL, NULL, N'C+', 2.67, 8.01, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 43, 126, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 11, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 6, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 12, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 15, 103, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 13, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 17, 72, NULL, NULL, NULL, NULL, N'D', 2, 4, 1, 1, 1, 3, 1, 13, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 19, 99, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 13, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 72, 102, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 13, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 20, 122, NULL, NULL, NULL, NULL, N'B+', 3.33, 9.99, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 24, 66, NULL, NULL, NULL, NULL, N'C', 2.33, 4.66, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 29, 132, NULL, NULL, NULL, NULL, N'A-', 3.67, 11.01, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 31, 101, NULL, NULL, NULL, NULL, N'C', 2.33, 6.99, 1, 1, 1, 1, 0, 14, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 21, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 2, 0, 16, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 23, 74, NULL, NULL, NULL, NULL, N'D', 2, 4, 1, 1, 1, 2, 0, 16, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 38, 141, NULL, NULL, NULL, NULL, N'A', 4, 12, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 47, 79, NULL, NULL, NULL, NULL, N'B', 3, 6, 1, 1, 1, 1, 0, 16, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 7, 87, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 2, 0, 17, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 9, 96, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 3, 1, 17, 0, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 16, 57, NULL, NULL, NULL, NULL, N'F', 0, 0, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
-GO
-INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (27, 22, 93, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 17, 1, 0, 0, 0, 0, 0)
 GO
 INSERT [dbo].[StudentCourses] ([StudentID], [CourseID], [Mark], [Final], [YearWork], [Oral], [Practical], [Grade], [points], [QualityPoints], [IsApproved], [IsGPAIncluded], [IsIncluded], [CourseEntringNumber], [AffectReEntringCourses], [AcademicYearID], [WillTakeFullCredit], [TookFromCredits], [HasExcuse], [IsEnhancementCourse], [HasWithdrawn], [TookFromEnhancementCredits]) VALUES (28, 1, 94, NULL, NULL, NULL, NULL, N'D', 2, 6, 1, 1, 1, 1, 0, 4, 1, 0, 0, 0, 0, 0)
 GO
@@ -13464,18 +13341,6 @@ INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 12, 13)
 GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 13, 10)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 13, 11)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (6, 13, 13)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 14, 10)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (3, 14, 11)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (7, 14, 13)
-GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 18, 1)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 18, 2)
@@ -13483,10 +13348,6 @@ GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 18, 4)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 19, 19)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 27, 1)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 27, 4)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 28, 4)
 GO
@@ -13507,8 +13368,6 @@ GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 11, 11)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 11, 13)
-GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (2, 27, 2)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 19, 20)
 GO
@@ -14064,8 +13923,6 @@ INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 468, 13)
 GO
-INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 27, 20)
-GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 469, 16)
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 469, 19)
@@ -14218,6 +14075,12 @@ INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES
 GO
 INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 505, 4)
 GO
+INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (1, 507, 1)
+GO
+INSERT [dbo].[StudentPrograms] ([ProgramID], [StudentID], [AcademicYear]) VALUES (5, 507, 4)
+GO
+INSERT [dbo].[StudentProgramTransferRequest] ([StudentID], [ToProgramID], [ReasonForTransfer], [IsApproved]) VALUES (8, 7, N'string', NULL)
+GO
 SET IDENTITY_INSERT [dbo].[SuperAdmin] ON 
 GO
 INSERT [dbo].[SuperAdmin] ([ID], [GUID], [Name], [Email], [Password]) VALUES (1, N'4417AB2E-C97A-47B7-A182-D0C2B4DFB23B', N'SuperAdmin', N'sadmin@sci.asu.edu.eg', N'3044DC634EC7C8E55AE10689D41810177E40E4CFCD645A7748DEC4E7C32C20EE14C9D4515EB0E93682816B536522F3119D0C0E68E98915556BE0AA18558F061E')
@@ -14232,7 +14095,7 @@ INSERT [dbo].[TeacherCourses] ([DoctorID], [CourseID], [AcademicYearID]) VALUES 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [K_GUID]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Index [K_GUID]    Script Date: 2023-06-06 1:20:32 PM ******/
 CREATE UNIQUE NONCLUSTERED INDEX [K_GUID] ON [dbo].[Student]
 (
 	[GUID] ASC
@@ -14440,7 +14303,7 @@ REFERENCES [dbo].[Doctor] ([ID])
 GO
 ALTER TABLE [dbo].[TeacherCourses] CHECK CONSTRAINT [FK_TeacherCourses_Supervisor]
 GO
-/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCommonQuestions]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14454,11 +14317,12 @@ BEGIN
 		FROM @Questions;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddCourse]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[AddCourse]
 @Courses CourseType READONLY
 AS
@@ -14466,15 +14330,15 @@ BEGIN
 INSERT INTO [dbo].[Course]
            ([CourseCode],[CourseName],[CreditHours]
            ,[LectureHours],[LabHours],[SectionHours]
-           ,[IsActive],[Level],[Semester])
+           ,[IsActive],[Level],[Semester],Final,YearWork,Oral,Practical)
 
            SELECT CourseCode,CourseName,CreditHours
            ,LectureHours,LabHours,SectionHours
-           ,IsActive,Level,Semester
+           ,IsActive,Level,Semester,Final,YearWork,Oral,Practical
 		   FROM @Courses
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddDoctor]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14499,7 +14363,7 @@ BEGIN
            (SELECT ID FROM Program WHERE guid = @ProgramGuid),@Type);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddNewStudents]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddNewStudents]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14565,7 +14429,7 @@ BEGIN
 		DEALLOCATE StudentsCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddProgram]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14608,7 +14472,7 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14647,7 +14511,7 @@ INSERT INTO [dbo].[Student]
 		SELECT * FROM Student WHERE ID = @Id;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentCourses]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14673,7 +14537,7 @@ BEGIN
 	EXECUTE [dbo].[UpdateStudentComputedValues] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentDesires]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14701,7 +14565,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AddStudentsToPrograms]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14718,11 +14582,27 @@ BEGIN
 		SELECT [ProgramID], [StudentID], [AcademicYearID] FROM @StudentProgram;
 		DECLARE @StudentID INT;
 		
-		SELECT TOP(1) @StudentID = StudentID FROM @StudentProgram;
+		DECLARE CurrentProgramUpdateCursor CURSOR FOR  
+		SELECT DISTINCT(StudentID)
+		FROM @StudentProgram;
 
-		UPDATE Student
-			SET CurrentProgramID = [dbo].[GetStudentProgram](@StudentID)
-			WHERE ID = @StudentID;
+		OPEN CurrentProgramUpdateCursor;  
+		FETCH NEXT FROM CurrentProgramUpdateCursor 
+		INTO @StudentID;
+			WHILE @@FETCH_STATUS = 0 
+				BEGIN
+					UPDATE Student
+						SET CurrentProgramID = (SELECT TOP (1) ProgramID
+										FROM StudentPrograms 
+										WHERE StudentID = @StudentID
+										ORDER BY AcademicYear DESC)
+						WHERE ID = @StudentID;
+				FETCH NEXT FROM CurrentProgramUpdateCursor 
+					INTO @StudentID;
+				END;  
+			CLOSE CurrentProgramUpdateCursor;  
+		DEALLOCATE CurrentProgramUpdateCursor;
+
 	END TRY
 	BEGIN CATCH
 		IF @@ERROR <> 0
@@ -14731,7 +14611,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_CoursesAndTheirDoctors]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_CoursesAndTheirDoctors]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14753,7 +14633,7 @@ BEGIN
 	WHERE ay.ID BETWEEN @StartYear AND @EndYear;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsBasicData]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsBasicData]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14778,7 +14658,7 @@ BEGIN
 	WHERE (ey.ID BETWEEN @StartYear AND @EndYear)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsCoursesDetails]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsCoursesDetails]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14810,7 +14690,7 @@ BEGIN
 	WHERE ay.ID BETWEEN @StartYear AND @EndYear;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsSemestersGpa]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AnalysisTeam_StudentsSemestersGpa]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14830,14 +14710,14 @@ BEGIN
 	GROUP BY s.guid,sc.AcademicYearID,ay.AcademicYear,ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[AssignDoctorsToCourse]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[AssignDoctorsToCourse]
 @Doctors DoctorsGuidType READONLY,
-@CourseGuid INT
+@CourseGuid NVARCHAR(MAX)
 AS 
 BEGIN
 	BEGIN TRANSACTION
@@ -14858,7 +14738,7 @@ BEGIN
 	COMMIT;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[BackUpDatabase]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14874,7 +14754,7 @@ BEGIN
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[ChangeDoctorPassword]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14888,7 +14768,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[ConfirmMarks]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14923,7 +14803,7 @@ DECLARE MarkUpdateConfirmalCursor CURSOR FOR
 	EXECUTE [dbo].[UpdateStudentComputedValues]
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[CoursesActivation]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14939,7 +14819,7 @@ BEGIN
 	@SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DeleteCourseByGuid]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[DeleteCourseByGuid]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14951,7 +14831,7 @@ BEGIN
 	DELETE FROM Course WHERE guid = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAcademicYears]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14969,7 +14849,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllCoursesRegistration]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14984,7 +14864,7 @@ SELECT s.SSN,c.CourseCode
   END
  
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllDoctorsAsDropDown]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllDoctorsAsDropDown]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14997,7 +14877,7 @@ BEGIN
 	FROM Doctor d JOIN Program p ON d.ProgramID = p.ID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentCourses]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15012,7 +14892,7 @@ BEGIN
 	WHERE StudentID = @StudentID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllStudentsDesires]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15032,7 +14912,7 @@ BEGIN
 	ORDER BY s.CGPA DESC,sd.DesireNumber ASC;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAllSubPrograms]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15062,7 +14942,7 @@ ELSE
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetAvailableCoursesToRegister]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15108,7 +14988,7 @@ DECLARE @StudentEnrollYear SMALLINT = [dbo].[GetStudentEnrollYear]('+CAST(@Stude
 	EXECUTE sp_executesql @Statement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCommonQuestions]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15155,7 +15035,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseByGuid]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseByGuid]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15169,7 +15049,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourseDetails]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15186,13 +15066,13 @@ BEGIN
 	WHERE tc.CourseID = @CourseID AND tc.AcademicYearID = [dbo].[GetCurrentYearID]()
 	AND d.Name IS NOT NULL;
 
-	SELECT p.ArabicName
+	SELECT p.Name AS [ArabicName]
 	FROM Program p
 	JOIN ProgramCourses pc ON (p.ID = pc.ProgramID)
 	WHERE pc.CourseID = @CourseID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCourses]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15300,7 +15180,7 @@ SET @SqlStatment += ' SELECT @TotalCountParam = COUNT(DISTINCT(c.ID)) ' + @FromS
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForAddAndDelete]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15316,7 +15196,7 @@ BEGIN
 	EXEC [dbo].[GetCoursesForDeletionOrWithdraw] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForDeletionOrWithdraw]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15334,7 +15214,7 @@ DECLARE @StudentProgram INT = [dbo].[GetStudentProgram](@StudentID);
 		sc.AcademicYearID =[dbo].[GetCurrentYearID]();	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForEnhancement]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15353,7 +15233,7 @@ BEGIN
 		EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,1 ;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForGraduation]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15399,7 +15279,7 @@ DECLARE @CurrentSemester TINYINT;
 	EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,0,0
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesForOverload]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15415,7 +15295,7 @@ EXEC [dbo].[GetAvailableCoursesToRegister] @StudentID,@Levels,1
 EXEC [dbo].[GetElectiveCoursesDistribution] @StudentID,1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesListExceptPassed]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15437,7 +15317,7 @@ StudentID =@StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetCoursesRequests]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15486,7 +15366,7 @@ DECLARE @SelectStatement NVARCHAR(MAX), @FromStatement NVARCHAR(MAX), @WhereStat
 EXECUTE sp_executesql @SqlStatement;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDates]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15505,7 +15385,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlSt;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctorByGuid]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15524,10 +15404,10 @@ SELECT d.Guid,
 		p.guid AS [ProgramGuid],
 		p.ID AS [ProgramID]
 		FROM Doctor d JOIN Program p ON p.ID = d.ProgramID
-		WHERE d.GUID = @GUID AND IsActive = @IsActive;
+		WHERE d.GUID = @GUID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetDoctors]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15598,7 +15478,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetElectiveCoursesDistribution]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15634,7 +15514,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetFailedCoursesList]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15650,7 +15530,25 @@ StudentID = @StudentID AND
 sc.CourseID NOT IN(SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID =@StudentID)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetMyProgramTransferRequest]    Script Date: 2023-06-06 1:20:32 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetMyProgramTransferRequest]
+@StudentID INT
+AS
+BEGIN
+	SELECT s.Name AS [StudentName],s.CGPA AS [StudentGPA],s.Level AS [StudentLevel],
+		s.GUID, sptr.IsApproved,sptr.ReasonForTransfer,	toProg.Name AS [ToProgramName],
+		fromProg.Name AS [CurrentProgramName]
+	FROM [StudentProgramTransferRequest] sptr JOIN Student s ON sptr.StudentID = s.ID 
+		JOIN Program fromProg ON fromProg.ID = s.CurrentProgramID
+		JOIN Program toProg ON toProg.ID = sptr.ToProgramID
+	WHERE StudentID = @StudentID;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[GetPassedCoursesList]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15662,7 +15560,7 @@ BEGIN
 SELECT sc.CourseID FROM StudentCourses sc WHERE sc.Grade <> 'F' AND StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramByID]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15691,7 +15589,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramDetails]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramDetails]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15732,7 +15630,7 @@ BEGIN
 			ORDER BY c.Level,c.semester;	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetPrograms]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15832,7 +15730,7 @@ BEGIN
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramsListForProgramTransfer]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15859,18 +15757,29 @@ BEGIN
 	);
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetProgramTransferRequests]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[GetProgramTransferRequests]
-@StudentID INT = NULL,
-@ToProgramID INT = NULL,
-@IsApproved INT = NULL
+@DoctorProgramID NVARCHAR(MAX) = NULL,
+@Name NVARCHAR(MAX) = NULL,
+@Level TINYINT = NULL,
+@FromProgramID NVARCHAR(MAX) = NULL,
+@ToProgramID NVARCHAR(MAX) = NULL,
+@IsApproved TINYINT = NULL,
+@PageNumber INT = 1,
+@PageSize INT = 20,
+@OrderBy VARCHAR(50) = 's.id',
+@OrderDirection VARCHAR(4) = 'DESC',
+@TotalCount INT OUTPUT
 AS
 BEGIN
-DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),@WhereSt NVARCHAR(MAX),@Sql NVARCHAR(MAX);
+DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),
+@WhereSt NVARCHAR(MAX),@OrderBySt NVARCHAR(MAX),
+@ParamsDefinition nvarchar(MAX),@Sql NVARCHAR(MAX);
 	SET @SelectSt = N'SELECT 
 	s.Name AS [StudentName],
 	s.CGPA AS [StudentGPA],
@@ -15885,23 +15794,52 @@ DECLARE @SelectSt NVARCHAR(MAX),@FromSt NVARCHAR(MAX),@WhereSt NVARCHAR(MAX),@Sq
 	JOIN Program fromProg ON fromProg.ID = s.CurrentProgramID
 	JOIN Program toProg ON toProg.ID = sptr.ToProgramID';
 	SET @WhereSt = N' WHERE 1=1'
-	IF @StudentID IS NOT NULL
+	IF @DoctorProgramID IS NOT NULL
 	BEGIN
-		SET @WhereSt += N' AND StudentID = '+CAST(@StudentID AS NVARCHAR(MAX));
+		SET @WhereSt += N' AND toProg.ID IN (SELECT * FROM [dbo].[GetSubProgramsIDs]('''+@DoctorProgramID+'''))';
 	END
+	IF @Name IS NOT NULL
+	BEGIN
+		SET @WhereSt += N' AND s.Name LIKE N''%'+@Name+'%''';
+	END
+	IF @Level IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND s.Level =' + CAST(@Level AS VARCHAR(10));
+		END
+	IF @FromProgramID IS NOT NULL
+		BEGIN
+			SET @WhereSt += N' AND fromProg.Guid =''' +@FromProgramID+'''';
+		END
 	IF @ToProgramID IS NOT NULL
-	BEGIN
-		SET @WhereSt += N' AND ToProgramID = '+CAST(@ToProgramID AS NVARCHAR(MAX));
-	END
-	IF @IsApproved IS NOT NULL
-	BEGIN
-		SET @WhereSt += N' AND IsAPproved = '+CAST(@IsApproved AS NVARCHAR(MAX));
-	END
-	SET @Sql = @SelectSt + @FromSt + @WhereSt;
-	EXECUTE sp_executesql @Sql;
+		BEGIN
+			SET @WhereSt += N' AND toProg.Guid = ''' +@ToProgramID+'''';
+		END
+		IF @IsApproved IS NOT NULL
+		BEGIN
+			IF (@IsApproved = 0 OR @IsApproved = 1)
+				BEGIN
+					SET @WhereSt += N' AND IsApproved = '+CAST(@IsApproved AS NVARCHAR(MAX));
+				END
+			ELSE IF @IsApproved = 2
+				BEGIN
+					SET @WhereSt += N' AND IsApproved IS NULL ';
+				END
+		END
+		SET @OrderBySt =N' ORDER BY '+@OrderBy+' '+@OrderDirection
+			+' OFFSET ' + CAST((@PageSize*(@PageNumber-1)) AS VARCHAR(5)) +' ROWS'
+			+' FETCH NEXT ' + CAST(@PageSize AS VARCHAR(5)) + ' ROWS ONLY; ' ;
+
+	SET @Sql =
+	@SelectSt + @FromSt + @WhereSt + @OrderBySt
+	SET @Sql += ' SELECT @TotalCountParam = COUNT(DISTINCT(s.guid)) ' + @FromSt + @WhereSt;
+	SET @ParamsDefinition = N'@TotalCountParam INT OUTPUT';
+	EXECUTE sp_executesql 
+	@Sql,
+	@ParamsDefinition,
+	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15944,7 +15882,7 @@ BEGIN
 	EXECUTE sp_executesql @SqlStatment
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentAcademicYearsSummary]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -15977,7 +15915,7 @@ BEGIN
 			ay.Semester
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentCoursesByAcademicYear]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16015,7 +15953,7 @@ SELECT
   WHERE sc.StudentID = @StudentID AND sc.AcademicYearID = @AcademicYearID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudentDesires]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16061,7 +15999,7 @@ BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetStudents]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16235,7 +16173,7 @@ SET @SqlStatment += ' SELECT @TotalCountParam = COUNT(DISTINCT(s.guid)) ' + @Fro
 	@TotalCountParam = @TotalCount output
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSubPrograms]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16254,7 +16192,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[GetSuperAdmin]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16267,7 +16205,7 @@ BEGIN
 	FROM SuperAdmin s WHERE GUID = @Guid
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Doctor]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16282,7 +16220,7 @@ AS
 		WHERE d.Email = @Email AND d.Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_Student]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16295,7 +16233,7 @@ AS
 		SELECT * FROM Student WHERE Email = @Email AND Password = @Password AND IsActive = 1;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Login_SuperAdmin]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16308,7 +16246,7 @@ AS
 		SELECT * FROM SuperAdmin WHERE Email = @Email AND Password = @Password;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[ProgramSwitchingForStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16366,7 +16304,7 @@ AS
 			WHERE StudentID = @StudentID AND IsIncluded = 0;
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[QueryExecuter]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16378,7 +16316,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_CourseGradesSheet]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16408,12 +16346,12 @@ BEGIN
 	SET @Sql +=N'
 	FROM Student s JOIN Program p ON p.ID = s.CurrentProgramID JOIN StudentCourses sc ON s.ID = sc.StudentID
 	WHERE sc.CourseID ='+ CAST(@CourseID AS NVARCHAR(MAX)) 
-	+' AND sc.AcademicYearID ='+CAST(@CurrentYearID AS NVARCHAR(MAX))
-	+' AND s.IsActive = 1;';
+	+' AND sc.AcademicYearID ='+CAST(@CurrentYearID AS NVARCHAR(MAX))+' AND s.IsActive = 1'
+	+' ORDER BY s.Name ASC;';
 	EXECUTE sp_executesql @Sql;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_ExamCommitteeStudents]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16438,10 +16376,11 @@ BEGIN
 	p.Name AS ProgramName
 	FROM Student s JOIN StudentCourses sc ON sc.StudentID = s.ID JOIN Program p ON p.ID = s.CurrentProgramID
 	WHERE sc.CourseID = @CourseID AND
-	sc.AcademicYearID = [dbo].[GetCurrentYearID]();
+	sc.AcademicYearID = [dbo].[GetCurrentYearID]()
+	ORDER BY s.Name ASC;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStruggledStudents]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16455,6 +16394,7 @@ BEGIN
 DECLARE @SelectStatement NVARCHAR(MAX)= N'',
 		@FromStatement NVARCHAR(MAX)= N'',
 		@WhereStatement NVARCHAR(MAX)= N'',
+		@OrderStatement NVARCHAR(MAX)= N'',
 		@SqlStatement NVARCHAR(MAX)= N''
 	SET @SelectStatement =N'SELECT s.Name,
 	s.AcademicCode,
@@ -16475,12 +16415,13 @@ DECLARE @SelectStatement NVARCHAR(MAX)= N'',
 		BEGIN
 			SET @WhereStatement += N' AND s.CurrentProgramID IN (SELECT * FROM [dbo].[GetSubProgramsIDs]('''+@ProgramID+'''))';
 		END
-		SET @SqlStatement = @SelectStatement + @FromStatement + @WhereStatement;
+	SET @OrderStatement = N' ORDER BY s.WarningsNumber DESC'
+		SET @SqlStatement = @SelectStatement + @FromStatement + @WhereStatement + @OrderStatement;
 	EXECUTE sp_executesql
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_GetStudentsByCGPA]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_GetStudentsByCGPA]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16489,7 +16430,7 @@ CREATE PROCEDURE [dbo].[Report_GetStudentsByCGPA]
 @FromCgpa DECIMAl(5,4) = NULL,
 @ToCgpa DECIMAl(5,4) = NULL,
 @Level TINYINT = NULL,
-@ProgramID NVARCHAR(MAX),
+@ProgramID NVARCHAR(MAX) = NULL,
 @IsGraduated BIT = 0,
 @StartGraduationYearID SMALLINT = NULL,
 @EndGraduationYearID SMALLINT = NULL
@@ -16535,7 +16476,7 @@ BEGIN
 	LEFT JOIN Program p ON p.ID = s.CurrentProgramID
 	WHERE s.CGPA BETWEEN @FromCgpa AND @ToCgpa
 	AND (@Level IS NULL OR s.Level = @Level)
-	AND (s.CurrentProgramID IN (SELECT * FROM [dbo].[GetSubProgramsIDs](@ProgramID)))
+	AND (@ProgramID IS NULL OR s.CurrentProgramID IN (SELECT * FROM [dbo].[GetSubProgramsIDs](@ProgramID)))
 	AND 
 	((@IsGraduated = 0 AND s.IsGraduated = 0) 
 	OR @IsGraduated = 1 AND s.IsGraduated = 1 
@@ -16543,7 +16484,7 @@ BEGIN
 	ORDER BY s.CGPA DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_MultipleAcademicReports]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_MultipleAcademicReports]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16581,7 +16522,7 @@ BEGIN
 		DEALLOCATE AcademicReportCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_MultipleCourseGradesSheet]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_MultipleCourseGradesSheet]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16622,7 +16563,7 @@ BEGIN
 		DEALLOCATE CourseReportCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_MultipleExamCommitteeStudents]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_MultipleExamCommitteeStudents]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16655,7 +16596,7 @@ BEGIN
 		DEALLOCATE ExamCommitteeStudentsCursor;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentAcademicReport]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16679,11 +16620,12 @@ BEGIN
 	sc.Practical,
 	sc.Grade,
 	sc.Points,
+	sc.IsIncluded,
 	sc.IsGPAIncluded,
 	sc.AcademicYearID,
 	sc.CourseEntringNumber,
 	sc.AffectReEntringCourses,
-	sc.HasExcuse,
+	sc.HasExcuse, 
 	sc.IsEnhancementCourse
 	FROM StudentCourses sc JOIN Course c ON c.ID = sc.CourseID
 	WHERE StudentID = @StudentID AND (@ForDoctorView = 1 OR sc.Grade IS NOT NULL)
@@ -16692,11 +16634,12 @@ BEGIN
 	EXEC [dbo].[GetStudentAcademicYearsSummary] @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummary]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[Report_StudentCoursesSummary]
 @StudentID INT
 AS
@@ -16705,7 +16648,8 @@ BEGIN
 	s.Name,s.PhoneNumber,
 	s.Level,s.PassedHours,
 	p.Name AS [ProgramName],p.TotalHours,
-	(p.TotalHours - s.PassedHours) AS [RemaningHours]
+	(CASE WHEN s.passedHours > p.TotalHours THEN 0
+	ELSE p.TotalHours - s.PassedHours END) AS [RemaningHours]
 	FROM Student s JOIN Program p ON s.CurrentProgramID = p.ID WHERE s.ID = @StudentID;
 
 	SELECT pc.CourseType,
@@ -16730,7 +16674,7 @@ BEGIN
 	ORDER BY c.Level,c.Semester,pc.CourseType,pc.Category;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Report_StudentCoursesSummaryAsTree]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16756,7 +16700,7 @@ BEGIN
 		WHERE StudentID = @StudentID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[StartNewAcademicYear]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16780,7 +16724,7 @@ BEGIN
 	DELETE FROM StudentProgramTransferRequest;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_CourseGrades]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16809,7 +16753,7 @@ DECLARE @SelectStatement NVARCHAR(MAX) = N'',
 		@SqlStatement
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_Programs]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16823,7 +16767,7 @@ BEGIN
 	  GROUP BY p.Name,p.ArabicName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[Statistics_StudentGrades]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16862,7 +16806,7 @@ BEGIN
 	
 END
 GO
-/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[StudentCoursesRegistration]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16894,7 +16838,7 @@ BEGIN
 	EXECUTE sp_executesql @Query;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[SubmitStudentProgramTransferRequest]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16912,7 +16856,7 @@ BEGIN
 	VALUES(@StudentID,@ProgramID,@ReasonForTransfer)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[ToggleDoctorAccount]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16925,7 +16869,7 @@ BEGIN
 	UPDATE Doctor SET IsActive = @IsActive WHERE GUID = ''+@GUID+'';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCommonQuestion]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16942,7 +16886,7 @@ BEGIN
 	WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateCourse]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16957,7 +16901,11 @@ CREATE PROCEDURE [dbo].[UpdateCourse]
 @SectionHours tinyint,
 @IsActive bit,
 @Level tinyint,
-@Semester tinyint
+@Semester tinyint,
+@Final TINYINT,
+@YearWork TINYINT,
+@Oral TINYINT,
+@Practical TINYINT
 AS
 BEGIN
 	UPDATE [dbo].[Course]
@@ -16970,10 +16918,14 @@ BEGIN
 		  ,[IsActive] = @IsActive
 		  ,[Level] = @Level
 		  ,[Semester] = @Semester
+		  ,[Final] = @Final
+		  ,[YearWork] = @YearWork
+		  ,[Oral] = @Oral
+		  ,[Practical] = @Practical
 	 WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateDoctor]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -16995,7 +16947,7 @@ BEGIN
 	 WHERE [GUID] = @Guid;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateFullProgram]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateFullProgram]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17084,7 +17036,7 @@ BEGIN
 		FROM @ElectiveCourseDistributionList;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateProgramBasicData]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17103,7 +17055,7 @@ CREATE PROCEDURE [dbo].[UpdateProgramBasicData]
 AS
 BEGIN
 	DECLARE @SuperProgramID INT = NULL;
-	SELECT ID FROM Program WHERE guid = @SuperProgramGUID;
+	SELECT @SuperProgramID = ID FROM Program WHERE guid = @SuperProgramGUID;
 	UPDATE [dbo].[Program]
 	   SET [Name] = @Name
 		  ,[Semester] = @Semester
@@ -17117,7 +17069,7 @@ BEGIN
 	 WHERE GUID = @GUID
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17156,7 +17108,7 @@ UPDATE [dbo].[Student]
  WHERE ID = @ID;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateStudentComputedValues]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateStudentComputedValues]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17198,7 +17150,7 @@ BEGIN
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  StoredProcedure [dbo].[UpdateSuperAdminPassword]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17212,7 +17164,7 @@ BEGIN
 	WHERE GUID = @Guid;
 END
 GO
-/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Trigger [dbo].[IncreaseNumberOfSemestersInProgramForStudent]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17236,7 +17188,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [IncreaseNumberOfSemestersInProgramForStudent]
 GO
-/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Trigger [dbo].[SetActiveCoursesBySemester]    Script Date: 2023-06-06 1:20:32 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17264,7 +17216,7 @@ END
 GO
 ALTER TABLE [dbo].[AcademicYear] ENABLE TRIGGER [SetActiveCoursesBySemester]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-05-06 11:46:48 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHours]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17294,7 +17246,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHours]
 GO
-/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[CalculateProgramTotalHoursIfAnyDeleted]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17327,7 +17279,7 @@ END
 GO
 ALTER TABLE [dbo].[ProgramDistribution] ENABLE TRIGGER [CalculateProgramTotalHoursIfAnyDeleted]
 GO
-/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[HandleRequest]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17378,7 +17330,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourseRequest] ENABLE TRIGGER [HandleRequest]
 GO
-/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[EntringStudentCourse]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17604,7 +17556,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [EntringStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[GiveBackCredits]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17654,7 +17606,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [GiveBackCredits]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCourse]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17801,7 +17753,7 @@ END
 GO
 ALTER TABLE [dbo].[StudentCourses] ENABLE TRIGGER [UpdateStudentCourse]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgram]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17819,7 +17771,7 @@ AS
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgram]
 GO
-/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[UpdateStudentCurrentProgramAfterDelete]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -17832,12 +17784,16 @@ AS
 		SET NOCOUNT ON;
 		DECLARE @StudentID INT;
 		SELECT @StudentID = deleted.StudentID FROM deleted;
-		UPDATE Student SET CurrentProgramID = [dbo].[GetStudentProgram](@StudentID) WHERE ID = @StudentID;
+		UPDATE Student SET CurrentProgramID = (SELECT TOP (1) ProgramID
+										FROM StudentPrograms 
+										WHERE StudentID = @StudentID
+										ORDER BY AcademicYear DESC)
+		WHERE ID = @StudentID;
 	END
 GO
 ALTER TABLE [dbo].[StudentPrograms] ENABLE TRIGGER [UpdateStudentCurrentProgramAfterDelete]
 GO
-/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-05-06 11:46:49 PM ******/
+/****** Object:  Trigger [dbo].[StudentProgramHandleTransferRequest]    Script Date: 2023-06-06 1:20:33 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

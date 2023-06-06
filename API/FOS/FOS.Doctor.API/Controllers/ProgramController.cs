@@ -126,7 +126,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                var program = programRepo.GetProgram(this.ProgramID(),programID);
+                var program = programRepo.GetProgram(this.ProgramID(), programID);
                 if (program == null) return NotFound();
                 if (file == null || file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
                     return BadRequest(new { Massage = Resource.FileNotValid });
@@ -153,7 +153,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                var program = programRepo.GetProgram(this.ProgramID(),id);
+                var program = programRepo.GetProgram(this.ProgramID(), id);
                 if (program == null)
                     return NotFound();
                 return Ok(program);
@@ -189,7 +189,7 @@ namespace FOS.Doctors.API.Controllers
         {
             try
             {
-                if (programRepo.GetProgram(this.ProgramID(),model.Guid) == null)
+                if (programRepo.GetProgram(this.ProgramID(), model.Guid) == null)
                     return NotFound();
                 var updated = programRepo.UpdateProgramBasicData(model);
                 if (!updated)

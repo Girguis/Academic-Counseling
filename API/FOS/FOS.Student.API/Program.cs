@@ -2,6 +2,7 @@ using FOS.App.ExtensionMethods;
 using Microsoft.Extensions.Options;
 using NLog;
 using NLog.Web;
+using QuestPDF.Infrastructure;
 using System.Text.Json.Serialization;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -27,7 +28,7 @@ builder.LoadJwtServices();
 //Services responsible for logging
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
-
+QuestPDF.Settings.License = LicenseType.Community;
 var app = builder.Build();
 
 //if (app.Environment.IsDevelopment())

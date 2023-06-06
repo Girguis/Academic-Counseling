@@ -182,22 +182,29 @@ namespace FOS.App.ExcelReader
             List<string> errorFiles = new List<string>();
             for (int i = 0; i < model.Files.Count; i++)
             {
-                MemoryStream ms = new MemoryStream();
-                model.Files.ElementAt(i).OpenReadStream().CopyTo(ms);
-                var wb = new XLWorkbook(ms);
-                ms.Close();
-                wb.TryGetWorksheet(wb.Worksheets.ElementAt(0).Name, out var ws);
-                var H2Text = ws.Cell("H2").Value.ToString();
-                var courseCode = H2Text.Split("\n")[1].Trim();
-                courseCode = courseCode.Substring(1, courseCode.Length - 2);
-                var course = courses.FirstOrDefault(x => x.CourseCode == courseCode);
-                var splitedH2 = H2Text.Split(':');
-                var examType = splitedH2[^1].Split("\n")[0].Trim();
-                if ((examType == Helper.GetDescription(ExamTypeEnum.Final) && !model.IsFinalExam) ||
-                    (examType == Helper.GetDescription(ExamTypeEnum.YearWork) && model.IsFinalExam))
-                    errorFiles.Add(course?.CourseCode);
-                else
-                    outModel.AddRange(ReadGradesSheet(wb, yearID, course.Id, model.IsFinalExam));
+                try
+                {
+                    MemoryStream ms = new MemoryStream();
+                    model.Files.ElementAt(i).OpenReadStream().CopyTo(ms);
+                    var wb = new XLWorkbook(ms);
+                    ms.Close();
+                    wb.TryGetWorksheet(wb.Worksheets.ElementAt(0).Name, out var ws);
+                    var H2Text = ws.Cell("H2").Value.ToString();
+                    var courseCode = H2Text.Split("\n")[1].Trim();
+                    courseCode = courseCode.Substring(1, courseCode.Length - 2);
+                    var course = courses.FirstOrDefault(x => x.CourseCode == courseCode);
+                    var splitedH2 = H2Text.Split(':');
+                    var examType = splitedH2[^1].Split("\n")[0].Trim();
+                    if ((examType == Helper.GetDescription(ExamTypeEnum.Final) && !model.IsFinalExam) ||
+                        (examType == Helper.GetDescription(ExamTypeEnum.YearWork) && model.IsFinalExam))
+                        errorFiles.Add(model.Files[i].FileName);
+                    else
+                        outModel.AddRange(ReadGradesSheet(wb, yearID, course.Id, model.IsFinalExam));
+                }
+                catch
+                {
+                    errorFiles.Add(model.Files[i].FileName);
+                }
             }
             return (outModel, errorFiles);
         }

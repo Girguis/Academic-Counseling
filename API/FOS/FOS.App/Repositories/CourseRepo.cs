@@ -29,11 +29,18 @@ namespace FOS.App.Repositories
             dt.Columns.Add("IsActive");
             dt.Columns.Add("Level");
             dt.Columns.Add("Semester");
+            dt.Columns.Add("Final");
+            dt.Columns.Add("YearWork");
+            dt.Columns.Add("Oral");
+            dt.Columns.Add("Practical");
+
             dt.Rows.Add(course.CourseCode, course.CourseName,
-                course.CreditHours, course.LectureHours,
-                course.LabHours, course.SectionHours,
-                course.IsActive, course.Level,
-                course.Semester);
+                    course.CreditHours, course.LectureHours,
+                    course.LabHours, course.SectionHours,
+                    course.IsActive, course.Level,
+                    course.Semester, course.Final,
+                    course.YearWork, course.Oral,
+                    course.Practical);
             return QueryExecuterHelper.Execute(config.CreateInstance(), "AddCourse",
                 new List<SqlParameter>()
                 {
@@ -111,7 +118,11 @@ namespace FOS.App.Repositories
                     new SqlParameter("@SectionHours",course.SectionHours),
                     new SqlParameter("@IsActive", course.IsActive),
                     new SqlParameter("@Level", course.Level),
-                    new SqlParameter("@Semester", course.Semester)
+                    new SqlParameter("@Semester", course.Semester),
+                    new SqlParameter("@Final", course.Final),
+                    new SqlParameter("@YearWork", course.YearWork),
+                    new SqlParameter("@Oral", course.Oral),
+                    new SqlParameter("@Practical", course.Practical)
                 });
         }
         public bool ToggleActivation(HashSet<string> courseIDs, bool isActive)

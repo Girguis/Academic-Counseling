@@ -15,6 +15,12 @@ namespace FOS.App.ExcelReader
                 return defaultValue;
             return cellValue;
         }
+        public static double GetCellValueAsDouble(this IXLWorksheet ws, string cellAddress, double defaultValue = 0.0)
+        {
+            if (!double.TryParse(ws.Cell(cellAddress).Value.ToString(), out double cellValue))
+                return defaultValue;
+            return cellValue;
+        }
         public static void SetFont(this IXLWorksheet ws, int size)
         {
             ws.Style.Font.FontSize = size;

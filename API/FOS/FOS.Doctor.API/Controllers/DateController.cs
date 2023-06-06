@@ -1,7 +1,7 @@
 ﻿using FOS.App.Doctors.DTOs;
 using FOS.App.Doctors.Mappers;
-using FOS.Core.Languages;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -69,7 +69,7 @@ namespace FOS.Doctors.API.Controllers
                 var date = dateRepo.GetDate(id);
                 if (date == null) return NotFound();
 
-                if (model.StartDate > model.EndDate 
+                if (model.StartDate > model.EndDate
                     || model.StartDate == model.EndDate)
                     return BadRequest(new { Massage = Resource.InvalidDateinterval });
 

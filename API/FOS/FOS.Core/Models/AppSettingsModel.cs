@@ -15,7 +15,7 @@ namespace FOS.Core.Models
             ToNextLevelSkipHours = GetValueFromAppSetting(configuration, "HoursToSkip");
             CourseRegistrationAllowedLevels = GetValueFromAppSetting(configuration, "LevelsRangeForCourseRegistraion");
             CourseOpeningForGraduationAllowedHours = GetValueFromAppSetting(configuration, "HoursForCourseOpeningForGraduation");
-            CourseOpeningForGraduationAllowedHours = GetValueFromAppSetting(configuration, "UtcOffset");
+            UtcOffset = GetValueFromAppSetting(configuration, "UtcOffset");
         }
         private static int GetValueFromAppSetting(IConfiguration configuration, string key)
         {

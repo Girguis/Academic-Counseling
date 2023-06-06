@@ -2,7 +2,7 @@
 
 namespace FOS.Doctors.API.Extenstions
 {
-    internal static class ControllerExtension
+    public static class ControllerExtension
     {
         /// <summary>
         /// Get logged in user's GUID from access token 
@@ -20,6 +20,11 @@ namespace FOS.Doctors.API.Extenstions
             if (string.IsNullOrEmpty(pid))
                 return null;
             return pid;
+        }
+        public static bool IsSuperAdmin(this ControllerBase controller)
+        {
+            var role = controller.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "role")?.Value;
+            return role?.ToLower() == "superadmin";
         }
     }
 

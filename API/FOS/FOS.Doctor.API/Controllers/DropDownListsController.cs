@@ -38,7 +38,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 return Ok(doctorRepo.GetDoctorsAsDropDown());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

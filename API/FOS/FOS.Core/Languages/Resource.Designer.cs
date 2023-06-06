@@ -97,6 +97,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Request Can&apos;t Be Deleted.
+        /// </summary>
+        public static string CantDeleteRequest {
+            get {
+                return ResourceManager.GetString("CantDeleteRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You Can&apos;t Enroll In An Enhancement Course.
         /// </summary>
         public static string CantEnrollEnhancementCourse {

@@ -309,4 +309,7 @@
   <data name="UploadFinalGradesSheets" xml:space="preserve">
     <value>رفع ملف الدرجات الخاص بالامتحان النهائي</value>
   </data>
+  <data name="CantDeleteRequest" xml:space="preserve">
+    <value>لا يمكن حذف الطلب</value>
+  </data>
 </root>

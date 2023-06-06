@@ -199,7 +199,7 @@ namespace FOS.App.ExcelReader
             ws.Cell("E2").Value = "الكود الأكاديمى";
             ws.Range("F2:G2").Merge().Value = student.AcademicCode;
             ws.Cell("A3").Value = "البرنامج";
-            ws.Range("B3:C3").Merge().Value = academicYears.LastOrDefault()?.ProgramName;
+            ws.Range("B3:C3").Merge().Value = student.ProgramName;
             ws.Cell("E3").Value = "الرقم القومى";
             ws.Range("F3:G3").Merge().Value = student.SSN;
             ws.Range("A1:F3").Style.Font.SetFontSize(16).Alignment.Vertical = XLAlignmentVerticalValues.Center;

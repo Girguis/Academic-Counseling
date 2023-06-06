@@ -33,7 +33,6 @@ namespace FOS.Core.Models
         public string EnglishName { get; set; }
         [Required]
         public string ArabicName { get; set; }
-        [Required]
         public int? SuperProgramID { get; set; }
     }
     public class ProgramCourseModel

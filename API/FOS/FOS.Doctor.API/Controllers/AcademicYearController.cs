@@ -1,16 +1,16 @@
-﻿using FOS.Core.Languages;
+﻿using FOS.App.Helpers;
+using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FOS.Core.Enums;
-using FOS.App.Helpers;
 
 namespace FOS.Doctors.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize]
     public class AcademicYearController : ControllerBase
     {
         private readonly IAcademicYearRepo academicYearRepo;
@@ -22,6 +22,7 @@ namespace FOS.Doctors.API.Controllers
             this.logger = logger;
         }
         [HttpPost("StartNewAcademicYear")]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult StartNewAcademicYear()
         {
             try
@@ -49,12 +50,12 @@ namespace FOS.Doctors.API.Controllers
                 if (academicYear == null)
                     return NotFound();
                 return Ok(new
-                    {
-                        AcademicYear = 
+                {
+                    AcademicYear =
                         string.Concat(academicYear.AcademicYear1, " - ", Helper.GetDisplayName((SemesterEnum)academicYear.Semester))
-                    });
+                });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

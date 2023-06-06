@@ -108,6 +108,10 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
+                if (!(bool)QueryExecuterHelper.ExecuteFunction(config.CreateInstance(),
+                                                        "CanDeleteSpecialCourseRequest"
+                                                        , "'" + requestID + "'"))
+                    return BadRequest(new { Massage = Resource.CantDeleteRequest });
                 bool isDeleted = courseRequestRepo.DeleteRequest(requestID, student.Id);
                 if (!isDeleted)
                     return BadRequest(new { Massage = Resource.ErrorOccurred });
@@ -138,7 +142,9 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-                var res = programTransferRequestRepo.GetRequests(studentID: student.Id).FirstOrDefault();
+                var res = programTransferRequestRepo.GetMyRequest(student.Id);
+                if (res == null)
+                    return Ok();
                 return Ok(res);
             }
             catch (Exception ex)
@@ -165,6 +171,10 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
+                if (!(bool)QueryExecuterHelper.ExecuteFunction(config.CreateInstance(),
+                                                        "CanDeleteProgramTransferRequest"
+                                                        , "'" + student.Id + "'"))
+                    return BadRequest(new { Massage = Resource.CantDeleteRequest });
                 bool isDeleted = programTransferRequestRepo.DeleteRequest(student.Id);
                 if (!isDeleted)
                     return BadRequest(new { Massage = Resource.ErrorOccurred });
@@ -306,7 +316,7 @@ namespace FOS.Students.API.Controllers
                         Massage = Resource.AllWithdrawUsed
                     });
                 var courses = studentCoursesRepo.GetCoursesForWithdraw(student.Id);
-                if (courses == null || courses.Count < 1 || 
+                if (courses == null || courses.Count < 1 ||
                     courses.Sum(x => x.CreditHours) - courses.Min(x => x.CreditHours) < 12)
                     return BadRequest(new
                     {
@@ -409,7 +419,7 @@ namespace FOS.Students.API.Controllers
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-               var courses = studentCoursesRepo.GetCoursesForWithdraw(student.Id);
+                var courses = studentCoursesRepo.GetCoursesForWithdraw(student.Id);
                 return Ok(new
                 {
                     IsAvailable = true,
@@ -703,7 +713,7 @@ namespace FOS.Students.API.Controllers
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 int hours = ConfigurationsManager.TryGetNumber(Config.HoursForCourseOpeningForGraduation, 4);
-                    if (!studentRepo.CanOpenCourseForGraduation(student.Id, student.PassedHours ?? byte.MinValue, student.CurrentProgramId ?? 0, hours))
+                if (!studentRepo.CanOpenCourseForGraduation(student.Id, student.PassedHours ?? byte.MinValue, student.CurrentProgramId ?? 0, hours))
                     return BadRequest(new
                     {
                         IsAvailable = false,

@@ -1,5 +1,5 @@
-﻿using FOS.Core.Languages;
-using FOS.Core.IRepositories;
+﻿using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models;
 using FOS.Core.SearchModels;
 using Microsoft.AspNetCore.Authorization;

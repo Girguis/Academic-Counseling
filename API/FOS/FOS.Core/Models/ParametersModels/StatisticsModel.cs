@@ -2,7 +2,7 @@
 {
     public class StudentsGradesParatmeterModel
     {
-        public string ProgramID { get; set; } = null;
+        public string? ProgramID { get; set; } = null;
         public bool IsActive { get; set; } = true;
         public bool IsGraudated { get; set; } = false;
     }

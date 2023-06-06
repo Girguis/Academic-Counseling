@@ -32,6 +32,7 @@ namespace FOS.App.Repositories
             parameters.Add("@ForDoctorView", 1);
             using var con = config.CreateInstance();
             var result = con.QueryMultiple("Report_StudentAcademicReport", parameters, commandType: CommandType.StoredProcedure);
+            var stdData = result.ReadFirstOrDefault();
             var courses = result.Read<StudentCoursesDTO>().ToList();
             var academicYears = result.Read<AcademicYearDTO>().ToList();
             for (int i = 0; i < academicYears.Count; i++)
@@ -39,9 +40,10 @@ namespace FOS.App.Repositories
                 var currentYearCourses = courses.Where(x => x.AcademicYearID == academicYears.ElementAt(i).ID).ToList();
                 academicYears.ElementAt(i).Courses = currentYearCourses;
                 academicYears.ElementAt(i).SemesterHours = currentYearCourses.Sum(x => x.CreditHours);
-                academicYears.ElementAt(i).PassedSemesterHours = currentYearCourses.Where(x => x.Grade.ToLower() != "f" && x.Grade != null).Sum(x => x.CreditHours);
+                academicYears.ElementAt(i).PassedSemesterHours = currentYearCourses.Where(x => x.Grade != null && x.Grade.ToLower() != "f")?.Sum(x => x.CreditHours);
                 academicYears.ElementAt(i).CHours = (i == 0 ? academicYears.ElementAt(i).SemesterHours : academicYears.ElementAt(i - 1).CHours + academicYears.ElementAt(i).SemesterHours);
             }
+            academicYears.Reverse();
             return new StudentAcademicReportDTO()
             {
                 Name = student.Name,

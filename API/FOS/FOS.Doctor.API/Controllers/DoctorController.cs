@@ -1,7 +1,7 @@
 ﻿using FOS.App.Helpers;
-using FOS.Core.Languages;
 using FOS.Core.Enums;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using FOS.Core.Configs;
 
 namespace FOS.Doctors.API.Controllers
 {
@@ -231,32 +230,32 @@ namespace FOS.Doctors.API.Controllers
         }
         [HttpPut("Update/{guid}")]
         [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
-        public IActionResult Update(string guid, DoctorUpdateParamModel supervisorModel)
+        public IActionResult Update(string guid, DoctorUpdateParamModel doctorModel)
         {
             try
             {
-                var supervisor = doctorRepo.GetById(guid);
-                if (supervisor == null) return NotFound(
+                var doctor = doctorRepo.GetById(guid);
+                if (doctor == null) return NotFound(
                     new
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Doctor)
                     });
 
-                if (supervisor.Email != supervisorModel.Email
-                    && doctorRepo.IsEmailReserved(supervisorModel.Email))
+                if (doctor.Email != doctorModel.Email
+                    && doctorRepo.IsEmailReserved(doctorModel.Email))
                 {
                     return BadRequest(new
                     {
                         Massage = Resource.EmailExist,
-                        Data = supervisor
+                        Data = doctor
                     });
                 }
-                var res = doctorRepo.Update(guid, supervisorModel);
+                var res = doctorRepo.Update(guid, doctorModel);
                 if (!res)
                     return BadRequest(new
                     {
                         Massage = Resource.ErrorOccurred,
-                        Data = supervisorModel
+                        Data = doctorModel
                     });
                 return Ok();
             }
@@ -276,8 +275,8 @@ namespace FOS.Doctors.API.Controllers
             {
                 if (string.IsNullOrEmpty(guid))
                     guid = this.Guid();
-                var supervisor = doctorRepo.GetById(guid);
-                if (supervisor == null) return NotFound(
+                var doctor = doctorRepo.GetById(guid);
+                if (doctor == null) return NotFound(
                     new
                     {
                         Massage = string.Format(Resource.DoesntExist, Resource.Doctor)
@@ -307,7 +306,7 @@ namespace FOS.Doctors.API.Controllers
                     return BadRequest(new { Massage = Resource.ErrorOccurred });
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();

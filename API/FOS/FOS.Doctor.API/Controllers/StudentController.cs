@@ -1,7 +1,6 @@
 ﻿using FOS.App.ExcelReader;
 using FOS.App.Helpers;
 using FOS.App.PDFCreators;
-using FOS.Core.Configs;
 using FOS.Core.IRepositories;
 using FOS.Core.Languages;
 using FOS.Core.Models;
@@ -63,7 +62,7 @@ namespace FOS.Doctors.API.Controllers
                     "application/vnd.ms-excel",
                     "NewStudentsAddTemplate.xlsx");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -109,7 +108,7 @@ namespace FOS.Doctors.API.Controllers
                     "application/vnd.ms-excel",
                     "StudentsReport_" + DateTime.UtcNow.AddHours(Helper.GetUtcOffset()).ToString() + ".xlsx");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -202,7 +201,7 @@ namespace FOS.Doctors.API.Controllers
                     .Select(x => new
                     {
                         RequestID = x.Key,
-                        x.FirstOrDefault()?.RequestTypeID,
+                        x.FirstOrDefault()?.IsApproved,
                         x.FirstOrDefault()?.RequestType,
                         RequestData = x
                     });
@@ -235,11 +234,17 @@ namespace FOS.Doctors.API.Controllers
         }
         [HttpPost("GetProgramTranferRequests")]
         [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
-        public IActionResult GetProgramTranferRequests(ProgramTransferSearchParamModel model)
+        public IActionResult GetProgramTranferRequests(SearchCriteria criteria)
         {
             try
             {
-                return Ok(programTransferRequestRepo.GetRequests(model));
+                var (totalCount, requests) =
+                    programTransferRequestRepo.GetRequests(criteria, this.ProgramID());
+                return Ok(new
+                {
+                    Data = requests,
+                    TotalCount = totalCount
+                });
             }
             catch (Exception ex)
             {
@@ -322,9 +327,9 @@ namespace FOS.Doctors.API.Controllers
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
                 var coursesLst = courseRepo.GetAll();
-                var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter) 
+                var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter)
                     = AcademicReportReader.Read(file, studentRepo, academicYearsLst, programsLst, coursesLst);
-                var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst) 
+                var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst)
                     = studentCoursesRepo.CompareStudentCourse(studentID, studentCourses);
                 var toBeInserted = toBeSavedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
                 var toBeRemoved = toBeRemovedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
@@ -408,35 +413,47 @@ namespace FOS.Doctors.API.Controllers
                 var programsLst = programRepo.GetPrograms();
                 var coursesLst = courseRepo.GetAll();
                 List<string> corruptedFiles = new List<string>();
-                for(int i=0;i<files.Count; i++)
+                for (int i = 0; i < files.Count; i++)
                 {
-                    var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter)
-                    = AcademicReportReader.Read(files.ElementAt(i), studentRepo, academicYearsLst, programsLst, coursesLst);
-                    var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst)
-                        = studentCoursesRepo.CompareStudentCourse(studentID, studentCourses);
-                    var toBeInserted = toBeSavedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
-                    var toBeRemoved = toBeRemovedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
-                    var toBeUpdated = toBeUpdatedOldMarksLst.Select(x => StudentCoursesUpdateModel.ToViewModel(x, toBeUpdatedLst, academicYearsLst));
-                    var res = UpdateFromAcademicReport(new AcademicRecordModels
+                    try
                     {
-                        Name = name,
-                        SSN = ssn,
-                        SeatNumber = seatNumber,
-                        NumberOfSemesters = semesterCounter,
-                        StudentPrograms = studentPrograms,
-                        ToBeInserted = toBeInserted.ToList(),
-                        ToBeRemoved = toBeRemoved.ToList(),
-                        ToBeUpdated = toBeUpdated.ToList()
-                    });
-                    if (res.GetType().Name.ToString() == "BadRequestObjectResult")
+                        var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter)
+                        = AcademicReportReader.Read(files.ElementAt(i), studentRepo, academicYearsLst, programsLst, coursesLst);
+                        if (string.IsNullOrEmpty(ssn) || string.IsNullOrEmpty(name) || seatNumber == 0)
+                        {
+                            corruptedFiles.Add(files[i].FileName);
+                            continue;
+                        }
+                        var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst)
+                        = studentCoursesRepo.CompareStudentCourse(studentID, studentCourses);
+                        var toBeInserted = toBeSavedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                        var toBeRemoved = toBeRemovedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
+                        var toBeUpdated = toBeUpdatedOldMarksLst.Select(x => StudentCoursesUpdateModel.ToViewModel(x, toBeUpdatedLst, academicYearsLst));
+                        var res = UpdateFromAcademicReport(new AcademicRecordModels
+                        {
+                            Name = name,
+                            SSN = ssn,
+                            SeatNumber = seatNumber,
+                            NumberOfSemesters = semesterCounter,
+                            StudentPrograms = studentPrograms,
+                            ToBeInserted = toBeInserted.ToList(),
+                            ToBeRemoved = toBeRemoved.ToList(),
+                            ToBeUpdated = toBeUpdated.ToList()
+                        });
+                        if (res.GetType().Name.ToString() == "BadRequestObjectResult")
+                            corruptedFiles.Add(files[i].FileName);
+                    }
+                    catch
+                    {
                         corruptedFiles.Add(files[i].FileName);
+                    }
                 }
                 return Ok(new
                 {
                     FailedToInsert = corruptedFiles
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logger.LogError(ex.ToString());
                 return Problem();
@@ -501,7 +518,7 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 var students = studentRepo.GetStruggledStudents(model);
-                if(students == null || students.Count <1)
+                if (students == null || students.Count < 1)
                     return NotFound(new
                     {
                         Massage = Resource.NoData
@@ -576,7 +593,7 @@ namespace FOS.Doctors.API.Controllers
                 if (program == null)
                     return NotFound();
                 var models = studentRepo.AcademicReportsPerProgram(program.Guid);
-                var (fileContent,fileName) = AcademicReportReader.CreateMultiple(program.Name, models);
+                var (fileContent, fileName) = AcademicReportReader.CreateMultiple(program.Name, models);
                 return File(fileContent, "application/zip", fileName + ".zip");
             }
             catch (Exception ex)

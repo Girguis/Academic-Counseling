@@ -43,7 +43,7 @@ namespace FOS.App.PDFCreators
                             tbl.Cell().Row(1).Column(4).CellNoBorder().Text(student.AcademicCode).SetFontSize(lineHeight: 1.5f);
 
                             tbl.Cell().Row(2).Column(1).CellNoBorder().Text("البرنامج").SetFontSize(lineHeight: 1.5f);
-                            tbl.Cell().Row(2).Column(2).CellNoBorder().Text(academicYears.LastOrDefault().ProgramName).SetFontSize(lineHeight: 1.5f);
+                            tbl.Cell().Row(2).Column(2).CellNoBorder().Text(student.ProgramName).SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(2).Column(3).CellNoBorder().Text("الرقم القومى").SetFontSize(lineHeight: 1.5f);
                             tbl.Cell().Row(2).Column(4).CellNoBorder().Text(student.SSN).SetFontSize(lineHeight: 1.5f);
 

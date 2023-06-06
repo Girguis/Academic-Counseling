@@ -47,7 +47,7 @@ namespace FOS.Doctors.API.Controllers
             {
                 string doctorID = null;
                 if (criteria.Filters.FirstOrDefault(x => x.Key.ToLower() == "mycourses")?.Value?.ToString().ToLower() == "true")
-                    doctorID = doctorRepo.GetById(this.Guid()).Guid;
+                    doctorID = this.Guid();
 
                 var courses = courseRepo.GetAll(out int totalCount, doctorID, criteria, this.ProgramID());
                 return Ok(new
@@ -247,7 +247,7 @@ namespace FOS.Doctors.API.Controllers
                 var data = studentCoursesRepo.GetStudentsMarksList(new StudentsExamParamModel { CourseID = course.Id });
                 if (data.Course == null) return NotFound();
                 if (data.Students == null || data.Students.Count < 1)
-                    return NotFound(new
+                    return BadRequest(new
                     {
                         Massage = Resource.NoData
                     });
@@ -400,7 +400,7 @@ namespace FOS.Doctors.API.Controllers
                     });
                 var result = studentCoursesRepo.GetStudentsList(course.Id);
                 if (result.Students.Count < 1)
-                    return NotFound(new
+                    return BadRequest(new
                     {
                         Massage = Resource.NoData
                     });

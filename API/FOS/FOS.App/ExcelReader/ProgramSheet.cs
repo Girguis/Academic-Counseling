@@ -175,19 +175,20 @@ namespace FOS.App.ExcelReader
             wb.TryGetWorksheet("بيانات البرنامج", out var programDataWs);
             if (programDataWs == null)
                 return null;
-            model.programData = new ProgramDataModel();
+            model.programData = new();
             model.programData.Name = programDataWs.Cell("B1").Value.GetText();
             model.programData.EnglishName = programDataWs.Cell("B2").Value.GetText();
             model.programData.ArabicName = programDataWs.Cell("B3").Value.GetText();
             model.programData.Semester = programDataWs.GetCellValueAsByte("B4");
-            model.programData.Percentage = programDataWs.Cell("B6").Value.GetNumber();
+            model.programData.Percentage = programDataWs.GetCellValueAsDouble("B6");
             if (string.IsNullOrEmpty(model.programData.Name) ||
                 string.IsNullOrEmpty(model.programData.EnglishName) ||
                 string.IsNullOrEmpty(model.programData.ArabicName) ||
                 string.IsNullOrEmpty(model.programData.Semester.ToString()) ||
                 string.IsNullOrEmpty(model.programData.Percentage.ToString()))
                 return null;
-            model.programData.SuperProgramID = programs.FirstOrDefault(x => x.Name == programDataWs.Cell("B7").Value.GetText())?.Id;
+            if (programs.FirstOrDefault(x => x.Name == programDataWs.Cell("B7").Value.ToString()) != null)
+                model.programData.SuperProgramID = programs.FirstOrDefault(x => x.Name == programDataWs.Cell("B7").Value.GetText()).Id;
             model.programData.IsGeneral = programDataWs.Cell("B5").Value.GetText() == "نعم";
             model.programData.IsRegular = true;
             model.programData.TotalHours = programDataWs.GetCellValueAsByte("D15");

@@ -141,14 +141,14 @@ namespace FOS.Doctors.API.Controllers
                 return Problem();
             }
         }
-        [HttpPost("UpdateUtcOffset/{utcOffset}")]
-        public IActionResult UpdateUtcOffset(int utcOffset)
+        [HttpPost("UpdateUtcOffset")]
+        public IActionResult UpdateUtcOffset([FromBody] UtcOffsetModel model)
         {
             try
             {
                 Helper.UpdateAppSettings(new Core.Models.AppSettingsModel
                 {
-                    UtcOffset = utcOffset,
+                    UtcOffset = model.UtcOffset,
                     CourseOpeningForGraduationAllowedHours = null,
                     CourseRegistrationAllowedLevels = null,
                     SummerAllowedHours = null,

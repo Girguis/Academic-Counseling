@@ -142,7 +142,7 @@ namespace FOS.App.Repositories
                     .Format("UPDATE StudentCourses SET Mark = {0} WHERE CourseID = {1} AND StudentID = {2} AND AcademicYearID = {3}; ",
                     obj.NewMark, obj.CourseID, studentID, obj.AcademicYearID);
             }
-            for (int i = 0; i < model.ToBeInserted.Count(); i++)
+            for (int i = 0; i < model.ToBeInserted.Count; i++)
             {
                 var course = model.ToBeInserted.ElementAt(i);
                 if (course.HasExcuse == true)
@@ -408,7 +408,7 @@ namespace FOS.App.Repositories
                     Courses = y.Select(x => x.CourseCode).ToList(),
                 }).ToList();
         }
-        private int GetLevelFromAppsettings() => ConfigurationsManager.TryGetNumber(Config.LevelsRangeForCourseRegistraion, 1);
+        private static int GetLevelFromAppsettings() => ConfigurationsManager.TryGetNumber(Config.LevelsRangeForCourseRegistraion, 1);
 
         public IEnumerable<dynamic> GetStudentsForAnalysis(short startYearID, short endYearID)
         {

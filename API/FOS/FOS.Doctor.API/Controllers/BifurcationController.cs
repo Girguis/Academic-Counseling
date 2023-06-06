@@ -1,9 +1,8 @@
-﻿using FOS.Core.Languages;
+﻿using FOS.App.Helpers;
 using FOS.Core.IRepositories;
+using FOS.Core.Languages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FOS.Core.Configs;
-using FOS.App.Helpers;
 
 namespace FOS.Doctors.API.Controllers
 {

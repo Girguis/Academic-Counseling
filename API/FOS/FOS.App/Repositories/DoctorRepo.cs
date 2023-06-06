@@ -30,7 +30,7 @@ namespace FOS.App.Repositories
                     new SqlParameter("@Name",doctor.Name),
                     new SqlParameter("@Email",doctor.Email),
                     new SqlParameter("@Password",Helper.HashPassowrd(doctor.Password)),
-                    new SqlParameter("@ProgramID",doctor.ProgramId),
+                    new SqlParameter("@ProgramGuid",doctor.ProgramId),
                     new SqlParameter("@Type",doctor.Type),
                     new SqlParameter("@CreatedOn",DateTime.UtcNow.AddHours(Helper.GetUtcOffset()))
             });
@@ -124,7 +124,7 @@ namespace FOS.App.Repositories
                     new SqlParameter("@Name",doctor.Name),
                     new SqlParameter("@Email",doctor.Email),
                     new SqlParameter("@Type",doctor.Type),
-                    new SqlParameter("@ProgramID",doctor.ProgramId)
+                    new SqlParameter("@ProgramGuid",doctor.ProgramId)
                 });
         }
 

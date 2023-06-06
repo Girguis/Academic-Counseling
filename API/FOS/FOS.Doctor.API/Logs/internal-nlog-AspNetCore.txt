@@ -1,0 +1,34 @@
+2023-06-06 13:51:17.7099 Info Message Template Auto Format enabled
+2023-06-06 13:51:17.7399 Info Loading assembly: NLog.Web.AspNetCore
+2023-06-06 13:51:17.8532 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-06-06 13:51:17.8532 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-06-06 13:51:17.8532 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-06-06 13:51:17.9335 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Release\net6.0\NLog.config
+2023-06-06 13:51:17.9439 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
+2023-06-06 13:51:17.9439 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2023-06-06 13:51:19.2725 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Release\net6.0\NLog.config
+2023-06-06 13:52:37.8004 Info Message Template Auto Format enabled
+2023-06-06 13:52:37.8299 Info Loading assembly: NLog.Web.AspNetCore
+2023-06-06 13:52:37.9130 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-06-06 13:52:37.9130 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-06-06 13:52:37.9130 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-06-06 13:52:37.9676 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Release\net6.0\NLog.config
+2023-06-06 13:52:37.9778 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
+2023-06-06 13:52:37.9778 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2023-06-06 13:52:39.0608 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Release\net6.0\NLog.config
+2023-06-06 14:00:40.1508 Info Message Template Auto Format enabled
+2023-06-06 14:00:40.2703 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-06-06 14:00:40.2715 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-06-06 14:00:40.2715 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-06-06 14:00:40.3021 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-06 14:00:40.3124 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
+2023-06-06 14:00:40.3124 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2023-06-06 14:00:49.5176 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-06 14:07:21.0390 Info Message Template Auto Format enabled
+2023-06-06 14:07:21.2413 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-06-06 14:07:21.2413 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-06-06 14:07:21.2413 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-06-06 14:07:21.2923 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-06 14:07:21.2923 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
+2023-06-06 14:07:21.2923 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2023-06-06 14:07:23.6432 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config

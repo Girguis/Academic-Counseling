@@ -6,6 +6,8 @@ using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Students.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FOS.Students.API.Models;
+using System.Collections.Generic;
 
 namespace FOS.Students.API.Controllers
 {
@@ -83,13 +85,15 @@ namespace FOS.Students.API.Controllers
                 }
                 var optionalCoursesDTO = Helper.GetElectiveCoursesDistribution(optionalCourseRepo, courses.Select(x => x.Level).Distinct(), courses.Select(x => x.Semester).Distinct(), student.Id);
                 var allowedHoursToRegister = Helper.GetAllowedHoursToRegister(academicYearRepo, configuration, student, programDistributionRepo);
+                var coursesViewModel =  
+                    CoursesViewModelConvertor.ConvertToViewModel(courses, optionalCoursesDTO);
                 return Ok(new Response
                 {
                     isRegistrationAvailable = true,
                     Massage = "",
                     Data = new
                     {
-                        Courses = courses,
+                        Courses = coursesViewModel,
                         Distribution = optionalCoursesDTO,
                         AllowedHours = allowedHoursToRegister
                     }
@@ -116,7 +120,7 @@ namespace FOS.Students.API.Controllers
                         Data = null,
                         Massage = Resource.InvalidID
                     });
-                if (courseIDs == null || courseIDs.Count == 0)
+                if (courseIDs == null || courseIDs.Count < 1)
                     return Ok(new Response
                     {
                         isRegistrationAvailable = regDate,

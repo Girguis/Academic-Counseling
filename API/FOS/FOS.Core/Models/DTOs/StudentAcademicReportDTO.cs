@@ -1,4 +1,6 @@
-﻿namespace FOS.Core.Models.DTOs
+﻿using FOS.Core.Models.StoredProcedureOutputModels;
+
+namespace FOS.Core.Models.DTOs
 {
     /// <summary>
     /// Model which will be sent to the client
