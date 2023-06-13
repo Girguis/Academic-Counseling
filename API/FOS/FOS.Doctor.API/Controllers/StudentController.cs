@@ -321,14 +321,14 @@ namespace FOS.Doctors.API.Controllers
             try
             {
                 if (file.Length < 1 || !file.FileName.EndsWith(".xlsx"))
-                {
                     return BadRequest(new { Massage = Resource.FileNotValid });
-                }
                 var academicYearsLst = academicYearRepo.GetAcademicYearsList();
                 var programsLst = programRepo.GetPrograms();
                 var coursesLst = courseRepo.GetAll();
                 var (name, ssn, seatNumber, studentCourses, studentPrograms, studentID, semesterCounter)
                     = AcademicReportReader.Read(file, studentRepo, academicYearsLst, programsLst, coursesLst);
+                if (string.IsNullOrEmpty(ssn) || string.IsNullOrEmpty(name) || seatNumber == 0)
+                    return BadRequest(new { Massage = Resource.FileNotValid });
                 var (toBeSavedLst, toBeRemovedLst, toBeUpdatedLst, toBeUpdatedOldMarksLst)
                     = studentCoursesRepo.CompareStudentCourse(studentID, studentCourses);
                 var toBeInserted = toBeSavedLst.Select(x => StudentCoursesModel.ToViewModel(x, academicYearsLst));
@@ -497,9 +497,10 @@ namespace FOS.Doctors.API.Controllers
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
                 var summary = studentRepo.GetStudentCoursesSummary(student.Id);
-                if (summary == null || summary.Courses.Count() < 1) return NotFound();
+                if (summary == null || !summary.Courses.Any()) return NotFound();
                 var summaryTree = studentRepo.GetStudentCoursesSummaryTree(student.Id);
-                var stream = StudentCoursesSummaryReport.CreateCoursesSummarySheet(summary, summaryTree);
+                var reEnteredCourses = studentRepo.GetStudentReEnteredCourses(student.Id);
+                var stream = StudentCoursesSummaryReport.CreateCoursesSummarySheet(summary, summaryTree, reEnteredCourses);
                 return File(stream,
                     "application/vnd.ms-excel",
                     student.Name + "_CoursesSummary.xlsx");
@@ -523,7 +524,7 @@ namespace FOS.Doctors.API.Controllers
                     {
                         Massage = Resource.NoData
                     });
-                var stream = StruggledStudentsReport.Create(students);
+                var stream = StruggledStudentsReport.Create(students, model.WarningsNumber);
                 return File(stream,
                     "application/vnd.ms-excel",
                     "StruggledStudents_" + DateTime.UtcNow.AddHours(Helper.GetUtcOffset()).ToString() + ".xlsx");

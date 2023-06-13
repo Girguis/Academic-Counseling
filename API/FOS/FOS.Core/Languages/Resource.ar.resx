@@ -312,4 +312,10 @@
   <data name="CantDeleteRequest" xml:space="preserve">
     <value>لا يمكن حذف الطلب</value>
   </data>
+  <data name="InvalidEmailOrPassword" xml:space="preserve">
+    <value>البريد الإلكتروني أو كلمة المرور غير صحيحة</value>
+  </data>
+  <data name="InActiveAccount" xml:space="preserve">
+    <value>لا يمكنك تسجيل الدخول الى حسابك لانه غير نشط</value>
+  </data>
 </root>

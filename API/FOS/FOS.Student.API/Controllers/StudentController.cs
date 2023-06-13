@@ -53,6 +53,11 @@ namespace FOS.Students.API.Controllers
                 //If student object is null this mean either email or password is incorrect
                 if (student != null)
                 {
+                    if (student.IsActive == false)
+                        return Unauthorized(new
+                        {
+                            Message = Resource.InActiveAccount
+                        });
                     //Generating access token
                     var issuer = _configuration["Jwt:Issuer"];
                     var audience = _configuration["Jwt:Audience"];
@@ -75,13 +80,15 @@ namespace FOS.Students.API.Controllers
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     //Encrypting token then sending it to the client
                     var stringToken = tokenHandler.WriteToken(token);
-                    var res = new
+                    return Ok(new
                     {
                         Token = stringToken,
-                    };
-                    return Ok(res);
+                    });
                 }
-                return Unauthorized();
+                return Unauthorized(new
+                {
+                    Message = Resource.InvalidEmailOrPassword
+                });
             }
             catch (Exception ex)
             {

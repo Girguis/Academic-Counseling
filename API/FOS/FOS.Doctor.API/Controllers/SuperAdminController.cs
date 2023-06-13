@@ -75,7 +75,7 @@ namespace FOS.Doctors.API.Controllers
                         Token = stringToken
                     });
                 }
-                return Unauthorized();
+                return Unauthorized(new { Message = Resource.InvalidEmailOrPassword });
             }
             catch (Exception ex)
             {

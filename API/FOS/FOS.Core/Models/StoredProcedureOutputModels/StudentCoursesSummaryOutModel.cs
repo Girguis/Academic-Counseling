@@ -14,7 +14,7 @@
         public int PassedHours { get; set; }
         public string ProgramName { get; set; }
         public int TotalHours { get; set; }
-        public int RemaningHours { get; set; }
+        public int RemainingHours { get; set; }
 
     }
     public class CoursesDataReport

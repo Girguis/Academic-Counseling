@@ -21,6 +21,7 @@
         public byte? CourseEntringNumber { get; set; }
         public short AcademicYearId { get; set; }
         public bool? HasExcuse { get; set; }
+        public bool HasWithdrawn { get; set; }
         public bool? WillTakeFullCredit { get; set; }
         public bool? TookFromCredits { get; set; }
         public bool? IsEnhancementCourse { get; set; }

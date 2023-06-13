@@ -54,7 +54,9 @@ namespace FOS.App.Repositories
         /// <returns></returns>
         public List<StudentCoursesOutModel> GetCurrentAcademicYearCourses(int studentID)
         {
-            return GetCoursesByAcademicYear(studentID, academicYearRepo.GetCurrentYear().Id);
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            return QueryExecuterHelper.Execute<StudentCoursesOutModel>(config.CreateInstance(), "GetStudentCoursesForCurrentAcademicYear", parameters);
         }
         /// <summary>
         /// Method to get all courses for a certain student in any academic year

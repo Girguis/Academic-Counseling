@@ -28,7 +28,7 @@ namespace FOS.App.ExcelReader
             dt.Columns.Add("Password");
             dt.Columns.Add("CreatedOn");
             dt.Columns.Add("CurrentProgramId");
-            for (int i = 2; i <= rowsCount; i++)
+            for (int i = 2; i <= rowsCount+1; i++)
             {
                 try
                 { 

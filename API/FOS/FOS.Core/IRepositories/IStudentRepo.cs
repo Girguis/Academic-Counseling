@@ -26,6 +26,7 @@ namespace FOS.Core.IRepositories
         bool Activate(string guid);
         StudentCoursesSummaryOutModel GetStudentCoursesSummary(int studentID);
         StudentCoursesSummaryTreeOutModel GetStudentCoursesSummaryTree(int studentID);
+        List<ReEnteredCoursesOutModel> GetStudentReEnteredCourses(int studentID);
         List<StruggledStudentsOutModel> GetStruggledStudents(StruggledStudentsParamModel model);
         List<AcademicYearsDTO> GetStudentAcademicYearsSummary(int studentID);
         float GetLastRegularSemesterGPA(int studentID);

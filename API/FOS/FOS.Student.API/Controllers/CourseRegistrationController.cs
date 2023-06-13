@@ -68,7 +68,8 @@ namespace FOS.Students.API.Controllers
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
 
-                if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseRegistration))
+                if (!dateRepo.IsInRegisrationInterval((int)DateForEnum.CourseRegistration)
+                    || student.SemestersNumberInProgram == 1)
                     return Ok(new Response
                     {
                         isRegistrationAvailable = false,
@@ -135,7 +136,7 @@ namespace FOS.Students.API.Controllers
                         Data = null,
                         Massage = string.Format(Resource.DoesntExist, Resource.Student)
                     });
-                if (!regDate)
+                if (!regDate || student.SemestersNumberInProgram == 1)
                     return Ok(new Response
                     {
                         isRegistrationAvailable = false,

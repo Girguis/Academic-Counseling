@@ -358,6 +358,15 @@ namespace FOS.Core.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Account Is Inactive.
+        /// </summary>
+        public static string InActiveAccount {
+            get {
+                return ResourceManager.GetString("InActiveAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Entered Data Is Invalid.
         /// </summary>
         public static string InvalidData {
@@ -372,6 +381,15 @@ namespace FOS.Core.Languages {
         public static string InvalidDateinterval {
             get {
                 return ResourceManager.GetString("InvalidDateinterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect Email Or Password.
+        /// </summary>
+        public static string InvalidEmailOrPassword {
+            get {
+                return ResourceManager.GetString("InvalidEmailOrPassword", resourceCulture);
             }
         }
         

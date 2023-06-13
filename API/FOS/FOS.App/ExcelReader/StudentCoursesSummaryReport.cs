@@ -2,17 +2,18 @@
 using FOS.App.Helpers;
 using FOS.Core.Enums;
 using FOS.Core.Models.StoredProcedureOutputModels;
-using System.ComponentModel.DataAnnotations;
 
 namespace FOS.App.ExcelReader
 {
     public class StudentCoursesSummaryReport
     {
-        public static Stream CreateCoursesSummarySheet(StudentCoursesSummaryOutModel model, StudentCoursesSummaryTreeOutModel summaryTree)
+        public static Stream CreateCoursesSummarySheet(StudentCoursesSummaryOutModel model,
+                                            StudentCoursesSummaryTreeOutModel summaryTree,
+                                            List<ReEnteredCoursesOutModel> reEnteredCourses)
         {
             var wb = new XLWorkbook();
             wb.Properties.Author = "Girguis";
-            var ws = wb.Worksheets.Add();
+            var ws = wb.Worksheets.Add("Summary");
             ws.SetRightToLeft();
             ws.Cell("A1").Value = "الكود الأكاديمى";
             ws.Cell("C1").Value = "اسم الطالب";
@@ -29,7 +30,7 @@ namespace FOS.App.ExcelReader
             ws.Cell("B3").Value = model.Student.ProgramName;
             ws.Cell("D3").Value = model.Student.TotalHours;
             ws.Cell("B4").Value = model.Student.PassedHours;
-            ws.Cell("D4").Value = model.Student.RemaningHours;
+            ws.Cell("D4").Value = model.Student.RemainingHours;
             ws.Range("A1", "D4").Style.Font.FontSize = 14;
             ws.Range("A1", "D4").Style.Font.FontName = "Calibri";
             var groupedCourses = model.Courses.GroupBy(x => new
@@ -56,8 +57,8 @@ namespace FOS.App.ExcelReader
                 for (int j = 0; j < coursesCount; j++)
                 {
                     if (j == 0 ||
-                        courses.ElementAt(j).CourseType != 2 &&
-                        !(courses.ElementAt(j).CourseType == 3 && courses.ElementAt(j).Level == 4))
+                        (courses.ElementAt(j).CourseType != 2 &&
+                        !(courses.ElementAt(j).CourseType == 3 && courses.ElementAt(j).Level == 4)))
                         ws.Cell("A" + rowNo).Value = courses.ElementAt(j).Hours;
                     ws.Cell("B" + rowNo).Value = Helper.GetDescription((CourseTypeEnum)courses.ElementAt(j).CourseType);
                     ws.Cell("C" + rowNo).Value = courses.ElementAt(j).CourseCode;
@@ -68,8 +69,9 @@ namespace FOS.App.ExcelReader
                     ws.Cell("H" + rowNo).Value = courses.ElementAt(j).RegistrationTimes;
                     if (courses.ElementAt(j).IsPassedCourse)
                     {
-                        var passedInYear = summaryTree.StudentCourses.FirstOrDefault(x => x.CourseID == courses.ElementAt(j).ID && x.Grade.ToLower() != "f");
-                        ws.Cell("I" + rowNo).Value = passedInYear.AcademicYear + " - " + Helper.GetDescription((SemesterEnum)passedInYear.Semester);
+                        var passedInYear = summaryTree.StudentCourses.FirstOrDefault(x => x.CourseID == courses.ElementAt(j).ID && x.Grade !=null && x.Grade.ToLower() != "f");
+                        if (passedInYear != null && !string.IsNullOrEmpty(passedInYear.AcademicYear))
+                            ws.Cell("I" + rowNo).Value = passedInYear.AcademicYear + " - " + Helper.GetDescription((SemesterEnum)passedInYear.Semester);
                     }
                     else
                         ws.Cell("I" + rowNo).Value = "-------";
@@ -78,8 +80,13 @@ namespace FOS.App.ExcelReader
             }
             var range = ws.Range("A5", "I" + (model.Courses.Count() + 5));
             ExcelCommon.CreateTable(ws, range, false);
-            var ws2 = wb.AddWorksheet();
+            var ws2 = wb.AddWorksheet("All Courses Details");
             CreateCoursesSummaryTreeSheet(ws2, summaryTree);
+            if (reEnteredCourses.Any())
+            {
+                var ws3 = wb.AddWorksheet("Re-Entered Courses");
+                CreateReEnteredCoursesSheet(ws3, reEnteredCourses);
+            }
             return ExcelCommon.SaveAsStream(wb);
         }
 
@@ -104,13 +111,41 @@ namespace FOS.App.ExcelReader
                     rowNo++;
                 for (int j = 0; j < courses.Count(); j++)
                 {
-                    ws.Cell("D"+rowNo).Value = courses.ElementAt(j).Mark;
-                    ws.Cell("E"+rowNo).Value = courses.ElementAt(j).Grade;
+                    ws.Cell("D" + rowNo).Value = courses.ElementAt(j).Mark;
+                    ws.Cell("E" + rowNo).Value = courses.ElementAt(j).Grade;
                     ws.Cell("F" + rowNo).Value = courses.ElementAt(j).AcademicYear + " - " + Helper.GetDescription((SemesterEnum)courses.ElementAt(j).Semester);
                     rowNo++;
                 }
             }
             var range = ws.Range("A1", "F" + (rowNo - 1));
+            ExcelCommon.CreateTable(ws, range, false);
+        }
+        public static void CreateReEnteredCoursesSheet(IXLWorksheet ws, List<ReEnteredCoursesOutModel> reEnteredCourses)
+        {
+            ws.SetRightToLeft();
+            ws.Cell("A1").Value = "كود المقرر";
+            ws.Cell("B1").Value = "اسم المقرر";
+            ws.Cell("C1").Value = "ساعات معتمدة";
+            ws.Cell("D1").Value = "الدرجة";
+            ws.Cell("E1").Value = "التقدير";
+            ws.Cell("F1").Value = "العام الدراسى";
+            ws.Cell("G1").Value = "ساعات الإعادة المتبقية";
+            int rowNo = 2, credits = 12;
+            for (int i = 0; i < reEnteredCourses.Count; i++)
+            {
+                ws.Cell("A" + rowNo).Value = reEnteredCourses.ElementAt(i).CourseCode;
+                ws.Cell("B" + rowNo).Value = reEnteredCourses.ElementAt(i).CourseName;
+                ws.Cell("C" + rowNo).Value = reEnteredCourses.ElementAt(i).CreditHours;
+                ws.Cell("D" + rowNo).Value = reEnteredCourses.ElementAt(i).Mark;
+                ws.Cell("E" + rowNo).Value = reEnteredCourses.ElementAt(i).Grade;
+                ws.Cell("F" + rowNo).Value = reEnteredCourses.ElementAt(i).AcademicYear + " - " + 
+                                                Helper.GetDescription((SemesterEnum)reEnteredCourses.ElementAt(i).Semester);
+                if (credits - reEnteredCourses.ElementAt(i).CreditHours >= 0)
+                    credits -= reEnteredCourses.ElementAt(i).CreditHours;
+                ws.Cell("G" + rowNo).Value = credits;
+                rowNo++;
+            }
+            var range = ws.Range("A1", "G" + (rowNo - 1));
             ExcelCommon.CreateTable(ws, range, false);
         }
     }

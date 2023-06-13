@@ -406,5 +406,15 @@ namespace FOS.App.Repositories
             }
             return returnResult;
         }
+
+        public List<ReEnteredCoursesOutModel> GetStudentReEnteredCourses(int studentID)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StudentID", studentID);
+            using var con = config.CreateInstance();
+            var result = con.QueryMultiple("Report_StudentReEnteredCourses", parameters, commandType: CommandType.StoredProcedure);
+            var courses = result.Read<ReEnteredCoursesOutModel>();
+            return courses.ToList();
+        }
     }
 }

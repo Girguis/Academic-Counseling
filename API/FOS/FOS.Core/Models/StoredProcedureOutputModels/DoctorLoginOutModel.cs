@@ -11,5 +11,6 @@ namespace FOS.Core.Models.StoredProcedureOutputModels
         public byte Type { get; set; }
         public string Guid { get; set; }
         public string ProgramGuid { get; set; }
+        public bool IsActive { get; set; }
     }
 }

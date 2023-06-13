@@ -52,6 +52,11 @@ namespace FOS.Doctors.API.Controllers
                 var doctor = doctorRepo.Login(loginModel.Email, hashedPassword);
                 if (doctor != null)
                 {
+                    if (!doctor.IsActive)
+                        return Unauthorized(new
+                        {
+                            Message = Resource.InActiveAccount
+                        });
                     var roleName = Enum.GetName((DoctorTypesEnum)doctor.Type);
                     var issuer = configuration["Jwt:Issuer"];
                     var audience = configuration["Jwt:Audience"];
@@ -79,7 +84,7 @@ namespace FOS.Doctors.API.Controllers
                         Token = stringToken
                     });
                 }
-                return Unauthorized();
+                return Unauthorized(new { Message = Resource.InvalidEmailOrPassword });
             }
             catch (Exception ex)
             {
@@ -266,15 +271,43 @@ namespace FOS.Doctors.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("ChangePassword")]
-        [Route("ChangePassword/{guid}")]
+        [HttpPost("ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                var guid = this.Guid();
+                if (string.IsNullOrEmpty(guid))
+                    guid = this.Guid();
+                var doctor = doctorRepo.GetById(guid);
+                if (doctor == null) return NotFound(
+                    new
+                    {
+                        Massage = string.Format(Resource.DoesntExist, Resource.Doctor)
+                    });
+                var updated = doctorRepo.ChangePassword(guid, model.Password);
+                if (!updated)
+                    return BadRequest(new
+                    {
+                        Massage = Resource.ErrorOccurred,
+                        Data = model
+                    });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                return Problem();
+            }
+        }
+        [HttpPost("ChangePassword/{guid}")]
+        [Authorize(Roles = "SuperAdmin,ProgramAdmin")]
         public IActionResult ChangePassword(string guid, ChangePasswordModel model)
         {
             try
             {
                 if (string.IsNullOrEmpty(guid))
-                    guid = this.Guid();
+                    return BadRequest(new { Massage = Resource.InvalidID });
                 var doctor = doctorRepo.GetById(guid);
                 if (doctor == null) return NotFound(
                     new

@@ -10,6 +10,7 @@
         public double CGPA { get; set; }
         public int Level { get; set; }
         public int PassedHours { get; set; }
+        public int RemainingHours { get; set; }
         public string ProgramName { get; set; }
     }
 }

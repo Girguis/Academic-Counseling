@@ -312,4 +312,10 @@
   <data name="CantDeleteRequest" xml:space="preserve">
     <value>Request Can't Be Deleted</value>
   </data>
+  <data name="InvalidEmailOrPassword" xml:space="preserve">
+    <value>Incorrect Email Or Password</value>
+  </data>
+  <data name="InActiveAccount" xml:space="preserve">
+    <value>Your Account Is Inactive</value>
+  </data>
 </root>
