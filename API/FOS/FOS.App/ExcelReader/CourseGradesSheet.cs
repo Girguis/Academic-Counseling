@@ -106,12 +106,12 @@ namespace FOS.App.ExcelReader
             var examType = isFinalExam ? "FinalGrades" : "YearWorkGrades";
             var (path, folderName, subFolderName) =
                 Helper.CreateDirectory("ExcelFiles", "CoursesSheets_" + examType);
-            Parallel.For(0, courses.Count, i =>
+            for(int i = 0;i<courses.Count; i++)
             {
                 var stream = CreateSheet(courses.ElementAt(i), isFinalExam);
                 var filePath = path + "/" + courses.ElementAt(i).Course.CourseCode + "_" + examType + ".xlsx";
                 Helper.SaveStreamAsFile(stream, filePath);
-            });
+            }
             var fileContent = Helper.CreateZipFile(path, folderName, subFolderName);
             return (fileContent, subFolderName);
         }

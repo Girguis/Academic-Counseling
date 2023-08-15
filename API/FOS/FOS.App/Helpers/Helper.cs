@@ -7,13 +7,16 @@ using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.DB.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO.Compression;
 using System.Reflection;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -21,6 +24,24 @@ namespace FOS.App.Helpers
 {
     public static class Helper
     {
+        public static string GenerateToken(Claim[] claims)
+        {
+            var issuer = ConfigurationsManager.TryGet(Config.JwtIssuer);
+            var audience = ConfigurationsManager.TryGet(Config.JwtAudience);
+            var key = Encoding.ASCII.GetBytes(ConfigurationsManager.TryGet(Config.JwtKey));
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(6 + GetUtcOffset()),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials
+                                        (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
         public static void SaveStreamAsFile(Stream stream, string filePath)
         {
             using FileStream file = new(filePath, FileMode.Create, FileAccess.Write);

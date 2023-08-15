@@ -49,26 +49,11 @@ namespace FOS.Doctors.API.Controllers
                 var superAdmin = superAdminRepo.Login(loginModel.Email, hashedPassword);
                 if (superAdmin != null)
                 {
-                    var issuer = configuration["Jwt:Issuer"];
-                    var audience = configuration["Jwt:Audience"];
-                    var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new[]
-                        {
+                    var stringToken = Helper.GenerateToken(new[]{
                             new Claim("Guid", superAdmin.Guid),
                             new Claim(ClaimTypes.Role, "SuperAdmin"),
                             new Claim("ProgramID", "")
-                        }),
-                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
-                        Issuer = issuer,
-                        Audience = audience,
-                        SigningCredentials = new SigningCredentials
-                                                (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-                    };
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    var stringToken = tokenHandler.WriteToken(token);
+                        });
                     return Ok(new
                     {
                         Massage = "success",

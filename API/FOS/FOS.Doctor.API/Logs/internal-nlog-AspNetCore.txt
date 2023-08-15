@@ -136,3 +136,19 @@
 2023-06-10 08:48:12.5376 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
 2023-06-10 08:48:12.5376 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
 2023-06-10 08:48:17.5463 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-22 12:26:23.6906 Info Message Template Auto Format enabled
+2023-06-22 12:26:24.2557 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-06-22 12:26:24.2557 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-06-22 12:26:24.2557 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-06-22 12:26:24.3938 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-22 12:26:24.4100 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
+2023-06-22 12:26:24.4100 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2023-06-22 12:26:27.3768 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-22 12:34:36.5373 Info Message Template Auto Format enabled
+2023-06-22 12:34:36.6374 Info Registered target NLog.Targets.FileTarget(Name=allfile)
+2023-06-22 12:34:36.6374 Info Registered target NLog.Targets.FileTarget(Name=ownFile-web)
+2023-06-22 12:34:36.6374 Info Registered target NLog.Targets.ConsoleTarget(Name=lifetimeConsole)
+2023-06-22 12:34:36.6675 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config
+2023-06-22 12:34:36.6675 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: allfile
+2023-06-22 12:34:36.6675 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: lifetimeConsole
+2023-06-22 12:34:37.8897 Info Validating config: TargetNames=ownFile-web, ConfigItems=53, FilePath=F:\material\4th year\Graduation Project\API\FOS\FOS.Doctor.API\bin\Debug\net6.0\NLog.config

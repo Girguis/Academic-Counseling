@@ -5,6 +5,7 @@ using FOS.Core.Languages;
 using FOS.Core.Models.ParametersModels;
 using FOS.Core.Models.StoredProcedureOutputModels;
 using FOS.Core.SearchModels;
+using FOS.DB.Models;
 using FOS.Doctors.API.Extenstions;
 using FOS.Doctors.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -57,27 +58,11 @@ namespace FOS.Doctors.API.Controllers
                         {
                             Message = Resource.InActiveAccount
                         });
-                    var roleName = Enum.GetName((DoctorTypesEnum)doctor.Type);
-                    var issuer = configuration["Jwt:Issuer"];
-                    var audience = configuration["Jwt:Audience"];
-                    var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new[]
-                        {
+                    var stringToken = Helper.GenerateToken(new[]{
                             new Claim("Guid", doctor.Guid),
-                            new Claim(ClaimTypes.Role,roleName??"Doctor"),
+                            new Claim(ClaimTypes.Role,Enum.GetName((DoctorTypesEnum)doctor.Type)??"Doctor"),
                             new Claim("ProgramID",doctor.ProgramGuid)
-                        }),
-                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
-                        Issuer = issuer,
-                        Audience = audience,
-                        SigningCredentials = new SigningCredentials
-                                                (new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-                    };
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    var stringToken = tokenHandler.WriteToken(token);
+                        });
                     return Ok(new
                     {
                         Massage = "success",

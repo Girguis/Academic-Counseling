@@ -7,6 +7,9 @@
         SummerRegHours,
         HoursToSkip,
         LevelsRangeForCourseRegistraion,
-        HoursForCourseOpeningForGraduation
+        HoursForCourseOpeningForGraduation,
+        JwtKey,
+        JwtIssuer,
+        JwtAudience
     }
 }

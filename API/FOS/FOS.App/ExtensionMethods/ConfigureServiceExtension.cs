@@ -13,6 +13,9 @@ namespace FOS.App.ExtensionMethods
             ConfigurationsManager.Append(Config.HoursToSkip, configuration["HoursToSkip"]);
             ConfigurationsManager.Append(Config.LevelsRangeForCourseRegistraion, configuration["LevelsRangeForCourseRegistraion"]);
             ConfigurationsManager.Append(Config.HoursForCourseOpeningForGraduation, configuration["HoursForCourseOpeningForGraduation"]);
+            ConfigurationsManager.Append(Config.JwtKey, configuration["Jwt:Key"]);
+            ConfigurationsManager.Append(Config.JwtIssuer, configuration["Jwt:Issuer"]);
+            ConfigurationsManager.Append(Config.JwtAudience, configuration["Jwt:Audience"]);
             return configuration;
         }
     }

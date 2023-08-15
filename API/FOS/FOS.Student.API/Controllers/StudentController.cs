@@ -59,27 +59,9 @@ namespace FOS.Students.API.Controllers
                             Message = Resource.InActiveAccount
                         });
                     //Generating access token
-                    var issuer = _configuration["Jwt:Issuer"];
-                    var audience = _configuration["Jwt:Audience"];
-                    var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new[]
-                        {
-                        new Claim("Guid", student.Guid),
-                        }),
-                        Expires = DateTime.UtcNow.AddHours(6 + Helper.GetUtcOffset()),
-                        Issuer = issuer,
-                        Audience = audience,
-                        SigningCredentials = new SigningCredentials
-                                                (new SymmetricSecurityKey(key),
-                                                SecurityAlgorithms.HmacSha512Signature)
-                    };
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    //Token is generated here
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    //Encrypting token then sending it to the client
-                    var stringToken = tokenHandler.WriteToken(token);
+                    var stringToken = Helper.GenerateToken(new[]{
+                        new Claim("Guid", student.Guid)
+                    });
                     return Ok(new
                     {
                         Token = stringToken,
